@@ -1,0 +1,39 @@
+﻿@page
+@model MatchModel
+@{
+    ViewData["Title"] = "Maçlar";
+}
+<h2>@ViewData["Title"]</h2>
+
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Tarih</th>
+            <th>Sıra</th>
+            <th>Maç Süresi</th>
+            <th>Ev Sahibi Takım</th>
+            <th>Misafir Takım</th>
+            <th>Skor</th>
+            <th>Video Link</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var match in Model.Matches)
+        {
+            <tr>
+                <td>@match.Match.Id</td>
+                <td>@match.Match.MatchDate.ToString("dd-MM-yyyy")</td>
+                <td>@match.Match.Order</td>
+                <td>@match.Match.DurationInMinutes</td>
+                <td>@match.Match.HomeTeam.Name</td>
+                <td>@match.Match.AwayTeam.Name</td>
+                <td>@match.HomeTeamScore - @match.AwayTeamScore</td>
+                <td>@match.Match.VideoLink</td>
+                <td><a asp-page="Stat" asp-route-id="@match.Match.Id">Tıklayınız</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,38 @@
+﻿@page
+@model StatModel
+@{
+    ViewData["Title"] = "İstatistikler";
+}
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Oyuncu</th>
+            <th>1 Sayı</th>
+            <th>2 Sayı</th>
+            <th>Ribaunt</th>
+            <th>Kapma</th>
+            <th>Asist</th>
+            <th>Kayıp</th>
+            <th>Kesme</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stat in Model.Stats)
+        {
+            <tr>
+                <td>@stat.Stat.Id</td>
+                <td>@stat.Player.Name @stat.Player.Surname</td>
+                <td>@stat.Stat.OnePoint / (@stat.Stat.OnePoint + @stat.Stat.MissingOnePoint)</td>
+                <td>@stat.Stat.TwoPoint / (@stat.Stat.TwoPoint + @stat.Stat.MissingTwoPoint)</td>
+                <td>@stat.Stat.Rebound</td>
+                <td>@stat.Stat.StealBall</td>
+                <td>@stat.Stat.Assist</td>
+                <td>@stat.Stat.LooseBall</td>
+                <td>@stat.Stat.Interrupt</td>
+            </tr>
+        }
+    </tbody>
+</table>

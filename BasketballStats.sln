@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebApi", "BasketballStats.WebApi\BasketballStats.WebApi.csproj", "{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketballStats.WebSite", "BasketballStats.WebSite\BasketballStats.WebSite.csproj", "{BBB6C424-B725-4982-BDF2-EA56D10CCF27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3C67021-24CF-4BEB-AA5D-21E4A9960E90}
+	EndGlobalSection
+EndGlobal
