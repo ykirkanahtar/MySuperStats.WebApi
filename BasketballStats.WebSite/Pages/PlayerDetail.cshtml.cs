@@ -51,7 +51,7 @@ namespace BasketballStats.WebSite.Pages
                         Interrupt = (from p in stats select p.Interrupt).Sum()
                     };
 
-                    var matchCount = stats.Count;
+                    var matchCount = stats.Select(p => p.MatchId).Distinct().Count();
 
                     var ratioStats = new StatResponse
                     {

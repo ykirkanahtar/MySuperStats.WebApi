@@ -69,7 +69,6 @@ namespace BasketballStats.WebSite.Pages
                             Interrupt = (totalStats.Interrupt / matchCount).RoundValue(),
                         };
 
-
                         statisticDetail.Player = player;
                         statisticDetail.MatchCount = matchCount;
                         statisticDetail.TotalStatDetail = totalStats;
@@ -80,9 +79,22 @@ namespace BasketballStats.WebSite.Pages
                         statisticDetail.TwoPointRatio = ((totalStats.TwoPoint + totalStats.MissingTwoPoint) > 0 ?
                             (totalStats.TwoPoint * 100) / (totalStats.TwoPoint + totalStats.MissingTwoPoint) : 0).RoundValue();
 
+                        statisticDetail.TotalPoint = totalStats.OnePoint + totalStats.TwoPoint;
+                        statisticDetail.RatioTotalPoint = ratioStats.OnePoint + ratioStats.TwoPoint;
+
                         StatisticDetails.Add(statisticDetail);
                     }
                 }
+
+                Statistics.TotalPoints = (from p in StatisticDetails
+                                          orderby p.TotalPoint descending
+                                          select new TopResult
+                                          {
+                                              PlayerId = p.Player.Id,
+                                              Name = $"{p.Player.Name} {p.Player.Surname}",
+                                              Result = p.TotalPoint,
+                                              MatchCount = p.MatchCount,
+                                          }).Take(5).ToList();
 
                 Statistics.TotalOnePoints = (from p in StatisticDetails
                                              orderby p.TotalStatDetail.OnePoint descending
@@ -91,6 +103,16 @@ namespace BasketballStats.WebSite.Pages
                                                  PlayerId = p.Player.Id,
                                                  Name = $"{p.Player.Name} {p.Player.Surname}",
                                                  Result = p.TotalStatDetail.OnePoint,
+                                                 MatchCount = p.MatchCount,
+                                             }).Take(5).ToList();
+
+                Statistics.TotalTwoPoints = (from p in StatisticDetails
+                                             orderby p.TotalStatDetail.TwoPoint descending
+                                             select new TopResult
+                                             {
+                                                 PlayerId = p.Player.Id,
+                                                 Name = $"{p.Player.Name} {p.Player.Surname}",
+                                                 Result = p.TotalStatDetail.TwoPoint,
                                                  MatchCount = p.MatchCount,
                                              }).Take(5).ToList();
 
@@ -143,6 +165,16 @@ namespace BasketballStats.WebSite.Pages
                                                   Result = p.TotalStatDetail.Interrupt,
                                                   MatchCount = p.MatchCount,
                                               }).Take(5).ToList();
+
+                Statistics.RatioTotalPoints = (from p in StatisticDetails
+                                               orderby p.RatioTotalPoint descending
+                                               select new TopResult
+                                               {
+                                                   PlayerId = p.Player.Id,
+                                                   Name = $"{p.Player.Name} {p.Player.Surname}",
+                                                   Result = p.RatioTotalPoint.RoundValue(),
+                                                   MatchCount = p.MatchCount,
+                                               }).Take(5).ToList();
 
                 Statistics.RatioOnePoints = (from p in StatisticDetails
                                              orderby p.RatioStatDetail.OnePoint descending
@@ -213,6 +245,26 @@ namespace BasketballStats.WebSite.Pages
                                                   Result = p.RatioStatDetail.Interrupt.RoundValue(),
                                                   MatchCount = p.MatchCount,
                                               }).Take(5).ToList();
+
+                Statistics.OnePointRatio = (from p in StatisticDetails
+                                            orderby p.OnePointRatio descending
+                                            select new TopResult
+                                            {
+                                                PlayerId = p.Player.Id,
+                                                Name = $"{p.Player.Name} {p.Player.Surname}",
+                                                Result = p.OnePointRatio.RoundValue(),
+                                                MatchCount = p.MatchCount,
+                                            }).Take(5).ToList();
+
+                Statistics.TwoPointRatio = (from p in StatisticDetails
+                                            orderby p.TwoPointRatio descending
+                                            select new TopResult
+                                            {
+                                                PlayerId = p.Player.Id,
+                                                Name = $"{p.Player.Name} {p.Player.Surname}",
+                                                Result = p.TwoPointRatio.RoundValue(),
+                                                MatchCount = p.MatchCount,
+                                            }).Take(5).ToList();
             }
         }
     }
@@ -221,6 +273,8 @@ namespace BasketballStats.WebSite.Pages
     {
         public Statistic()
         {
+            TotalPoints = new List<TopResult>();
+
             TotalOnePoints = new List<TopResult>();
             TotalTwoPoints = new List<TopResult>();
             TotalRebounds = new List<TopResult>();
@@ -229,6 +283,7 @@ namespace BasketballStats.WebSite.Pages
             TotalAsists = new List<TopResult>();
             TotalInterrupts = new List<TopResult>();
 
+            RatioTotalPoints = new List<TopResult>();
             RatioOnePoints = new List<TopResult>();
             RatioTwoPoints = new List<TopResult>();
             RatioRebounds = new List<TopResult>();
@@ -236,8 +291,12 @@ namespace BasketballStats.WebSite.Pages
             RatioLooseBalls = new List<TopResult>();
             RatioAsists = new List<TopResult>();
             RatioInterrupts = new List<TopResult>();
+
+            OnePointRatio = new List<TopResult>();
+            TwoPointRatio = new List<TopResult>();
         }
 
+        public List<TopResult> TotalPoints { get; set; }
         public List<TopResult> TotalOnePoints { get; set; }
         public List<TopResult> TotalTwoPoints { get; set; }
         public List<TopResult> TotalRebounds { get; set; }
@@ -246,6 +305,7 @@ namespace BasketballStats.WebSite.Pages
         public List<TopResult> TotalAsists { get; set; }
         public List<TopResult> TotalInterrupts { get; set; }
 
+        public List<TopResult> RatioTotalPoints { get; set; }
         public List<TopResult> RatioOnePoints { get; set; }
         public List<TopResult> RatioTwoPoints { get; set; }
         public List<TopResult> RatioRebounds { get; set; }
@@ -254,6 +314,8 @@ namespace BasketballStats.WebSite.Pages
         public List<TopResult> RatioAsists { get; set; }
         public List<TopResult> RatioInterrupts { get; set; }
 
+        public List<TopResult> OnePointRatio { get; set; }
+        public List<TopResult> TwoPointRatio { get; set; }
     }
 
     public class TopResult
@@ -269,6 +331,8 @@ namespace BasketballStats.WebSite.Pages
         public PlayerResponse Player { get; set; }
         public StatResponse TotalStatDetail { get; set; }
         public StatResponse RatioStatDetail { get; set; }
+        public decimal TotalPoint { get; set; }
+        public decimal RatioTotalPoint { get; set; }
         public decimal OnePointRatio { get; set; }
         public decimal TwoPointRatio { get; set; }
         public int MatchCount { get; set; }

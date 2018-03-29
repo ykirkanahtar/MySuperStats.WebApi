@@ -40,6 +40,8 @@ namespace BasketballStats.WebSite.Pages
                     foreach (var team in teamResponses)
                     {
                         var teamDetail = new TeamDetail { TeamInfo = team };
+                        var teamStats = new StatResponse();
+
                         var teamTotalAge = 0;
 
                         var playerResponse =
@@ -64,6 +66,17 @@ namespace BasketballStats.WebSite.Pages
                                     playerStat.Stat =
                                         JsonConvert.DeserializeObject<StatResponse>(statResponse.Result.ToString());
                                 }
+
+                                teamStats.OnePoint += playerStat.Stat.OnePoint;
+                                teamStats.TwoPoint += playerStat.Stat.TwoPoint;
+                                teamStats.MissingOnePoint += playerStat.Stat.MissingOnePoint;
+                                teamStats.MissingTwoPoint += playerStat.Stat.MissingTwoPoint;
+                                teamStats.Rebound += playerStat.Stat.Rebound;
+                                teamStats.StealBall += playerStat.Stat.StealBall;
+                                teamStats.LooseBall += playerStat.Stat.LooseBall;
+                                teamStats.Assist += playerStat.Stat.Assist;
+                                teamStats.Interrupt += playerStat.Stat.Interrupt;
+
                                 teamDetail.PlayerStats.Add(playerStat);
                                 teamTotalAge = teamTotalAge + player.BirthDate.GetAge();
                             }
@@ -71,6 +84,7 @@ namespace BasketballStats.WebSite.Pages
                         teamDetail.AgeRatio = teamDetail.PlayerCount > 0 ?
                             (Convert.ToDecimal(teamTotalAge) / Convert.ToDecimal(teamDetail.PlayerCount)).RoundValue() : 0;
 
+                        teamDetail.TeamStats = teamStats;
                         MatchDetail.Teams.Add(teamDetail);
                     }
                 }
@@ -100,6 +114,7 @@ namespace BasketballStats.WebSite.Pages
         public decimal AgeRatio { get; set; }
         public int PlayerCount { get; set; }
         public List<PlayerStat> PlayerStats { get; set; }
+        public StatResponse TeamStats { get; set; }
     }
 
     public class PlayerStat

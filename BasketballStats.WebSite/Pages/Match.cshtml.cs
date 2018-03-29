@@ -48,6 +48,8 @@ namespace BasketballStats.WebSite.Pages
                     };
                     Matches.Add(customMatchModel);
                 }
+                var sortedMatches = Matches.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
+                Matches = sortedMatches;
             }
         }
     }

@@ -45,10 +45,11 @@
     </tbody>
 </table>
 
-
-<label>Toplam İstatistikler</label>
-<table class="table table-bordered table-condensed table-hover table-striped">
-    <thead>
+@if (Model.PlayerDetail.CustomStats.Count > 0)
+{
+    <label>Toplam İstatistikler</label>
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
         <tr>
             <th>1 Sayı</th>
             <th>2 Sayı</th>
@@ -58,8 +59,8 @@
             <th>Kayıp</th>
             <th>Kesme</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr>
             <td>@Model.PlayerDetail.TotalStats.OnePoint / @(Model.PlayerDetail.TotalStats.OnePoint + Model.PlayerDetail.TotalStats.MissingOnePoint)</td>
             <td>@Model.PlayerDetail.TotalStats.TwoPoint / @(Model.PlayerDetail.TotalStats.TwoPoint + Model.PlayerDetail.TotalStats.MissingTwoPoint)</td>
@@ -70,12 +71,12 @@
             <td>@Model.PlayerDetail.TotalStats.Interrupt</td>
         </tr>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<label>Ortalama İstatistikler</label>
-<table class="table table-bordered table-condensed table-hover table-striped">
-    <thead>
+    <label>Ortalama İstatistikler</label>
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
         <tr>
             <th>1 Sayı</th>
             <th>2 Sayı</th>
@@ -87,8 +88,8 @@
             <th>Kayıp</th>
             <th>Kesme</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr>
             <td>@Model.PlayerDetail.RatioStats.OnePoint / @(Model.PlayerDetail.RatioStats.OnePoint + Model.PlayerDetail.RatioStats.MissingOnePoint)</td>
             <td>@Model.PlayerDetail.RatioStats.TwoPoint / @(Model.PlayerDetail.RatioStats.TwoPoint + Model.PlayerDetail.RatioStats.MissingTwoPoint)</td>
@@ -101,8 +102,9 @@
             <td>@Model.PlayerDetail.RatioStats.Interrupt</td>
         </tr>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
 
 
 

@@ -43,8 +43,18 @@
                     <td>@player.Stat.Interrupt</td>
                 </tr>
             }
+        <tr>
+            <td><b>Toplam</b></td>
+            <td><b>@team.TeamStats.OnePoint / @(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
+            <td><b>@team.TeamStats.TwoPoint / @(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
+            <td><b>@team.TeamStats.Rebound</b></td>
+            <td><b>@team.TeamStats.StealBall</b></td>
+            <td><b>@team.TeamStats.Assist</b></td>
+            <td><b>@team.TeamStats.LooseBall</b></td>
+            <td><b>@team.TeamStats.Interrupt</b></td>
+        </tr>
         </tbody>
     </table>
 }
 
-<a asp-page="Match">Maçlar</a>
+<a asp-page="Match">Maçlar Sayfasına Geri Dön</a>
