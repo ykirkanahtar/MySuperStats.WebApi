@@ -10,17 +10,37 @@ namespace BasketballStats.WebApi.Business.Contracts
     public interface IStatManager : IBusinessManager
     {
         Task<Stat> CreateAsync(StatRequest request);
+
         Task<Stat> UpdateAsync(int id, StatRequest request);
+
         Task DeleteAsync(int id);
+
         Task<Stat> GetByIdAsync(int id);
-        Task<Stat> GetByMatchIdAndPlayerIdAsync(int matchId, int playerId);
+
+        Task<Stat> GetByMatchIdTeamIdAndPlayerIdAsync(int matchId, int teamId, int playerId);
+
+        Task<CustomEntityList<Stat>> GetAllByMatchIdAsync(int matchId);
+
         Task<CustomEntityList<Stat>> GetAllByPlayerIdAsync(int playerId);
+
         Task<CustomEntityList<Stat>> GetAllByPlayerIdAndDateAsync(int playerId, DateTime startDateTime,
             DateTime endDateTime);
+
+        Task<CustomEntityList<Team>> GetAllTeamByMatchIdAsync(int teamId);
+
+        Task<CustomEntityList<Team>> GetAllTeamByMatchIdAndPlayerIdAsync(int teamId, int playerId);
+
         Task<CustomEntityList<Player>> GetAllPlayerByMatchIdAsync(int matchId);
+
+        Task<CustomEntityList<Player>> GetAllPlayerByMatchIdAndTeamIdAsync(int matchId, int teamId);
+
         Task<CustomEntityList<Player>> GetAllPlayerByDateAsync(DateTime startDateTime, DateTime endDateTime);
+
         Task<CustomEntityList<Match>> GetAllMatchByPlayerIdAsync(int playerId);
+
         Task<CustomEntityList<Match>> GetAllMatchByPlayerIdAndDateAsync(int playerId, DateTime startDateTime,
             DateTime endDateTime);
+
+        Task<CustomEntityList<Stat>> GetAllAsync();
     }
 }

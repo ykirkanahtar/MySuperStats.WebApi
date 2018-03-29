@@ -9,21 +9,20 @@ namespace BasketballStats.WebApi.ResponseModels
         public int TeamId { get; set; }
         public int PlayerId { get; set; }
 
-        public int OnePoint { get; set; }
-        public int TwoPoint { get; set; }
-        public int MissingOnePoint { get; set; }
-        public int MissingTwoPoint { get; set; }
-        public int Rebound { get; set; }
-        public int StealBall { get; set; }
-        public int LooseBall { get; set; }
-        public int Assist { get; set; }
-        public int Interrupt { get; set; }
+        public decimal OnePoint { get; set; }
+        public decimal TwoPoint { get; set; }
+        public decimal MissingOnePoint { get; set; }
+        public decimal MissingTwoPoint { get; set; }
+        public decimal Rebound { get; set; }
+        public decimal StealBall { get; set; }
+        public decimal LooseBall { get; set; }
+        public decimal Assist { get; set; }
+        public decimal Interrupt { get; set; }
 
-        [JsonIgnore]
         public MatchResponse Match { get; set; }
-        [JsonIgnore]
+
         public TeamResponse Team { get; set; }
-        [JsonIgnore]
+
         public PlayerResponse Player { get; set; }
     }
 }

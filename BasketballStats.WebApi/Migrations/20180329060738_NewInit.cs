@@ -14,7 +14,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     claim_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     custom_claim = table.Column<int>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -31,7 +31,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     client_application_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     client_application_code = table.Column<string>(maxLength: 6, nullable: false),
                     client_application_name = table.Column<string>(maxLength: 20, nullable: false),
                     client_application_password = table.Column<string>(maxLength: 50, nullable: false),
@@ -50,7 +50,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     player_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     birth_date = table.Column<DateTime>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -69,7 +69,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     role_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
                     role_name = table.Column<string>(maxLength: 25, nullable: false),
@@ -86,7 +86,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     team_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     color = table.Column<string>(maxLength: 25, nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -104,12 +104,12 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     access_failed_count = table.Column<int>(nullable: false, defaultValue: 0),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
                     email = table.Column<string>(maxLength: 100, nullable: false),
-                    email_confirm_code = table.Column<string>(maxLength: 6, nullable: false, defaultValue: "786129"),
+                    email_confirm_code = table.Column<string>(maxLength: 6, nullable: false, defaultValue: "369717"),
                     email_confirmed = table.Column<bool>(nullable: false),
                     lockout = table.Column<bool>(nullable: false),
                     lockout_end_date_time = table.Column<DateTime>(maxLength: 256, nullable: true),
@@ -128,7 +128,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     client_application_util_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     client_application_id = table.Column<int>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -152,7 +152,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     role_claim_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     claim_id = table.Column<int>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -182,7 +182,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     role_entity_claim_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     can_create = table.Column<bool>(nullable: false),
                     can_delete = table.Column<bool>(nullable: false),
                     can_select = table.Column<bool>(nullable: false),
@@ -210,7 +210,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     match_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     away_team_id = table.Column<int>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -244,7 +244,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     user_claim_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     claim_id = table.Column<int>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
@@ -274,7 +274,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     user_entity_claim_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     can_create = table.Column<bool>(nullable: false),
                     can_delete = table.Column<bool>(nullable: false),
                     can_select = table.Column<bool>(nullable: false),
@@ -302,7 +302,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     user_role_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
                     role_id = table.Column<int>(nullable: false),
@@ -332,7 +332,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     user_util_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),
                     special_value = table.Column<string>(maxLength: 100, nullable: false),
@@ -356,7 +356,7 @@ namespace BasketballStats.WebApi.Migrations
                 columns: table => new
                 {
                     stat_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     assist = table.Column<int>(nullable: false),
                     create_date_time = table.Column<DateTime>(nullable: false),
                     delete_date_time = table.Column<DateTime>(nullable: true),

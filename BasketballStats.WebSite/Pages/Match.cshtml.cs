@@ -25,20 +25,27 @@ namespace BasketballStats.WebSite.Pages
             var response = await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/match/getall");
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                var matchResponses = JsonConvert.DeserializeObject<List<MatchResponse>>(response.Result.ToString());
-                foreach (var matchResponse in matchResponses)
+                var matches = JsonConvert.DeserializeObject<List<MatchResponse>>(response.Result.ToString());
+                foreach (var match in matches)
                 {
+                    var statResponse = await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/stat/getall/matchid/{match.Id}");
+                    IList<StatResponse> stats = new List<StatResponse>();
+
+                    if (statResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        stats = JsonConvert.DeserializeObject<List<StatResponse>>(statResponse.Result.ToString());
+                    }
+
                     var customMatchModel = new CustomMatchModel
                     {
-                        Match = matchResponse,
-                        HomeTeamScore = (from p in matchResponse.Stats
-                            where p.TeamId == matchResponse.HomeTeamId
-                            select p.OnePoint + p.TwoPoint).Sum(),
-                        AwayTeamScore = (from p in matchResponse.Stats
-                            where p.TeamId == matchResponse.AwayTeamId
-                            select p.OnePoint + p.TwoPoint).Sum()
+                        Match = match,
+                        HomeTeamScore = (from p in stats
+                                         where p.TeamId == match.HomeTeamId
+                                         select p.OnePoint + p.TwoPoint).Sum(),
+                        AwayTeamScore = (from p in stats
+                                         where p.TeamId == match.AwayTeamId
+                                         select p.OnePoint + p.TwoPoint).Sum()
                     };
-                    
                     Matches.Add(customMatchModel);
                 }
             }
@@ -48,7 +55,7 @@ namespace BasketballStats.WebSite.Pages
     public class CustomMatchModel
     {
         public MatchResponse Match { get; set; }
-        public int HomeTeamScore { get; set; }
-        public int AwayTeamScore { get; set; }
+        public decimal HomeTeamScore { get; set; }
+        public decimal AwayTeamScore { get; set; }
     }
 }

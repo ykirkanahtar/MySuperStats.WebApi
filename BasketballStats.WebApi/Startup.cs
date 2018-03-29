@@ -56,7 +56,7 @@ namespace BasketballStats.WebApi
             else
             {
                 services.AddDbContext<ApplicationContext>(options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("PostgreApplicationContext"))
+                    options.UseNpgsql(Configuration.GetConnectionString("PostgresApplicationContext"))
                 );
             }
 

@@ -1,0 +1,202 @@
+﻿@page
+@model StatisticModel
+@{
+    ViewData["Title"] = "Oyuncular";
+}
+<h2>@ViewData["Title"]</h2>
+
+<label>1 Sayı</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+        @foreach (var stat in Model.Statistics.TotalOnePoints)
+        {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<label>1 Sayı %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioOnePoints)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>2 Sayı</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalTwoPoints)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>2 Sayı %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioTwoPoints)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Rebound</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalRebounds)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Rebound %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioRebounds)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Çalma</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalStealBalls)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Çalma %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioStealBalls)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Kaybı</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalLooseBalls)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Kaybı %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioLooseBalls)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Asist</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalAsists)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Asist %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioAsists)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Kesme</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.TotalInterrupts)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<label>Top Kesme %</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tbody>
+    @foreach (var stat in Model.Statistics.RatioInterrupts)
+    {
+        <tr>
+            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+            <td>@stat.Result</td>
+            <td>@stat.MatchCount</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -13,8 +13,8 @@ using System;
 namespace BasketballStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180328144330_PostgresInit")]
-    partial class PostgresInit
+    [Migration("20180329060738_NewInit")]
+    partial class NewInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,7 +251,7 @@ namespace BasketballStats.WebApi.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_confirm_code")
-                        .HasDefaultValue("385257")
+                        .HasDefaultValue("369717")
                         .HasMaxLength(6);
 
                     b.Property<bool>("EmailConfirmed")

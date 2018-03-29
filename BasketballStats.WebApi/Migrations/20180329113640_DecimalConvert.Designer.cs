@@ -13,15 +13,15 @@ using System;
 namespace BasketballStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180328143700_NewInit")]
-    partial class NewInit
+    [Migration("20180329113640_DecimalConvert")]
+    partial class DecimalConvert
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
             modelBuilder.Entity("BasketballStats.WebApi.Authorization.Models.Claim", b =>
                 {
@@ -251,7 +251,7 @@ namespace BasketballStats.WebApi.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_confirm_code")
-                        .HasDefaultValue("786129")
+                        .HasDefaultValue("372132")
                         .HasMaxLength(6);
 
                     b.Property<bool>("EmailConfirmed")
@@ -519,7 +519,7 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("stat_id");
 
-                    b.Property<int>("Assist")
+                    b.Property<decimal>("Assist")
                         .HasColumnName("assist");
 
                     b.Property<DateTime>("CreateDateTime")
@@ -528,40 +528,40 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
 
-                    b.Property<int>("Interrupt")
+                    b.Property<decimal>("Interrupt")
                         .HasColumnName("interrupt");
 
-                    b.Property<int>("LooseBall")
+                    b.Property<decimal>("LooseBall")
                         .HasColumnName("loose_ball");
 
                     b.Property<int>("MatchId")
                         .HasColumnName("match_id");
 
-                    b.Property<int>("MissingOnePoint")
+                    b.Property<decimal>("MissingOnePoint")
                         .HasColumnName("missing_one_point");
 
-                    b.Property<int>("MissingTwoPoint")
+                    b.Property<decimal>("MissingTwoPoint")
                         .HasColumnName("missing_two_point");
 
-                    b.Property<int>("OnePoint")
+                    b.Property<decimal>("OnePoint")
                         .HasColumnName("one_point");
 
                     b.Property<int>("PlayerId")
                         .HasColumnName("player_id");
 
-                    b.Property<int>("Rebound")
+                    b.Property<decimal>("Rebound")
                         .HasColumnName("rebound");
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
-                    b.Property<int>("StealBall")
+                    b.Property<decimal>("StealBall")
                         .HasColumnName("steal_ball");
 
                     b.Property<int>("TeamId")
                         .HasColumnName("team_id");
 
-                    b.Property<int>("TwoPoint")
+                    b.Property<decimal>("TwoPoint")
                         .HasColumnName("two_point");
 
                     b.Property<DateTime?>("UpdateDateTime")

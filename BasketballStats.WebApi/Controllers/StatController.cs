@@ -67,14 +67,25 @@ namespace BasketballStats.WebApi.Controllers
             return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Stat, StatResponse>(result)));
         }
 
-        [Route("get/matchid/{matchid:int}/playerid/{playerid:int}")]
+        [Route("get/matchid/{matchid:int}/teamid/{teamid:int}/playerid/{playerid:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByMatchIdAndPlayerId(int matchId, int playerId)
+        public async Task<IActionResult> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
         {
-            var result = await _statManager.GetByMatchIdAndPlayerIdAsync(matchId, playerId);
+            var result = await _statManager.GetByMatchIdTeamIdAndPlayerIdAsync(matchId, teamId, playerId);
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Stat, StatResponse>(result)));
+        }
+
+        [Route("getall/matchid/{matchid:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllByMatchId(int matchId)
+        {
+            var result = await _statManager.GetAllByMatchIdAsync(matchId);
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
         }
 
         [Route("getall/playerid/{playerid:int}")]
@@ -99,7 +110,30 @@ namespace BasketballStats.WebApi.Controllers
                 _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
         }
 
-        [Route("getallplayer/matchid/{matchid:int}")]
+        [Route("getallteams/matchid/{matchid:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllTeamByMatchId(int matchId)
+        {
+            var result = await _statManager.GetAllTeamByMatchIdAsync(matchId);
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Team>, List<TeamResponse>>(result.EntityList), result.Count));
+        }
+
+        [Route("getallteams/matchid/{matchid:int}/playerid/{playerid:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllTeamByMatchIdAndPlayerId(int matchId, int playerId)
+        {
+            var result = await _statManager.GetAllTeamByMatchIdAndPlayerIdAsync(matchId, playerId);
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Team>, List<TeamResponse>>(result.EntityList), result.Count));
+        }
+
+
+        [Route("getallplayers/matchid/{matchid:int}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllPlayerByMatchId(int matchId)
@@ -110,7 +144,18 @@ namespace BasketballStats.WebApi.Controllers
                 _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
         }
 
-        [Route("getallplayer/startdate/{startdate}/enddate/{enddate}")]
+        [Route("getallplayers/matchid/{matchid:int}/teamid/{teamid:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllPlayerByMatchIdAndTeamId(int matchId, int teamId)
+        {
+            var result = await _statManager.GetAllPlayerByMatchIdAndTeamIdAsync(matchId, teamId);
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
+        }
+
+        [Route("getallplayers/startdate/{startdate}/enddate/{enddate}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllPlayerByDate(DateTime startDateTime, DateTime endDateTime)
@@ -121,7 +166,7 @@ namespace BasketballStats.WebApi.Controllers
                 _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
         }
 
-        [Route("getallmatch/playerid/{playerid:int}")]
+        [Route("getallmatches/playerid/{playerid:int}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllMatchByPlayerId(int playerId)
@@ -132,7 +177,7 @@ namespace BasketballStats.WebApi.Controllers
                 _mapper.Map<List<Match>, List<MatchResponse>>(result.EntityList), result.Count));
         }
 
-        [Route("getallmatch/playerid/{playerid:int}/startdate/{startdate}/enddate/{enddate}")]
+        [Route("getallmatches/playerid/{playerid:int}/startdate/{startdate}/enddate/{enddate}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllMatchByPlayerIdAndDate(int playerId, DateTime startDateTime, DateTime endDateTime)
@@ -141,6 +186,17 @@ namespace BasketballStats.WebApi.Controllers
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
                 _mapper.Map<List<Match>, List<MatchResponse>>(result.EntityList), result.Count));
+        }
+
+        [Route("getall")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll(int skip, int take)
+        {
+            var result = await _statManager.GetAllAsync();
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
         }
 
     }

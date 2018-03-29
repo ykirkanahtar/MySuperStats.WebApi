@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace BasketballStats.WebSite.ResponseModels
 {
@@ -15,6 +16,8 @@ namespace BasketballStats.WebSite.ResponseModels
 
         public TeamResponse HomeTeam { get; set; }
         public TeamResponse AwayTeam { get; set; }
+
+        [JsonIgnore]
         public IList<StatResponse> Stats { get; set; }
     }
 }

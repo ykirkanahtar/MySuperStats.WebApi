@@ -1,0 +1,108 @@
+﻿@page
+@model PlayerDetailModel
+@{
+    ViewData["Title"] = $"{Model.PlayerDetail.Player.Name} {Model.PlayerDetail.Player.Surname}";
+}
+<h2>@ViewData["Title"]</h2>
+
+<label>Doğum Tarihi:</label> @Model.PlayerDetail.Player.BirthDate.ToString("dd-MM-yyyy")<br />
+<br />
+<label>Oynadığı Maçlar</label>
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Sıra</th>
+            <th>Takım</th>
+            <th>Skor</th>
+            <th>1 Sayı</th>
+            <th>2 Sayı</th>
+            <th>Ribaunt</th>
+            <th>Kapma</th>
+            <th>Asist</th>
+            <th>Kayıp</th>
+            <th>Kesme</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customStat in Model.PlayerDetail.CustomStats)
+        {
+            <tr>
+                <td><a asp-page="MatchDetail" asp-route-id="@customStat.PlayerStatDetail.Match.Id">@customStat.PlayerStatDetail.Match.MatchDate.ToString("dd-MM-yyyy")</a></td>
+                <td>@customStat.PlayerStatDetail.Match.Order</td>
+                <td>@customStat.PlayerStatDetail.Team.Name</td>
+                <td>@customStat.HomeTeamScore - @customStat.AwayTeamScore</td>
+                <td>@customStat.PlayerStatDetail.OnePoint / @(customStat.PlayerStatDetail.OnePoint + customStat.PlayerStatDetail.MissingOnePoint)</td>
+                <td>@customStat.PlayerStatDetail.TwoPoint / @(customStat.PlayerStatDetail.TwoPoint + customStat.PlayerStatDetail.MissingTwoPoint)</td>
+                <td>@customStat.PlayerStatDetail.Rebound</td>
+                <td>@customStat.PlayerStatDetail.StealBall</td>
+                <td>@customStat.PlayerStatDetail.Assist</td>
+                <td>@customStat.PlayerStatDetail.LooseBall</td>
+                <td>@customStat.PlayerStatDetail.Interrupt</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<label>Toplam İstatistikler</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>1 Sayı</th>
+            <th>2 Sayı</th>
+            <th>Ribaunt</th>
+            <th>Kapma</th>
+            <th>Asist</th>
+            <th>Kayıp</th>
+            <th>Kesme</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.PlayerDetail.TotalStats.OnePoint / @(Model.PlayerDetail.TotalStats.OnePoint + Model.PlayerDetail.TotalStats.MissingOnePoint)</td>
+            <td>@Model.PlayerDetail.TotalStats.TwoPoint / @(Model.PlayerDetail.TotalStats.TwoPoint + Model.PlayerDetail.TotalStats.MissingTwoPoint)</td>
+            <td>@Model.PlayerDetail.TotalStats.Rebound</td>
+            <td>@Model.PlayerDetail.TotalStats.StealBall</td>
+            <td>@Model.PlayerDetail.TotalStats.Assist</td>
+            <td>@Model.PlayerDetail.TotalStats.LooseBall</td>
+            <td>@Model.PlayerDetail.TotalStats.Interrupt</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<label>Ortalama İstatistikler</label>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>1 Sayı</th>
+            <th>2 Sayı</th>
+            <th>1 Sayı %</th>
+            <th>2 Sayı %</th>
+            <th>Ribaunt</th>
+            <th>Kapma</th>
+            <th>Asist</th>
+            <th>Kayıp</th>
+            <th>Kesme</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.PlayerDetail.RatioStats.OnePoint / @(Model.PlayerDetail.RatioStats.OnePoint + Model.PlayerDetail.RatioStats.MissingOnePoint)</td>
+            <td>@Model.PlayerDetail.RatioStats.TwoPoint / @(Model.PlayerDetail.RatioStats.TwoPoint + Model.PlayerDetail.RatioStats.MissingTwoPoint)</td>
+            <td>% @Model.PlayerDetail.OnePointRatio</td>
+            <td>% @Model.PlayerDetail.TwoPointRatio</td>
+            <td>@Model.PlayerDetail.RatioStats.Rebound</td>
+            <td>@Model.PlayerDetail.RatioStats.StealBall</td>
+            <td>@Model.PlayerDetail.RatioStats.Assist</td>
+            <td>@Model.PlayerDetail.RatioStats.LooseBall</td>
+            <td>@Model.PlayerDetail.RatioStats.Interrupt</td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+

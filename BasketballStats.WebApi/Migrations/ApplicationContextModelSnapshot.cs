@@ -250,7 +250,7 @@ namespace BasketballStats.WebApi.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_confirm_code")
-                        .HasDefaultValue("385257")
+                        .HasDefaultValue("372132")
                         .HasMaxLength(6);
 
                     b.Property<bool>("EmailConfirmed")
@@ -518,7 +518,7 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("stat_id");
 
-                    b.Property<int>("Assist")
+                    b.Property<decimal>("Assist")
                         .HasColumnName("assist");
 
                     b.Property<DateTime>("CreateDateTime")
@@ -527,40 +527,40 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
 
-                    b.Property<int>("Interrupt")
+                    b.Property<decimal>("Interrupt")
                         .HasColumnName("interrupt");
 
-                    b.Property<int>("LooseBall")
+                    b.Property<decimal>("LooseBall")
                         .HasColumnName("loose_ball");
 
                     b.Property<int>("MatchId")
                         .HasColumnName("match_id");
 
-                    b.Property<int>("MissingOnePoint")
+                    b.Property<decimal>("MissingOnePoint")
                         .HasColumnName("missing_one_point");
 
-                    b.Property<int>("MissingTwoPoint")
+                    b.Property<decimal>("MissingTwoPoint")
                         .HasColumnName("missing_two_point");
 
-                    b.Property<int>("OnePoint")
+                    b.Property<decimal>("OnePoint")
                         .HasColumnName("one_point");
 
                     b.Property<int>("PlayerId")
                         .HasColumnName("player_id");
 
-                    b.Property<int>("Rebound")
+                    b.Property<decimal>("Rebound")
                         .HasColumnName("rebound");
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
-                    b.Property<int>("StealBall")
+                    b.Property<decimal>("StealBall")
                         .HasColumnName("steal_ball");
 
                     b.Property<int>("TeamId")
                         .HasColumnName("team_id");
 
-                    b.Property<int>("TwoPoint")
+                    b.Property<decimal>("TwoPoint")
                         .HasColumnName("two_point");
 
                     b.Property<DateTime?>("UpdateDateTime")
