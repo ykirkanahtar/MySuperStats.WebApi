@@ -1,7 +1,7 @@
-﻿using BasketballStats.WebApi.Authorization.AutoMapper;
+﻿using BasketballStats.Contracts.Requests;
+using BasketballStats.Contracts.Responses;
+using BasketballStats.WebApi.Authorization.AutoMapper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
-using BasketballStats.WebApi.ResponseModels;
 
 namespace BasketballStats.WebApi.AutoMapper
 {
@@ -22,6 +22,8 @@ namespace BasketballStats.WebApi.AutoMapper
 
             CreateMap<Team, TeamResponse>();
             CreateMap<TeamRequest, Team>();
+
+            ForAllMaps((typeMap, mapConfig) => mapConfig.MaxDepth(1));
         }
     }
 }

@@ -3,58 +3,80 @@
 @{
     ViewData["Title"] = "İstatistikler";
 }
-<h2>@ViewData["Title"]</h2>
+
+<div class="row-fluid">
+    <div class="col-md-12">
+        <h2>@ViewData["Title"]</h2>
+        <br />
+
+        <label>Tarih:</label> @Model.MatchDetailInfo.MatchInfo.MatchDate.ToString("dd-MM-yyyy")<br />
+        <label>Sıra:</label> @Model.MatchDetailInfo.MatchInfo.Order<br />
+        <label>Video Link: </label><a href="@Model.MatchDetailInfo.MatchInfo.VideoLink" target="_blank">@Model.MatchDetailInfo.MatchInfo.VideoLink</a>
+        <br />
+        <br />
+        <br />
+    </div>
+</div>
 
 
-<label>Tarih:</label> @Model.MatchDetail.MatchInfo.MatchDate.ToString("dd-MM-yyyy")<br />
-<label>Sıra:</label> @Model.MatchDetail.MatchInfo.Order<br />
-<label>Video Link: </label><a href="@Model.MatchDetail.MatchInfo.VideoLink" target="_blank">@Model.MatchDetail.MatchInfo.VideoLink</a><br />
-<br /><br />
-@foreach (var team in Model.MatchDetail.Teams)
+@foreach (var team in Model.MatchDetailInfo.Teams)
 {
-    <label>Takım Adı: </label>@team.TeamInfo.Name<br/>
-    <label>Rengi: </label>@team.TeamInfo.Color<br/>
-    <label>Yaş Ort.: </label>@team.AgeRatio<br/>
-    <label>Oyuncu Sayısı: </label>@team.PlayerCount
-    <table class="table table-bordered table-condensed table-hover table-striped">
-        <thead>
-            <tr>
-                <th>Oyuncu</th>
-                <th>1 Sayı</th>
-                <th>2 Sayı</th>
-                <th>Ribaunt</th>
-                <th>Kapma</th>
-                <th>Asist</th>
-                <th>Kayıp</th>
-                <th>Kesme</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var player in team.PlayerStats)
-            {
-                <tr>
-                    <td><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@player.Player.Name @player.Player.Surname</a></td>
-                    <td>@player.Stat.OnePoint / @(player.Stat.OnePoint + player.Stat.MissingOnePoint)</td>
-                    <td>@player.Stat.TwoPoint / @(player.Stat.TwoPoint + player.Stat.MissingTwoPoint)</td>
-                    <td>@player.Stat.Rebound</td>
-                    <td>@player.Stat.StealBall</td>
-                    <td>@player.Stat.Assist</td>
-                    <td>@player.Stat.LooseBall</td>
-                    <td>@player.Stat.Interrupt</td>
-                </tr>
-            }
-        <tr>
-            <td><b>Toplam</b></td>
-            <td><b>@team.TeamStats.OnePoint / @(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
-            <td><b>@team.TeamStats.TwoPoint / @(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
-            <td><b>@team.TeamStats.Rebound</b></td>
-            <td><b>@team.TeamStats.StealBall</b></td>
-            <td><b>@team.TeamStats.Assist</b></td>
-            <td><b>@team.TeamStats.LooseBall</b></td>
-            <td><b>@team.TeamStats.Interrupt</b></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <label>Takım Adı: </label>@team.TeamInfo.Name<br />
+            <label>Rengi: </label>@team.TeamInfo.Color<br />
+            <label>Yaş Ort.: </label>@team.AgeRatio<br />
+            <label>Oyuncu Sayısı: </label>@team.PlayerStats.Count
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Oyuncu</th>
+                            <th>1 Sayı</th>
+                            <th>2 Sayı</th>
+                            <th>Ribaunt</th>
+                            <th>Kapma</th>
+                            <th>Asist</th>
+                            <th>Kayıp</th>
+                            <th>Kesme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var player in team.PlayerStats)
+                        {
+                            <tr>
+                                <td><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@player.Player.Name @player.Player.Surname</a></td>
+                                <td>@Decimal.Truncate(player.Stat.OnePoint) / @Decimal.Truncate((player.Stat.OnePoint + player.Stat.MissingOnePoint))</td>
+                                <td>@Decimal.Truncate(player.Stat.TwoPoint) / @Decimal.Truncate((player.Stat.TwoPoint + player.Stat.MissingTwoPoint))</td>
+                                <td>@Decimal.Truncate(player.Stat.Rebound)</td>
+                                <td>@Decimal.Truncate(player.Stat.StealBall)</td>
+                                <td>@Decimal.Truncate(player.Stat.Assist)</td>
+                                <td>@Decimal.Truncate(player.Stat.LooseBall)</td>
+                                <td>@Decimal.Truncate(player.Stat.Interrupt)</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><b>Toplam</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.OnePoint) / @Decimal.Truncate(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.TwoPoint) / @Decimal.Truncate(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.Rebound)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.StealBall)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.Assist)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.LooseBall)</b></td>
+                            <td><b>@Decimal.Truncate(team.TeamStats.Interrupt)</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 }
 
-<a asp-page="Match">Maçlar Sayfasına Geri Dön</a>
+<div class="row-fluid">
+    <div class="col-md-12">
+        <a asp-page="Match">Maçlar Sayfasına Geri Dön</a>
+        <br />
+    </div>
+</div>

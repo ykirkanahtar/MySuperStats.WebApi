@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BasketballStats.WebApi.RequestModels
+namespace BasketballStats.Contracts.Requests
 {
     public class MatchRequest
     {

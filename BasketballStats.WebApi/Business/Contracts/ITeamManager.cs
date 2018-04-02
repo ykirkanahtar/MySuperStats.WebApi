@@ -1,7 +1,7 @@
-﻿using BasketballStats.WebApi.Contracts;
+﻿using BasketballStats.Contracts.Requests;
+using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Business.Contracts

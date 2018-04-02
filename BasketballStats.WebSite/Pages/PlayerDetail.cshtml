@@ -1,109 +1,158 @@
 ﻿@page
 @model PlayerDetailModel
 @{
-    ViewData["Title"] = $"{Model.PlayerDetail.Player.Name} {Model.PlayerDetail.Player.Surname}";
+    ViewData["Title"] = $"{Model.PlayerDetailInfo.Player.Name} {Model.PlayerDetailInfo.Player.Surname}";
 }
-<h2>@ViewData["Title"]</h2>
+<div class="row-fluid">
+    <div class="col-md-12">
+        <h2>@ViewData["Title"]</h2>
 
-<label>Doğum Tarihi:</label> @Model.PlayerDetail.Player.BirthDate.ToString("dd-MM-yyyy")<br />
-<br />
-<label>Oynadığı Maçlar</label>
+        <label>Doğum Tarihi:</label> @Model.PlayerDetailInfo.Player.BirthDate.ToString("dd-MM-yyyy")
+        <br />
+        <br />
+    </div>
+</div>
 
-<table class="table table-bordered table-condensed table-hover table-striped">
-    <thead>
-        <tr>
-            <th>Tarih</th>
-            <th>Sıra</th>
-            <th>Takım</th>
-            <th>Skor</th>
-            <th>1 Sayı</th>
-            <th>2 Sayı</th>
-            <th>Ribaunt</th>
-            <th>Kapma</th>
-            <th>Asist</th>
-            <th>Kayıp</th>
-            <th>Kesme</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var customStat in Model.PlayerDetail.CustomStats)
-        {
-            <tr>
-                <td><a asp-page="MatchDetail" asp-route-id="@customStat.PlayerStatDetail.Match.Id">@customStat.PlayerStatDetail.Match.MatchDate.ToString("dd-MM-yyyy")</a></td>
-                <td>@customStat.PlayerStatDetail.Match.Order</td>
-                <td>@customStat.PlayerStatDetail.Team.Name</td>
-                <td>@customStat.HomeTeamScore - @customStat.AwayTeamScore</td>
-                <td>@customStat.PlayerStatDetail.OnePoint / @(customStat.PlayerStatDetail.OnePoint + customStat.PlayerStatDetail.MissingOnePoint)</td>
-                <td>@customStat.PlayerStatDetail.TwoPoint / @(customStat.PlayerStatDetail.TwoPoint + customStat.PlayerStatDetail.MissingTwoPoint)</td>
-                <td>@customStat.PlayerStatDetail.Rebound</td>
-                <td>@customStat.PlayerStatDetail.StealBall</td>
-                <td>@customStat.PlayerStatDetail.Assist</td>
-                <td>@customStat.PlayerStatDetail.LooseBall</td>
-                <td>@customStat.PlayerStatDetail.Interrupt</td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-@if (Model.PlayerDetail.CustomStats.Count > 0)
+@if (Model.PlayerDetailInfo.PlayerStats.Count > 0)
 {
-    <label>Toplam İstatistikler</label>
-    <table class="table table-bordered table-condensed table-hover table-striped">
-        <thead>
-        <tr>
-            <th>1 Sayı</th>
-            <th>2 Sayı</th>
-            <th>Ribaunt</th>
-            <th>Kapma</th>
-            <th>Asist</th>
-            <th>Kayıp</th>
-            <th>Kesme</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>@Model.PlayerDetail.TotalStats.OnePoint / @(Model.PlayerDetail.TotalStats.OnePoint + Model.PlayerDetail.TotalStats.MissingOnePoint)</td>
-            <td>@Model.PlayerDetail.TotalStats.TwoPoint / @(Model.PlayerDetail.TotalStats.TwoPoint + Model.PlayerDetail.TotalStats.MissingTwoPoint)</td>
-            <td>@Model.PlayerDetail.TotalStats.Rebound</td>
-            <td>@Model.PlayerDetail.TotalStats.StealBall</td>
-            <td>@Model.PlayerDetail.TotalStats.Assist</td>
-            <td>@Model.PlayerDetail.TotalStats.LooseBall</td>
-            <td>@Model.PlayerDetail.TotalStats.Interrupt</td>
-        </tr>
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <label>Toplam İstatistikler</label>
 
-        </tbody>
-    </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>1 Sayı</th>
+                            <th>2 Sayı</th>
+                            <th>Ribaunt</th>
+                            <th>Kapma</th>
+                            <th>Asist</th>
+                            <th>Kayıp</th>
+                            <th>Kesme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint) / @Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint + Model.PlayerDetailInfo.TotalStats.MissingOnePoint)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint) / @Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint + Model.PlayerDetailInfo.TotalStats.MissingTwoPoint)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Rebound)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.StealBall)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Assist)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.LooseBall)</td>
+                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Interrupt)</td>
+                        </tr>
 
-    <label>Ortalama İstatistikler</label>
-    <table class="table table-bordered table-condensed table-hover table-striped">
-        <thead>
-        <tr>
-            <th>1 Sayı</th>
-            <th>2 Sayı</th>
-            <th>1 Sayı %</th>
-            <th>2 Sayı %</th>
-            <th>Ribaunt</th>
-            <th>Kapma</th>
-            <th>Asist</th>
-            <th>Kayıp</th>
-            <th>Kesme</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>@Model.PlayerDetail.RatioStats.OnePoint / @(Model.PlayerDetail.RatioStats.OnePoint + Model.PlayerDetail.RatioStats.MissingOnePoint)</td>
-            <td>@Model.PlayerDetail.RatioStats.TwoPoint / @(Model.PlayerDetail.RatioStats.TwoPoint + Model.PlayerDetail.RatioStats.MissingTwoPoint)</td>
-            <td>% @Model.PlayerDetail.OnePointRatio</td>
-            <td>% @Model.PlayerDetail.TwoPointRatio</td>
-            <td>@Model.PlayerDetail.RatioStats.Rebound</td>
-            <td>@Model.PlayerDetail.RatioStats.StealBall</td>
-            <td>@Model.PlayerDetail.RatioStats.Assist</td>
-            <td>@Model.PlayerDetail.RatioStats.LooseBall</td>
-            <td>@Model.PlayerDetail.RatioStats.Interrupt</td>
-        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-        </tbody>
-    </table>
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <label>Maç Başına İstatistikler</label>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>1 Sayı</th>
+                            <th>2 Sayı</th>
+                            <th>Ribaunt</th>
+                            <th>Kapma</th>
+                            <th>Asist</th>
+                            <th>Kayıp</th>
+                            <th>Kesme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.OnePoint / @(Model.PlayerDetailInfo.PerMatchStats.OnePoint + Model.PlayerDetailInfo.PerMatchStats.MissingOnePoint)</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.TwoPoint / @(Model.PlayerDetailInfo.PerMatchStats.TwoPoint + Model.PlayerDetailInfo.PerMatchStats.MissingTwoPoint)</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.Rebound</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.StealBall</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.Assist</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.LooseBall</td>
+                            <td>@Model.PlayerDetailInfo.PerMatchStats.Interrupt</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-md-3">
+            <label>Ortalama İstatistikler</label>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>1 Sayı %</th>
+                            <th>2 Sayı %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>% @Model.PlayerDetailInfo.OnePointRatio</td>
+                            <td>% @Model.PlayerDetailInfo.TwoPointRatio</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <label>Oynadığı Maçlar</label>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Sıra</th>
+                            <th>Takım</th>
+                            <th>Skor</th>
+                            <th>1 Sayı</th>
+                            <th>2 Sayı</th>
+                            <th>Ribaunt</th>
+                            <th>Kapma</th>
+                            <th>Asist</th>
+                            <th>Kayıp</th>
+                            <th>Kesme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customStat in Model.PlayerDetailInfo.PlayerStats)
+                        {
+                            <tr>
+                                <td><a asp-page="MatchDetail" asp-route-id="@customStat.PlayerStat.Match.Id">@customStat.PlayerStat.Match.MatchDate.ToString("dd-MM-yyyy")</a></td>
+                                <td>@customStat.PlayerStat.Match.Order</td>
+                                <td>@customStat.PlayerStat.Team.Name</td>
+                                <td>@Decimal.Truncate(customStat.HomeTeamScore) - @Decimal.Truncate(customStat.AwayTeamScore)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.OnePoint) / @Decimal.Truncate(customStat.PlayerStat.OnePoint + customStat.PlayerStat.MissingOnePoint)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.TwoPoint) / @Decimal.Truncate(customStat.PlayerStat.TwoPoint + customStat.PlayerStat.MissingTwoPoint)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.Rebound)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.StealBall)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.Assist)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.LooseBall)</td>
+                                <td>@Decimal.Truncate(customStat.PlayerStat.Interrupt)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 }
 
 

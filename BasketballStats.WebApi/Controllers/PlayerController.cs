@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BasketballStats.WebApi.Authorization;
 using BasketballStats.WebApi.Authorization.Enums;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using BasketballStats.WebApi.Resources;
-using BasketballStats.WebApi.ResponseModels;
 using BasketballStats.WebApi.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using BasketballStats.Contracts.Requests;
+using BasketballStats.Contracts.Responses;
 
 namespace BasketballStats.WebApi.Controllers
 {
@@ -65,39 +64,6 @@ namespace BasketballStats.WebApi.Controllers
         {
             var result = await _playerManager.GetByIdAsync(id);
             return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Player, PlayerResponse>(result)));
-        }
-
-        [Route("getall/name/{name}")]
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllByName(string name)
-        {
-            var result = await _playerManager.GetAllByNameAsync(name);
-
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
-        }
-
-        [Route("getall/surname/{surname}")]
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllBySurname(string surname)
-        {
-            var result = await _playerManager.GetAllBySurnameAsync(surname);
-
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
-        }
-
-        [Route("getall/name/{name}/surname/{surname}")]
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllByNameAndSurname(string name, string surname)
-        {
-            var result = await _playerManager.GetAllByNameAndSurnameAsync(name, surname);
-
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Player>, List<PlayerResponse>>(result.EntityList), result.Count));
         }
 
         [Route("getall")]

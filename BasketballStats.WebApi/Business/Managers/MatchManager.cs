@@ -2,18 +2,18 @@
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Data.Contracts;
-using BasketballStats.WebApi.Data.Utils;
 using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using BasketballStats.WebApi.Utils;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using LinqKit;
+using BasketballStats.Contracts.Requests;
 
 namespace BasketballStats.WebApi.Business.Managers
 {
@@ -74,33 +74,16 @@ namespace BasketballStats.WebApi.Business.Managers
         {
             return CommonOperationAsync(async () =>
                 {
-                    var result = await UnitOfWork.GetRepository<Match, int>().GetAsync(p => p.Id == id);
-                    return result;
+                    return await UnitOfWork.GetRepository<Match, int>().GetAll(predicate: p => p.Id == id, include: source => source.Include(p => p.Stats).Include(p => p.HomeTeam).Include(p => p.AwayTeam)).FirstOrDefaultAsync();
                 }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
-        }
-
-        public Task<CustomEntityList<Match>> GetAllByDateAsync(DateTime startDateTime, DateTime endDateTime)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                var predicate = PredicateBuilder.New<Match>();
-                predicate = predicate.And(p => p.MatchDate >= startDateTime.Date);
-                predicate = predicate.And(p => p.MatchDate <= endDateTime.Date);
-
-                return new CustomEntityList<Match>
-                {
-                    EntityList = await UnitOfWork.GetRepository<Match, int>().GetAll(predicate, out var count).ToListAsync(),
-                    Count = count,
-                };
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         public Task<CustomEntityList<Match>> GetAllAsync()
         {
             return CommonOperationAsync(async () => new CustomEntityList<Match>
             {
-                EntityList = await UnitOfWork.GetRepository<Match, int>().GetAll(out var count).Include(p => p.Stats).Include(p => p.HomeTeam).Include(p => p.AwayTeam).ToListAsync(),
+                EntityList = await UnitOfWork.GetRepository<Match, int>().GetAll(out var count, include: source => source.Include(p => p.HomeTeam).Include(p => p.AwayTeam)).ToListAsync(),
                 Count = count,
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
@@ -118,7 +101,7 @@ namespace BasketballStats.WebApi.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<Match, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<Match, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.MatchDateAndOrder);
         }

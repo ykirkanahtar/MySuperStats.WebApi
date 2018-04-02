@@ -6,7 +6,7 @@ namespace BasketballStats.WebSite.Utils
     {
         public static decimal RoundValue(this decimal value)
         {
-            return Math.Round(value, 2, MidpointRounding.AwayFromZero);
+            return Math.Round(value, 2, MidpointRounding.ToEven);
         }
 
         public static int GetAge(this DateTime birthdate)

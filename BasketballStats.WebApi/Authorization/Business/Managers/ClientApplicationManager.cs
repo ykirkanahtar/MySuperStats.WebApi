@@ -102,8 +102,8 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<ClientApplication, int>().GetAsync(p => p.Id == id);
-                return result;
+                return await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(predicate: p => p.Id == id)
+                    .FirstOrDefaultAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
@@ -111,10 +111,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<ClientApplication>();
-                predicate = predicate.And(p => p.ClientApplicationCode == code);
-
-                var result = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                var result = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(predicate: p => p.ClientApplicationCode == code).ToListAsync();
 
                 BusinessUtil.UniqueGenericListChecker(result, GetType().Name);
                 return result[0];
@@ -140,11 +137,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
 
                 password = HashString.Hash(password, clientApplicationUtil.SpecialValue);
 
-                var predicate = PredicateBuilder.New<ClientApplication>();
-                predicate = predicate.And(p => p.ClientApplicationCode == code);
-                predicate = predicate.And(p => p.ClientApplicationPassword == password);
-
-                var clientList = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+                var clientList = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(predicate: p => p.ClientApplicationCode == code && p.ClientApplicationPassword == password).ToListAsync();
                 if (clientList.Count == 0) throw new AuthenticationException();
                 if (clientList.Count > 1) throw new DuplicateNameException(DefaultResponseMessages.DuplicateRecordForUniqueValueError);
 
@@ -163,7 +156,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.ClientApplicationName);
         }
@@ -178,7 +171,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<ClientApplication, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.ClientApplicationCode);
         }
@@ -188,14 +181,14 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         #region ClientApplicationUtil
         private async Task<ClientApplicationUtil> GetClientApplicationUtilByIdAsync(int id)
         {
-            return await UnitOfWork.GetRepository<ClientApplicationUtil, int>().GetAsync(p => p.Id == id);
+            return await UnitOfWork.GetRepository<ClientApplicationUtil, int>().GetAll(predicate: p => p.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         private async Task<ClientApplicationUtil> GetClientApplicationUtilByClientApplicationIdAsync(int clientApplicationId)
         {
-            var predicate = PredicateBuilder.New<ClientApplicationUtil>();
-            predicate = predicate.And(p => p.ClientApplicationId == clientApplicationId);
-            return await UnitOfWork.GetRepository<ClientApplicationUtil, int>().GetAsync(predicate);
+            return await UnitOfWork.GetRepository<ClientApplicationUtil, int>()
+                .GetAll(predicate: p => p.ClientApplicationId == clientApplicationId).FirstOrDefaultAsync();
         }
 
         private async Task UpdateClientApplicationUtilAsync(int id, string salt)

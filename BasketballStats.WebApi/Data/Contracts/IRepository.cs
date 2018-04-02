@@ -2,54 +2,28 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BasketballStats.WebApi.Data.Utils;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace BasketballStats.WebApi.Data.Contracts
 {
     public interface IRepository<TEntity>
         where TEntity : class
     {
-        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
+        IQueryable<TEntity> GetAll(
+            Expression<Func<TEntity, bool>> predicate = null
+            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+            , Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null
+            , SkipTake skipTake = null
+        );
 
-        #region GetAll
-
-        IQueryable<TEntity> GetAll();
-
-        IQueryable<TEntity> GetAll(out int rowCount);
-
-        #endregion
-
-        #region GetAllWithOrderExpression
-
-        IQueryable<TEntity> GetAll(Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
-
-        IQueryable<TEntity> GetAll(out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
-
-        #endregion
-
-        #region GetAllWithPredicate
-        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, out int rowCount);
-
-        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
-
-        #endregion
-
-        #region GetAllWithSkipTake
-
-        IQueryable<TEntity> GetAll(int skip, int take, out int rowCount, bool ascending = true);
-
-        IQueryable<TEntity> GetAll(int skip, int take, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
-
-        #endregion
-
-        #region GetAllWithPredicate
-
-        IQueryable<TEntity> GetAll(int skip, int take, Expression<Func<TEntity, bool>> predicate, out int rowCount, bool ascending = true);
-
-        IQueryable<TEntity> GetAll(int skip, int take, Expression<Func<TEntity, bool>> predicate, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true);
-
-        #endregion 
+        IQueryable<TEntity> GetAll(out int rowCount
+            , Expression<Func<TEntity, bool>> predicate = null
+            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+            , Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null
+            , SkipTake skipTake = null
+        );
 
         void Add(TEntity entity);
 

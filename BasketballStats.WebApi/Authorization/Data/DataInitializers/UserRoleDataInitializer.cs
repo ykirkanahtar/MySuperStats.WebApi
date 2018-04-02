@@ -50,30 +50,20 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
 
         private async Task<IList<UserRole>> GetUserRolesByUserIdAndRoleIdAsync(int roleId, int userId)
         {
-            var predicate = PredicateBuilder.New<UserRole>();
-            predicate = predicate.And(p => p.RoleId == roleId);
-            predicate = predicate.And(p => p.UserId == userId);
-
             return await UnitOfWork.GetRepository<UserRole, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                .GetAll(predicate: p => p.RoleId == roleId && p.UserId == userId).ToListAsync();
         }
 
         private async Task<IList<Role>> GetRolesByNameAsync(string name)
         {
-            var predicate = PredicateBuilder.New<Role>();
-            predicate = predicate.And(p => p.RoleName == name);
-
             return await UnitOfWork.GetRepository<Role, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                .GetAll(predicate: p => p.RoleName == name).ToListAsync();
         }
 
         private async Task<IList<User>> GetUsersByUserNameAsync(string userName)
         {
-            var predicate = PredicateBuilder.New<User>();
-            predicate = predicate.And(p => p.UserName == userName);
-
             return await UnitOfWork.GetRepository<User, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                 .GetAll(predicate: p => p.UserName == userName).ToListAsync();
         }
     }
 }

@@ -10,11 +10,12 @@ namespace BasketballStats.WebApi.Models
         public string Color { get; set; }
 
         [JsonIgnore]
-        public IList<Match> HomeMatches { get; set; }
-        [JsonIgnore]
-        public IList<Match> AwayMatches { get; set; }
-        [JsonIgnore]
-        public IList<Stat> Stats { get; set; }
+        public virtual ICollection<Match> HomeMatches { get; set; }
 
+        [JsonIgnore]
+        public virtual ICollection<Match> AwayMatches { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Stat> Stats { get; set; }
     }
 }

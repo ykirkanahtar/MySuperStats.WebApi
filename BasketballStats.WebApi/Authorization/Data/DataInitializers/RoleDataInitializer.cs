@@ -39,11 +39,8 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
 
         private async Task<IList<Role>> GetRolesByNameAsync(string name)
         {
-            var predicate = PredicateBuilder.New<Role>();
-            predicate = predicate.And(p => p.RoleName == name);
-
             return await UnitOfWork.GetRepository<Role, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                 .GetAll(predicate: p => p.RoleName == name).ToListAsync();
         }
     }
 }

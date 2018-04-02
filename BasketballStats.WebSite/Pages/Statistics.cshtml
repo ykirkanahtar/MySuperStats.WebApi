@@ -12,11 +12,11 @@
             <label>Sayı Krallığı</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalPoints)
+                    @foreach (var stat in Model.StatisticInfo.TotalPoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -29,10 +29,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Sayı Krallığı %</label>
+            <label>Sayı Krallığı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioTotalPoints)
+                    @foreach (var stat in Model.StatisticInfo.RatioTotalPoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -52,11 +52,11 @@
             <label>1 Sayı</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalOnePoints)
+                    @foreach (var stat in Model.StatisticInfo.TotalOnePoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -72,7 +72,27 @@
             <label>2 Sayı</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalTwoPoints)
+                    @foreach (var stat in Model.StatisticInfo.TotalTwoPoints)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
+                            <td>@stat.MatchCount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>1 Sayı (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticInfo.RatioOnePoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -89,30 +109,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>1 Sayı %</label>
+            <label>2 Sayı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioOnePoints)
-                    {
-                        <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
-                            <td>@stat.MatchCount</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="row-fluid">
-    <div class="col-md-3">
-        <div class="table-responsive">
-            <label>2 Sayı %</label>
-            <table class="table table-bordered table-condensed table-hover table-striped">
-                <tbody>
-                    @foreach (var stat in Model.Statistics.RatioTwoPoints)
+                    @foreach (var stat in Model.StatisticInfo.RatioTwoPoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -132,7 +132,7 @@
             <label>1 Sayı İsabet Yüzdesi</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.OnePointRatio)
+                    @foreach (var stat in Model.StatisticInfo.OnePointRatio)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -152,7 +152,7 @@
             <label>2 Sayı İsabet Yüzdesi</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TwoPointRatio)
+                    @foreach (var stat in Model.StatisticInfo.TwoPointRatio)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -172,11 +172,11 @@
             <label>Rebound</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalRebounds)
+                    @foreach (var stat in Model.StatisticInfo.TotalRebounds)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -189,10 +189,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Rebound %</label>
+            <label>Rebound (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioRebounds)
+                    @foreach (var stat in Model.StatisticInfo.RatioRebounds)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -212,11 +212,11 @@
             <label>Top Çalma</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalStealBalls)
+                    @foreach (var stat in Model.StatisticInfo.TotalStealBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -229,10 +229,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Çalma %</label>
+            <label>Top Çalma (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioStealBalls)
+                    @foreach (var stat in Model.StatisticInfo.RatioStealBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -252,11 +252,11 @@
             <label>Top Kaybı</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalLooseBalls)
+                    @foreach (var stat in Model.StatisticInfo.TotalLooseBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -269,10 +269,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kaybı %</label>
+            <label>Top Kaybı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioLooseBalls)
+                    @foreach (var stat in Model.StatisticInfo.RatioLooseBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -292,11 +292,11 @@
             <label>Asist</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalAsists)
+                    @foreach (var stat in Model.StatisticInfo.TotalAsists)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -309,10 +309,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Asist %</label>
+            <label>Asist (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioAsists)
+                    @foreach (var stat in Model.StatisticInfo.RatioAsists)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -332,11 +332,11 @@
             <label>Top Kesme</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalInterrupts)
+                    @foreach (var stat in Model.StatisticInfo.TotalInterrupts)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>@Decimal.Truncate(stat.Result)</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -349,10 +349,10 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kesme %</label>
+            <label>Top Kesme (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioInterrupts)
+                    @foreach (var stat in Model.StatisticInfo.RatioInterrupts)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -372,7 +372,7 @@
             <label>Kazanma</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalWins)
+                    @foreach (var stat in Model.StatisticInfo.TotalWins)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -393,7 +393,7 @@
             <label>Kaybetme</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.TotalLoose)
+                    @foreach (var stat in Model.StatisticInfo.TotalLoose)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -414,11 +414,11 @@
             <label>Kazanma %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioWins)
+                    @foreach (var stat in Model.StatisticInfo.RatioWins)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>% @stat.Result</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }
@@ -435,11 +435,11 @@
             <label>Kaybetme %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.Statistics.RatioLoose)
+                    @foreach (var stat in Model.StatisticInfo.RatioLoose)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
-                            <td>@stat.Result</td>
+                            <td>% @stat.Result</td>
                             <td>@stat.MatchCount</td>
                         </tr>
                     }

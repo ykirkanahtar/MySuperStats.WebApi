@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Data.Contracts;
 using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -64,56 +64,9 @@ namespace BasketballStats.WebApi.Business.Managers
         {
             return CommonOperationAsync(async () =>
                 {
-                    var result = await UnitOfWork.GetRepository<Player, int>().GetAsync(p => p.Id == id);
-                    return result;
+                    return await UnitOfWork.GetRepository<Player, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
                 }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
-        }
-
-        public Task<CustomEntityList<Player>> GetAllByNameAsync(string name)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                var predicate = PredicateBuilder.New<Player>();
-                predicate = predicate.And(p => p.Name == name);
-
-                return new CustomEntityList<Player>
-                {
-                    EntityList = await UnitOfWork.GetRepository<Player, int>().GetAll(predicate, out var count).ToListAsync(),
-                    Count = count,
-                };
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
-        }
-
-        public Task<CustomEntityList<Player>> GetAllBySurnameAsync(string surname)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                var predicate = PredicateBuilder.New<Player>();
-                predicate = predicate.And(p => p.Surname == surname);
-
-                return new CustomEntityList<Player>
-                {
-                    EntityList = await UnitOfWork.GetRepository<Player, int>().GetAll(predicate, out var count).ToListAsync(),
-                    Count = count,
-                };
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
-        }
-
-        public Task<CustomEntityList<Player>> GetAllByNameAndSurnameAsync(string name, string surname)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                var predicate = PredicateBuilder.New<Player>();
-                predicate = predicate.And(p => p.Name == name);
-                predicate = predicate.And(p => p.Surname == surname);
-
-                return new CustomEntityList<Player>
-                {
-                    EntityList = await UnitOfWork.GetRepository<Player, int>().GetAll(predicate, out var count).ToListAsync(),
-                    Count = count,
-                };
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         public Task<CustomEntityList<Player>> GetAllAsync()

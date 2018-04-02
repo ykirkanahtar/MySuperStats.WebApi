@@ -43,11 +43,8 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
 
         private async Task<IList<User>> GetUsersByUserNameAsync(string userName)
         {
-            var predicate = PredicateBuilder.New<User>();
-            predicate = predicate.And(p => p.UserName == userName);
-
             return await UnitOfWork.GetRepository<User, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                .GetAll(predicate: p => p.UserName == userName).ToListAsync();
         }
 
         private async Task CreateUserUtilAsync(int userId, string salt)

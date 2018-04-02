@@ -38,7 +38,7 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
                 if (entitiesString[0] == "All")
                     entities = Enum.GetValues(typeof(Entity)).Cast<Entity>().ToList();
                 else
-                    entities.AddRange(entitiesString.Select(s => (Entity) Enum.Parse(typeof(Entity), s)));
+                    entities.AddRange(entitiesString.Select(s => (Entity)Enum.Parse(typeof(Entity), s)));
 
                 foreach (var entity in entities)
                 {
@@ -63,21 +63,14 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
 
         private async Task<IList<RoleEntityClaim>> GetRoleEntityClaimsByRoleIdAndEntityAsync(int roleId, Entity entity)
         {
-            var predicate = PredicateBuilder.New<RoleEntityClaim>();
-            predicate = predicate.And(p => p.RoleId == roleId);
-            predicate = predicate.And(p => p.Entity == entity);
-
             return await UnitOfWork.GetRepository<RoleEntityClaim, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                 .GetAll(predicate: p => p.RoleId == roleId && p.Entity == entity).Select(p => p).ToListAsync();
         }
 
         private async Task<IList<Role>> GetRolesByNameAsync(string name)
         {
-            var predicate = PredicateBuilder.New<Role>();
-            predicate = predicate.And(p => p.RoleName == name);
-
             return await UnitOfWork.GetRepository<Role, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                .GetAll(predicate: p => p.RoleName == name).Select(p => p).ToListAsync();
         }
 
     }

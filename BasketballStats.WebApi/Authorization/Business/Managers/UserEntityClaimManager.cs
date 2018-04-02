@@ -73,8 +73,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAsync(p => p.Id == id);
-                return result;
+                return await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
             BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
@@ -89,7 +88,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
 
                 PredicateBuilderForCrud(ref predicate, crud);
 
-                return (await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate, out _).Select(p => p).ToListAsync()).Count > 0;
+                return (await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate: predicate).ToListAsync()).Count > 0;
 
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
@@ -98,12 +97,9 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<UserEntityClaim>();
-                predicate = predicate.And(p => p.Entity == entity);
-
                 return new CustomEntityList<UserEntityClaim>
                 {
-                    EntityList = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate, out var count).Select(p => p).ToListAsync(),
+                    EntityList = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(out var count, predicate: p => p.Entity == entity).ToListAsync(),
                     Count = count,
                 };
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
@@ -113,12 +109,9 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<UserEntityClaim>();
-                predicate = predicate.And(p => p.UserId == userId);
-
                 return new CustomEntityList<UserEntityClaim>
                 {
-                    EntityList = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate, out var count).Select(p => p).ToListAsync(),
+                    EntityList = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(out var count, predicate: p => p.UserId == userId).Select(p => p).ToListAsync(),
                     Count = count,
                 };
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
@@ -136,7 +129,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<UserEntityClaim, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.EntityClaim);
         }

@@ -118,27 +118,17 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicateUser = PredicateBuilder.New<User>();
-                predicateUser = predicateUser.And(p => p.UserName == userName);
-
-                var user = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicateUser, out var _)
-                .Select(p => p).FirstOrDefaultAsync();
+                var user = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: p => p.UserName == userName).FirstOrDefaultAsync();
 
                 if (user == null) throw new AuthenticationException();
 
                 /** Hash password **/
-                var cauPredicate = PredicateBuilder.New<UserUtil>();
-                cauPredicate = cauPredicate.And(p => p.UserId == user.Id);
-                var clientApplicationUtil = await UnitOfWork.GetRepository<UserUtil, int>().GetAsync(cauPredicate);
+                var clientApplicationUtil = await UnitOfWork.GetRepository<UserUtil, int>().GetAll(predicate: p => p.UserId == user.Id).FirstOrDefaultAsync();
                 var hashed = HashString.Hash(password, clientApplicationUtil.SpecialValue);
                 password = hashed;
                 /*******************/
 
-                var predicate = PredicateBuilder.New<User>();
-                predicate = predicate.And(p => p.UserName == userName);
-                predicate = predicate.And(p => p.Password == password);
-
-                var result = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                var result = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: p => p.UserName == userName && p.Password == password).Select(p => p).ToListAsync();
 
                 if (result.Count == 0) throw new AuthenticationException();
                 if (result.Count > 1) throw new DuplicateNameException(DefaultResponseMessages.DuplicateRecordForUniqueValueError);
@@ -151,7 +141,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<User, int>().GetAsync(p => p.Id == id);
+                var result = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
             BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
@@ -161,10 +151,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<User>();
-                predicate = predicate.And(p => p.UserName == userName);
-
-                var result = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                var result = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: p => p.UserName == userName).ToListAsync();
 
                 BusinessUtil.UniqueGenericListChecker(result, GetType().Name);
                 return result[0];
@@ -175,10 +162,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<User>();
-                predicate = predicate.And(p => p.Email == email);
-
-                var result = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                var result = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: p => p.Email == email).ToListAsync();
 
                 BusinessUtil.UniqueGenericListChecker(result, GetType().Name);
                 return result[0];
@@ -205,7 +189,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.UserName);
         }
@@ -220,7 +204,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<User, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<User, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.Email);
         }
@@ -231,14 +215,12 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         #region UserUtil
         private async Task<UserUtil> GetUserUtilByIdAsync(int id)
         {
-            return await UnitOfWork.GetRepository<UserUtil, int>().GetAsync(p => p.Id == id);
+            return await UnitOfWork.GetRepository<UserUtil, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
         }
 
         private async Task<UserUtil> GetUserUtilByUserIdAsync(int userId)
         {
-            var predicate = PredicateBuilder.New<UserUtil>();
-            predicate = predicate.And(p => p.UserId == userId);
-            return await UnitOfWork.GetRepository<UserUtil, int>().GetAsync(predicate);
+            return await UnitOfWork.GetRepository<UserUtil, int>().GetAll(predicate: p => p.UserId == userId).FirstOrDefaultAsync();
         }
 
         private async Task UpdateUserUtilAsync(int id, string salt)

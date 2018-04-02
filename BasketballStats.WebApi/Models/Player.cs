@@ -18,6 +18,6 @@ namespace BasketballStats.WebApi.Models
         }
 
         [JsonIgnore]
-        public IList<Stat> Stats { get; set; }
+        public virtual ICollection<Stat> Stats { get; set; }
     }
 }

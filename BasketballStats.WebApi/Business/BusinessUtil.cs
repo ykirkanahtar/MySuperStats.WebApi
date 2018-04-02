@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BasketballStats.WebApi.Business
 {
@@ -13,14 +14,14 @@ namespace BasketballStats.WebApi.Business
         public static async Task GetByIntIdChecker<T, TRepository>(int id, TRepository repository) where T : BaseModel<int>, new()
                                                                                     where TRepository : IRepository<T>
         {
-            var result = await repository.GetAsync(p => p.Id == id);
+            var result = await repository.GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
             CheckRecordIsExist(result, new T().GetType().Name);
         }
 
         public static async Task GetByLongIdChecker<T, TRepository>(long id, TRepository repository) where T : BaseModel<long>, new()
             where TRepository : IRepository<T>
         {
-            var result = await repository.GetAsync(p => p.Id == id);
+            var result = await repository.GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
             CheckRecordIsExist(result, new T().GetType().Name);
         }
 

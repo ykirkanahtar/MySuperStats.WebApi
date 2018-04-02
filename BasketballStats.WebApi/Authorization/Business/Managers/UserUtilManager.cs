@@ -65,8 +65,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<UserUtil, int>().GetAsync(p => p.Id == id);
-                return result;
+                return await UnitOfWork.GetRepository<UserUtil, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
@@ -74,13 +73,8 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-
-                var predicate = PredicateBuilder.New<UserUtil>();
-                predicate = predicate.And(p => p.UserId == userId);
-
                 var result = await UnitOfWork.GetRepository<UserUtil, int>()
-                    .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _)
-                    .Select(p => p)
+                    .GetAll(predicate: p => p.UserId == userId)
                     .ToListAsync();
 
                 BusinessUtil.UniqueGenericListChecker(result, GetType().Name);

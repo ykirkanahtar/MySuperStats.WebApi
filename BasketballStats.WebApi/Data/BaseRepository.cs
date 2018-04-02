@@ -4,9 +4,11 @@ using BasketballStats.WebApi.Data.Utils;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace BasketballStats.WebApi.Data
 {
@@ -25,104 +27,59 @@ namespace BasketballStats.WebApi.Data
 
         #region IRepository members
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> GetAll(
+             Expression<Func<TEntity, bool>> predicate = null
+            , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+            , Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null
+            , SkipTake skipTake = null
+        )
         {
-            return await _dbSet.Where(PredicateBuild(predicate)).FirstOrDefaultAsync();
+            return GetAll(false, out var _, predicate, orderBy, include, skipTake);
         }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
+        public IQueryable<TEntity> GetAll(out int rowCount
+                                                        , Expression<Func<TEntity, bool>> predicate = null
+                                                        , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+                                                        , Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null
+                                                        , SkipTake skipTake = null
+                                                        )
         {
-            return await _dbSet.Where(PredicateBuild(predicate)).OrderBy(orderExpression, ascending).FirstOrDefaultAsync();
+            return GetAll(true, out rowCount, predicate, orderBy, include, skipTake);
         }
 
-        #region GetAll
-
-        public IQueryable<TEntity> GetAll()
+        private IQueryable<TEntity> GetAll(bool calculateRowCount
+                , out int rowCount
+                , Expression<Func<TEntity, bool>> predicate = null
+                , Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+                , Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null
+                , SkipTake skipTake = null
+        )
         {
-            return GetAll(skip: null, take: null, predicate: null, orderExpression: null, calculateRowCount: false, rowCount: out var _, ascending: true);
-        }
+            IQueryable<TEntity> query = _dbSet;
 
-        public IQueryable<TEntity> GetAll(out int rowCount)
-        {
-            return GetAll(skip: null, take: null, predicate: null, orderExpression: null, calculateRowCount: true, rowCount: out rowCount, ascending: true);
-        }
+            if (include != null)
+            {
+                query = include(query);
+            }
 
-        #endregion
-
-        #region GetAllWithOrderExpression
-
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
-        {
-            return GetAll(skip: null, take: null, predicate: null, orderExpression: orderExpression, calculateRowCount: false, rowCount: out var _, ascending: ascending);
-        }
-
-
-        public IQueryable<TEntity> GetAll(out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
-        {
-            return GetAll(skip: null, take: null, predicate: null, orderExpression: orderExpression, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        #endregion
-
-        #region GetAll With Predicate
-
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, out int rowCount)
-        {
-            return GetAll(skip: null, take: null, predicate: predicate, orderExpression: null, calculateRowCount: true, rowCount: out rowCount, ascending: true);
-        }
-
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
-        {
-            return GetAll(skip: null, take: null, predicate: predicate, orderExpression: orderExpression, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        #endregion
-
-        #region GetAll With Skip Take
-
-        public IQueryable<TEntity> GetAll(int skip, int take, out int rowCount, bool ascending = true)
-        {
-            return GetAll(skip: skip, take: take, predicate: null, orderExpression: null, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        public IQueryable<TEntity> GetAll(int skip, int take, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
-        {
-            return GetAll(skip: skip, take: take, predicate: null, orderExpression: orderExpression, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        #endregion
-
-        #region GetAll With Skip Take Predicate
-
-        public IQueryable<TEntity> GetAll(int skip, int take, Expression<Func<TEntity, bool>> predicate, out int rowCount, bool ascending = true)
-        {
-            return GetAll(skip: skip, take: take, predicate: predicate, orderExpression: null, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        public IQueryable<TEntity> GetAll(int skip, int take, Expression<Func<TEntity, bool>> predicate, out int rowCount, Expression<Func<TEntity, object>> orderExpression, bool ascending = true)
-        {
-            return GetAll(skip: skip, take: take, predicate: predicate, orderExpression: orderExpression, calculateRowCount: true, rowCount: out rowCount, ascending: ascending);
-        }
-
-        private IQueryable<TEntity> GetAll(int? skip, int? take, Expression<Func<TEntity, bool>> predicate,
-            Expression<Func<TEntity, object>> orderExpression, bool calculateRowCount, out int rowCount, bool ascending)
-        {
-            var query = _dbSet.Where(predicate != null ? PredicateBuild(predicate) : PredicateBuild());
+            query = query.Where(predicate != null ? PredicateBuild(predicate) : PredicateBuild());
 
             rowCount = 0;
             if (calculateRowCount) rowCount = query.Count();
 
-            query = orderExpression != null ? query.OrderBy(orderExpression, ascending) : query.OrderBy(q => q.Id, ascending);
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
 
-            if (skip != null && take != null)
-                query = query.Skip((int)skip).Take((int)take);
+            if (skipTake != null)
+                query = query.Skip(skipTake.Skip).Take(skipTake.Take);
 
             //var sql = query.ToSql();
 
             return query;
         }
 
-        #endregion
 
         public void Add(TEntity entity)
         {

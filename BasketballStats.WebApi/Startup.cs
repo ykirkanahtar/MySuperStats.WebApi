@@ -31,6 +31,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using BasketballStats.WebApi.Authorization.Data.DataInitializers;
+using BasketballStats.WebApi.AutoMapper;
 using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi
@@ -123,10 +124,19 @@ namespace BasketballStats.WebApi
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new AcceptLanguageHeaderRequestCultureProvider());
             });
-
+            
             services.AddCors();
 
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        Formatting = Formatting.Indented
+                    };
+                });
 
             services.AddAutoMapper();
 

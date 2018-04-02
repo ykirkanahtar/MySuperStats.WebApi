@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace BasketballStats.WebSite.ResponseModels
+namespace BasketballStats.Contracts.Responses
 
 {
     public class PlayerResponse
@@ -13,6 +13,6 @@ namespace BasketballStats.WebSite.ResponseModels
         public DateTime BirthDate { get; set; }
 
         [JsonIgnore]
-        public IList<StatResponse> Stats { get; set; }
+        public virtual ICollection<StatResponse> Stats { get; set; }
     }
 }

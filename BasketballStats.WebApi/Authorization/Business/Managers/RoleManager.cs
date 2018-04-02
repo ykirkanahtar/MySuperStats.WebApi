@@ -70,8 +70,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<Role, int>().GetAsync(p => p.Id == id);
-                return result;
+                return await UnitOfWork.GetRepository<Role, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
             BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
@@ -80,10 +79,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var predicate = PredicateBuilder.New<Role>();
-                predicate = predicate.And(p => p.RoleName == name);
-
-                var result = await UnitOfWork.GetRepository<Role, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                var result = await UnitOfWork.GetRepository<Role, int>().GetAll(predicate: p => p.RoleName == name).ToListAsync();
 
                 BusinessUtil.UniqueGenericListChecker(result, GetType().Name);
                 return result[0];
@@ -111,7 +107,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<Role, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<Role, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.RoleName);
         }

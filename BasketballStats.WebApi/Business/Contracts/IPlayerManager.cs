@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
+using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Business.Contracts
 {
@@ -13,10 +12,6 @@ namespace BasketballStats.WebApi.Business.Contracts
         Task<Player> UpdateAsync(int id, PlayerRequest request);
         Task DeleteAsync(int id);
         Task<Player> GetByIdAsync(int id);
-        Task<CustomEntityList<Player>> GetAllByNameAsync(string name);
-        Task<CustomEntityList<Player>> GetAllBySurnameAsync(string surname);
-        Task<CustomEntityList<Player>> GetAllByNameAndSurnameAsync(string name, string surname);
         Task<CustomEntityList<Player>> GetAllAsync();
-
     }
 }

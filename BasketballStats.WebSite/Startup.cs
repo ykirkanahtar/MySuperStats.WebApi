@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace BasketballStats.WebSite
 {
@@ -23,7 +24,19 @@ namespace BasketballStats.WebSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient(p => new WebApiConnector());
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    var settings = options.SerializerSettings;
+                    settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+                    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        Formatting = Formatting.Indented
+                    };
+                });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

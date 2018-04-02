@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using BasketballStats.Contracts.Requests;
+using BasketballStats.Contracts.Responses;
 using BasketballStats.WebApi.Authorization;
 using BasketballStats.WebApi.Authorization.Enums;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using BasketballStats.WebApi.Resources;
-using BasketballStats.WebApi.ResponseModels;
 using BasketballStats.WebApi.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Controllers
 {
@@ -68,7 +67,7 @@ namespace BasketballStats.WebApi.Controllers
             return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Team, TeamResponse>(result)));
         }
 
-        [Route("getall") ]
+        [Route("getall")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll(int skip, int take)

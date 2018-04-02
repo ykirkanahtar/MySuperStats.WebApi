@@ -21,14 +21,12 @@ namespace BasketballStats.WebApi.Models
         public int AwayTeamId { get; set; }
         public string VideoLink { get; set; }
 
-        [JsonIgnore]
-        public Team HomeTeam { get; set; }
+        public virtual Team HomeTeam { get; set; }
+
+        public virtual Team AwayTeam { get; set; }
 
         [JsonIgnore]
-        public Team AwayTeam { get; set; }
-
-        [JsonIgnore]
-        public IList<Stat> Stats { get; set; }
+        public virtual ICollection<Stat> Stats { get; set; }
 
     }
 }

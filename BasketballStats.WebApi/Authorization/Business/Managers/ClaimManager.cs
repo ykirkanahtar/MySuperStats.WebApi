@@ -93,13 +93,13 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 {
                     var result = await GetFromRepoById(id);
                     return result;
-                }, new BusinessBaseRequest() {MethodBase = MethodBase.GetCurrentMethod()},
+                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
         public async Task<Claim> GetFromRepoById(int id)
         {
-            return await UnitOfWork.GetRepository<Claim, int>().GetAsync(p => p.Id == id);
+            return await UnitOfWork.GetRepository<Claim, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
         }
 
         public Task<Claim> GetByCustomClaimAsync(CustomClaim customClaim)
@@ -114,10 +114,8 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
 
         public async Task<List<Claim>> GetAllFromRepoByCustomClaim(CustomClaim customClaim)
         {
-            var predicate = PredicateBuilder.New<Claim>();
-            predicate = predicate.And(p => p.CustomClaim == customClaim);
-
-            return await UnitOfWork.GetRepository<Claim, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+            return await UnitOfWork.GetRepository<Claim, int>().GetAll(predicate: p => p.CustomClaim == customClaim,
+                skipTake: new SkipTake(0, ApiConstants.DefaultListCount)).ToListAsync();
         }
 
         public Task<CustomEntityList<Claim>> GetAllAsync()
@@ -129,7 +127,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return new CustomEntityList<Claim>
             {
-                EntityList = await UnitOfWork.GetRepository<Claim, int>().GetAll(out var count).Select(p => p)
+                EntityList = await UnitOfWork.GetRepository<Claim, int>().GetAll(out var count)
                     .ToListAsync(),
                 Count = count,
             };
@@ -146,7 +144,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<Claim, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<Claim, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.CustomClaim);
         }

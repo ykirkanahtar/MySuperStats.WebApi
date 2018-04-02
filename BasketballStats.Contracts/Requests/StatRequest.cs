@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace BasketballStats.WebApi.ResponseModels
+﻿namespace BasketballStats.Contracts.Requests
 {
-    public class StatResponse
+    public class StatRequest
     {
-        public int Id { get; set; }
         public int MatchId { get; set; }
         public int TeamId { get; set; }
         public int PlayerId { get; set; }
@@ -18,11 +15,5 @@ namespace BasketballStats.WebApi.ResponseModels
         public decimal LooseBall { get; set; }
         public decimal Assist { get; set; }
         public decimal Interrupt { get; set; }
-
-        public MatchResponse Match { get; set; }
-
-        public TeamResponse Team { get; set; }
-
-        public PlayerResponse Player { get; set; }
     }
 }

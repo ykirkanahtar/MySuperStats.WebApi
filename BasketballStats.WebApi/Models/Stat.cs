@@ -1,5 +1,4 @@
 ﻿using BasketballStats.WebApi.Data;
-using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi.Models
 {
@@ -19,12 +18,8 @@ namespace BasketballStats.WebApi.Models
         public decimal Assist { get; set; }
         public decimal Interrupt { get; set; }
 
-        [JsonIgnore]
-        public Match Match { get; set; }
-        [JsonIgnore]
-        public Team Team { get; set; }
-        [JsonIgnore]
-        public Player Player { get; set; }
-
+        public virtual Match Match { get; set; }
+        public virtual Team Team { get; set; }
+        public virtual Player Player { get; set; }
     }
 }

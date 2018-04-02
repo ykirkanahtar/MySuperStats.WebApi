@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace BasketballStats.WebApi.ResponseModels
+namespace BasketballStats.Contracts.Responses
 {
     public class MatchResponse
     {
@@ -14,10 +14,10 @@ namespace BasketballStats.WebApi.ResponseModels
         public int AwayTeamId { get; set; }
         public string VideoLink { get; set; }
 
-        public TeamResponse HomeTeam { get; set; }
-        public TeamResponse AwayTeam { get; set; }
+        public virtual TeamResponse HomeTeam { get; set; }
+        public virtual TeamResponse AwayTeam { get; set; }
 
         [JsonIgnore]
-        public IList<StatResponse> Stats { get; set; }
+        public virtual ICollection<StatResponse> Stats { get; set; }
     }
 }

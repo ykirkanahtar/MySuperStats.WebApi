@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using BasketballStats.Contracts.Requests;
+using BasketballStats.Contracts.Responses;
 using BasketballStats.WebApi.Authorization;
 using BasketballStats.WebApi.Authorization.Enums;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using BasketballStats.WebApi.Resources;
-using BasketballStats.WebApi.ResponseModels;
 using BasketballStats.WebApi.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi.Controllers
 {
@@ -66,17 +67,6 @@ namespace BasketballStats.WebApi.Controllers
         {
             var result = await _matchManager.GetByIdAsync(id);
             return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Match, MatchResponse>(result)));
-        }
-
-        [Route("getall/startdate/{startdate}/enddate/{enddate}")]
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetAllByDate(DateTime startDateTime, DateTime endDateTime)
-        {
-            var result = await _matchManager.GetAllByDateAsync(startDateTime, endDateTime);
-
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Match>, List<MatchResponse>>(result.EntityList), result.Count));
         }
 
         [Route("getall")]

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace BasketballStats.WebSite.ResponseModels
+﻿namespace BasketballStats.Contracts.Responses
 {
     public class StatResponse
     {
@@ -19,10 +17,10 @@ namespace BasketballStats.WebSite.ResponseModels
         public decimal Assist { get; set; }
         public decimal Interrupt { get; set; }
 
-        public MatchResponse Match { get; set; }
+        public virtual MatchResponse Match { get; set; }
 
-        public TeamResponse Team { get; set; }
+        public virtual TeamResponse Team { get; set; }
 
-        public PlayerResponse Player { get; set; }
+        public virtual PlayerResponse Player { get; set; }
     }
 }

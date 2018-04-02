@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Data.Contracts;
 using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
 using BasketballStats.WebApi.Utils;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
@@ -68,8 +68,7 @@ namespace BasketballStats.WebApi.Business.Managers
         {
             return CommonOperationAsync(async () =>
                 {
-                    var result = await UnitOfWork.GetRepository<Team, int>().GetAsync(p => p.Id == id);
-                    return result;
+                    return await UnitOfWork.GetRepository<Team, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
                 }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
@@ -94,7 +93,7 @@ namespace BasketballStats.WebApi.Business.Managers
                 predicate = predicate.And(p => p.Id != id);
             }
 
-            var tempResult = await UnitOfWork.GetRepository<Team, int>().GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).ToListAsync();
+            var tempResult = await UnitOfWork.GetRepository<Team, int>().GetAll(predicate: predicate).ToListAsync();
 
             BusinessUtil.CheckUniqueValue(tempResult, ResourceConstants.Name);
         }

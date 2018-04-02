@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Contracts;
 using BasketballStats.WebApi.Helper;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.RequestModels;
+using System;
+using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Business.Contracts
 {
@@ -17,30 +17,7 @@ namespace BasketballStats.WebApi.Business.Contracts
 
         Task<Stat> GetByIdAsync(int id);
 
-        Task<Stat> GetByMatchIdTeamIdAndPlayerIdAsync(int matchId, int teamId, int playerId);
-
         Task<CustomEntityList<Stat>> GetAllByMatchIdAsync(int matchId);
-
         Task<CustomEntityList<Stat>> GetAllByPlayerIdAsync(int playerId);
-
-        Task<CustomEntityList<Stat>> GetAllByPlayerIdAndDateAsync(int playerId, DateTime startDateTime,
-            DateTime endDateTime);
-
-        Task<CustomEntityList<Team>> GetAllTeamByMatchIdAsync(int teamId);
-
-        Task<CustomEntityList<Team>> GetAllTeamByMatchIdAndPlayerIdAsync(int teamId, int playerId);
-
-        Task<CustomEntityList<Player>> GetAllPlayerByMatchIdAsync(int matchId);
-
-        Task<CustomEntityList<Player>> GetAllPlayerByMatchIdAndTeamIdAsync(int matchId, int teamId);
-
-        Task<CustomEntityList<Player>> GetAllPlayerByDateAsync(DateTime startDateTime, DateTime endDateTime);
-
-        Task<CustomEntityList<Match>> GetAllMatchByPlayerIdAsync(int playerId);
-
-        Task<CustomEntityList<Match>> GetAllMatchByPlayerIdAndDateAsync(int playerId, DateTime startDateTime,
-            DateTime endDateTime);
-
-        Task<CustomEntityList<Stat>> GetAllAsync();
     }
 }

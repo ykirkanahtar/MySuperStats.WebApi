@@ -42,11 +42,8 @@ namespace BasketballStats.WebApi.Authorization.Data.DataInitializers
 
         private async Task<IList<ClientApplication>> GetClientApplicationsByNameAsync(string name)
         {
-            var predicate = PredicateBuilder.New<ClientApplication>();
-            predicate = predicate.And(p => p.ClientApplicationName == name);
-
             return await UnitOfWork.GetRepository<ClientApplication, int>()
-                .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _).Select(p => p).ToListAsync();
+                .GetAll(predicate: p => p.ClientApplicationName == name).ToListAsync();
         }
 
         private async Task CreateClientApplicationUtilAsync(int clientApplicationId, string salt)

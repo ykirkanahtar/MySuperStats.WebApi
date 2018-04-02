@@ -1,24 +1,25 @@
-﻿using System;
+﻿using BasketballStats.WebSite.Utils;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using BasketballStats.WebSite.ResponseModels;
-using BasketballStats.WebSite.Utils;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
+using BasketballStats.Contracts.Responses;
+using BasketballStats.WebSite.Models;
 
 namespace BasketballStats.WebSite.Pages
 {
     public class PlayerDetailModel : PageModel
     {
         private readonly WebApiConnector _webApiConnector;
-        public PlayerDetail PlayerDetail;
+        public PlayerDetail PlayerDetailInfo { get; set; }
 
         public PlayerDetailModel(WebApiConnector webApiConnector)
         {
             _webApiConnector = webApiConnector;
-            PlayerDetail = new PlayerDetail();
+            PlayerDetailInfo = new PlayerDetail();
         }
 
         public async Task OnGet(int id)
@@ -29,7 +30,7 @@ namespace BasketballStats.WebSite.Pages
             if (playerResponse.StatusCode == HttpStatusCode.OK)
             {
                 var player = JsonConvert.DeserializeObject<PlayerResponse>(playerResponse.Result.ToString());
-                PlayerDetail.Player = player;
+                PlayerDetailInfo.Player = player;
 
                 var statResponse = await _webApiConnector.GetAsync(
                     $"{Constants.DefaultApiRoute}/stat/getall/playerid/{playerId}");
@@ -51,14 +52,15 @@ namespace BasketballStats.WebSite.Pages
                         Interrupt = (from p in stats select p.Interrupt).Sum()
                     };
 
-                    var matchCount = stats.Select(p => p.MatchId).Distinct().Count();
+                    var matchCount = GetMatchCount.All(stats);
+                    var twoPointMatchCount = GetMatchCount.GetByTwoPointStat(stats);
 
-                    var ratioStats = new StatResponse
+                    var perMatchStats = new StatResponse
                     {
                         OnePoint = (totalStats.OnePoint / matchCount).RoundValue(),
                         MissingOnePoint = (totalStats.MissingOnePoint / matchCount).RoundValue(),
-                        TwoPoint = (totalStats.TwoPoint / matchCount).RoundValue(),
-                        MissingTwoPoint = (totalStats.MissingTwoPoint / matchCount).RoundValue(),
+                        TwoPoint = twoPointMatchCount > 0 ? (totalStats.TwoPoint / twoPointMatchCount).RoundValue() : 0,
+                        MissingTwoPoint = twoPointMatchCount > 0 ? (totalStats.MissingTwoPoint / twoPointMatchCount).RoundValue() : 0,
                         Rebound = (totalStats.Rebound / matchCount).RoundValue(),
                         StealBall = (totalStats.StealBall / matchCount).RoundValue(),
                         Assist = (totalStats.Assist / matchCount).RoundValue(),
@@ -66,17 +68,17 @@ namespace BasketballStats.WebSite.Pages
                         Interrupt = (totalStats.Interrupt / matchCount).RoundValue(),
                     };
 
-                    PlayerDetail.OnePointRatio = ((totalStats.OnePoint + totalStats.MissingOnePoint) > 0 ?
+                    PlayerDetailInfo.OnePointRatio = ((totalStats.OnePoint + totalStats.MissingOnePoint) > 0 ?
                         (totalStats.OnePoint * 100) / (totalStats.OnePoint + totalStats.MissingOnePoint) : 0).RoundValue();
-                    PlayerDetail.TwoPointRatio = ((totalStats.TwoPoint + totalStats.MissingTwoPoint) > 0 ?
+                    PlayerDetailInfo.TwoPointRatio = ((totalStats.TwoPoint + totalStats.MissingTwoPoint) > 0 ?
                         (totalStats.TwoPoint * 100) / (totalStats.TwoPoint + totalStats.MissingTwoPoint) : 0).RoundValue();
 
-                    PlayerDetail.TotalStats = totalStats;
-                    PlayerDetail.RatioStats = ratioStats;
+                    PlayerDetailInfo.TotalStats = totalStats;
+                    PlayerDetailInfo.PerMatchStats = perMatchStats;
 
                     foreach (var stat in stats)
                     {
-                        var customStatDetail = new CustomStatDetail() { PlayerStatDetail = stat };
+                        var playerStatDetail = new PlayerStatDetail { PlayerStat = stat };
 
                         var matchStatResponse = await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/stat/getall/matchid/{stat.Match.Id}");
 
@@ -84,49 +86,20 @@ namespace BasketballStats.WebSite.Pages
                         {
                             var matchStats = JsonConvert.DeserializeObject<List<StatResponse>>(matchStatResponse.Result.ToString());
 
-                            customStatDetail.HomeTeamScore = (from p in matchStats
+                            playerStatDetail.HomeTeamScore = (from p in matchStats
                                                               where p.TeamId == stat.Match.HomeTeamId
-                                                              select p.OnePoint + p.TwoPoint).Sum();
+                                                              select p.OnePoint + p.TwoPoint * 2).Sum();
 
-                            customStatDetail.AwayTeamScore = (from p in matchStats
+                            playerStatDetail.AwayTeamScore = (from p in matchStats
                                                               where p.TeamId == stat.Match.AwayTeamId
-                                                              select p.OnePoint + p.TwoPoint).Sum();
+                                                              select p.OnePoint + p.TwoPoint * 2).Sum();
 
-                            customStatDetail.MatchStats = matchStats;
+                            playerStatDetail.MatchStats = matchStats;
                         }
-                        PlayerDetail.CustomStats.Add(customStatDetail);
+                        PlayerDetailInfo.PlayerStats.Add(playerStatDetail);
                     }
                 }
             }
         }
-    }
-
-
-    public class PlayerDetail
-    {
-        public PlayerDetail()
-        {
-            CustomStats = new List<CustomStatDetail>();
-        }
-
-        public PlayerResponse Player { get; set; }
-        public List<CustomStatDetail> CustomStats { get; set; }
-        public StatResponse TotalStats { get; set; }
-        public StatResponse RatioStats { get; set; }
-        public decimal OnePointRatio { get; set; }
-        public decimal TwoPointRatio { get; set; }
-    }
-
-    public class CustomStatDetail
-    {
-        public CustomStatDetail()
-        {
-            MatchStats = new List<StatResponse>();
-        }
-
-        public List<StatResponse> MatchStats { get; set; }
-        public decimal HomeTeamScore { get; set; }
-        public decimal AwayTeamScore { get; set; }
-        public StatResponse PlayerStatDetail { get; set; }
     }
 }

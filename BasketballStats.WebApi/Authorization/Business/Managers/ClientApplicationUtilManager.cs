@@ -42,7 +42,7 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
             {
                 var result = await GetByIdAsync(id);
                 result.SpecialValue = specialValue;
-                
+
                 UnitOfWork.GetRepository<ClientApplicationUtil, int>().Update(result);
                 await UnitOfWork.SaveChangesAsync();
                 return result;
@@ -66,8 +66,8 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await UnitOfWork.GetRepository<ClientApplicationUtil, int>().GetAsync(p => p.Id == id);
-                return result;
+                return await UnitOfWork.GetRepository<ClientApplicationUtil, int>().GetAll(p => p.Id == id)
+                    .FirstOrDefaultAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
@@ -75,12 +75,8 @@ namespace BasketballStats.WebApi.Authorization.Business.Managers
         {
             return CommonOperationAsync(async () =>
             {
-
-                var predicate = PredicateBuilder.New<ClientApplicationUtil>();
-                predicate = predicate.And(p => p.ClientApplicationId == clientApplicationId);
-
                 var result = await UnitOfWork.GetRepository<ClientApplicationUtil, int>()
-                    .GetAll(0, ApiConstants.DefaultListCount, predicate, out var _)
+                    .GetAll(predicate: p => p.ClientApplicationId == clientApplicationId)
                     .Select(p => p)
                     .ToListAsync();
 

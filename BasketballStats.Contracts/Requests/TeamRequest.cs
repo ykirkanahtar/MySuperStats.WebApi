@@ -1,4 +1,4 @@
-﻿namespace BasketballStats.WebApi.RequestModels
+﻿namespace BasketballStats.Contracts.Requests
 {
     public class TeamRequest
     {
