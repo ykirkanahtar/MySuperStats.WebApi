@@ -2,6 +2,7 @@
 using BasketballStats.WebApi.Authorization;
 using BasketballStats.WebApi.Authorization.Business.Contracts;
 using BasketballStats.WebApi.Authorization.Business.Managers;
+using BasketballStats.WebApi.Authorization.Data.DataInitializers;
 using BasketballStats.WebApi.Business;
 using BasketballStats.WebApi.Business.Contracts;
 using BasketballStats.WebApi.Business.Managers;
@@ -19,33 +20,26 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using BasketballStats.WebApi.Authorization.Data.DataInitializers;
-using BasketballStats.WebApi.AutoMapper;
-using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -122,11 +116,11 @@ namespace BasketballStats.WebApi
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new AcceptLanguageHeaderRequestCultureProvider());
             });
-            
+
             services.AddCors();
 
-            services
-                .AddMvc()
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
                     JsonConvert.DefaultSettings = () => new JsonSerializerSettings
@@ -138,7 +132,7 @@ namespace BasketballStats.WebApi
 
             services.AddAutoMapper();
 
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<ILocalizationService, LocalizationService>();
 
@@ -180,31 +174,30 @@ namespace BasketballStats.WebApi
             services.AddTransient<UserDataInitializer>();
             services.AddTransient<UserRoleDataInitializer>();
             /************Seed Data************/
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,
-            IHostingEnvironment env
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env
             , UserDataInitializer userDataInitializer
             , RoleDataInitializer roleDataInitializer
             , UserRoleDataInitializer userRoleDataInitializer
             , ClientApplicationDataInitializer clientApplicationDataInitializer
-            , RoleEntityClaimDataInitializer roleEntityClaimDataInitializer
-        )
+            , RoleEntityClaimDataInitializer roleEntityClaimDataInitializer)
         {
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(locOptions.Value);
-
-            app.UseStaticFiles();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/error");
+                app.UseHsts();
             }
+
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
+            app.UseStaticFiles();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

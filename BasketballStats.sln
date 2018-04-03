@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+VisualStudioVersion = 15.0.27520.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebApi", "BasketballStats.WebApi\BasketballStats.WebApi.csproj", "{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebApi", "BasketballStats.WebApi\BasketballStats.WebApi.csproj", "{1020D1A1-06D1-46AB-9BD1-70772FFC413C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebSite", "BasketballStats.WebSite\BasketballStats.WebSite.csproj", "{BBB6C424-B725-4982-BDF2-EA56D10CCF27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.Contracts", "BasketballStats.Contracts\BasketballStats.Contracts.csproj", "{08A6F3BF-7E2D-413B-98A9-E884D7A82156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketballStats.Contracts", "BasketballStats.Contracts\BasketballStats.Contracts.csproj", "{B1EB5F70-C25C-40EC-B66C-F1EEC74CDDF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketballStats.WebSite", "BasketballStats.WebSite\BasketballStats.WebSite.csproj", "{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A843BC07-14A8-46B4-ACE1-566CE87DA7F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBB6C424-B725-4982-BDF2-EA56D10CCF27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1EB5F70-C25C-40EC-B66C-F1EEC74CDDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1EB5F70-C25C-40EC-B66C-F1EEC74CDDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1EB5F70-C25C-40EC-B66C-F1EEC74CDDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1EB5F70-C25C-40EC-B66C-F1EEC74CDDF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1020D1A1-06D1-46AB-9BD1-70772FFC413C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1020D1A1-06D1-46AB-9BD1-70772FFC413C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1020D1A1-06D1-46AB-9BD1-70772FFC413C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1020D1A1-06D1-46AB-9BD1-70772FFC413C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08A6F3BF-7E2D-413B-98A9-E884D7A82156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08A6F3BF-7E2D-413B-98A9-E884D7A82156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08A6F3BF-7E2D-413B-98A9-E884D7A82156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08A6F3BF-7E2D-413B-98A9-E884D7A82156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B3C67021-24CF-4BEB-AA5D-21E4A9960E90}
+		SolutionGuid = {8DA8AC27-9AAA-4C6A-9536-ABB03E85E7B5}
 	EndGlobalSection
 EndGlobal
