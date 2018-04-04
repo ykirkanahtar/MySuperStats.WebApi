@@ -4,7 +4,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:58822",
-      "sslPort": 44349
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -12,8 +12,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_HTTPS_PORT": "44349"
+        //"ASPNETCORE_HTTPS_PORT": "44349",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "BasketballStats.WebSite": {

@@ -18,59 +18,64 @@
     </div>
 </div>
 
+@{
+    var teams = new List<Models.TeamDetail>();
+    teams.Add(Model.MatchDetailInfo.HomeTeam);
+    teams.Add(Model.MatchDetailInfo.AwayTeam);
+}
 
-@foreach (var team in Model.MatchDetailInfo.Teams)
+@foreach (var team in teams)
 {
-    <div class="row-fluid">
-        <div class="col-md-12">
-            <label>Takım Adı: </label>@team.TeamInfo.Name<br />
-            <label>Rengi: </label>@team.TeamInfo.Color<br />
-            <label>Yaş Ort.: </label>@team.AgeRatio<br />
-            <label>Oyuncu Sayısı: </label>@team.PlayerStats.Count
-            <div class="table-responsive">
+<div class="row-fluid">
+    <div class="col-md-12">
+        <label>Takım Adı: </label>@team.TeamInfo.Name<br />
+        <label>Rengi: </label>@team.TeamInfo.Color<br />
+        <label>Yaş Ort.: </label>@team.AgeRatio<br />
+        <label>Oyuncu Sayısı: </label>@team.PlayerStats.Count
+        <div class="table-responsive">
 
-                <table class="table table-bordered table-condensed table-hover table-striped">
-                    <thead>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Oyuncu</th>
+                        <th>1 Sayı</th>
+                        <th>2 Sayı</th>
+                        <th>Ribaunt</th>
+                        <th>Kapma</th>
+                        <th>Asist</th>
+                        <th>Kayıp</th>
+                        <th>Kesme</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var player in team.PlayerStats)
+                    {
                         <tr>
-                            <th>Oyuncu</th>
-                            <th>1 Sayı</th>
-                            <th>2 Sayı</th>
-                            <th>Ribaunt</th>
-                            <th>Kapma</th>
-                            <th>Asist</th>
-                            <th>Kayıp</th>
-                            <th>Kesme</th>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@player.Player.Name @player.Player.Surname</a></td>
+                            <td>@Decimal.Truncate(player.Stat.OnePoint) / @Decimal.Truncate((player.Stat.OnePoint + player.Stat.MissingOnePoint))</td>
+                            <td>@Decimal.Truncate(player.Stat.TwoPoint) / @Decimal.Truncate((player.Stat.TwoPoint + player.Stat.MissingTwoPoint))</td>
+                            <td>@Decimal.Truncate(player.Stat.Rebound)</td>
+                            <td>@Decimal.Truncate(player.Stat.StealBall)</td>
+                            <td>@Decimal.Truncate(player.Stat.Assist)</td>
+                            <td>@Decimal.Truncate(player.Stat.LooseBall)</td>
+                            <td>@Decimal.Truncate(player.Stat.Interrupt)</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var player in team.PlayerStats)
-                        {
-                            <tr>
-                                <td><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@player.Player.Name @player.Player.Surname</a></td>
-                                <td>@Decimal.Truncate(player.Stat.OnePoint) / @Decimal.Truncate((player.Stat.OnePoint + player.Stat.MissingOnePoint))</td>
-                                <td>@Decimal.Truncate(player.Stat.TwoPoint) / @Decimal.Truncate((player.Stat.TwoPoint + player.Stat.MissingTwoPoint))</td>
-                                <td>@Decimal.Truncate(player.Stat.Rebound)</td>
-                                <td>@Decimal.Truncate(player.Stat.StealBall)</td>
-                                <td>@Decimal.Truncate(player.Stat.Assist)</td>
-                                <td>@Decimal.Truncate(player.Stat.LooseBall)</td>
-                                <td>@Decimal.Truncate(player.Stat.Interrupt)</td>
-                            </tr>
-                        }
-                        <tr>
-                            <td><b>Toplam</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.OnePoint) / @Decimal.Truncate(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.TwoPoint) / @Decimal.Truncate(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.Rebound)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.StealBall)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.Assist)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.LooseBall)</b></td>
-                            <td><b>@Decimal.Truncate(team.TeamStats.Interrupt)</b></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    }
+                    <tr>
+                        <td><b>Toplam</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.OnePoint) / @Decimal.Truncate(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.TwoPoint) / @Decimal.Truncate(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.Rebound)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.StealBall)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.Assist)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.LooseBall)</b></td>
+                        <td><b>@Decimal.Truncate(team.TeamStats.Interrupt)</b></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
 }
 

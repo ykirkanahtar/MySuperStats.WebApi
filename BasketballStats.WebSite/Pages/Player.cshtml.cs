@@ -1,4 +1,5 @@
 ﻿using BasketballStats.Contracts.Responses;
+using BasketballStats.WebSite.Business;
 using BasketballStats.WebSite.Utils;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -11,24 +12,19 @@ namespace BasketballStats.WebSite.Pages
 {
     public class PlayerModel : PageModel
     {
-        private readonly WebApiConnector _webApiConnector;
+        private readonly IPlayer _player;
         public List<PlayerResponse> PlayerList { get; set; }
 
-        public PlayerModel(WebApiConnector webApiConnector)
+        public PlayerModel(IPlayer player)
         {
-            _webApiConnector = webApiConnector;
+            _player = player;
             PlayerList = new List<PlayerResponse>();
         }
 
         public async Task OnGet()
         {
-            var playerResponse =
-                await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/player/getall");
-            if (playerResponse.StatusCode == HttpStatusCode.OK)
-            {
-                var players = JsonConvert.DeserializeObject<List<PlayerResponse>>(playerResponse.Result.ToString());
-                PlayerList = players.OrderBy(p => p.Name).ToList();
-            }
+            var players = await _player.GetAll();
+            PlayerList = players.OrderBy(p => p.Name).ToList();
         }
     }
 }

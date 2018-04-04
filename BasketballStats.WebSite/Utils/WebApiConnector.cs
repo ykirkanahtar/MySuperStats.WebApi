@@ -8,7 +8,8 @@ using Newtonsoft.Json.Linq;
 
 namespace BasketballStats.WebSite.Utils
 {
-    public class WebApiConnector
+
+    public class WebApiConnector : IWebApiConnector
     {
         private readonly string _apiUrl = ConfigHelper.GetConfigurationValue("AppSettings:ApiUrl");
 

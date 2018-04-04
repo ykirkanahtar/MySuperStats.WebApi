@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BasketballStats.WebSite.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace BasketballStats.WebSite.Utils
 {
@@ -18,6 +20,24 @@ namespace BasketballStats.WebSite.Utils
                 age--;
 
             return age;
+        }
+
+        public static decimal GetTeamAgeRatio(int playerCount, decimal teamTotalAge)
+        {
+            return playerCount > 0
+                ? (teamTotalAge / Convert.ToDecimal(playerCount)).RoundValue()
+                : 0;
+        }
+
+        public static string GetFirstCharOfEnumValues(IList<MatchScore> matchScores)
+        {
+            var returnValue = string.Empty;
+
+            foreach (var form in matchScores)
+            {
+                returnValue += $"{form.ToString().Substring(0, 1)}-";
+            }
+            return returnValue.Remove(returnValue.Length - 1);
         }
     }
 }

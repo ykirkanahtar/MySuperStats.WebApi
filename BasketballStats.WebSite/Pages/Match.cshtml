@@ -32,14 +32,14 @@
                     @foreach (var match in Model.Matches)
                     {
                         <tr>
-                            <td>@match.Match.MatchDate.ToString("dd-MM-yyyy")</td>
-                            <td>@match.Match.Order</td>
-                            <td>@match.Match.DurationInMinutes</td>
-                            <td>@match.Match.HomeTeam.Name</td>
-                            <td>@match.Match.AwayTeam.Name</td>
+                            <td>@match.MatchInfo.MatchDate.ToString("dd-MM-yyyy")</td>
+                            <td>@match.MatchInfo.Order</td>
+                            <td>@match.MatchInfo.DurationInMinutes</td>
+                            <td>@match.MatchInfo.HomeTeam.Name</td>
+                            <td>@match.MatchInfo.AwayTeam.Name</td>
                             <td>@match.HomeTeamScore - @match.AwayTeamScore</td>
-                            <td><a href="@match.Match.VideoLink" target="_blank">@match.Match.VideoLink</a></td>
-                            <td><a asp-page="MatchDetail" asp-route-id="@match.Match.Id">Tıklayınız</a></td>
+                            <td><a href="@match.MatchInfo.VideoLink" target="_blank">@match.MatchInfo.VideoLink</a></td>
+                            <td><a asp-page="MatchDetail" asp-route-id="@match.MatchInfo.Id">Tıklayınız</a></td>
                         </tr>
                     }
                 </tbody>

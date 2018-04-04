@@ -197,8 +197,6 @@ namespace BasketballStats.WebApi
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
 
-            app.UseStaticFiles();
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -221,9 +219,11 @@ namespace BasketballStats.WebApi
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-            app.UseMvc();
-
             app.UseSwaggerDocumentation();
+
+            app.UseStaticFiles();
+
+            app.UseMvc();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace BasketballStats.WebSite.Models
     {
         public TeamDetail()
         {
-            PlayerStats = new List<PlayerStat>();
+            PlayerStats = new List<PlayerMatchStat>();
         }
 
         public TeamResponse TeamInfo { get; set; }
         public decimal AgeRatio { get; set; }
-        public List<PlayerStat> PlayerStats { get; set; }
+        public List<PlayerMatchStat> PlayerStats { get; set; }
         public StatResponse TeamStats { get; set; }
     }
 }

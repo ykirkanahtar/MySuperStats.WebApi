@@ -19,5 +19,6 @@ namespace BasketballStats.WebApi.Business.Contracts
 
         Task<CustomEntityList<Stat>> GetAllByMatchIdAsync(int matchId);
         Task<CustomEntityList<Stat>> GetAllByPlayerIdAsync(int playerId);
+        Task<CustomEntityList<Stat>> GetAllAsync();
     }
 }

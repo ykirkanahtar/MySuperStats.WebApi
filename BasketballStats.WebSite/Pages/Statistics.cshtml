@@ -32,7 +32,7 @@
             <label>Sayı Krallığı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioTotalPoints)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchTotalPoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -92,7 +92,7 @@
             <label>1 Sayı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioOnePoints)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchOnePoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -112,7 +112,7 @@
             <label>2 Sayı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioTwoPoints)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchTwoPoints)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -192,7 +192,7 @@
             <label>Rebound (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioRebounds)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchRebounds)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -232,7 +232,7 @@
             <label>Top Çalma (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioStealBalls)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchStealBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -272,7 +272,7 @@
             <label>Top Kaybı (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioLooseBalls)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchLooseBalls)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -312,7 +312,7 @@
             <label>Asist (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioAsists)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchAsists)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -352,7 +352,7 @@
             <label>Top Kesme (Maç Başına)</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioInterrupts)
+                    @foreach (var stat in Model.StatisticInfo.PerMatchInterrupts)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -372,7 +372,7 @@
             <label>Kazanma</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.TotalWins)
+                    @foreach (var stat in Model.StatisticInfo.TotalWin)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>
@@ -414,7 +414,7 @@
             <label>Kazanma %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
-                    @foreach (var stat in Model.StatisticInfo.RatioWins)
+                    @foreach (var stat in Model.StatisticInfo.RatioWin)
                     {
                         <tr>
                             <td><a asp-page="PlayerDetail" asp-route-id="@stat.PlayerId">@stat.Name</a></td>

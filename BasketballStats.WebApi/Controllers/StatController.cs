@@ -88,5 +88,16 @@ namespace BasketballStats.WebApi.Controllers
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
                 _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
         }
+
+        [Route("getall")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _statManager.GetAllAsync();
+
+            return Ok(new ApiResponse(_localizationService, _logger).Ok(
+                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
+        }
     }
 }

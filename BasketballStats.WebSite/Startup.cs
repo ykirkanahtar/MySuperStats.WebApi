@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BasketballStats.WebSite.Business;
 using BasketballStats.WebSite.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,12 @@ namespace BasketballStats.WebSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient(p => new WebApiConnector());
+            services.AddTransient<IWebApiConnector, WebApiConnector>();
+            services.AddTransient<IMatch, Match>();
+            services.AddTransient<IPlayer, Player>();
+            services.AddTransient<IStat, Stat>();
+            services.AddTransient<ITeam, Team>();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {

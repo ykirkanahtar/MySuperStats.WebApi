@@ -1,54 +1,43 @@
-﻿using BasketballStats.WebSite.Models;
-using BasketballStats.WebSite.Utils;
+﻿using BasketballStats.WebSite.Business;
+using BasketballStats.WebSite.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using BasketballStats.Contracts.Responses;
 
 namespace BasketballStats.WebSite.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly WebApiConnector _webApiConnector;
-        public List<CustomMatchModel> Matches { get; set; }
+        private readonly IMatch _match;
+        private readonly IStat _stat;
+        public List<MatchDetail> Matches { get; set; }
 
-        public IndexModel(WebApiConnector webApiConnector)
+        public IndexModel(IMatch match, IStat stat)
         {
-            _webApiConnector = webApiConnector;
-            Matches = new List<CustomMatchModel>();
+            _match = match;
+            _stat = stat;
+            Matches = new List<MatchDetail>();
         }
 
         public async Task OnGet()
         {
-            var response = await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/match/getall");
-            if (response.StatusCode == HttpStatusCode.OK)
+            var matches = await _match.GetAll();
+
+            foreach (var match in matches)
             {
-                var matches = JsonConvert.DeserializeObject<List<MatchResponse>>(response.Result.ToString());
+                var matchDetail = new MatchDetail();
+                var matchStats = await _stat.GetStatsByMatchId(match.Id);
 
-                foreach (var match in matches)
-                {
-                    var customMatchModel = new CustomMatchModel();
-                    var matchStatResponse = await _webApiConnector.GetAsync($"{Constants.DefaultApiRoute}/stat/getall/matchid/{match.Id}");
-                    if (matchStatResponse.StatusCode == HttpStatusCode.OK)
-                    {
-                        var matchStats = JsonConvert.DeserializeObject<List<StatResponse>>(matchStatResponse.Result.ToString());
-                        customMatchModel.Match = matchStats.Select(p => p.Match).Distinct().FirstOrDefault();
+                matchDetail.MatchInfo = matchStats.Select(p => p.Match).Distinct().FirstOrDefault();
 
-                        customMatchModel.HomeTeamScore = (from p in matchStats
-                            where p.TeamId == customMatchModel.Match.HomeTeamId
-                            select p.OnePoint + (p.TwoPoint * 2)).Sum();
-                        customMatchModel.AwayTeamScore = (from p in matchStats
-                            where p.TeamId == customMatchModel.Match.AwayTeamId
-                            select p.OnePoint + (p.TwoPoint * 2)).Sum();
-                    }
-                    Matches.Add(customMatchModel);
-                }
-                var sortedMatches = Matches.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
-                Matches = sortedMatches;
+                matchDetail.HomeTeamScore = _stat.GetScoreByStatsAndTeamId(matchStats, matchDetail.MatchInfo.HomeTeamId);
+                matchDetail.AwayTeamScore = _stat.GetScoreByStatsAndTeamId(matchStats, matchDetail.MatchInfo.AwayTeamId);
+
+                Matches.Add(matchDetail);
             }
+            var sortedMatches = Matches.OrderBy(p => p.MatchInfo.MatchDate).ThenBy(p => p.MatchInfo.Order).ToList();
+            Matches = sortedMatches;
         }
 
     }

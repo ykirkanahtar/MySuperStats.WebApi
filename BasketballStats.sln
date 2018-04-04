@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebApi", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.Contracts", "BasketballStats.Contracts\BasketballStats.Contracts.csproj", "{08A6F3BF-7E2D-413B-98A9-E884D7A82156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketballStats.WebSite", "BasketballStats.WebSite\BasketballStats.WebSite.csproj", "{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasketballStats.WebSite", "BasketballStats.WebSite\BasketballStats.WebSite.csproj", "{C1C170F9-47C4-4D8F-AC13-1B2A946C4317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 
 namespace BasketballStats.WebSite.Models
 {
-    public class PlayerStat
+    public class PlayerMatchStat
     {
         public PlayerResponse Player { get; set; }
         public StatResponse Stat { get; set; }

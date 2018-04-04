@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BasketballStats.Contracts.Responses;
+using BasketballStats.WebSite.Enums;
+using BasketballStats.WebSite.Utils;
 
 namespace BasketballStats.WebSite.Models
 {
@@ -7,21 +11,19 @@ namespace BasketballStats.WebSite.Models
     {
         public StatisticDetail()
         {
-            MatchStatus = new List<string>();
+            MatchForms = new List<MatchScore>();
         }
 
         public PlayerResponse Player { get; set; }
         public StatResponse TotalStatDetail { get; set; }
-        public StatResponse RatioStatDetail { get; set; }
+        public StatResponse PerMatchStatDetail { get; set; }
         public decimal TotalPoint { get; set; }
-        public decimal RatioTotalPoint { get; set; }
+        public decimal PerMatchTotalPoint { get; set; }
         public decimal OnePointRatio { get; set; }
         public decimal TwoPointRatio { get; set; }
         public int MatchCount { get; set; }
         public int TwoPointMatchCount { get; set; }
-
-        public List<string> MatchStatus { get; set; } //W:Win L:Loose D:Draw
-
+        public IList<MatchScore> MatchForms { get; set; }
         public decimal WinRatio { get; set; }
         public decimal LooseRatio { get; set; }
     }

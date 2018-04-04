@@ -101,7 +101,19 @@ namespace BasketballStats.WebApi.Business.Managers
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-
+        public Task<CustomEntityList<Stat>> GetAllAsync()
+        {
+            return CommonOperationAsync(async () =>
+            {
+                return new CustomEntityList<Stat>
+                {
+                    EntityList = await UnitOfWork.GetRepository<Stat, int>().GetAll(out var count,  include: source => source.Include(p => p.Match).Include(p => p.Team).Include(p => p.Player)).ToListAsync(),
+                    Count = count,
+                };
+            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
+                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+        }
+        
         #region Validations
         private async Task UniqueCheckForMatchIdAndTeamIdAndPlayerIdAsync(Stat entity, int? id = null)
         {
