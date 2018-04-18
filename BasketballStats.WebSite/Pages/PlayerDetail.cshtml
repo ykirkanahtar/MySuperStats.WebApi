@@ -35,13 +35,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint) / @Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint + Model.PlayerDetailInfo.TotalStats.MissingOnePoint)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint) / @Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint + Model.PlayerDetailInfo.TotalStats.MissingTwoPoint)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Rebound)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.StealBall)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Assist)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.LooseBall)</td>
-                            <td>@Decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Interrupt)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint) / @decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint + Model.PlayerDetailInfo.TotalStats.MissingOnePoint)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint) / @decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint + Model.PlayerDetailInfo.TotalStats.MissingTwoPoint)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Rebound)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.StealBall)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Assist)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.LooseBall)</td>
+                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Interrupt)</td>
                         </tr>
 
                     </tbody>
@@ -121,7 +121,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@BasketballStats.WebSite.Utils.ConvertFunctions.GetFirstCharOfEnumValues(Model.PlayerDetailInfo.MatchForms)</td>
+                            <td>@Utils.ConvertFunctions.GetFirstCharOfEnumValues(Model.PlayerDetailInfo.MatchForms)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -183,14 +183,14 @@
                                 <td><a asp-page="MatchDetail" asp-route-id="@customStat.PlayerStat.Match.Id">@customStat.PlayerStat.Match.MatchDate.ToString("dd-MM-yyyy")</a></td>
                                 <td>@customStat.PlayerStat.Match.Order</td>
                                 <td>@customStat.PlayerStat.Team.Name</td>
-                                <td>@Decimal.Truncate(customStat.HomeTeamScore) - @Decimal.Truncate(customStat.AwayTeamScore)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.OnePoint) / @Decimal.Truncate(customStat.PlayerStat.OnePoint + customStat.PlayerStat.MissingOnePoint)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.TwoPoint) / @Decimal.Truncate(customStat.PlayerStat.TwoPoint + customStat.PlayerStat.MissingTwoPoint)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.Rebound)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.StealBall)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.Assist)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.LooseBall)</td>
-                                <td>@Decimal.Truncate(customStat.PlayerStat.Interrupt)</td>
+                                <td>@decimal.Truncate(customStat.HomeTeamScore) - @decimal.Truncate(customStat.AwayTeamScore)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.OnePoint) / @decimal.Truncate(customStat.PlayerStat.OnePoint + customStat.PlayerStat.MissingOnePoint)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.TwoPoint) / @decimal.Truncate(customStat.PlayerStat.TwoPoint + customStat.PlayerStat.MissingTwoPoint)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.Rebound)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.StealBall)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.Assist)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.LooseBall)</td>
+                                <td>@decimal.Truncate(customStat.PlayerStat.Interrupt)</td>
                             </tr>
                         }
                     </tbody>

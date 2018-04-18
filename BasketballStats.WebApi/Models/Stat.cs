@@ -1,4 +1,4 @@
-﻿using BasketballStats.WebApi.Data;
+﻿using CustomFramework.Data;
 
 namespace BasketballStats.WebApi.Models
 {

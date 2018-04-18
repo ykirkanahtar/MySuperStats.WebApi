@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BasketballStats.WebApi.Data;
+using CustomFramework.Data;
 using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi.Models

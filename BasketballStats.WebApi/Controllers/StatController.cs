@@ -1,18 +1,19 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.Contracts.Responses;
-using BasketballStats.WebApi.Authorization;
-using BasketballStats.WebApi.Authorization.Enums;
-using BasketballStats.WebApi.Business.Contracts;
+using BasketballStats.WebApi.ApplicationSettings;
+using BasketballStats.WebApi.Business;
+using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Models;
-using BasketballStats.WebApi.Resources;
-using BasketballStats.WebApi.Utils;
+using CustomFramework.Authorization.Attributes;
+using CustomFramework.Authorization.Enums;
+using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Controllers
 {
@@ -34,7 +35,7 @@ namespace BasketballStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(Entity.Stat, Crud.Create)]
+        [Permission(nameof(WebApiEntities.Stat), Crud.Create)]
         public async Task<IActionResult> Create([FromBody] StatRequest request)
         {
             var result = await _statManager.CreateAsync(request);
@@ -43,7 +44,7 @@ namespace BasketballStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(Entity.Stat, Crud.Update)]
+        [Permission(nameof(WebApiEntities.Stat), Crud.Update)]
         public async Task<IActionResult> UpdateName(int id, [FromBody] StatRequest request)
         {
             var result = await _statManager.UpdateAsync(id, request);
@@ -52,7 +53,7 @@ namespace BasketballStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(Entity.Stat, Crud.Delete)]
+        [Permission(nameof(WebApiEntities.Stat), Crud.Delete)]
         public async Task<IActionResult> Delete(int id)
         {
             await _statManager.DeleteAsync(id);
@@ -75,7 +76,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllByMatchIdAsync(matchId);
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
         }
 
         [Route("getall/playerid/{playerid:int}")]
@@ -86,7 +87,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllByPlayerIdAsync(playerId);
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
         }
 
         [Route("getall")]
@@ -97,7 +98,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllAsync();
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<List<Stat>, List<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
         }
     }
 }

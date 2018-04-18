@@ -1,7 +1,7 @@
 ﻿using BasketballStats.Contracts.Requests;
 using BasketballStats.Contracts.Responses;
-using BasketballStats.WebApi.Authorization.AutoMapper;
 using BasketballStats.WebApi.Models;
+using CustomFramework.WebApiUtils.Authorization.AutoMapper;
 
 namespace BasketballStats.WebApi.AutoMapper
 {
