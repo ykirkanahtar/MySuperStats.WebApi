@@ -76,7 +76,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllByMatchIdAsync(matchId);
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
         }
 
         [Route("getall/playerid/{playerid:int}")]
@@ -87,7 +87,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllByPlayerIdAsync(playerId);
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
         }
 
         [Route("getall")]
@@ -98,7 +98,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _statManager.GetAllAsync();
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IList<Stat>, IList<StatResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
         }
     }
 }

@@ -1,25 +1,39 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using AutoMapper;
+using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.ApplicationSettings;
 using BasketballStats.WebApi.Business;
 using BasketballStats.WebApi.Data;
+using BasketballStats.WebApi.Data.Repositories;
 using BasketballStats.WebApi.Data.Seeding;
+using BasketballStats.WebApi.Resources;
+using BasketballStats.WebApi.Validators;
 using CustomFramework.Authorization;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Extensions;
 using CustomFramework.Data.Extensions;
+using CustomFramework.WebApiUtils.Authorization.Data;
 using CustomFramework.WebApiUtils.Authorization.Data.Seeding;
 using CustomFramework.WebApiUtils.Authorization.Extensions;
+using CustomFramework.WebApiUtils.Authorization.Filters;
 using CustomFramework.WebApiUtils.Extensions;
 using CustomFramework.WebApiUtils.Middlewares;
+using CustomFramework.WebApiUtils.Resources;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace BasketballStats.WebApi
 {
@@ -86,12 +100,59 @@ namespace BasketballStats.WebApi
             services.AddAutoMapper();
             services.AddAuthorizationModels();
 
+            services.AddTransient<ILocalizationService, LocalizationService>();
+
+            var cultureInfos = new List<CultureInfo>
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("tr-TR"),
+            };
+
+            services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                options.SupportedCultures = cultureInfos;
+                options.SupportedUICultures = cultureInfos;
+                options.RequestCultureProviders.Insert(0, new AcceptLanguageHeaderRequestCultureProvider());
+            });
+
+            services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
+            services.AddScoped<DbContext, ApplicationContext>();
+            services.AddScoped<AuthorizationContext, ApplicationContext>();
+
+            /*********Repositories*********/
+            services.AddTransient<IMatchRepository, MatchRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IStatRepository, StatRepository>();
+            /*********Repositories*********/
+
+            /*********Validators*********/
+            services.AddTransient<IValidator<MatchRequest>, MatchValidator>();
+            services.AddTransient<IValidator<TeamRequest>, TeamValidator>();
+            services.AddTransient<IValidator<PlayerRequest>, PlayerValidator>();
+            services.AddTransient<IValidator<StatRequest>, StatValidator>();
+            /*********Validators*********/
+
             /*********Managers*********/
             services.AddTransient<IMatchManager, MatchManager>();
             services.AddTransient<IPlayerManager, PlayerManager>();
             services.AddTransient<IStatManager, StatManager>();
             services.AddTransient<ITeamManager, TeamManager>();
             /*********Managers*********/
+
+            services.AddMvc(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelAttribute));
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                })
+                .AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,11 +1,10 @@
-﻿using BasketballStats.Contracts.Responses;
-using BasketballStats.WebSite.Utils;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BasketballStats.Contracts.Responses;
+using BasketballStats.WebSite.Utils;
+using Newtonsoft.Json;
 
 namespace BasketballStats.WebSite.Business
 {
@@ -28,8 +27,8 @@ namespace BasketballStats.WebSite.Business
                     JsonConvert.DeserializeObject<List<MatchResponse>>(response.Result.ToString());
 
             }
-            else
-                throw new Exception(response.Message);
+
+            throw new Exception(response.Message);
         }
     }
 }

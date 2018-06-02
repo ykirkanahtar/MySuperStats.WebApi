@@ -3,26 +3,27 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Constants;
+using BasketballStats.WebApi.Data;
 using BasketballStats.WebApi.Models;
-using CustomFramework.Data;
+using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Business;
 using CustomFramework.WebApiUtils.Authorization.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Utils;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Utils;
-using LinqKit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BasketballStats.WebApi.Business
 {
-    public class MatchManager : BaseBusinessManagerWithApiRequest<MatchManager, ApiRequest>, IMatchManager
+    public class MatchManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IMatchManager
     {
-        public MatchManager(IUnitOfWork unitOfWork, ILogger<MatchManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
-            : base(unitOfWork, logger, mapper, apiRequestAccessor)
-        {
+        private readonly IUnitOfWorkWebApi _uow;
 
+        public MatchManager(IUnitOfWorkWebApi uow, ILogger<MatchManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+            : base(logger, mapper, apiRequestAccessor)
+        {
+            _uow = uow;
         }
 
         public Task<Match> CreateAsync(MatchRequest request)
@@ -31,11 +32,19 @@ namespace BasketballStats.WebApi.Business
             {
                 var result = Mapper.Map<Match>(request);
 
-                await UniqueCheckForMatchDateAndOrderAsync(result);
+                /**************MatchDate And Order are unique*****************/
+                /*************************************************************/
+                var matchDateAndOrderUniqueResult =
+                    await _uow.Matches.GetByMatchDateAndOrderAsync(result.MatchDate, result.Order);
+
+                matchDateAndOrderUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchDateAndOrder);
+                /**************MatchDate And Order are unique*****************/
+                /*************************************************************/
+
                 SameValueCheckForTeam1AndTeam2(result);
 
-                UnitOfWork.GetRepository<Match, int>().Add(result);
-                await UnitOfWork.SaveChangesAsync();
+                _uow.Matches.Add(result);
+                await _uow.SaveChangesAsync();
 
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -48,11 +57,19 @@ namespace BasketballStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                await UniqueCheckForMatchDateAndOrderAsync(result, id);
+                /**************MatchDate And Order are unique*****************/
+                /*************************************************************/
+                var matchDateAndOrderUniqueResult =
+                    await _uow.Matches.GetByMatchDateAndOrderAsync(result.MatchDate, result.Order);
+
+                matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchDateAndOrder);
+                /**************MatchDate And Order are unique*****************/
+                /*************************************************************/
+
                 SameValueCheckForTeam1AndTeam2(result);
 
-                UnitOfWork.GetRepository<Match, int>().Update(result);
-                await UnitOfWork.SaveChangesAsync();
+                _uow.Matches.Update(result);
+                await _uow.SaveChangesAsync();
 
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -64,55 +81,27 @@ namespace BasketballStats.WebApi.Business
             {
                 var result = await GetByIdAsync(id);
 
-                UnitOfWork.GetRepository<Match, int>().Delete(result);
-
-                await UnitOfWork.SaveChangesAsync();
+                _uow.Matches.Delete(result);
+                await _uow.SaveChangesAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
         public Task<Match> GetByIdAsync(int id)
         {
-            return CommonOperationAsync(async () =>
-                {
-                    return await UnitOfWork.GetRepository<Match, int>().GetAll(predicate: p => p.Id == id, include: source => source.Include(p => p.Stats).Include(p => p.HomeTeam).Include(p => p.AwayTeam)).FirstOrDefaultAsync();
-                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
+            return CommonOperationAsync(async () => await _uow.Matches.GetByIdAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<CustomEntityList<Match>> GetAllAsync()
+        public Task<ICustomList<Match>> GetAllAsync()
         {
-            return CommonOperationAsync(async () => new CustomEntityList<Match>
-            {
-                EntityList = await UnitOfWork.GetRepository<Match, int>().GetAll(out var count, include: source => source.Include(p => p.HomeTeam).Include(p => p.AwayTeam)).ToListAsync(),
-                Count = count,
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Matches.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-
-        #region Validations
-        private async Task UniqueCheckForMatchDateAndOrderAsync(Match entity, int? id = null)
-        {
-            var predicate = PredicateBuilder.New<Match>();
-            predicate = predicate.And(p => p.MatchDate == entity.MatchDate.Date);
-            predicate = predicate.And(p => p.Order == entity.Order);
-
-            if (id != null)
-            {
-                predicate = predicate.And(p => p.Id != id);
-            }
-
-            var tempResult = await UnitOfWork.GetRepository<Match, int>().GetAll(predicate: predicate).ToListAsync();
-
-            BusinessUtil.CheckUniqueValue(tempResult, WebApiResourceConstants.MatchDateAndOrder);
-        }
-
-        private void SameValueCheckForTeam1AndTeam2(Match entity)
+        private static void SameValueCheckForTeam1AndTeam2(Match entity)
         {
             if (entity.HomeTeamId == entity.AwayTeamId)
-                BusinessUtil.CheckDuplicatationForUniqueValue(entity, WebApiResourceConstants.Team1AndTeam2);
+                entity.CheckDuplicatationForUniqueValue(WebApiResourceConstants.Team1AndTeam2);
         }
-
-        #endregion
 
     }
 }

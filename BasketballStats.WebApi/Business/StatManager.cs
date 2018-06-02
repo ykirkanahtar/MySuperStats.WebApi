@@ -3,24 +3,26 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Constants;
+using BasketballStats.WebApi.Data;
 using BasketballStats.WebApi.Models;
-using CustomFramework.Data;
+using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Business;
 using CustomFramework.WebApiUtils.Authorization.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Utils;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Utils;
-using LinqKit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BasketballStats.WebApi.Business
 {
-    public class StatManager : BaseBusinessManagerWithApiRequest<StatManager, ApiRequest>, IStatManager
+    public class StatManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IStatManager
     {
-        public StatManager(IUnitOfWork unitOfWork, ILogger<StatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor) : base(unitOfWork, logger, mapper, apiRequestAccessor)
+        private readonly IUnitOfWorkWebApi _uow;
+        public StatManager(IUnitOfWorkWebApi uow, ILogger<StatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+            : base(logger, mapper, apiRequestAccessor)
         {
+            _uow = uow;
         }
 
         public Task<Stat> CreateAsync(StatRequest request)
@@ -29,10 +31,17 @@ namespace BasketballStats.WebApi.Business
             {
                 var result = Mapper.Map<Stat>(request);
 
-                await UniqueCheckForMatchIdAndTeamIdAndPlayerIdAsync(result);
+                /**********MatchId, TeamId And PlayerId are unique************/
+                /*************************************************************/
+                var matchPlayerAndTeamUniqueResult =
+                    await _uow.Stats.GetByMatchIdTeamIdAndPlayerId(result.MatchId, result.TeamId, result.PlayerId);
 
-                UnitOfWork.GetRepository<Stat, int>().Add(result);
-                await UnitOfWork.SaveChangesAsync();
+                matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                /**********MatchId, TeamId And PlayerId are unique************/
+                /*************************************************************/
+
+                _uow.Stats.Add(result);
+                await _uow.SaveChangesAsync();
 
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -45,10 +54,17 @@ namespace BasketballStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                await UniqueCheckForMatchIdAndTeamIdAndPlayerIdAsync(result, id);
+                /**********MatchId, TeamId And PlayerId are unique************/
+                /*************************************************************/
+                var matchPlayerAndTeamUniqueResult =
+                    await _uow.Stats.GetByMatchIdTeamIdAndPlayerId(result.MatchId, result.TeamId, result.PlayerId);
 
-                UnitOfWork.GetRepository<Stat, int>().Update(result);
-                await UnitOfWork.SaveChangesAsync();
+                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                /**********MatchId, TeamId And PlayerId are unique************/
+                /*************************************************************/
+
+                _uow.Stats.Update(result);
+                await _uow.SaveChangesAsync();
 
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -60,79 +76,33 @@ namespace BasketballStats.WebApi.Business
             {
                 var result = await GetByIdAsync(id);
 
-                UnitOfWork.GetRepository<Stat, int>().Delete(result);
-
-                await UnitOfWork.SaveChangesAsync();
+                _uow.Stats.Delete(result);
+                await _uow.SaveChangesAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
         public Task<Stat> GetByIdAsync(int id)
         {
-            return CommonOperationAsync(async () =>
-                {
-                    return await UnitOfWork.GetRepository<Stat, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
-                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
+            return CommonOperationAsync(async () => await _uow.Stats.GetByIdAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<CustomEntityList<Stat>> GetAllByMatchIdAsync(int matchId)
+        public Task<ICustomList<Stat>> GetAllByMatchIdAsync(int matchId)
         {
-            return CommonOperationAsync(async () =>
-                {
-                    return new CustomEntityList<Stat>
-                    {
-                        EntityList = await UnitOfWork.GetRepository<Stat, int>().GetAll(out var count, predicate: p => p.MatchId == matchId, include: source => source.Include(p => p.Match).Include(p => p.Team).Include(p => p.Player)).ToListAsync(),
-                        Count = count,
-                    };
-                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
-                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Stats.GetAllByMatchIdAsync(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<CustomEntityList<Stat>> GetAllByPlayerIdAsync(int playerId)
+        public Task<ICustomList<Stat>> GetAllByPlayerIdAsync(int playerId)
         {
-            return CommonOperationAsync(async () =>
-                {
-                    return new CustomEntityList<Stat>
-                    {
-                        EntityList = await UnitOfWork.GetRepository<Stat, int>().GetAll(out var count, predicate: p => p.PlayerId == playerId, include: source => source.Include(p => p.Match).Include(p => p.Team).Include(p => p.Player)).ToListAsync(),
-                        Count = count,
-                    };
-                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
-                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Stats.GetAllByPlayerIdAsync(playerId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+
         }
 
-        public Task<CustomEntityList<Stat>> GetAllAsync()
+        public Task<ICustomList<Stat>> GetAllAsync()
         {
-            return CommonOperationAsync(async () =>
-            {
-                return new CustomEntityList<Stat>
-                {
-                    EntityList = await UnitOfWork.GetRepository<Stat, int>().GetAll(out var count, include: source => source.Include(p => p.Match).Include(p => p.Team).Include(p => p.Player)).ToListAsync(),
-                    Count = count,
-                };
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
-                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Stats.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+
         }
-
-        #region Validations
-        private async Task UniqueCheckForMatchIdAndTeamIdAndPlayerIdAsync(Stat entity, int? id = null)
-        {
-            var predicate = PredicateBuilder.New<Stat>();
-            predicate = predicate.And(p => p.MatchId == entity.MatchId);
-            predicate = predicate.And(p => p.TeamId == entity.TeamId);
-            predicate = predicate.And(p => p.PlayerId == entity.PlayerId);
-
-            if (id != null)
-            {
-                predicate = predicate.And(p => p.Id != id);
-            }
-
-            var tempResult = await UnitOfWork.GetRepository<Stat, int>().GetAll(predicate: predicate).ToListAsync();
-
-            BusinessUtil.CheckUniqueValue(tempResult, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
-        }
-
-        #endregion
 
     }
 }

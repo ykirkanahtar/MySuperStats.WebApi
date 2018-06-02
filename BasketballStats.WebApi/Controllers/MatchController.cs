@@ -77,7 +77,7 @@ namespace BasketballStats.WebApi.Controllers
             var result = await _matchManager.GetAllAsync();
 
             return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IList<Match>, IList<MatchResponse>>(result.EntityList), result.Count));
+                _mapper.Map<IEnumerable<Match>, IEnumerable<MatchResponse>>(result.ResultList), result.Count));
         }
     }
 }

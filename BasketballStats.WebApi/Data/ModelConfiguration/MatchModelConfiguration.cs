@@ -11,9 +11,6 @@ namespace BasketballStats.WebApi.Data.ModelConfiguration
         {
             base.Configure(builder);
 
-            builder.Property(p => p.Id)
-                .IsRequired();
-
             builder.Property(p => p.MatchDate)
                 .IsRequired();
 

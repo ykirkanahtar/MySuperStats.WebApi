@@ -28,8 +28,8 @@ namespace BasketballStats.WebSite.Business
                     JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
 
             }
-            else
-                throw new Exception(response.Message);
+
+            throw new Exception(response.Message);
         }
 
         public async Task<List<PlayerResponse>> GetAll()
@@ -43,8 +43,8 @@ namespace BasketballStats.WebSite.Business
                     JsonConvert.DeserializeObject<List<PlayerResponse>>(response.Result.ToString());
 
             }
-            else
-                throw new Exception(response.Message);
+
+            throw new Exception(response.Message);
         }
 
         public List<PlayerResponse> GetPlayersByTeamIdAndStats(int teamId, List<StatResponse> stats)

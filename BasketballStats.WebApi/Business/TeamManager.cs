@@ -3,26 +3,27 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Constants;
+using BasketballStats.WebApi.Data;
 using BasketballStats.WebApi.Models;
-using CustomFramework.Data;
+using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Business;
-using CustomFramework.WebApiUtils.Authorization.Constants;
 using CustomFramework.WebApiUtils.Authorization.Contracts;
 using CustomFramework.WebApiUtils.Authorization.Utils;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Utils;
-using LinqKit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BasketballStats.WebApi.Business
 {
-    public class TeamManager : BaseBusinessManagerWithApiRequest<TeamManager, ApiRequest>, ITeamManager
+    public class TeamManager : BaseBusinessManagerWithApiRequest<ApiRequest>, ITeamManager
     {
-        public TeamManager(IUnitOfWork unitOfWork, ILogger<TeamManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
-            : base(unitOfWork, logger, mapper, apiRequestAccessor)
+        private readonly IUnitOfWorkWebApi _uow;
+
+        public TeamManager(IUnitOfWorkWebApi uow, ILogger<TeamManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+            : base(logger, mapper, apiRequestAccessor)
         {
+            _uow = uow;
         }
 
         public Task<Team> CreateAsync(TeamRequest request)
@@ -30,11 +31,18 @@ namespace BasketballStats.WebApi.Business
             return CommonOperationWithTransactionAsync(async () =>
             {
                 var result = Mapper.Map<Team>(request);
-                await UniqueCheckForNameAsync(result);
 
-                UnitOfWork.GetRepository<Team, int>().Add(result);
-                await UnitOfWork.SaveChangesAsync();
+                /**************Name is unique*****************/
+                /*********************************************/
+                var teamNameUniqueResult =
+                    await _uow.Teams.GetByNameAsync(result.Name);
 
+                teamNameUniqueResult.CheckUniqueValue(WebApiResourceConstants.Name);
+                /**************Name is unique*****************/
+                /*********************************************/
+
+                _uow.Teams.Add(result);
+                await _uow.SaveChangesAsync();
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
@@ -46,11 +54,17 @@ namespace BasketballStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                await UniqueCheckForNameAsync(result, id);
+                /**************Name is unique*****************/
+                /*********************************************/
+                var teamNameUniqueResult =
+                    await _uow.Teams.GetByNameAsync(result.Name);
 
-                UnitOfWork.GetRepository<Team, int>().Update(result);
-                await UnitOfWork.SaveChangesAsync();
+                teamNameUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.Name);
+                /**************Name is unique*****************/
+                /*********************************************/
 
+                _uow.Teams.Update(result);
+                await _uow.SaveChangesAsync();
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
@@ -61,45 +75,21 @@ namespace BasketballStats.WebApi.Business
             {
                 var result = await GetByIdAsync(id);
 
-                UnitOfWork.GetRepository<Team, int>().Delete(result);
-
-                await UnitOfWork.SaveChangesAsync();
+                _uow.Teams.Delete(result);
+                await _uow.SaveChangesAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
         public Task<Team> GetByIdAsync(int id)
         {
-            return CommonOperationAsync(async () =>
-                {
-                    return await UnitOfWork.GetRepository<Team, int>().GetAll(predicate: p => p.Id == id).FirstOrDefaultAsync();
-                }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() },
+            return CommonOperationAsync(async () => await _uow.Teams.GetByIdAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<CustomEntityList<Team>> GetAllAsync()
+        public Task<ICustomList<Team>> GetAllAsync()
         {
-            return CommonOperationAsync(async () => new CustomEntityList<Team>
-            {
-                EntityList = await UnitOfWork.GetRepository<Team, int>().GetAll(out var count).ToListAsync(),
-                Count = count,
-            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Teams.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        #region Validations
-        private async Task UniqueCheckForNameAsync(Team entity, int? id = null)
-        {
-            var predicate = PredicateBuilder.New<Team>();
-            predicate = predicate.And(p => p.Name == entity.Name);
-
-            if (id != null)
-            {
-                predicate = predicate.And(p => p.Id != id);
-            }
-
-            var tempResult = await UnitOfWork.GetRepository<Team, int>().GetAll(predicate: predicate).ToListAsync();
-
-            BusinessUtil.CheckUniqueValue(tempResult, WebApiResourceConstants.Name);
-        }
-        #endregion
     }
 }

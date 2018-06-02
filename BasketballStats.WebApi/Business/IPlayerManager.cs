@@ -1,17 +1,14 @@
 ﻿using System.Threading.Tasks;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Models;
+using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Business;
-using CustomFramework.WebApiUtils.Utils;
 
 namespace BasketballStats.WebApi.Business
 {
-    public interface IPlayerManager : IBusinessManager
+    public interface IPlayerManager : IBusinessManager<Player, PlayerRequest, int>
+    , IBusinessManagerUpdate<Player, PlayerRequest, int>
     {
-        Task<Player> CreateAsync(PlayerRequest request);
-        Task<Player> UpdateAsync(int id, PlayerRequest request);
-        Task DeleteAsync(int id);
-        Task<Player> GetByIdAsync(int id);
-        Task<CustomEntityList<Player>> GetAllAsync();
+        Task<ICustomList<Player>> GetAllAsync();
     }
 }
