@@ -1,8 +1,8 @@
-﻿using CustomFramework.WebApiUtils.Authorization.Utils;
+﻿using CustomFramework.Authorization.Utils;
 
 namespace BasketballStats.WebApi.ApplicationSettings
 {
-    public class AppSettings
+    public class AppSettings : IAppSettings
     {
         public AppSettings()
         {

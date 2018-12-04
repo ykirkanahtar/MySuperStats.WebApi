@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using AutoMapper;
+﻿using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.ApplicationSettings;
 using BasketballStats.WebApi.Business;
@@ -17,9 +14,8 @@ using CustomFramework.Data.Extensions;
 using CustomFramework.WebApiUtils.Authorization.Data;
 using CustomFramework.WebApiUtils.Authorization.Data.Seeding;
 using CustomFramework.WebApiUtils.Authorization.Extensions;
-using CustomFramework.WebApiUtils.Authorization.Filters;
 using CustomFramework.WebApiUtils.Extensions;
-using CustomFramework.WebApiUtils.Middlewares;
+using CustomFramework.WebApiUtils.Filters;
 using CustomFramework.WebApiUtils.Resources;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -34,6 +30,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 
 namespace BasketballStats.WebApi
 {
@@ -65,11 +64,11 @@ namespace BasketballStats.WebApi
             AppSettings = new AppSettings();
             Configuration.GetSection("AppSettings").Bind(AppSettings);
 
-            SeedAuthorizationData = new SeedAuthorizationData();
-            Configuration.GetSection("SeedingAuthorizationData").Bind(SeedAuthorizationData);
+            //SeedAuthorizationData = new SeedAuthorizationData();
+            //Configuration.GetSection("SeedingAuthorizationData").Bind(SeedAuthorizationData);
 
-            SeedWebApiData = new SeedWebApiData();
-            Configuration.GetSection("SeedingWebApiData").Bind(SeedWebApiData);
+            //SeedWebApiData = new SeedWebApiData();
+            //Configuration.GetSection("SeedingWebApiData").Bind(SeedWebApiData);
         }
 
         public IConfiguration Configuration { get; }
@@ -77,7 +76,7 @@ namespace BasketballStats.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPostgreSqlServer<ApplicationContext>(ConnectionString);
+            services.AddPostgreSqlServer<ApplicationContext>(ConnectionString, true);
 
             services.AddJwtAuthentication(AppSettings.Token.Audience, AppSettings.Token.Issuer, AppSettings.Token.Key);
 
@@ -100,6 +99,7 @@ namespace BasketballStats.WebApi
             services.AddAutoMapper();
             services.AddAuthorizationModels();
 
+            services.AddScoped<IAppSettings, AppSettings>(p => AppSettings);
             services.AddTransient<ILocalizationService, LocalizationService>();
 
             var cultureInfos = new List<CultureInfo>
@@ -118,6 +118,7 @@ namespace BasketballStats.WebApi
                 options.RequestCultureProviders.Insert(0, new AcceptLanguageHeaderRequestCultureProvider());
             });
 
+            services.AddTransient<IUnitOfWorkAuthorization, UnitOfWorkWebApi>();
             services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
             services.AddScoped<DbContext, ApplicationContext>();
             services.AddScoped<AuthorizationContext, ApplicationContext>();
@@ -181,9 +182,11 @@ namespace BasketballStats.WebApi
 
             app.UseSwaggerDocumentation();
 
-            app.UseMiddleware<ErrorWrappingMiddleware>();
+            app.UseErrorWrappingMiddleware();
 
             app.UseMvc();
+
+            app.UseHttpsRedirection();
         }
 
     }

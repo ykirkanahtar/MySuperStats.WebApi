@@ -23,7 +23,7 @@ namespace BasketballStats.WebApi.AutoMapper
             CreateMap<Team, TeamResponse>();
             CreateMap<TeamRequest, Team>();
 
-            ForAllMaps((typeMap, mapConfig) => mapConfig.MaxDepth(1));
+            //ForAllMaps((typeMap, mapConfig) => mapConfig.MaxDepth(1));
         }
     }
 }

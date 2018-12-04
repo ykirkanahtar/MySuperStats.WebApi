@@ -12,8 +12,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.AdminRoute + "role")]
     public class RoleController : BaseRoleController
     {
-        public RoleController(IRoleManager roleManager, ILocalizationService localizationService, ILogger<RoleController> logger, IMapper mapper)
-        : base(roleManager, localizationService, logger, mapper)
+        public RoleController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IRoleManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
 
         }

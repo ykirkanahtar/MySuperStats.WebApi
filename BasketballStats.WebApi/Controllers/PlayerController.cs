@@ -9,6 +9,7 @@ using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
+using CustomFramework.WebApiUtils.Authorization.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -18,19 +19,12 @@ using Microsoft.Extensions.Logging;
 namespace BasketballStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "player")]
-    public class PlayerController : Controller
+    public class PlayerController : BaseControllerWithCrudAuthorization<Player, PlayerRequest, PlayerRequest, PlayerResponse, IPlayerManager, int>
     {
-        private readonly IPlayerManager _playerManager;
-        private readonly ILocalizationService _localizationService;
-        private readonly ILogger<PlayerController> _logger;
-        private readonly IMapper _mapper;
-
-        public PlayerController(IPlayerManager playerManager, ILocalizationService localizationService, ILogger<PlayerController> logger, IMapper mapper)
+        public PlayerController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IPlayerManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
-            _playerManager = playerManager;
-            _localizationService = localizationService;
-            _logger = logger;
-            _mapper = mapper;
+
         }
 
         [Route("create")]
@@ -38,17 +32,19 @@ namespace BasketballStats.WebApi.Controllers
         [Permission(nameof(WebApiEntities.Player), Crud.Create)]
         public async Task<IActionResult> Create([FromBody] PlayerRequest request)
         {
-            var result = await _playerManager.CreateAsync(request);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Player, PlayerResponse>(result)));
+            return await BaseCreateAsync(request);
         }
 
         [Route("{id:int}/update")]
         [HttpPut]
         [Permission(nameof(WebApiEntities.Player), Crud.Update)]
-        public async Task<IActionResult> UpdateName(int id, [FromBody] PlayerRequest request)
+        public Task<IActionResult> UpdateName(int id, [FromBody] PlayerRequest request)
         {
-            var result = await _playerManager.UpdateAsync(id, request);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Player, PlayerResponse>(result)));
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.UpdateAsync(id, request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Player, PlayerResponse>(result)));
+            });
         }
 
         [Route("delete/{id:int}")]
@@ -56,27 +52,29 @@ namespace BasketballStats.WebApi.Controllers
         [Permission(nameof(WebApiEntities.Player), Crud.Delete)]
         public async Task<IActionResult> Delete(int id)
         {
-            await _playerManager.DeleteAsync(id);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(true));
+            return await BaseDeleteAsync(id);
         }
+
         [Route("get/id/{id:int}")]
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _playerManager.GetByIdAsync(id);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Player, PlayerResponse>(result)));
+            return await BaseGetByIdAsync(id);
         }
 
         [Route("getall")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAll(int skip, int take)
+        public Task<IActionResult> GetAll(int skip, int take)
         {
-            var result = await _playerManager.GetAllAsync();
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetAllAsync();
 
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IEnumerable<Player>, IEnumerable<PlayerResponse>>(result.ResultList), result.Count));
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<IEnumerable<Player>, IEnumerable<PlayerResponse>>(result.ResultList), result.Count));
+            });
         }
     }
 }

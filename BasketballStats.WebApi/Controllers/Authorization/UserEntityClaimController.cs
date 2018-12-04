@@ -13,8 +13,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.AdminRoute + "userentityclaim")]
     public class UserEntityClaimController : BaseUserEntityClaimController
     {
-        public UserEntityClaimController(IUserEntityClaimManager userEntityClaimManager, ILocalizationService localizationService, ILogger<UserEntityClaimController> logger, IMapper mapper)
-        : base(userEntityClaimManager, localizationService, logger, mapper)
+        public UserEntityClaimController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserEntityClaimManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
 
         }

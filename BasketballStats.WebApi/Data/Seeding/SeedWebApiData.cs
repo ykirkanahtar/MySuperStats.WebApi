@@ -22,22 +22,22 @@ namespace BasketballStats.WebApi.Data.Seeding
 
         public void SeedMatchData(ModelBuilder modelBuilder)
         {
-            SeedDataUtil.SeedTData<Match, int>(modelBuilder, Matches);
+            SeedDataUtil.SeedTData<Match, int>(modelBuilder, Matches, 1);
         }
 
         public void SeedTeamData(ModelBuilder modelBuilder)
         {
-            SeedDataUtil.SeedTData<Team, int>(modelBuilder, Teams);
+            SeedDataUtil.SeedTData<Team, int>(modelBuilder, Teams, 1);
         }
 
         public void SeedPlayerData(ModelBuilder modelBuilder)
         {
-            SeedDataUtil.SeedTData<Player, int>(modelBuilder, Players);
+            SeedDataUtil.SeedTData<Player, int>(modelBuilder, Players, 1);
         }
 
         public void SeedStatData(ModelBuilder modelBuilder)
         {
-            SeedDataUtil.SeedTData<Stat, int>(modelBuilder, Stats);
+            SeedDataUtil.SeedTData<Stat, int>(modelBuilder, Stats, 1);
         }
 
         public void SeedAll(ModelBuilder modelBuilder)

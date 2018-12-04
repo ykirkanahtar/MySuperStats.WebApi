@@ -12,8 +12,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.AdminRoute + "clientapplication")]
     public class ClientApplicationController : BaseClientApplicationController
     {
-        public ClientApplicationController(IClientApplicationManager clientApplicationManager, ILocalizationService localizationService, ILogger<ClientApplicationController> logger, IMapper mapper)
-            : base(clientApplicationManager, localizationService, logger, mapper)
+        public ClientApplicationController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IClientApplicationManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
 
         }

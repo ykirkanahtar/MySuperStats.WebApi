@@ -1,16 +1,15 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Data;
 using BasketballStats.WebApi.Models;
 using CustomFramework.Data.Contracts;
-using CustomFramework.WebApiUtils.Authorization.Business;
-using CustomFramework.WebApiUtils.Authorization.Contracts;
-using CustomFramework.WebApiUtils.Authorization.Utils;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Enums;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using System.Threading.Tasks;
+using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Utils;
 
 namespace BasketballStats.WebApi.Business
 {
@@ -25,11 +24,11 @@ namespace BasketballStats.WebApi.Business
 
         public Task<Player> CreateAsync(PlayerRequest request)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = Mapper.Map<Player>(request);
 
-                _uow.Players.Add(result);
+                _uow.Players.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -37,12 +36,12 @@ namespace BasketballStats.WebApi.Business
 
         public Task<Player> UpdateAsync(int id, PlayerRequest request)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                _uow.Players.Update(result);
+                _uow.Players.Update(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
@@ -50,11 +49,11 @@ namespace BasketballStats.WebApi.Business
 
         public Task DeleteAsync(int id)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = await GetByIdAsync(id);
 
-                _uow.Players.Delete(result);
+                _uow.Players.Delete(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }

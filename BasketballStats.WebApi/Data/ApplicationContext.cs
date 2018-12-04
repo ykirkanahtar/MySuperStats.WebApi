@@ -3,6 +3,7 @@ using BasketballStats.WebApi.Data.ModelConfiguration;
 using BasketballStats.WebApi.Models;
 using CustomFramework.Data.Utils;
 using CustomFramework.WebApiUtils.Authorization.Data;
+using CustomFramework.WebApiUtils.Authorization.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BasketballStats.WebApi.Data
@@ -14,6 +15,22 @@ namespace BasketballStats.WebApi.Data
         {
 
         }
+
+        /*************Authorization*************/
+        public virtual DbSet<Application> Applications { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<ClientApplication> ClientApplications { get; set; }
+        public virtual DbSet<ClientApplicationUtil> ClientApplicationUtils { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Claim> Claims { get; set; }
+        public virtual DbSet<RoleClaim> RoleClaims { get; set; }
+        public virtual DbSet<UserClaim> UserClaims { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<UserUtil> UserUtils { get; set; }
+        public virtual DbSet<RoleEntityClaim> RoleEntityClaims { get; set; }
+        public virtual DbSet<UserEntityClaim> UserEntityClaims { get; set; }
+        /*************Authorization*************/
 
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<Player> Players { get; set; }
@@ -37,8 +54,8 @@ namespace BasketballStats.WebApi.Data
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
 
-            Startup.SeedAuthorizationData.SeedAll(modelBuilder);
-            Startup.SeedWebApiData.SeedAll(modelBuilder);
+            //Startup.SeedAuthorizationData.SeedAll(modelBuilder);
+            //Startup.SeedWebApiData.SeedAll(modelBuilder);
 
             modelBuilder.SetModelToSnakeCase();
         }

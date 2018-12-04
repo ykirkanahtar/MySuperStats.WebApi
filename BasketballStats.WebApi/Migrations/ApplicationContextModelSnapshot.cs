@@ -17,7 +17,7 @@ namespace BasketballStats.WebApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.0-rc1-32029")
+                .HasAnnotation("ProductVersion", "2.2.0-preview3-35497")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("BasketballStats.WebApi.Models.Match", b =>
@@ -33,8 +33,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("DurationInMinutes")
                         .HasColumnName("duration_in_minutes");
@@ -54,6 +60,9 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.Property<string>("VideoLink")
                         .HasColumnName("video_link")
                         .HasMaxLength(100);
@@ -64,8 +73,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.HasIndex("AwayTeamId")
                         .HasName("ix_matches_away_team_id");
 
+                    b.HasIndex("CreateUserId")
+                        .HasName("ix_matches_create_user_id");
+
                     b.HasIndex("HomeTeamId")
                         .HasName("ix_matches_home_team_id");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_matches_status");
 
                     b.HasIndex("MatchDate", "Order")
                         .IsUnique()
@@ -87,8 +102,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -106,8 +127,17 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_players");
+
+                    b.HasIndex("CreateUserId")
+                        .HasName("ix_players_create_user_id");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_players_status");
 
                     b.ToTable("players");
                 });
@@ -126,8 +156,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<decimal>("Interrupt")
                         .HasColumnName("interrupt")
@@ -176,11 +212,20 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_stats");
 
+                    b.HasIndex("CreateUserId")
+                        .HasName("ix_stats_create_user_id");
+
                     b.HasIndex("PlayerId")
                         .HasName("ix_stats_player_id");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_stats_status");
 
                     b.HasIndex("TeamId")
                         .HasName("ix_stats_team_id");
@@ -207,8 +252,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -221,14 +272,121 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_teams");
+
+                    b.HasIndex("CreateUserId")
+                        .HasName("ix_teams_create_user_id");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasName("ix_teams_name");
 
+                    b.HasIndex("Status")
+                        .HasName("ix_teams_status");
+
                     b.ToTable("teams");
+                });
+
+            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Application", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("create_date_time");
+
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
+
+                    b.Property<string>("Description")
+                        .HasColumnName("description")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_applications");
+
+                    b.HasIndex("Name")
+                        .HasName("ix_applications_name");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_applications_status");
+
+                    b.ToTable("applications");
+                });
+
+            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ApplicationUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnName("application_id");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("create_date_time");
+
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_application_users");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_application_users_status");
+
+                    b.HasIndex("ApplicationId", "Status")
+                        .HasName("ix_application_users_application_id_status");
+
+                    b.HasIndex("UserId", "Status")
+                        .HasName("ix_application_users_user_id_status");
+
+                    b.ToTable("application_users");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Claim", b =>
@@ -241,12 +399,19 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<string>("CustomClaim")
                         .IsRequired()
-                        .HasColumnName("custom_claim");
+                        .HasColumnName("custom_claim")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
@@ -254,8 +419,17 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_claims");
+
+                    b.HasIndex("CustomClaim")
+                        .HasName("ix_claims_custom_claim");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_claims_status");
 
                     b.ToTable("claims");
                 });
@@ -285,8 +459,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
@@ -294,14 +474,25 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_client_applications");
 
-                    b.ToTable("client_applications");
+                    b.HasIndex("ClientApplicationCode")
+                        .HasName("ix_client_applications_client_application_code");
 
-                    b.HasData(
-                        new { Id = 1, ClientApplicationCode = "web", ClientApplicationName = "web", ClientApplicationPassword = "S1YfJ07i3tXLjztorIB4wc7PbYTfnzvtHM98xfTkjQ8=", CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 384, DateTimeKind.Local), Status = 1 }
-                    );
+                    b.HasIndex("ClientApplicationName")
+                        .HasName("ix_client_applications_client_application_name");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_client_applications_status");
+
+                    b.HasIndex("ClientApplicationCode", "ClientApplicationPassword")
+                        .HasName("ix_client_applications_client_application_code_client_applicat~");
+
+                    b.ToTable("client_applications");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ClientApplicationUtil", b =>
@@ -317,8 +508,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("SpecialValue")
                         .IsRequired()
@@ -331,6 +528,9 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_client_application_utils");
 
@@ -338,11 +538,10 @@ namespace BasketballStats.WebApi.Migrations
                         .IsUnique()
                         .HasName("ix_client_application_utils_client_application_id");
 
-                    b.ToTable("client_application_utils");
+                    b.HasIndex("Status")
+                        .HasName("ix_client_application_utils_status");
 
-                    b.HasData(
-                        new { Id = 1, ClientApplicationId = 1, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 384, DateTimeKind.Local), SpecialValue = "Zj3PdNOPXxNgsPED4keqzw==", Status = 1 }
-                    );
+                    b.ToTable("client_application_utils");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Role", b =>
@@ -355,8 +554,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Description")
                         .HasColumnName("description")
@@ -373,16 +578,19 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_roles");
 
-                    b.ToTable("roles");
+                    b.HasIndex("RoleName")
+                        .HasName("ix_roles_role_name");
 
-                    b.HasData(
-                        new { Id = 1, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 385, DateTimeKind.Local), Description = "Administration Role", RoleName = "Administrator", Status = 1 },
-                        new { Id = 2, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 385, DateTimeKind.Local), Description = "Default User Role", RoleName = "NormalUser", Status = 1 },
-                        new { Id = 3, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 385, DateTimeKind.Local), Description = "User for data writer like stats", RoleName = "DataWriter", Status = 1 }
-                    );
+                    b.HasIndex("Status")
+                        .HasName("ix_roles_status");
+
+                    b.ToTable("roles");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleClaim", b =>
@@ -392,14 +600,23 @@ namespace BasketballStats.WebApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ApplicationId")
+                        .HasColumnName("application_id");
+
                     b.Property<int>("ClaimId")
                         .HasColumnName("claim_id");
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
@@ -410,6 +627,9 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_role_claims");
 
@@ -418,6 +638,12 @@ namespace BasketballStats.WebApi.Migrations
 
                     b.HasIndex("RoleId")
                         .HasName("ix_role_claims_role_id");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_role_claims_status");
+
+                    b.HasIndex("ApplicationId", "RoleId", "ClaimId")
+                        .HasName("ix_role_claims_application_id_role_id_claim_id");
 
                     b.ToTable("role_claims");
                 });
@@ -428,6 +654,9 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnName("application_id");
 
                     b.Property<bool>("CanCreate")
                         .HasColumnName("can_create");
@@ -444,8 +673,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Entity")
                         .IsRequired()
@@ -461,35 +696,31 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_role_entity_claims");
 
                     b.HasIndex("RoleId")
                         .HasName("ix_role_entity_claims_role_id");
 
-                    b.ToTable("role_entity_claims");
+                    b.HasIndex("Status")
+                        .HasName("ix_role_entity_claims_status");
 
-                    b.HasData(
-                        new { Id = 1, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Claim", RoleId = 1, Status = 1 },
-                        new { Id = 2, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "ClientApplicationUtil", RoleId = 1, Status = 1 },
-                        new { Id = 3, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "ClientApplication", RoleId = 1, Status = 1 },
-                        new { Id = 4, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "UserClaim", RoleId = 1, Status = 1 },
-                        new { Id = 5, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "UserEntityClaim", RoleId = 1, Status = 1 },
-                        new { Id = 6, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "UserRole", RoleId = 1, Status = 1 },
-                        new { Id = 7, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "UserUtil", RoleId = 1, Status = 1 },
-                        new { Id = 8, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "User", RoleId = 1, Status = 1 },
-                        new { Id = 9, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "RoleClaim", RoleId = 1, Status = 1 },
-                        new { Id = 10, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "RoleEntityClaim", RoleId = 1, Status = 1 },
-                        new { Id = 11, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Role", RoleId = 1, Status = 1 },
-                        new { Id = 12, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Match", RoleId = 1, Status = 1 },
-                        new { Id = 13, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Player", RoleId = 1, Status = 1 },
-                        new { Id = 14, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Stat", RoleId = 1, Status = 1 },
-                        new { Id = 15, CanCreate = true, CanDelete = true, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Team", RoleId = 1, Status = 1 },
-                        new { Id = 16, CanCreate = true, CanDelete = false, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Match", RoleId = 3, Status = 1 },
-                        new { Id = 17, CanCreate = true, CanDelete = false, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Team", RoleId = 3, Status = 1 },
-                        new { Id = 18, CanCreate = true, CanDelete = false, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Player", RoleId = 3, Status = 1 },
-                        new { Id = 19, CanCreate = true, CanDelete = false, CanSelect = true, CanUpdate = true, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 386, DateTimeKind.Local), Entity = "Stat", RoleId = 3, Status = 1 }
-                    );
+                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanCreate")
+                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_create");
+
+                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanDelete")
+                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_delete");
+
+                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanSelect")
+                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_select");
+
+                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanUpdate")
+                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_update");
+
+                    b.ToTable("role_entity_claims");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.User", b =>
@@ -504,11 +735,20 @@ namespace BasketballStats.WebApi.Migrations
                         .HasColumnName("access_failed_count")
                         .HasDefaultValue(0);
 
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnName("application_id");
+
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -520,7 +760,7 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_confirm_code")
                         .HasMaxLength(6)
-                        .HasDefaultValue("417587");
+                        .HasDefaultValue("577920");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnName("email_confirmed");
@@ -532,6 +772,11 @@ namespace BasketballStats.WebApi.Migrations
                         .HasColumnName("lockout_end_date_time")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasMaxLength(30);
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnName("password")
@@ -540,8 +785,16 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnName("surname")
+                        .HasMaxLength(30);
+
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -551,12 +804,22 @@ namespace BasketballStats.WebApi.Migrations
                     b.HasKey("Id")
                         .HasName("pk_users");
 
-                    b.ToTable("users");
+                    b.HasIndex("ApplicationId")
+                        .HasName("ix_users_application_id");
 
-                    b.HasData(
-                        new { Id = 1, AccessFailedCount = 0, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 382, DateTimeKind.Local), Email = "admin@admin.org", EmailConfirmCode = "9988", EmailConfirmed = false, Lockout = false, Password = "sRi7uIp1NlJjqjsVRI6RSkVe5at1XfZXgYChJtIg0zE=", Status = 1, UserName = "admin" },
-                        new { Id = 2, AccessFailedCount = 0, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 383, DateTimeKind.Local), Email = "fahri@soylemezgiller.net", EmailConfirmCode = "8899", EmailConfirmed = false, Lockout = false, Password = "J7KYygADn8Q7prjoZ7aIqzJCth2vXcDhGVotHL/1QzI=", Status = 1, UserName = "fahri.soylemezgiller" }
-                    );
+                    b.HasIndex("Email")
+                        .HasName("ix_users_email");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_users_status");
+
+                    b.HasIndex("UserName")
+                        .HasName("ix_users_user_name");
+
+                    b.HasIndex("UserName", "Password")
+                        .HasName("ix_users_user_name_password");
+
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserClaim", b =>
@@ -566,20 +829,32 @@ namespace BasketballStats.WebApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ApplicationId")
+                        .HasColumnName("application_id");
+
                     b.Property<int>("ClaimId")
                         .HasColumnName("claim_id");
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
@@ -590,8 +865,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.HasIndex("ClaimId")
                         .HasName("ix_user_claims_claim_id");
 
+                    b.HasIndex("Status")
+                        .HasName("ix_user_claims_status");
+
                     b.HasIndex("UserId")
                         .HasName("ix_user_claims_user_id");
+
+                    b.HasIndex("ApplicationId", "UserId", "ClaimId")
+                        .HasName("ix_user_claims_application_id_user_id_claim_id");
 
                     b.ToTable("user_claims");
                 });
@@ -602,6 +883,9 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnName("application_id");
 
                     b.Property<bool>("CanCreate")
                         .HasColumnName("can_create");
@@ -618,8 +902,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("Entity")
                         .IsRequired()
@@ -632,14 +922,32 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
                         .HasName("pk_user_entity_claims");
 
+                    b.HasIndex("Status")
+                        .HasName("ix_user_entity_claims_status");
+
                     b.HasIndex("UserId")
                         .HasName("ix_user_entity_claims_user_id");
+
+                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanCreate")
+                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_create");
+
+                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanDelete")
+                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_delete");
+
+                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanSelect")
+                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_select");
+
+                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanUpdate")
+                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_update");
 
                     b.ToTable("user_entity_claims");
                 });
@@ -654,8 +962,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
@@ -666,6 +980,9 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
@@ -675,15 +992,13 @@ namespace BasketballStats.WebApi.Migrations
                     b.HasIndex("RoleId")
                         .HasName("ix_user_roles_role_id");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_user_roles_user_id");
+                    b.HasIndex("Status")
+                        .HasName("ix_user_roles_status");
+
+                    b.HasIndex("UserId", "Status")
+                        .HasName("ix_user_roles_user_id_status");
 
                     b.ToTable("user_roles");
-
-                    b.HasData(
-                        new { Id = 1, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 385, DateTimeKind.Local), RoleId = 1, Status = 1, UserId = 1 },
-                        new { Id = 2, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 385, DateTimeKind.Local), RoleId = 3, Status = 1, UserId = 2 }
-                    );
                 });
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserUtil", b =>
@@ -696,8 +1011,14 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
 
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
                     b.Property<DateTime?>("DeleteDateTime")
                         .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
 
                     b.Property<string>("SpecialValue")
                         .IsRequired()
@@ -710,22 +1031,23 @@ namespace BasketballStats.WebApi.Migrations
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnName("update_date_time");
 
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
                         .HasName("pk_user_utils");
 
+                    b.HasIndex("Status")
+                        .HasName("ix_user_utils_status");
+
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasName("ix_user_utils_user_id");
 
                     b.ToTable("user_utils");
-
-                    b.HasData(
-                        new { Id = 1, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 383, DateTimeKind.Local), SpecialValue = "hmU9tdf3H6zaZ70928aiwg==", Status = 1, UserId = 1 },
-                        new { Id = 2, CreateDateTime = new DateTime(2018, 5, 17, 10, 4, 20, 383, DateTimeKind.Local), SpecialValue = "yUcIMT4JFQk3JYrswN+ALg==", Status = 1, UserId = 2 }
-                    );
                 });
 
             modelBuilder.Entity("BasketballStats.WebApi.Models.Match", b =>
@@ -764,6 +1086,21 @@ namespace BasketballStats.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_application_users_applications_application_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_application_users_users_user_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ClientApplicationUtil", b =>
                 {
                     b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.ClientApplication", "ClientApplication")
@@ -775,6 +1112,12 @@ namespace BasketballStats.WebApi.Migrations
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleClaim", b =>
                 {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
+                        .WithMany("RoleClaims")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_role_claims_applications_application_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Claim", "Claim")
                         .WithMany("RoleClaims")
                         .HasForeignKey("ClaimId")
@@ -790,6 +1133,12 @@ namespace BasketballStats.WebApi.Migrations
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleEntityClaim", b =>
                 {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
+                        .WithMany("RoleEntityClaims")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_role_entity_claims_applications_application_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Role", "Role")
                         .WithMany("RoleEntityClaims")
                         .HasForeignKey("RoleId")
@@ -797,8 +1146,22 @@ namespace BasketballStats.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.User", b =>
+                {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application")
+                        .WithMany("Users")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_users_applications_application_id");
+                });
+
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserClaim", b =>
                 {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
+                        .WithMany("UserClaims")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_user_claims_applications_application_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Claim", "Claim")
                         .WithMany("UserClaims")
                         .HasForeignKey("ClaimId")
@@ -814,6 +1177,12 @@ namespace BasketballStats.WebApi.Migrations
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserEntityClaim", b =>
                 {
+                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
+                        .WithMany("UserEntityClaims")
+                        .HasForeignKey("ApplicationId")
+                        .HasConstraintName("fk_user_entity_claims_applications_application_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
                         .WithMany("UserEntityClaims")
                         .HasForeignKey("UserId")

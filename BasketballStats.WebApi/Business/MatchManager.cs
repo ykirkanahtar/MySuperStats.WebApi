@@ -1,18 +1,16 @@
-﻿using System.Reflection;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BasketballStats.Contracts.Requests;
 using BasketballStats.WebApi.Constants;
 using BasketballStats.WebApi.Data;
 using BasketballStats.WebApi.Models;
 using CustomFramework.Data.Contracts;
-using CustomFramework.WebApiUtils.Authorization.Business;
-using CustomFramework.WebApiUtils.Authorization.Contracts;
-using CustomFramework.WebApiUtils.Authorization.Utils;
 using CustomFramework.WebApiUtils.Business;
+using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BasketballStats.WebApi.Business
 {
@@ -28,7 +26,7 @@ namespace BasketballStats.WebApi.Business
 
         public Task<Match> CreateAsync(MatchRequest request)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = Mapper.Map<Match>(request);
 
@@ -43,7 +41,7 @@ namespace BasketballStats.WebApi.Business
 
                 SameValueCheckForTeam1AndTeam2(result);
 
-                _uow.Matches.Add(result);
+                _uow.Matches.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
 
                 return result;
@@ -52,7 +50,7 @@ namespace BasketballStats.WebApi.Business
 
         public Task<Match> UpdateAsync(int id, MatchRequest request)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
@@ -68,7 +66,7 @@ namespace BasketballStats.WebApi.Business
 
                 SameValueCheckForTeam1AndTeam2(result);
 
-                _uow.Matches.Update(result);
+                _uow.Matches.Update(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
 
                 return result;
@@ -77,11 +75,11 @@ namespace BasketballStats.WebApi.Business
 
         public Task DeleteAsync(int id)
         {
-            return CommonOperationWithTransactionAsync(async () =>
+            return CommonOperationAsync(async () =>
             {
                 var result = await GetByIdAsync(id);
 
-                _uow.Matches.Delete(result);
+                _uow.Matches.Delete(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }

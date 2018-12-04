@@ -12,8 +12,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.AdminRoute + "roleentityclaim")]
     public class RoleEntityClaimController : BaseRoleEntityClaimController
     {
-        public RoleEntityClaimController(IRoleEntityClaimManager roleEntityClaimManager, ILocalizationService localizationService, ILogger<RoleEntityClaimController> logger, IMapper mapper)
-        : base(roleEntityClaimManager, localizationService, logger, mapper)
+        public RoleEntityClaimController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IRoleEntityClaimManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
 
         }

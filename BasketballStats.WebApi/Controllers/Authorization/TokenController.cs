@@ -12,8 +12,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.DefaultRoute + "token")]
     public class TokenController : BaseTokenController
     {
-        public TokenController(IClientApplicationManager clientApplicationManager, IUserManager userManager, ILocalizationService localizationService, ILogger<TokenController> logger)
-        : base(clientApplicationManager, userManager, localizationService, logger, Startup.AppSettings.Token)
+        public TokenController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IApplicationManager applicationManager, IApplicationUserManager applicationUserManager, IClientApplicationManager clientApplicationManager, IUserManager userManager, IAppSettings appSettings)
+            : base(localizationService, logger, mapper, applicationManager, applicationUserManager, clientApplicationManager, userManager, appSettings.Token)
         {
 
         }

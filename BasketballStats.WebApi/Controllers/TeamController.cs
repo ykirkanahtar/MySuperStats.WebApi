@@ -9,6 +9,7 @@ using BasketballStats.WebApi.Enums;
 using BasketballStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
+using CustomFramework.WebApiUtils.Authorization.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -18,19 +19,12 @@ using Microsoft.Extensions.Logging;
 namespace BasketballStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "team")]
-    public class TeamController : Controller
+    public class TeamController : BaseControllerWithCrudAuthorization<Team, TeamRequest, TeamRequest, TeamResponse, ITeamManager, int>
     {
-        private readonly ITeamManager _teamManager;
-        private readonly ILocalizationService _localizationService;
-        private readonly ILogger<TeamController> _logger;
-        private readonly IMapper _mapper;
-
-        public TeamController(ITeamManager teamManager, ILocalizationService localizationService, ILogger<TeamController> logger, IMapper mapper)
+        public TeamController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, ITeamManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
-            _teamManager = teamManager;
-            _localizationService = localizationService;
-            _logger = logger;
-            _mapper = mapper;
+
         }
 
         [Route("create")]
@@ -38,17 +32,19 @@ namespace BasketballStats.WebApi.Controllers
         [Permission(nameof(WebApiEntities.Team), Crud.Create)]
         public async Task<IActionResult> Create([FromBody] TeamRequest request)
         {
-            var result = await _teamManager.CreateAsync(request);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Team, TeamResponse>(result)));
+            return await BaseCreateAsync(request);
         }
 
         [Route("{id:int}/update")]
         [HttpPut]
         [Permission(nameof(WebApiEntities.Team), Crud.Update)]
-        public async Task<IActionResult> UpdateName(int id, [FromBody] TeamRequest request)
+        public Task<IActionResult> UpdateName(int id, [FromBody] TeamRequest request)
         {
-            var result = await _teamManager.UpdateAsync(id, request);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Team, TeamResponse>(result)));
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.UpdateAsync(id, request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Team, TeamResponse>(result)));
+            });
         }
 
         [Route("delete/{id:int}")]
@@ -56,8 +52,7 @@ namespace BasketballStats.WebApi.Controllers
         [Permission(nameof(WebApiEntities.Team), Crud.Delete)]
         public async Task<IActionResult> Delete(int id)
         {
-            await _teamManager.DeleteAsync(id);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(true));
+            return await BaseDeleteAsync(id);
         }
 
         [Route("get/id/{id:int}")]
@@ -65,19 +60,21 @@ namespace BasketballStats.WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _teamManager.GetByIdAsync(id);
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(_mapper.Map<Team, TeamResponse>(result)));
+            return await BaseGetByIdAsync(id);
         }
 
         [Route("getall")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAll(int skip, int take)
+        public Task<IActionResult> GetAll(int skip, int take)
         {
-            var result = await _teamManager.GetAllAsync();
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetAllAsync();
 
-            return Ok(new ApiResponse(_localizationService, _logger).Ok(
-                _mapper.Map<IEnumerable<Team>, IEnumerable<TeamResponse>>(result.ResultList), result.Count));
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<IEnumerable<Team>, IEnumerable<TeamResponse>>(result.ResultList), result.Count));
+            });
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using BasketballStats.WebApi.Data.Repositories;
-using CustomFramework.Data;
+using CustomFramework.WebApiUtils.Authorization.Data;
 
 namespace BasketballStats.WebApi.Data
 {
-    public interface IUnitOfWorkWebApi : IUnitOfWork
+    public interface IUnitOfWorkWebApi : IUnitOfWorkAuthorization
     {
         /*************Repositories************/
         IMatchRepository Matches { get; }

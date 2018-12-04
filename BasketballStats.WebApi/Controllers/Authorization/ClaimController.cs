@@ -12,8 +12,8 @@ namespace BasketballStats.WebApi.Controllers.Authorization
     [Route(ApiConstants.AdminRoute + "claim")]
     public class ClaimController : BaseClaimController
     {
-        public ClaimController(IClaimManager claimManager, ILocalizationService localizationService, ILogger<ClaimController> logger, IMapper mapper)
-        : base(claimManager, localizationService, logger, mapper)
+        public ClaimController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IClaimManager manager)
+            : base(localizationService, logger, mapper, manager)
         {
 
         }
