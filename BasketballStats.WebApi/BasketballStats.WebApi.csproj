@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="CustomFramework.WebApiUtils.Authorization" Version="0.2.0-preview1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0-preview3-35497" />
   </ItemGroup>
 
@@ -51,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Authorization\CustomFramework.WebApiUtils.Authorization.csproj" />
     <ProjectReference Include="..\BasketballStats.Contracts\BasketballStats.Contracts.csproj" />
   </ItemGroup>
 

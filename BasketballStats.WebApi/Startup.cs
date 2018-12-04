@@ -76,7 +76,7 @@ namespace BasketballStats.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPostgreSqlServer<ApplicationContext>(ConnectionString, true);
+            services.AddPostgreSqlServer<ApplicationContext>(ConnectionString);
 
             services.AddJwtAuthentication(AppSettings.Token.Audience, AppSettings.Token.Issuer, AppSettings.Token.Key);
 
