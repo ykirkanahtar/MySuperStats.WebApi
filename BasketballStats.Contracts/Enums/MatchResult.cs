@@ -1,6 +1,6 @@
-﻿namespace BasketballStats.WebSite.Enums
+﻿namespace BasketballStats.Contracts.Enums
 {
-    public enum MatchScore
+    public enum MatchResult
     {
         Win,
         Loose,

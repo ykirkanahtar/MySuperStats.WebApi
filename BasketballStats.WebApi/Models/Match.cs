@@ -19,13 +19,14 @@ namespace BasketballStats.WebApi.Models
         public int DurationInMinutes { get; set; }
         public int HomeTeamId { get; set; }
         public int AwayTeamId { get; set; }
+        public decimal HomeTeamScore { get; set; }
+        public decimal AwayTeamScore { get; set; }
         public string VideoLink { get; set; }
 
         public virtual Team HomeTeam { get; set; }
 
         public virtual Team AwayTeam { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Stat> Stats { get; set; }
 
     }

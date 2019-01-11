@@ -148,10 +148,11 @@ namespace BasketballStats.WebApi
                 {
                     options.Filters.Add(typeof(ValidateModelAttribute));
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.Culture = CultureInfo.CurrentUICulture;
                 })
                 .AddFluentValidation();
         }

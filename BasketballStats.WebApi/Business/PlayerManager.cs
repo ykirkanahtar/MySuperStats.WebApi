@@ -64,6 +64,13 @@ namespace BasketballStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
+        public Task<Player> GetWithStats(int id)
+        {
+            return CommonOperationAsync(async () => await _uow.Players.GetByIdWithIncludeAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+
+        }
+
         public Task<ICustomList<Player>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Players.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);

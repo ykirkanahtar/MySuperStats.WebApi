@@ -43,8 +43,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="CustomFramework.WebApiUtils.Authorization" Version="0.2.0-preview1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="CustomFramework.WebApiUtils.Authorization" Version="1.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>

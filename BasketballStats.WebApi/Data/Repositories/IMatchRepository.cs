@@ -3,6 +3,7 @@ using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
 using System;
 using System.Threading.Tasks;
+using BasketballStats.Contracts.Responses;
 
 namespace BasketballStats.WebApi.Data.Repositories
 {
@@ -10,5 +11,7 @@ namespace BasketballStats.WebApi.Data.Repositories
     {
         Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order);
         Task<ICustomList<Match>> GetAllAsync();
+        Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen();
+        Task<MatchDetailStats> GetMatchDetailStats(int matchId);
     }
 }

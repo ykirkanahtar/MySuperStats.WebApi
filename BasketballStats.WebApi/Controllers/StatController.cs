@@ -63,7 +63,7 @@ namespace BasketballStats.WebApi.Controllers
             return await BaseGetByIdAsync(id);
         }
 
-        [Route("getall/matchid/{matchid:int}")]
+        [Route("getall/matchid/{matchId:int}")]
         [HttpGet]
         [AllowAnonymous]
         public Task<IActionResult> GetAllByMatchId(int matchId)
@@ -77,7 +77,7 @@ namespace BasketballStats.WebApi.Controllers
             });
         }
 
-        [Route("getall/playerid/{playerid:int}")]
+        [Route("getall/playerid/{playerId:int}")]
         [HttpGet]
         [AllowAnonymous]
         public Task<IActionResult> GetAllByPlayerId(int playerId)
@@ -102,6 +102,19 @@ namespace BasketballStats.WebApi.Controllers
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
+            });
+        }
+
+        [Route("gettopstats")]
+        [HttpGet]
+        [AllowAnonymous]
+        public Task<IActionResult> GetTopStats()
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetTopStats();
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });
         }
     }

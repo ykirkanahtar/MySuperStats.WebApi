@@ -26,8 +26,7 @@ namespace BasketballStats.WebApi.Data.ModelConfiguration
                 .IsRequired();
 
             builder.Property(p => p.TwoPoint)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.MissingOnePoint)
                 .HasColumnType("decimal(10,2)")

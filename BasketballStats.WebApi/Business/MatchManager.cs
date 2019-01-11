@@ -11,6 +11,7 @@ using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
+using BasketballStats.Contracts.Responses;
 
 namespace BasketballStats.WebApi.Business
 {
@@ -93,6 +94,16 @@ namespace BasketballStats.WebApi.Business
         public Task<ICustomList<Match>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+        }
+
+        public Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen()
+        {
+            return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+        }
+
+        public Task<MatchDetailStats> GetMatchDetailStats(int matchId)
+        {
+            return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         private static void SameValueCheckForTeam1AndTeam2(Match entity)

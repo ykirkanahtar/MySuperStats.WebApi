@@ -1,4 +1,5 @@
-﻿using BasketballStats.WebApi.Models;
+﻿using System.Linq;
+using BasketballStats.WebApi.Models;
 using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
 using CustomFramework.Data.Utils;
@@ -13,9 +14,18 @@ namespace BasketballStats.WebApi.Data.Repositories
         {
         }
 
+        public async Task<Player> GetByIdWithIncludeAsync(int playerId)
+        {
+            return await (from p in GetAll()
+                          where p.Id == playerId
+                          select p).Include(p => p.Stats).ThenInclude(p => p.Match)
+                                   .Include(p => p.Stats).ThenInclude(p => p.Team)
+                                   .FirstOrDefaultAsync();
+        }
+
         public async Task<ICustomList<Player>> GetAllAsync()
         {
-            return await GetAll().IncludeMultiple(p => p.Stats).ToCustomList();
+            return await GetAll().ToCustomList();
         }
     }
 }

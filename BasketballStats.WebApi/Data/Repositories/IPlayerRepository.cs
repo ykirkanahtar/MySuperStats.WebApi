@@ -7,6 +7,7 @@ namespace BasketballStats.WebApi.Data.Repositories
 {
     public interface IPlayerRepository : IRepository<Player, int>
     {
+        Task<Player> GetByIdWithIncludeAsync(int playerId);
         Task<ICustomList<Player>> GetAllAsync();
     }
 }

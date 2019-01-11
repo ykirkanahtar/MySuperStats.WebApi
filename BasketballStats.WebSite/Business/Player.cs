@@ -1,32 +1,36 @@
 ﻿using BasketballStats.Contracts.Responses;
 using BasketballStats.WebSite.Utils;
+using CS.Common.WebApi.Connector;
+using CustomFramework.WebApiUtils.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BasketballStats.WebSite.ApplicationSettings;
 
 namespace BasketballStats.WebSite.Business
 {
     public class Player : IPlayer
     {
-        private readonly IWebApiConnector _webApiConnector;
-        public Player(IWebApiConnector webApiConnector)
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
+        private readonly IAppSettings _appSettings;
+
+        public Player(IWebApiConnector<WebApiResponse> webApiConnector, IAppSettings appSettings)
         {
             _webApiConnector = webApiConnector;
+            _appSettings = appSettings;
         }
 
-        public async Task<PlayerResponse> GetById(int playerId)
+        public async Task<PlayerDetailResponse> GetWithStatsById(int playerId)
         {
-            var getUrl = $"{Constants.DefaultApiRoute}/player/get/id/{playerId}";
-            var response = await _webApiConnector.GetAsync(getUrl);
+            var getUrl = $"{_appSettings.ApiUrl}{Constants.DefaultApiRoute}/player/getwithstats/id/{playerId}";
+            var response = await _webApiConnector.GetAsync(getUrl, _appSettings.TokenUrl, _appSettings.Credentials);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return
-                    JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
-
+                    JsonConvert.DeserializeObject<PlayerDetailResponse>(response.Result.ToString());
             }
 
             throw new Exception(response.Message);
@@ -34,8 +38,8 @@ namespace BasketballStats.WebSite.Business
 
         public async Task<List<PlayerResponse>> GetAll()
         {
-            var getUrl = $"{Constants.DefaultApiRoute}/player/getall";
-            var response = await _webApiConnector.GetAsync(getUrl);
+            var getUrl = $"{_appSettings.ApiUrl}{Constants.DefaultApiRoute}/player/getall";
+            var response = await _webApiConnector.GetAsync(getUrl, _appSettings.TokenUrl, _appSettings.Credentials);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -45,11 +49,6 @@ namespace BasketballStats.WebSite.Business
             }
 
             throw new Exception(response.Message);
-        }
-
-        public List<PlayerResponse> GetPlayersByTeamIdAndStats(int teamId, List<StatResponse> stats)
-        {
-            return stats.Where(p => p.TeamId == teamId).Select(p => p.Player).ToList();
         }
     }
 }

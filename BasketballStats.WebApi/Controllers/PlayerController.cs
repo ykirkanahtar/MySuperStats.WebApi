@@ -63,6 +63,20 @@ namespace BasketballStats.WebApi.Controllers
             return await BaseGetByIdAsync(id);
         }
 
+        [Route("getwithstats/id/{id:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public Task<IActionResult> GetWithStatsById(int id)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetWithStats(id);
+                var playerDetailResponse = Mapper.Map<Player, PlayerDetailResponse>(result);
+                playerDetailResponse.SetFields();
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(playerDetailResponse));
+            });
+        }
+
         [Route("getall")]
         [HttpGet]
         [AllowAnonymous]

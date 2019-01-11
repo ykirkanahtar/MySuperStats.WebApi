@@ -1,20 +1,21 @@
 ﻿@page
+@using System.Globalization
 @model PlayerDetailModel
 @{
-    ViewData["Title"] = $"{Model.PlayerDetailInfo.Player.Name} {Model.PlayerDetailInfo.Player.Surname}";
+    ViewData["Title"] = $"{Model.PlayerDetailInfo.Name} {Model.PlayerDetailInfo.Surname}";
 }
 <div class="row-fluid">
     <div class="col-md-12">
         <h2>@ViewData["Title"]</h2>
 
-        <label>Doğum Tarihi:</label> @Model.PlayerDetailInfo.Player.BirthDate.ToString("dd-MM-yyyy")
+        <label>Doğum Tarihi:</label> @Model.PlayerDetailInfo.BirthDate.ToString("dd-MM-yyyy")
         <br />
         <br />
     </div>
 </div>
 
 
-@if (Model.PlayerDetailInfo.PlayerStats.Count > 0)
+@if (Model.PlayerDetailInfo.Stats.Count > 0)
 {
     <div class="row-fluid">
         <div class="col-md-6">
@@ -35,13 +36,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint) / @decimal.Truncate(Model.PlayerDetailInfo.TotalStats.OnePoint + Model.PlayerDetailInfo.TotalStats.MissingOnePoint)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint) / @decimal.Truncate(Model.PlayerDetailInfo.TotalStats.TwoPoint + Model.PlayerDetailInfo.TotalStats.MissingTwoPoint)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Rebound)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.StealBall)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Assist)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.LooseBall)</td>
-                            <td>@decimal.Truncate(Model.PlayerDetailInfo.TotalStats.Interrupt)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.OnePoint) / @Math.Round((Model.PlayerDetailInfo.TotalStats.OnePoint + Model.PlayerDetailInfo.TotalStats.MissingOnePoint))</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.TwoPoint) / @Math.Round((Model.PlayerDetailInfo.TotalStats.TwoPoint + Model.PlayerDetailInfo.TotalStats.MissingTwoPoint))</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.Rebound)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.StealBall)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.Assist)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.LooseBall)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.TotalStats.Interrupt)</td>
                         </tr>
 
                     </tbody>
@@ -98,8 +99,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>% @Model.PlayerDetailInfo.OnePointRatio</td>
-                            <td>% @Model.PlayerDetailInfo.TwoPointRatio</td>
+                            <td>% @Model.PlayerDetailInfo.RatioTable.OnePointRatio</td>
+                            <td>% @Model.PlayerDetailInfo.RatioTable.TwoPointRatio</td>
                         </tr>
 
                     </tbody>
@@ -144,10 +145,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@Model.PlayerDetailInfo.TotalWins</td>
-                            <td>@Model.PlayerDetailInfo.TotalLooses</td>
-                            <td>% @Model.PlayerDetailInfo.WinRatio</td>
-                            <td>% @Model.PlayerDetailInfo.LooseRatio</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.WinLooseTable.Win)</td>
+                            <td>@Math.Round(Model.PlayerDetailInfo.WinLooseTable.Loose)</td>
+                            <td>% @Math.Round(Model.PlayerDetailInfo.WinLooseTable.WinRatio)</td>
+                            <td>% @Math.Round(Model.PlayerDetailInfo.WinLooseTable.LooseRatio)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -177,20 +178,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var customStat in Model.PlayerDetailInfo.PlayerStats)
+                        @foreach (var stat in Model.PlayerDetailInfo.Stats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order))
                         {
+                            var match = stat.Match;
                             <tr>
-                                <td><a asp-page="MatchDetail" asp-route-id="@customStat.PlayerStat.Match.Id">@customStat.PlayerStat.Match.MatchDate.ToString("dd-MM-yyyy")</a></td>
-                                <td>@customStat.PlayerStat.Match.Order</td>
-                                <td>@customStat.PlayerStat.Team.Name</td>
-                                <td>@decimal.Truncate(customStat.HomeTeamScore) - @decimal.Truncate(customStat.AwayTeamScore)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.OnePoint) / @decimal.Truncate(customStat.PlayerStat.OnePoint + customStat.PlayerStat.MissingOnePoint)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.TwoPoint) / @decimal.Truncate(customStat.PlayerStat.TwoPoint + customStat.PlayerStat.MissingTwoPoint)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.Rebound)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.StealBall)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.Assist)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.LooseBall)</td>
-                                <td>@decimal.Truncate(customStat.PlayerStat.Interrupt)</td>
+                                <td><a asp-page="MatchDetail" asp-route-id="@match.Id">@match.MatchDate.ToString("dd-MM-yyyy")</a></td>
+                                <td>@match.Order</td>
+                                <td>@stat.Team.Name</td>
+                                <td>@Math.Round(match.HomeTeamScore) - @Math.Round(match.AwayTeamScore)</td>
+                                <td>@Math.Round(stat.OnePoint) / @Math.Round((stat.OnePoint + stat.MissingOnePoint))</td>
+                                <td>@Math.Round(stat.TwoPoint) / @Math.Round((stat.TwoPoint + stat.MissingTwoPoint))</td>
+                                <td>@Math.Round(stat.Rebound)</td>
+                                <td>@Math.Round(stat.StealBall)</td>
+                                <td>@Math.Round(stat.Assist)</td>
+                                <td>@Math.Round(stat.LooseBall)</td>
+                                <td>@Math.Round(stat.Interrupt)</td>
                             </tr>
                         }
                     </tbody>

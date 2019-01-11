@@ -17,7 +17,6 @@ namespace BasketballStats.WebApi.Models
             set => _birthDate = value.Date;
         }
 
-        [JsonIgnore]
         public virtual ICollection<Stat> Stats { get; set; }
     }
 }

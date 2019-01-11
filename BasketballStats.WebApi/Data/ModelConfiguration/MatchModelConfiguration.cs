@@ -26,6 +26,10 @@ namespace BasketballStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.AwayTeamId)
                 .IsRequired();
 
+            builder.Property(p => p.HomeTeamScore);
+
+            builder.Property(p => p.AwayTeamScore);
+
             builder.Property(p => p.VideoLink)
                 .HasMaxLength(100);
 

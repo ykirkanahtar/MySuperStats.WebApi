@@ -77,5 +77,33 @@ namespace BasketballStats.WebApi.Controllers
                     Mapper.Map<IEnumerable<Match>, IEnumerable<MatchResponse>>(result.ResultList), result.Count));
             });
         }
+
+        [Route("getallformainscreen")]
+        [HttpGet]
+        [AllowAnonymous]
+        public Task<IActionResult> GetAllForMainScreen()
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetMatchForMainScreen();
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result.ResultList, result.Count));
+            });
+        }
+
+        [Route("getmatchdetailstats/id/{id:int}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public Task<IActionResult> GetMatchDetailStats(int id)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetMatchDetailStats(id);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<MatchDetailStats, MatchDetailStatsResponse>(result)));
+            });
+        }
+
     }
 }

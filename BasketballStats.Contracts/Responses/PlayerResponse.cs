@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace BasketballStats.Contracts.Responses
@@ -12,7 +13,6 @@ namespace BasketballStats.Contracts.Responses
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<StatResponse> Stats { get; set; }
     }
 }

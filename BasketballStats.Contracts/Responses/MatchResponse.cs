@@ -12,12 +12,14 @@ namespace BasketballStats.Contracts.Responses
         public int DurationInMinutes { get; set; }
         public int HomeTeamId { get; set; }
         public int AwayTeamId { get; set; }
+        public decimal HomeTeamScore { get; set; }
+        public decimal AwayTeamScore { get; set; }
         public string VideoLink { get; set; }
 
         public virtual TeamResponse HomeTeam { get; set; }
         public virtual TeamResponse AwayTeam { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<StatResponse> Stats { get; set; }
     }
 }
+

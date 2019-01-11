@@ -17,7 +17,7 @@ namespace BasketballStats.WebApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.0-preview3-35497")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("BasketballStats.WebApi.Models.Match", b =>
@@ -29,6 +29,9 @@ namespace BasketballStats.WebApi.Migrations
 
                     b.Property<int>("AwayTeamId")
                         .HasColumnName("away_team_id");
+
+                    b.Property<decimal>("AwayTeamScore")
+                        .HasColumnName("away_team_score");
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
@@ -47,6 +50,9 @@ namespace BasketballStats.WebApi.Migrations
 
                     b.Property<int>("HomeTeamId")
                         .HasColumnName("home_team_id");
+
+                    b.Property<decimal>("HomeTeamScore")
+                        .HasColumnName("home_team_score");
 
                     b.Property<DateTime>("MatchDate")
                         .HasColumnName("match_date");
@@ -760,7 +766,7 @@ namespace BasketballStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_confirm_code")
                         .HasMaxLength(6)
-                        .HasDefaultValue("577920");
+                        .HasDefaultValue("232007");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnName("email_confirmed");

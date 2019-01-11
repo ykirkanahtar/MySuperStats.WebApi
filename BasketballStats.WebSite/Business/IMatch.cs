@@ -6,6 +6,7 @@ namespace BasketballStats.WebSite.Business
 {
     public interface IMatch
     {
-        Task<List<MatchResponse>> GetAll();
+        Task<List<MatchForMainScreen>> GetAllForMainScreen();
+        Task<MatchDetailStatsResponse> GetMatchDetailStats(int matchId);
     }
 }

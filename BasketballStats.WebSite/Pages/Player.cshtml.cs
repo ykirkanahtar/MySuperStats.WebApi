@@ -23,8 +23,7 @@ namespace BasketballStats.WebSite.Pages
 
         public async Task OnGet()
         {
-            var players = await _player.GetAll();
-            PlayerList = players.OrderBy(p => p.Name).ToList();
+            PlayerList = (await _player.GetAll()).OrderBy(p => p.Name).ToList();
         }
     }
 }

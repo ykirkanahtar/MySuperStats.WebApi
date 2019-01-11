@@ -16,14 +16,14 @@ namespace BasketballStats.WebApi.AutoMapper
 
             CreateMap<Player, PlayerResponse>();
             CreateMap<PlayerRequest, Player>();
-
+            
             CreateMap<Stat, StatResponse>();
             CreateMap<StatRequest, Stat>();
 
             CreateMap<Team, TeamResponse>();
             CreateMap<TeamRequest, Team>();
 
-            //ForAllMaps((typeMap, mapConfig) => mapConfig.MaxDepth(1));
+            CreateMap<Player, PlayerDetailResponse>();
         }
     }
 }

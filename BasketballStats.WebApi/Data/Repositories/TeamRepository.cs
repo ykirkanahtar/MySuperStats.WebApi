@@ -21,7 +21,7 @@ namespace BasketballStats.WebApi.Data.Repositories
 
         public async Task<ICustomList<Team>> GetAllAsync()
         {
-            return await GetAll().IncludeMultiple(p => p.HomeMatches, p => p.AwayMatches, p => p.Stats).ToCustomList();
+            return await GetAll().ToCustomList();
         }
     }
 }

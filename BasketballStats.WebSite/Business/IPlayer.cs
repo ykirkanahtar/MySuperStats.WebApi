@@ -6,10 +6,8 @@ namespace BasketballStats.WebSite.Business
 {
     public interface IPlayer
     {
-        Task<PlayerResponse> GetById(int playerId);
+        Task<PlayerDetailResponse> GetWithStatsById(int playerId);
 
         Task<List<PlayerResponse>> GetAll();
-
-        List<PlayerResponse> GetPlayersByTeamIdAndStats(int teamId, List<StatResponse> stats);
     }
 }

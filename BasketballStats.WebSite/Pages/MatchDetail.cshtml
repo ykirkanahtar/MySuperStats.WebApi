@@ -9,9 +9,9 @@
                 <h2>@ViewData["Title"]</h2>
                 <br />
 
-                <label>Tarih:</label> @Model.MatchDetailInfo.MatchInfo.MatchDate.ToString("dd-MM-yyyy")<br />
-                <label>Sıra:</label> @Model.MatchDetailInfo.MatchInfo.Order<br />
-                <label>Video Link: </label><a href="@Model.MatchDetailInfo.MatchInfo.VideoLink" target="_blank">@Model.MatchDetailInfo.MatchInfo.VideoLink</a>
+                <label>Tarih:</label> @Model.MatchDetailStats.MatchDate.ToString("dd-MM-yyyy")<br />
+                <label>Sıra:</label> @Model.MatchDetailStats.MatchOrder<br />
+                <label>Video Link: </label><a href="@Model.MatchDetailStats.VideoLink" target="_blank">@Model.MatchDetailStats.VideoLink</a>
                 <br />
                 <br />
                 <br />
@@ -19,18 +19,18 @@
         </div>
 
         @{
-            var teams = new List<Models.TeamDetail>();
-            teams.Add(Model.MatchDetailInfo.HomeTeam);
-            teams.Add(Model.MatchDetailInfo.AwayTeam);
+            var teams = new List<Contracts.Responses.TeamStatsResponse>();
+            teams.Add(Model.MatchDetailStats.HomeTeamStats);
+            teams.Add(Model.MatchDetailStats.AwayTeamStats);
         }
 
         @foreach (var team in teams)
         {
             <div class="row-fluid">
                 <div class="col-md-12">
-                    <label>Takım Adı: </label>@team.TeamInfo.Name<br />
-                    <label>Rengi: </label>@team.TeamInfo.Color<br />
-                    <label>Yaş Ort.: </label>@team.AgeRatio<br />
+                    <label>Takım Adı: </label>@team.Team.Name<br />
+                    <label>Rengi: </label>@team.Team.Color<br />
+                    <label>Yaş Ort.: </label>@team.GetAgeRatio()<br />
                     <label>Oyuncu Sayısı: </label>@team.PlayerStats.Count
                     <div class="table-responsive">
 
@@ -65,14 +65,14 @@
                                 }
                                 <tr>
                                     <td><b>Toplam</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.OnePoint) / @decimal.Truncate(team.TeamStats.OnePoint + team.TeamStats.MissingOnePoint)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.TwoPoint) / @decimal.Truncate(team.TeamStats.TwoPoint + team.TeamStats.MissingTwoPoint)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.OnePoint + team.TeamStats.TwoPoint * 2)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.Rebound)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.StealBall)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.Assist)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.LooseBall)</b></td>
-                                    <td><b>@decimal.Truncate(team.TeamStats.Interrupt)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().OnePoint) / @decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().MissingOnePoint)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().TwoPoint) / @decimal.Truncate(team.GetTeamTotal().TwoPoint + team.GetTeamTotal().MissingTwoPoint)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().TwoPoint * 2)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().Rebound)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().StealBall)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().Assist)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().LooseBall)</b></td>
+                                    <td><b>@decimal.Truncate(team.GetTeamTotal().Interrupt)</b></td>
                                 </tr>
                             </tbody>
                         </table>
