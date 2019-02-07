@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class StatModelConfiguration<T> : BaseModelConfiguration<T, int> where T : Stat
+    public class BasketballStatModelConfiguration<T> : BaseModelConfiguration<T, int> where T : BasketballStat
     {
         public override void Configure(EntityTypeBuilder<T> builder)
         {
@@ -58,21 +58,21 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
 
             builder
                 .HasOne(r => r.Match)
-                .WithMany(c => (IEnumerable<T>)c.Stats)
+                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
                 .HasForeignKey(r => r.MatchId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder
                 .HasOne(r => r.Team)
-                .WithMany(c => (IEnumerable<T>)c.Stats)
+                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
                 .HasForeignKey(r => r.TeamId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder
                 .HasOne(r => r.Player)
-                .WithMany(c => (IEnumerable<T>)c.Stats)
+                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
                 .HasForeignKey(r => r.PlayerId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();

@@ -18,8 +18,8 @@ namespace MySuperStats.WebApi.Data.Repositories
         {
             return await (from p in GetAll()
                           where p.Id == playerId
-                          select p).Include(p => p.Stats).ThenInclude(p => p.Match)
-                                   .Include(p => p.Stats).ThenInclude(p => p.Team)
+                          select p).Include(p => p.BasketballStats).ThenInclude(p => p.Match)
+                                   .Include(p => p.BasketballStats).ThenInclude(p => p.Team)
                                    .FirstOrDefaultAsync();
         }
 

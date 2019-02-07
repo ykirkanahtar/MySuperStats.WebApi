@@ -16,7 +16,7 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         public async Task<Team> GetByNameAsync(string name)
         {
-            return await GetAll().IncludeMultiple(p => p.HomeMatches, p => p.AwayMatches, p => p.Stats).FirstOrDefaultAsync();
+            return await GetAll().IncludeMultiple(p => p.HomeMatches, p => p.AwayMatches, p => p.BasketballStats).FirstOrDefaultAsync();
         }
 
         public async Task<ICustomList<Team>> GetAllAsync()

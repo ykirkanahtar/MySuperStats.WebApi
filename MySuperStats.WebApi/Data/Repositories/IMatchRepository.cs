@@ -12,6 +12,6 @@ namespace MySuperStats.WebApi.Data.Repositories
         Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order);
         Task<ICustomList<Match>> GetAllAsync();
         Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen();
-        Task<MatchDetailStats> GetMatchDetailStats(int matchId);
+        Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId);
     }
 }

@@ -16,6 +16,6 @@ namespace MySuperStats.Contracts.Responses
         public virtual ICollection<MatchResponse> AwayMatches { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<StatResponse> Stats { get; set; }
+        public virtual ICollection<BasketballStatResponse> Stats { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace MySuperStats.Contracts.Responses
         public virtual TeamResponse HomeTeam { get; set; }
         public virtual TeamResponse AwayTeam { get; set; }
 
-        public virtual ICollection<StatResponse> Stats { get; set; }
+        public virtual ICollection<BasketballStatResponse> Stats { get; set; }
     }
 }
 

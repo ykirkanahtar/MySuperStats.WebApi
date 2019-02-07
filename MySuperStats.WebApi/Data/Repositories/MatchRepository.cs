@@ -27,7 +27,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             predicate = predicate.And(p => p.MatchDate == matchDate.Date);
             predicate = predicate.And(p => p.Order == order);
 
-            return await GetAll(predicate: predicate).IncludeMultiple(p => p.HomeTeam, p => p.AwayTeam, p => p.Stats)
+            return await GetAll(predicate: predicate).IncludeMultiple(p => p.HomeTeam, p => p.AwayTeam, p => p.BasketballStats)
                 .FirstOrDefaultAsync();
         }
 
@@ -54,43 +54,43 @@ namespace MySuperStats.WebApi.Data.Repositories
                               }).OrderBy(p => p.MatchDate).ThenBy(p => p.MatchOrder).ToCustomList();
         }
 
-        public async Task<MatchDetailStats> GetMatchDetailStats(int matchId)
+        public async Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)
         {
             return await (from p in GetAll()
                           where p.Id == matchId
                           select
-                              new MatchDetailStats
+                              new MatchDetailBasketballStats
                               {
                                   MatchDate = p.MatchDate,
                                   MatchOrder = p.Order,
                                   VideoLink = p.VideoLink,
-                                  HomeTeamStats = new TeamStats
+                                  HomeTeamBasketballStats = new TeamBasketballStats
                                   {
                                       Team = p.HomeTeam,
-                                      PlayerStats =
+                                      PlayerBasketballStats =
                                        (
-                                            from i in p.Stats
+                                            from i in p.BasketballStats
                                             where i.TeamId == p.HomeTeamId
                                             orderby i.Player.Name
-                                            select new PlayerStats
+                                            select new PlayerBasketballStats
                                             {
                                                 Player = i.Player,
-                                                Stat = i
+                                                BasketballStat = i
                                             }
                                        ).ToList()
                                   },
-                                  AwayTeamStats = new TeamStats
+                                  AwayTeamBasketballStats = new TeamBasketballStats
                                   {
                                       Team = p.AwayTeam,
-                                      PlayerStats =
+                                      PlayerBasketballStats =
                                        (
-                                            from i in p.Stats
+                                            from i in p.BasketballStats
                                             where i.TeamId == p.AwayTeamId
                                             orderby i.Player.Name
-                                            select new PlayerStats
+                                            select new PlayerBasketballStats
                                             {
                                                 Player = i.Player,
-                                                Stat = i
+                                                BasketballStat = i
                                             }
                                        ).ToList()
                                   },

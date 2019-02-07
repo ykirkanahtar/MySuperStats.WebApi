@@ -5,9 +5,9 @@ using FluentValidation;
 
 namespace MySuperStats.WebApi.Validators
 {
-    public class StatValidator : AbstractValidator<StatRequest>
+    public class BasketballStatValidator : AbstractValidator<BasketballStatRequest>
     {
-        public StatValidator()
+        public BasketballStatValidator()
         {
             RuleFor(x => x.MatchId).NotEmpty()
                 .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Match}");
@@ -44,14 +44,6 @@ namespace MySuperStats.WebApi.Validators
 
             RuleFor(x => x.Interrupt).NotEmpty()
                 .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Interrupt}");
-
-
-
-
-
-
-
-
         }
     }
 }

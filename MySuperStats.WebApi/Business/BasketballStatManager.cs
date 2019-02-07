@@ -18,20 +18,20 @@ using CustomFramework.WebApiUtils.Contracts;
 
 namespace MySuperStats.WebApi.Business
 {
-    public class StatManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IStatManager
+    public class BasketballStatManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IBasketballStatManager
     {
         private readonly IUnitOfWorkWebApi _uow;
-        public StatManager(IUnitOfWorkWebApi uow, ILogger<StatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+        public BasketballStatManager(IUnitOfWorkWebApi uow, ILogger<BasketballStatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
             : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
         }
 
-        public Task<Stat> CreateAsync(StatRequest request)
+        public Task<BasketballStat> CreateAsync(BasketballStatRequest request)
         {
             return CommonOperationAsync(async () =>
             {
-                var result = Mapper.Map<Stat>(request);
+                var result = Mapper.Map<BasketballStat>(request);
 
                 /**********MatchId, TeamId And PlayerId are unique************/
                 /*************************************************************/
@@ -64,7 +64,7 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<Stat> UpdateAsync(int id, StatRequest request)
+        public Task<BasketballStat> UpdateAsync(int id, BasketballStatRequest request)
         {
             return CommonOperationAsync(async () =>
             {
@@ -103,29 +103,29 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<Stat> GetByIdAsync(int id)
+        public Task<BasketballStat> GetByIdAsync(int id)
         {
             return CommonOperationAsync(async () => await _uow.Stats.GetByIdAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<ICustomList<Stat>> GetAllByMatchIdAsync(int matchId)
+        public Task<ICustomList<BasketballStat>> GetAllByMatchIdAsync(int matchId)
         {
             return CommonOperationAsync(async () => await _uow.Stats.GetAllByMatchIdAsync(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<ICustomList<Stat>> GetAllByPlayerIdAsync(int playerId)
+        public Task<ICustomList<BasketballStat>> GetAllByPlayerIdAsync(int playerId)
         {
             return CommonOperationAsync(async () => await _uow.Stats.GetAllByPlayerIdAsync(playerId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<ICustomList<Stat>> GetAllAsync()
+        public Task<ICustomList<BasketballStat>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Stats.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
 
         }
 
-        public Task<StatisticTable> GetTopStats()
+        public Task<BasketballStatisticTable> GetTopStats()
         {
             return CommonOperation(async () =>
             {
@@ -135,7 +135,7 @@ namespace MySuperStats.WebApi.Business
                 var statsResult = await _uow.Stats.GetAllAsync();
                 var stats = statsResult.ResultList;
 
-                var statisticTable = new StatisticTable
+                var basketballStatisticTable = new BasketballStatisticTable
                 {
                     Points = _uow.Stats.GetTopPointsStat(players, stats),
                     PointPerMatch = _uow.Stats.GetTopPointsPerMatchStat(players, stats),
@@ -159,12 +159,12 @@ namespace MySuperStats.WebApi.Business
 
                 var allPlayersMatchForms = await GetPlayersMatchFormsAsync(players);
 
-                statisticTable.Wins = _uow.Stats.GetWinsStat(players, allPlayersMatchForms);
-                statisticTable.WinRatio = _uow.Stats.GetWinRatioStat(players, allPlayersMatchForms);
-                statisticTable.Looses = _uow.Stats.GetLoosesStat(players, allPlayersMatchForms);
-                statisticTable.LooseRatio = _uow.Stats.GetLooseRatioStat(players, allPlayersMatchForms);
+                basketballStatisticTable.Wins = _uow.Stats.GetWinsStat(players, allPlayersMatchForms);
+                basketballStatisticTable.WinRatio = _uow.Stats.GetWinRatioStat(players, allPlayersMatchForms);
+                basketballStatisticTable.Looses = _uow.Stats.GetLoosesStat(players, allPlayersMatchForms);
+                basketballStatisticTable.LooseRatio = _uow.Stats.GetLooseRatioStat(players, allPlayersMatchForms);
 
-                return statisticTable;
+                return basketballStatisticTable;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
 
         }
@@ -177,7 +177,7 @@ namespace MySuperStats.WebApi.Business
             {
                 var playerStatsResult = await _uow.Stats.GetAllByPlayerIdAsync(player.Id);
                 var playerStats = playerStatsResult.ResultList;
-                var playerStatResponse = Mapper.Map<IList<StatResponse>>(playerStats);
+                var playerStatResponse = Mapper.Map<IList<BasketballStatResponse>>(playerStats);
                 var matchResults = playerStatResponse.GetMatchResultByMatchAndPlayerId();
                 var matchResutsStrings = new List<string>();
                 foreach (var matchResult in matchResults)

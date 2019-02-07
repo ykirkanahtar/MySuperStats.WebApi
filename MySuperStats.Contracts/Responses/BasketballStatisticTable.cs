@@ -2,9 +2,9 @@
 
 namespace MySuperStats.Contracts.Responses
 {
-    public class StatisticTable
+    public class BasketballStatisticTable
     {
-        public StatisticTable()
+        public BasketballStatisticTable()
         {
             Points = new List<StatisticDetail>();
             PointPerMatch = new List<StatisticDetail>();

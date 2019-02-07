@@ -101,9 +101,9 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<MatchDetailStats> GetMatchDetailStats(int matchId)
+        public Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)
         {
-            return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailBasketballStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         private static void SameValueCheckForTeam1AndTeam2(Match entity)

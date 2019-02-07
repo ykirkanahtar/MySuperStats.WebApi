@@ -12,6 +12,6 @@ namespace MySuperStats.WebApi.Business
     {
         Task<ICustomList<Match>> GetAllAsync();
         Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen();
-        Task<MatchDetailStats> GetMatchDetailStats(int matchId);
+        Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId);
     }
 }

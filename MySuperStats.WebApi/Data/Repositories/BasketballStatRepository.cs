@@ -17,7 +17,7 @@ using Remotion.Linq.Clauses;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
-    public class StatRepository : BaseRepository<Stat, int>, IStatRepository
+    public class BasketballStatRepository : BaseRepository<BasketballStat, int>, IBasketballStatRepository
     {
         const int Take = 5;
 
@@ -28,14 +28,14 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         //}
 
-        public StatRepository(DbContext dbContext) : base(dbContext)
+        public BasketballStatRepository(DbContext dbContext) : base(dbContext)
         {
 
         }
 
-        public async Task<Stat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
+        public async Task<BasketballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
         {
-            var predicate = PredicateBuilder.New<Stat>();
+            var predicate = PredicateBuilder.New<BasketballStat>();
             predicate = predicate.And(p => p.MatchId == matchId);
             predicate = predicate.And(p => p.TeamId == teamId);
             predicate = predicate.And(p => p.PlayerId == playerId);
@@ -52,22 +52,22 @@ namespace MySuperStats.WebApi.Data.Repositories
                           select p.OnePoint + p.TwoPoint * 2).FirstOrDefaultAsync();
         }
 
-        public async Task<ICustomList<Stat>> GetAllByMatchIdAsync(int matchId)
+        public async Task<ICustomList<BasketballStat>> GetAllByMatchIdAsync(int matchId)
         {
             return await GetAll(predicate: p => p.MatchId == matchId).ToCustomList();
         }
 
-        public async Task<ICustomList<Stat>> GetAllByPlayerIdAsync(int playerId)
+        public async Task<ICustomList<BasketballStat>> GetAllByPlayerIdAsync(int playerId)
         {
             return await GetAll(predicate: p => p.PlayerId == playerId).ToCustomList();
         }
 
-        public async Task<ICustomList<Stat>> GetAllAsync()
+        public async Task<ICustomList<BasketballStat>> GetAllAsync()
         {
             return await GetAll().Include(p => p.Match).ToCustomList();
         }
 
-        public List<StatisticDetail> GetTopPointsStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTopPointsStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -91,7 +91,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTopPointsPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTopPointsPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -116,7 +116,7 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         }
 
-        public List<StatisticDetail> GetTopOnePointStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTopOnePointStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -140,7 +140,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTopOnePointPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTopOnePointPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -164,7 +164,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetOnePointRatioStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetOnePointRatioStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -188,7 +188,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTwoPointStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -213,7 +213,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTwoPointPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -238,7 +238,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointRatioStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTwoPointRatioStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -263,7 +263,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetReboundStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetReboundStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -287,7 +287,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetReboundPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetReboundPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -311,7 +311,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetStealStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetStealStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -335,7 +335,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetStealPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetStealPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -359,7 +359,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTurnoverStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTurnoverStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -383,7 +383,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTurnoverPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetTurnoverPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -407,7 +407,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetAssistStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetAssistStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -431,7 +431,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetAssistPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetAssistPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -455,7 +455,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetInterruptStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetInterruptStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
@@ -479,7 +479,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetInterruptPerMatchStat(IList<Player> players, IList<Stat> stats)
+        public List<StatisticDetail> GetInterruptPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats

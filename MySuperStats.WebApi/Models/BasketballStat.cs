@@ -2,7 +2,7 @@
 
 namespace MySuperStats.WebApi.Models
 {
-    public class Stat : BaseModel<int>
+    public class BasketballStat : BaseModel<int>
     {
         public int MatchId { get; set; }
         public int TeamId { get; set; }

@@ -12,13 +12,13 @@ namespace MySuperStats.WebApi.Data.Seeding
             Matches = new List<Match>();
             Teams = new List<Team>();
             Players = new List<Player>();
-            Stats = new List<Stat>();
+            BasketballStats = new List<BasketballStat>();
         }
 
         public IList<Match> Matches { get; set; }
         public IList<Team> Teams { get; set; }
         public IList<Player> Players { get; set; }
-        public IList<Stat> Stats { get; set; }
+        public IList<BasketballStat> BasketballStats { get; set; }
 
         public void SeedMatchData(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace MySuperStats.WebApi.Data.Seeding
 
         public void SeedStatData(ModelBuilder modelBuilder)
         {
-            SeedDataUtil.SeedTData<Stat, int>(modelBuilder, Stats, 1);
+            SeedDataUtil.SeedTData<BasketballStat, int>(modelBuilder, BasketballStats, 1);
         }
 
         public void SeedAll(ModelBuilder modelBuilder)

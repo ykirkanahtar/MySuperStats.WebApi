@@ -16,6 +16,6 @@ namespace MySuperStats.WebApi.Models
         public virtual ICollection<Match> AwayMatches { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Stat> Stats { get; set; }
+        public virtual ICollection<BasketballStat> BasketballStats { get; set; }
     }
 }

@@ -18,10 +18,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MySuperStats.WebApi.Controllers
 {
-    [Route(ApiConstants.DefaultRoute + "stat")]
-    public class StatController : BaseControllerWithCrudAuthorization<Stat, StatRequest, StatRequest, StatResponse, IStatManager, int>
+    [Route(ApiConstants.DefaultRoute + "basketballstat")]
+    public class BasketballStatController : BaseControllerWithCrudAuthorization<BasketballStat, BasketballStatRequest, BasketballStatRequest, BasketballStatResponse, IBasketballStatManager, int>
     {
-        public StatController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IStatManager manager)
+        public BasketballStatController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IBasketballStatManager manager)
             : base(localizationService, logger, mapper, manager)
         {
 
@@ -30,7 +30,7 @@ namespace MySuperStats.WebApi.Controllers
         [Route("create")]
         [HttpPost]
         [Permission(nameof(WebApiEntities.Stat), Crud.Create)]
-        public async Task<IActionResult> Create([FromBody] StatRequest request)
+        public async Task<IActionResult> Create([FromBody] BasketballStatRequest request)
         {
             return await BaseCreateAsync(request);
         }
@@ -38,12 +38,12 @@ namespace MySuperStats.WebApi.Controllers
         [Route("{id:int}/update")]
         [HttpPut]
         [Permission(nameof(WebApiEntities.Stat), Crud.Update)]
-        public Task<IActionResult> UpdateName(int id, [FromBody] StatRequest request)
+        public Task<IActionResult> UpdateName(int id, [FromBody] BasketballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
                 var result = await Manager.UpdateAsync(id, request);
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Stat, StatResponse>(result)));
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<BasketballStat, BasketballStatResponse>(result)));
             });
         }
 
@@ -73,7 +73,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllByMatchIdAsync(matchId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
             });
         }
 
@@ -87,7 +87,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllByPlayerIdAsync(playerId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
             });
         }
 
@@ -101,7 +101,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllAsync();
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Stat>, IEnumerable<StatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
             });
         }
 

@@ -91,17 +91,17 @@ namespace MySuperStats.WebApi.Controllers
             });
         }
 
-        [Route("getmatchdetailstats/id/{id:int}")]
+        [Route("getmatchdetailbasketballstats/id/{id:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetMatchDetailStats(int id)
+        public Task<IActionResult> GetMatchDetailBasketballStats(int id)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetMatchDetailStats(id);
+                var result = await Manager.GetMatchDetailBasketballStats(id);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<MatchDetailStats, MatchDetailStatsResponse>(result)));
+                    Mapper.Map<MatchDetailBasketballStats, MatchDetailBasketballStatsResponse>(result)));
             });
         }
 

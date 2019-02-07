@@ -127,20 +127,20 @@ namespace MySuperStats.WebApi
             services.AddTransient<IMatchRepository, MatchRepository>();
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
-            services.AddTransient<IStatRepository, StatRepository>();
+            services.AddTransient<IBasketballStatRepository, BasketballStatRepository>();
             /*********Repositories*********/
 
             /*********Validators*********/
             services.AddTransient<IValidator<MatchRequest>, MatchValidator>();
             services.AddTransient<IValidator<TeamRequest>, TeamValidator>();
             services.AddTransient<IValidator<PlayerRequest>, PlayerValidator>();
-            services.AddTransient<IValidator<StatRequest>, StatValidator>();
+            services.AddTransient<IValidator<BasketballStatRequest>, BasketballStatValidator>();
             /*********Validators*********/
 
             /*********Managers*********/
             services.AddTransient<IMatchManager, MatchManager>();
             services.AddTransient<IPlayerManager, PlayerManager>();
-            services.AddTransient<IStatManager, StatManager>();
+            services.AddTransient<IBasketballStatManager, BasketballStatManager>();
             services.AddTransient<ITeamManager, TeamManager>();
             /*********Managers*********/
 

@@ -8,7 +8,7 @@ namespace MySuperStats.Contracts.Utils
 {
     public static class Functions
     {
-        public static List<MatchResult> GetMatchResultByMatchAndPlayerId(this ICollection<StatResponse> playerStats)
+        public static List<MatchResult> GetMatchResultByMatchAndPlayerId(this ICollection<BasketballStatResponse> playerStats)
         {
             var matchForms = new List<MatchResult>();
             var matches = (from p in playerStats orderby p.Match.MatchDate, p.Match.Order select p.Match).ToList().Distinct();

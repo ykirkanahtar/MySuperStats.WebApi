@@ -10,17 +10,17 @@ namespace MySuperStats.Contracts.Responses
     {
         public PlayerDetailResponse()
         {
-            PerMatchStats = new StatResponse();
-            TotalStats = new StatResponse();
-            RatioTable = new RatioTable();
+            PerMatchStats = new BasketballStatResponse();
+            TotalStats = new BasketballStatResponse();
+            RatioTable = new BasketballRatioTable();
             MatchForms = new List<MatchResult>();
             WinLooseTable = new WinLooseTable();
             Matches = new List<MatchResponse>();
         }
 
-        public StatResponse PerMatchStats { get; private set; }
-        public StatResponse TotalStats { get; private set; }
-        public RatioTable RatioTable { get; }
+        public BasketballStatResponse PerMatchStats { get; private set; }
+        public BasketballStatResponse TotalStats { get; private set; }
+        public BasketballRatioTable RatioTable { get; }
         public List<MatchResult> MatchForms { get; private set; }
         public WinLooseTable WinLooseTable { get; private set; }
         public List<MatchResponse> Matches { get; private set; }
@@ -32,7 +32,7 @@ namespace MySuperStats.Contracts.Responses
 
             var twoPointMatchCount = ((from p in Matches where p.MatchDate >= ReleaseDates.TwoPointReleasedate select p.Id).Distinct()).Count();
 
-            TotalStats = new StatResponse
+            TotalStats = new BasketballStatResponse
             {
                 Assist = Stats.Sum(x => x.Assist),
                 Interrupt = Stats.Sum(x => x.Interrupt),
@@ -48,7 +48,7 @@ namespace MySuperStats.Contracts.Responses
             RatioTable.OnePointRatio = TotalStats.OnePoint + TotalStats.MissingOnePoint > 0 ? Math.Round(TotalStats.OnePoint / (TotalStats.OnePoint + TotalStats.MissingOnePoint) * 100, 2) : 0;
             RatioTable.TwoPointRatio = TotalStats.TwoPoint + TotalStats.MissingTwoPoint > 0 ? Math.Round(TotalStats.TwoPoint / (TotalStats.TwoPoint + TotalStats.MissingTwoPoint) * 100, 2) : 0;
 
-            PerMatchStats = new StatResponse
+            PerMatchStats = new BasketballStatResponse
             {
                 Assist = Math.Round(Stats.Sum(x => x.Assist) / matchCount, 2),
                 Interrupt = Math.Round(Stats.Sum(x => x.Interrupt) / matchCount, 2),

@@ -17,6 +17,6 @@ namespace MySuperStats.WebApi.Models
             set => _birthDate = value.Date;
         }
 
-        public virtual ICollection<Stat> Stats { get; set; }
+        public virtual ICollection<BasketballStat> BasketballStats { get; set; }
     }
 }
