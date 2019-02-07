@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BasketballStats.Contracts.Responses
+namespace MySuperStats.Contracts.Responses
 {
     public class MatchForMainScreen
     {

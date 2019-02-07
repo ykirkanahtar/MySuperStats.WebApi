@@ -1,4 +1,4 @@
-﻿namespace BasketballStats.Contracts.Enums
+﻿namespace MySuperStats.Contracts.Enums
 {
     public enum MatchResult
     {

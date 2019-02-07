@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace BasketballStats.Contracts.Responses
+namespace MySuperStats.Contracts.Responses
 
 {
     public class PlayerResponse

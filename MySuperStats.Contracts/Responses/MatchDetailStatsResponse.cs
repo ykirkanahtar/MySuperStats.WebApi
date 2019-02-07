@@ -4,7 +4,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using CustomFramework.Utils;
 
-namespace BasketballStats.Contracts.Responses
+namespace MySuperStats.Contracts.Responses
 {
     public class MatchDetailStatsResponse
     {

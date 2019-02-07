@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BasketballStats.Contracts.Enums;
-using BasketballStats.Contracts.Utils;
+using MySuperStats.Contracts.Enums;
+using MySuperStats.Contracts.Utils;
 
-namespace BasketballStats.Contracts.Responses
+namespace MySuperStats.Contracts.Responses
 {
     public class PlayerDetailResponse : PlayerResponse
     {

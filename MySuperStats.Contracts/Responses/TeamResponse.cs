@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace BasketballStats.Contracts.Responses
+namespace MySuperStats.Contracts.Responses
 {
     public class TeamResponse
     {

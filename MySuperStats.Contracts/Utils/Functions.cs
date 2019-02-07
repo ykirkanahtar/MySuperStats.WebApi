@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BasketballStats.Contracts.Enums;
-using BasketballStats.Contracts.Responses;
+using MySuperStats.Contracts.Enums;
+using MySuperStats.Contracts.Responses;
 
-namespace BasketballStats.Contracts.Utils
+namespace MySuperStats.Contracts.Utils
 {
     public static class Functions
     {

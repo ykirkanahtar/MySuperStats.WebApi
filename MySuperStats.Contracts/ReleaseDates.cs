@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BasketballStats.Contracts
+namespace MySuperStats.Contracts
 {
     public static class ReleaseDates
     {

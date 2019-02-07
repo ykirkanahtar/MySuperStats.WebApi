@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BasketballStats.Contracts.Requests
+namespace MySuperStats.Contracts.Requests
 {
     public class MatchRequest
     {
