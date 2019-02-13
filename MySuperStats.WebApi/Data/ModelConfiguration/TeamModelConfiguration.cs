@@ -18,7 +18,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .IsRequired()
                 .HasMaxLength(25);
 
-            builder.HasIndex(p => p.Name).IsUnique();
+            builder.HasIndex(p => p.Name);
         }
     }
 }

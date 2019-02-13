@@ -78,7 +78,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .IsRequired();
 
 
-            builder.HasIndex(p => new { p.MatchId, p.PlayerId, p.TeamId }).IsUnique();
+            builder.HasIndex(p => new { p.MatchId, p.PlayerId, p.TeamId });
         }
     }
 }

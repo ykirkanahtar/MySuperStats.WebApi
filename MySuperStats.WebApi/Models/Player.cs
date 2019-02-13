@@ -10,7 +10,7 @@ namespace MySuperStats.WebApi.Models
         private DateTime _birthDate;
         public string Name { get; set; }
         public string Surname { get; set; }
-      
+
         public DateTime BirthDate
         {
             get => _birthDate;
@@ -18,5 +18,8 @@ namespace MySuperStats.WebApi.Models
         }
 
         public virtual ICollection<BasketballStat> BasketballStats { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<MatchGroupPlayer> MatchGroupPlayers { get; set; }
     }
 }

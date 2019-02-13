@@ -47,8 +47,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
-            builder.HasIndex(p => new { p.MatchDate, p.Order })
-                .IsUnique();
+            builder.HasIndex(p => new { p.MatchDate, p.Order });
         }
     }
 }

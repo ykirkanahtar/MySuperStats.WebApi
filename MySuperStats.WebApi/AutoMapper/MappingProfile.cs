@@ -16,7 +16,7 @@ namespace MySuperStats.WebApi.AutoMapper
 
             CreateMap<Player, PlayerResponse>();
             CreateMap<PlayerRequest, Player>();
-            
+
             CreateMap<BasketballStat, BasketballStatResponse>();
             CreateMap<BasketballStatRequest, BasketballStat>();
 
@@ -24,6 +24,15 @@ namespace MySuperStats.WebApi.AutoMapper
             CreateMap<TeamRequest, Team>();
 
             CreateMap<Player, PlayerDetailResponse>();
+
+            CreateMap<MatchGroup, MatchGroupResponse>();
+            CreateMap<MatchGroupRequest, MatchGroup>();
+
+            CreateMap<MatchGroupPlayer, MatchGroupPlayerResponse>();
+            CreateMap<MatchGroupPlayerRequest, MatchGroupPlayer>();
+
+            CreateMap<MatchGroupTeam, MatchGroupTeamResponse>();
+            CreateMap<MatchGroupTeamRequest, MatchGroupTeam>();
         }
     }
 }

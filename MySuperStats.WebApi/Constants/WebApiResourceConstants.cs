@@ -28,5 +28,7 @@
         public const string LooseBall = "LooseBall";
         public const string Assist = "Assist";
         public const string Interrupt = "Interrupt";
+        public const string GroupName = "GroupName";
+        public const string MatchGroup = "MatchGroup";
     }
 }
