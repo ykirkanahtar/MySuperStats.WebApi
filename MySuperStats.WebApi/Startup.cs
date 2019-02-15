@@ -131,6 +131,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IMatchGroupRepository, MatchGroupRepository>();
             services.AddTransient<IMatchGroupPlayerRepository, MatchGroupPlayerRepository>();
             services.AddTransient<IMatchGroupTeamRepository, MatchGroupTeamRepository>();
+            services.AddTransient<IFootballStatRepository, FootballStatRepository>();
             /*********Repositories*********/
 
             /*********Validators*********/
@@ -141,6 +142,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IValidator<MatchGroupRequest>, MatchGroupValidator>();
             services.AddTransient<IValidator<MatchGroupPlayerRequest>, MatchGroupPlayerValidator>();
             services.AddTransient<IValidator<MatchGroupTeamRequest>, MatchGroupTeamValidator>();
+            services.AddTransient<IValidator<FootballStatRequest>, FootballStatValidator>();
             /*********Validators*********/
 
             /*********Managers*********/
@@ -151,6 +153,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IMatchGroupManager, MatchGroupManager>();
             services.AddTransient<IMatchGroupPlayerManager, MatchGroupPlayerManager>();
             services.AddTransient<IMatchGroupTeamManager, MatchGroupTeamManager>();
+            services.AddTransient<IFootballStatManager, FootballStatManager>();
             /*********Managers*********/
 
             services.AddMvc(options =>

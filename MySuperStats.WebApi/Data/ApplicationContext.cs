@@ -37,9 +37,9 @@ namespace MySuperStats.WebApi.Data
         public virtual DbSet<BasketballStat> BasketballStats { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<MatchGroup> MatchGroups { get; set; }
-
         public virtual DbSet<MatchGroupPlayer> MatchGroupPlayers { get; set; }
         public virtual DbSet<MatchGroupTeam> MatchGroupTeams { get; set; }
+        public virtual DbSet<FootballStat> FootballStats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,6 +52,7 @@ namespace MySuperStats.WebApi.Data
             modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration<MatchGroup>());
             modelBuilder.ApplyConfiguration(new MatchGroupPlayerModelConfiguration<MatchGroupPlayer>());
             modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration<MatchGroupTeam>());
+            modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration<FootballStat>());
 
             //https://stackoverflow.com/questions/46526230/disable-cascade-delete-on-ef-core-2-globally
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()

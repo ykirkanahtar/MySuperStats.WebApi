@@ -9,11 +9,12 @@ namespace MySuperStats.WebApi.Data
         IMatchRepository Matches { get; }
         ITeamRepository Teams { get; }
         IPlayerRepository Players { get; }
-        IBasketballStatRepository Stats { get; }
+        IBasketballStatRepository BasketballStats { get; }
         IMatchGroupRepository MatchGroups { get; }
 
         IMatchGroupPlayerRepository MatchGroupPlayers { get; }
         IMatchGroupTeamRepository MatchGroupTeams { get; }
+        IFootballStatRepository FootballStats { get; }
         /*********End of Repositories*********/
     }
 }

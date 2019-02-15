@@ -28,10 +28,11 @@ namespace MySuperStats.WebApi.Data
             Matches = new MatchRepository(context);
             Teams = new TeamRepository(context);
             Players = new PlayerRepository(context);
-            Stats = new BasketballStatRepository(context);
+            BasketballStats = new BasketballStatRepository(context);
             MatchGroups = new MatchGroupRepository(context);
             MatchGroupPlayers = new MatchGroupPlayerRepository(context);
             MatchGroupTeams = new MatchGroupTeamRepository(context);
+            FootballStats = new FootballStatRepository(context);
             /*********End of Instances*********/
         }
 
@@ -55,10 +56,11 @@ namespace MySuperStats.WebApi.Data
         public IMatchRepository Matches { get; }
         public ITeamRepository Teams { get; }
         public IPlayerRepository Players { get; }
-        public IBasketballStatRepository Stats { get; }
+        public IBasketballStatRepository BasketballStats { get; }
         public IMatchGroupRepository MatchGroups { get; }
         public IMatchGroupPlayerRepository MatchGroupPlayers { get; }
         public IMatchGroupTeamRepository MatchGroupTeams { get; }
+        public IFootballStatRepository FootballStats { get; }
         /*********End of Repositories*********/
     }
 }

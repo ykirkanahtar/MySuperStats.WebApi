@@ -10,14 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
+using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers
 {
+    [Route(ApiConstants.DefaultRoute + "matchgroupplayer")]
     public class MatchGroupPlayerController : BaseControllerWithCrdAuthorization<MatchGroupPlayer, MatchGroupPlayerRequest, MatchGroupPlayerResponse, IMatchGroupPlayerManager, int>
-    {                                         
+    {
 
         public MatchGroupPlayerController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupPlayerManager manager)
              : base(localizationService, logger, mapper, manager)
@@ -33,7 +35,7 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseCreateAsync(request);
         }
 
-        [Route("delete/{id:int")]
+        [Route("delete/{id:int}")]
         [HttpDelete]
         [Permission(nameof(WebApiEntities.MatchGroupPlayer), Crud.Delete)]
         public async Task<IActionResult> Delete(int id)

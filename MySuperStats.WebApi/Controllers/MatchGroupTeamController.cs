@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
+using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers
 {
+    [Route(ApiConstants.DefaultRoute + "matchgroupteam")]
     public class MatchGroupTeamController : BaseControllerWithCrdAuthorization<MatchGroupTeam, MatchGroupTeamRequest, MatchGroupTeamResponse, IMatchGroupTeamManager, int>
     {
 
@@ -33,7 +35,7 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseCreateAsync(request);
         }
 
-        [Route("delete/{id:int")]
+        [Route("delete/{id:int}")]
         [HttpDelete]
         [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Delete)]
         public async Task<IActionResult> Delete(int id)

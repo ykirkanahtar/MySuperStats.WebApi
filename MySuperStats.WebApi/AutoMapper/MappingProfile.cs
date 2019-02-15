@@ -33,6 +33,9 @@ namespace MySuperStats.WebApi.AutoMapper
 
             CreateMap<MatchGroupTeam, MatchGroupTeamResponse>();
             CreateMap<MatchGroupTeamRequest, MatchGroupTeam>();
+
+            CreateMap<FootballStat, FootballStatResponse>();
+            CreateMap<FootballStatRequest, FootballStat>();
         }
     }
 }
