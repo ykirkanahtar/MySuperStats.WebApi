@@ -1,0 +1,268 @@
+﻿@page
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.IndexModel
+@{
+    ViewData["Title"] = "İstatistiklerim";
+}
+<script>
+  $(function () {
+    $('#players_matches').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+
+    <!-- Main content -->
+    <section class="content">
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+
+            <label>Doğum Tarihi : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
+            <br />
+            <br />
+        </div>
+    </div>
+@if (Model.PlayerStats.Matches.Count > 0)
+{
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Toplam İstatistikler</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="total_stats" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>1 Sayı</th>
+                    <th>2 Sayı</th>
+                    <th>Ribaunt</th>
+                    <th>Kapma</th>
+                    <th>Asist</th>
+                    <th>Kayıp</th>
+                    <th>Kesme</th>
+                </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>@($"{Math.Round(Model.PlayerStats.TotalStats.OnePoint)} / {Math.Round(Model.PlayerStats.TotalStats.OnePoint + Model.PlayerStats.TotalStats.MissingOnePoint)}")</td>
+                          <td>@($"{Math.Round(Model.PlayerStats.TotalStats.TwoPoint)} / {Math.Round(Model.PlayerStats.TotalStats.TwoPoint + Model.PlayerStats.TotalStats.MissingTwoPoint)}")</td>
+                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Rebound))</td>
+                          <td>@(Math.Round(Model.PlayerStats.TotalStats.StealBall))</td>
+                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Assist))</td>
+                          <td>@(Math.Round(Model.PlayerStats.TotalStats.LooseBall))</td>
+                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Interrupt))</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-6">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Maç Başına İstatistikler</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="per_match_stats" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>1 Sayı</th>
+                    <th>2 Sayı</th>
+                    <th>Ribaunt</th>
+                    <th>Kapma</th>
+                    <th>Asist</th>
+                    <th>Kayıp</th>
+                    <th>Kesme</th>
+                </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>@($"{Math.Round(Model.PlayerStats.PerMatchStats.OnePoint, 2)} / {Math.Round(Model.PlayerStats.PerMatchStats.OnePoint + Model.PlayerStats.PerMatchStats.MissingOnePoint, 2)}")</td>
+                          <td>@($"{Math.Round(Model.PlayerStats.PerMatchStats.TwoPoint, 2)} / {Math.Round(Model.PlayerStats.PerMatchStats.TwoPoint + Model.PlayerStats.PerMatchStats.MissingTwoPoint, 2)}")</td>
+                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Rebound, 2))</td>
+                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.StealBall, 2))</td>
+                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Assist, 2))</td>
+                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.LooseBall, 2))</td>
+                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Interrupt, 2))</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Ortalama İstatistikler</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="avg_stats" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>1 Sayı %</th>
+                    <th>2 Sayı %</th>
+                </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>@(Model.PlayerStats.RatioTable.OnePointRatio)</td>
+                          <td>@(Model.PlayerStats.RatioTable.TwoPointRatio)</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Galibiyet - Mağlubiyet Tablosu</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="win_loose_table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Sonuçlar</th>
+                </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>@(Utils.ConvertFunctions.GetFirstCharOfEnumValues(Model.PlayerStats.MatchForms))</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Kazanma/Kaybetme Oranı</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="win_loose_ratio_table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Kazanma</th>
+                    <th>Kaybetme</th>
+                    <th>Kazanma %</th>
+                    <th>Kaybetme %</th>                    
+                </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                            <td>@(Math.Round(Model.PlayerStats.WinLooseTable.Win))</td>
+                            <td>@(Math.Round(Model.PlayerStats.WinLooseTable.Loose))</td>
+                            <td>% @(Math.Round(Model.PlayerStats.WinLooseTable.WinRatio))</td>
+                            <td>% @(Math.Round(Model.PlayerStats.WinLooseTable.LooseRatio))</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->        
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Oynadığı Karşılaşmalar</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="players_matches" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Sıra</th>
+                  <th>Takım</th>
+                  <th>Skor</th>
+                  <th>1 Sayı</th>
+                  <th>2 Sayı</th>
+                  <th>Ribaunt</th>
+                  <th>Kapma</th>
+                  <th>Asist</th>
+                  <th>Kayıp</th>
+                  <th>Kesme</th>
+                </tr>
+                </thead>
+                <tbody>
+                   @foreach (var stat in Model.BasketballStats)
+                    {
+                      var match = stat.Match;
+                      <tr>
+                          <td><a asp-page="MatchDetail" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
+                          <td>@(match.Order)</td>
+                          <td>@(stat.Team.Name)</td>
+                          <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
+                          <td>@($"{Math.Round(stat.OnePoint)} / {Math.Round(stat.OnePoint + stat.MissingOnePoint)}")</td>
+                          <td>@($"{Math.Round(stat.TwoPoint)} / {Math.Round(stat.TwoPoint + stat.MissingTwoPoint)}")</td>
+                          <td>@(Math.Round(stat.Rebound))</td>
+                          <td>@(Math.Round(stat.StealBall))</td>
+                          <td>@(Math.Round(stat.Assist))</td>
+                          <td>@(Math.Round(stat.LooseBall))</td>
+                          <td>@(Math.Round(stat.Interrupt))</td>
+                      </tr>
+                    }
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Sıra</th>
+                  <th>Takım</th>
+                  <th>Skor</th>
+                  <th>1 Sayı</th>
+                  <th>2 Sayı</th>
+                  <th>Ribaunt</th>
+                  <th>Kapma</th>
+                  <th>Asist</th>
+                  <th>Kayıp</th>
+                  <th>Kesme</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+}
+    </section>
+    <!-- /.content -->

@@ -21,6 +21,6 @@ namespace MySuperStats.WebApi.Models
         public virtual ICollection<FootballStat> FootballStats { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<MatchGroupPlayer> MatchGroupPlayers { get; set; }
+        public virtual ICollection<MatchGroupUser> MatchGroupUsers { get; set; }
     }
 }

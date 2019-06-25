@@ -2,13 +2,13 @@
 using MySuperStats.WebApi.Data.ModelConfiguration;
 using MySuperStats.WebApi.Models;
 using CustomFramework.Data.Utils;
-using CustomFramework.WebApiUtils.Authorization.Data;
-using CustomFramework.WebApiUtils.Authorization.Models;
 using Microsoft.EntityFrameworkCore;
+using CustomFramework.WebApiUtils.Identity.Data;
+using CustomFramework.WebApiUtils.Identity.Models;
 
 namespace MySuperStats.WebApi.Data
 {
-    public class ApplicationContext : AuthorizationContext
+    public class ApplicationContext : IdentityContext<User, Role>
     {
         public ApplicationContext(DbContextOptions options)
             : base(options)
@@ -16,28 +16,13 @@ namespace MySuperStats.WebApi.Data
 
         }
 
-        /*************Authorization*************/
-        public virtual DbSet<Application> Applications { get; set; }
-        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public virtual DbSet<ClientApplication> ClientApplications { get; set; }
-        public virtual DbSet<ClientApplicationUtil> ClientApplicationUtils { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Claim> Claims { get; set; }
-        public virtual DbSet<RoleClaim> RoleClaims { get; set; }
-        public virtual DbSet<UserClaim> UserClaims { get; set; }
-        public virtual DbSet<UserRole> UserRoles { get; set; }
-        public virtual DbSet<UserUtil> UserUtils { get; set; }
-        public virtual DbSet<RoleEntityClaim> RoleEntityClaims { get; set; }
-        public virtual DbSet<UserEntityClaim> UserEntityClaims { get; set; }
-        /*************Authorization*************/
 
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<BasketballStat> BasketballStats { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<MatchGroup> MatchGroups { get; set; }
-        public virtual DbSet<MatchGroupPlayer> MatchGroupPlayers { get; set; }
+        public virtual DbSet<MatchGroupUser> MatchGroupUsers { get; set; }
         public virtual DbSet<MatchGroupTeam> MatchGroupTeams { get; set; }
         public virtual DbSet<FootballStat> FootballStats { get; set; }
 
@@ -45,14 +30,15 @@ namespace MySuperStats.WebApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new MatchModelConfiguration<Match>());
-            modelBuilder.ApplyConfiguration(new PlayerModelConfiguration<Player>());
-            modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration<BasketballStat>());
-            modelBuilder.ApplyConfiguration(new TeamModelConfiguration<Team>());
-            modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration<MatchGroup>());
-            modelBuilder.ApplyConfiguration(new MatchGroupPlayerModelConfiguration<MatchGroupPlayer>());
-            modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration<MatchGroupTeam>());
-            modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration<FootballStat>());
+            modelBuilder.ApplyConfiguration(new MatchModelConfiguration());
+            modelBuilder.ApplyConfiguration(new PlayerModelConfiguration());
+            modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupUserModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration());
+            modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration());
+            modelBuilder.Seed();
 
             //https://stackoverflow.com/questions/46526230/disable-cascade-delete-on-ef-core-2-globally
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()
@@ -61,9 +47,6 @@ namespace MySuperStats.WebApi.Data
 
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
-
-            //Startup.SeedAuthorizationData.SeedAll(modelBuilder);
-            //Startup.SeedWebApiData.SeedAll(modelBuilder);
 
             modelBuilder.SetModelToSnakeCase();
         }

@@ -19,6 +19,7 @@
         public const string Match = "Match";
         public const string Team = "Team";
         public const string Player = "Player";
+        public const string User = "User";
         public const string Goal = "Goal";
         public const string OnePoint = "OnePoint";
         public const string TwoPoint = "TwoPoint";

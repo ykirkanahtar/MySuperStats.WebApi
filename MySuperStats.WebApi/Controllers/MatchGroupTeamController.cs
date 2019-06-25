@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Authorization.Controllers;
+using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Mvc;
@@ -61,7 +61,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetTeamsByMatchGroupIdAsync(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Team>, IEnumerable<TeamResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<Team>, IList<TeamResponse>>(result)));
             });
         }
 
@@ -75,7 +75,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetMatchGroupsByTeamIdAsync(teamId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<MatchGroup>, IEnumerable<MatchGroupResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<MatchGroup>, IList<MatchGroupResponse>>(result)));
             });
         }
 

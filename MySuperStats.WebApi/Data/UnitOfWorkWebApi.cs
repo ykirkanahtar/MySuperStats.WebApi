@@ -1,6 +1,6 @@
-﻿using MySuperStats.WebApi.Data.Repositories;
-using CustomFramework.Data;
-using CustomFramework.WebApiUtils.Authorization.Data.Repositories;
+﻿using CustomFramework.Data;
+using CustomFramework.WebApiUtils.Identity.Data.Repositories;
+using MySuperStats.WebApi.Data.Repositories;
 
 namespace MySuperStats.WebApi.Data
 {
@@ -9,19 +9,8 @@ namespace MySuperStats.WebApi.Data
         public UnitOfWorkWebApi(ApplicationContext context) : base(context)
         {
             /*************Authorization************/
-            Claims = new ClaimRepository(context);
             ClientApplications = new ClientApplicationRepository(context);
-            ClientApplicationUtils = new ClientApplicationUtilRepository(context);
-            RoleClaims = new RoleClaimRepository(context);
-            RoleEntityClaims = new RoleEntityClaimRepository(context);
-            Roles = new RoleRepository(context);
-            UserClaims = new UserClaimRepository(context);
-            UserEntityClaims = new UserEntityClaimRepository(context);
             Users = new UserRepository(context);
-            UserRoles = new UserRoleRepository(context);
-            UserUtils = new UserUtilRepository(context);
-            Applications = new ApplicationRepository(context);
-            ApplicationUsers = new ApplicationUserRepository(context);
             /*************Authorization************/
 
             /*************Instances************/
@@ -30,26 +19,15 @@ namespace MySuperStats.WebApi.Data
             Players = new PlayerRepository(context);
             BasketballStats = new BasketballStatRepository(context);
             MatchGroups = new MatchGroupRepository(context);
-            MatchGroupPlayers = new MatchGroupPlayerRepository(context);
+            MatchGroupUsers = new MatchGroupUserRepository(context);
             MatchGroupTeams = new MatchGroupTeamRepository(context);
             FootballStats = new FootballStatRepository(context);
             /*********End of Instances*********/
         }
 
         /*************Authorization************/
-        public IApplicationUserRepository ApplicationUsers { get; }
-        public IClaimRepository Claims { get; }
         public IClientApplicationRepository ClientApplications { get; }
-        public IClientApplicationUtilRepository ClientApplicationUtils { get; }
-        public IRoleClaimRepository RoleClaims { get; }
-        public IRoleEntityClaimRepository RoleEntityClaims { get; }
-        public IRoleRepository Roles { get; }
-        public IUserClaimRepository UserClaims { get; }
-        public IUserEntityClaimRepository UserEntityClaims { get; }
         public IUserRepository Users { get; }
-        public IUserRoleRepository UserRoles { get; }
-        public IUserUtilRepository UserUtils { get; }
-        public IApplicationRepository Applications { get; }
         /*************Authorization************/
 
         /*************Repositories************/
@@ -58,7 +36,7 @@ namespace MySuperStats.WebApi.Data
         public IPlayerRepository Players { get; }
         public IBasketballStatRepository BasketballStats { get; }
         public IMatchGroupRepository MatchGroups { get; }
-        public IMatchGroupPlayerRepository MatchGroupPlayers { get; }
+        public IMatchGroupUserRepository MatchGroupUsers { get; }
         public IMatchGroupTeamRepository MatchGroupTeams { get; }
         public IFootballStatRepository FootballStats { get; }
         /*********End of Repositories*********/

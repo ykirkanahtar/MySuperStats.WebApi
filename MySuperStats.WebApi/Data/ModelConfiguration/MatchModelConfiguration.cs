@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class MatchModelConfiguration<T> : BaseModelConfiguration<T, int> where T : Match
+    public class MatchModelConfiguration : BaseModelConfiguration<Match, int>
     {
-        public override void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<Match> builder)
         {
             base.Configure(builder);
 
@@ -35,14 +35,14 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
 
             builder
                 .HasOne(r => r.HomeTeam)
-                .WithMany(c => (IEnumerable<T>)c.HomeMatches)
+                .WithMany(c => c.HomeMatches)
                 .HasForeignKey(r => r.HomeTeamId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder
                 .HasOne(r => r.AwayTeam)
-                .WithMany(c => (IEnumerable<T>)c.AwayMatches)
+                .WithMany(c => c.AwayMatches)
                 .HasForeignKey(r => r.AwayTeamId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();

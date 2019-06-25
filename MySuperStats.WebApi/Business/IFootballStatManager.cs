@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Business;
@@ -9,8 +10,8 @@ namespace MySuperStats.WebApi.Business
     public interface IFootballStatManager : IBusinessManager<FootballStat, FootballStatRequest, int>
     , IBusinessManagerUpdate<FootballStat, FootballStatRequest, int>
     {
-        Task<ICustomList<FootballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<ICustomList<FootballStat>> GetAllByPlayerIdAsync(int playerId);
-        Task<ICustomList<FootballStat>> GetAllAsync();
+        Task<IList<FootballStat>> GetAllByMatchIdAsync(int matchId);
+        Task<IList<FootballStat>> GetAllByUserIdAsync(int userId);
+        Task<IList<FootballStat>> GetAllAsync();
     }
 }

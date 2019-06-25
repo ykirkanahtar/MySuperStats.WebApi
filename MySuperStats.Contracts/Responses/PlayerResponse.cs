@@ -13,6 +13,6 @@ namespace MySuperStats.Contracts.Responses
         public string Surname { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public virtual ICollection<BasketballStatResponse> Stats { get; set; }
+        public virtual ICollection<BasketballStatResponse> BasketballStats { get; set; }
     }
 }

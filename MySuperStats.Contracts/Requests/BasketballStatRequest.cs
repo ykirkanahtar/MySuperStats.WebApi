@@ -4,7 +4,7 @@
     {
         public int MatchId { get; set; }
         public int TeamId { get; set; }
-        public int PlayerId { get; set; }
+        public int UserId { get; set; }
 
         public decimal OnePoint { get; set; }
         public decimal TwoPoint { get; set; }

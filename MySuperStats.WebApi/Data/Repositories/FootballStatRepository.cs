@@ -6,22 +6,27 @@ using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;
 using System.Linq;
+using System.Collections.Generic;
+using System;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
     public class FootballStatRepository : BaseRepository<FootballStat, int>, IFootballStatRepository
     {
-        public FootballStatRepository(DbContext dbContext) : base(dbContext)
+        private static readonly Func<IQueryable<FootballStat>, IIncludableQueryable<FootballStat, object>> includes = source => source.Include(p => p.Match);
+
+        public FootballStatRepository(DbContext dbContext) : base(dbContext, includes)
         {
 
         }
 
-        public async Task<FootballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
+        public async Task<FootballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId)
         {
             var predicate = PredicateBuilder.New<FootballStat>();
             predicate = predicate.And(p => p.MatchId == matchId);
             predicate = predicate.And(p => p.TeamId == teamId);
-            predicate = predicate.And(p => p.PlayerId == playerId);
+            predicate = predicate.And(p => p.UserId == userId);
 
             return await GetAll(predicate: predicate)
                 .FirstOrDefaultAsync();
@@ -35,19 +40,19 @@ namespace MySuperStats.WebApi.Data.Repositories
                           select p.Goal).FirstOrDefaultAsync();
         }
 
-        public async Task<ICustomList<FootballStat>> GetAllByMatchIdAsync(int matchId)
+        public async Task<IList<FootballStat>> GetAllByMatchIdAsync(int matchId)
         {
-            return await GetAll(predicate: p => p.MatchId == matchId).ToCustomList();
+            return await GetAll(predicate: p => p.MatchId == matchId).ToListAsync();
         }
 
-        public async Task<ICustomList<FootballStat>> GetAllByPlayerIdAsync(int playerId)
+        public async Task<IList<FootballStat>> GetAllByUserIdAsync(int userId)
         {
-            return await GetAll(predicate: p => p.PlayerId == playerId).ToCustomList();
+            return await GetAll(predicate: p => p.UserId == userId).ToListAsync();
         }
 
-        public async Task<ICustomList<FootballStat>> GetAllAsync()
+        public async Task<IList<FootballStat>> GetAllAsync()
         {
-            return await GetAll().Include(p => p.Match).ToCustomList();
+            return await GetAll().ToListAsync();
         }
 
     }

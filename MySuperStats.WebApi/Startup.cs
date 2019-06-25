@@ -1,21 +1,17 @@
-﻿using AutoMapper;
-using MySuperStats.Contracts.Requests;
-using MySuperStats.WebApi.ApplicationSettings;
-using MySuperStats.WebApi.Business;
-using MySuperStats.WebApi.Data;
-using MySuperStats.WebApi.Data.Repositories;
-using MySuperStats.WebApi.Data.Seeding;
-using MySuperStats.WebApi.Resources;
-using MySuperStats.WebApi.Validators;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using AutoMapper;
+using CS.Common.EmailProvider;
 using CustomFramework.Authorization;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Extensions;
+using CustomFramework.Authorization.Utils;
 using CustomFramework.Data.Extensions;
-using CustomFramework.WebApiUtils.Authorization.Data;
-using CustomFramework.WebApiUtils.Authorization.Data.Seeding;
-using CustomFramework.WebApiUtils.Authorization.Extensions;
 using CustomFramework.WebApiUtils.Extensions;
 using CustomFramework.WebApiUtils.Filters;
+using CustomFramework.WebApiUtils.Identity.Data;
+using CustomFramework.WebApiUtils.Identity.Extensions;
 using CustomFramework.WebApiUtils.Resources;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -25,24 +21,28 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MySuperStats.Contracts.Requests;
+using MySuperStats.WebApi.ApplicationSettings;
+using MySuperStats.WebApi.Business;
+using MySuperStats.WebApi.Data;
+using MySuperStats.WebApi.Data.Repositories;
+using MySuperStats.WebApi.Models;
+using MySuperStats.WebApi.Resources;
+using MySuperStats.WebApi.Validators;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 
 namespace MySuperStats.WebApi
 {
     public class Startup
     {
         public static AppSettings AppSettings { get; private set; }
-        public static SeedAuthorizationData SeedAuthorizationData { get; private set; }
-        public static SeedWebApiData SeedWebApiData { get; private set; }
         public static string ConnectionString { get; private set; }
-
 
         public Startup(IHostingEnvironment env)
         {
@@ -63,12 +63,6 @@ namespace MySuperStats.WebApi
 
             AppSettings = new AppSettings();
             Configuration.GetSection("AppSettings").Bind(AppSettings);
-
-            //SeedAuthorizationData = new SeedAuthorizationData();
-            //Configuration.GetSection("SeedingAuthorizationData").Bind(SeedAuthorizationData);
-
-            //SeedWebApiData = new SeedWebApiData();
-            //Configuration.GetSection("SeedingWebApiData").Bind(SeedWebApiData);
         }
 
         public IConfiguration Configuration { get; }
@@ -78,18 +72,20 @@ namespace MySuperStats.WebApi
         {
             services.AddPostgreSqlServer<ApplicationContext>(ConnectionString);
 
-            services.AddJwtAuthentication(AppSettings.Token.Audience, AppSettings.Token.Issuer, AppSettings.Token.Key);
-
-            services.AddCustomAuthorization(new List<CustomAuthorizationPolicy>
+            IdentityModelExtension<User, Role>.AddIdentityModel(services, new IdentityModel
             {
-                new CustomAuthorizationPolicy
-                {
-                    Name = "Permission",
-                    AuthorizationRequirements = new List<IAuthorizationRequirement>
-                    {
-                        new PermissionAuthorizationRequirement(),
-                    }
-                }
+                AppName = AppSettings.AppName,
+                EmailConfirmationViaUrl = true,
+                SenderEmailAddress = "info@mysuperstats.com",
+                Token = AppSettings.Token,
+                EmailConfig = AppSettings.EmailConfig,
+                GeneratedPasswordLength = 0
+            }, AppSettings.Token, true);
+
+            services.AddLogging(logging =>
+            {
+                logging.AddDebug();
+
             });
 
             services.AddSwaggerDocumentation();
@@ -97,8 +93,9 @@ namespace MySuperStats.WebApi
             services.AddWebApiUtilServices();
 
             services.AddAutoMapper();
-            services.AddAuthorizationModels();
 
+            services.AddSingleton<IToken, Token>(p => AppSettings.Token);
+            services.AddSingleton<IEmailConfig, EmailConfig>(p => AppSettings.EmailConfig);
             services.AddScoped<IAppSettings, AppSettings>(p => AppSettings);
             services.AddTransient<ILocalizationService, LocalizationService>();
 
@@ -118,10 +115,10 @@ namespace MySuperStats.WebApi
                 options.RequestCultureProviders.Insert(0, new AcceptLanguageHeaderRequestCultureProvider());
             });
 
-            services.AddTransient<IUnitOfWorkAuthorization, UnitOfWorkWebApi>();
+            services.AddTransient<IUnitOfWorkIdentity, UnitOfWorkWebApi>();
             services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
             services.AddScoped<DbContext, ApplicationContext>();
-            services.AddScoped<AuthorizationContext, ApplicationContext>();
+            services.AddScoped<IdentityContext<User, Role>, ApplicationContext>();
 
             /*********Repositories*********/
             services.AddTransient<IMatchRepository, MatchRepository>();
@@ -129,9 +126,10 @@ namespace MySuperStats.WebApi
             services.AddTransient<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IBasketballStatRepository, BasketballStatRepository>();
             services.AddTransient<IMatchGroupRepository, MatchGroupRepository>();
-            services.AddTransient<IMatchGroupPlayerRepository, MatchGroupPlayerRepository>();
+            services.AddTransient<IMatchGroupUserRepository, MatchGroupUserRepository>();
             services.AddTransient<IMatchGroupTeamRepository, MatchGroupTeamRepository>();
             services.AddTransient<IFootballStatRepository, FootballStatRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             /*********Repositories*********/
 
             /*********Validators*********/
@@ -140,7 +138,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IValidator<PlayerRequest>, PlayerValidator>();
             services.AddTransient<IValidator<BasketballStatRequest>, BasketballStatValidator>();
             services.AddTransient<IValidator<MatchGroupRequest>, MatchGroupValidator>();
-            services.AddTransient<IValidator<MatchGroupPlayerRequest>, MatchGroupPlayerValidator>();
+            services.AddTransient<IValidator<MatchGroupUserRequest>, MatchGroupUserValidator>();
             services.AddTransient<IValidator<MatchGroupTeamRequest>, MatchGroupTeamValidator>();
             services.AddTransient<IValidator<FootballStatRequest>, FootballStatValidator>();
             /*********Validators*********/
@@ -151,14 +149,19 @@ namespace MySuperStats.WebApi
             services.AddTransient<IBasketballStatManager, BasketballStatManager>();
             services.AddTransient<ITeamManager, TeamManager>();
             services.AddTransient<IMatchGroupManager, MatchGroupManager>();
-            services.AddTransient<IMatchGroupPlayerManager, MatchGroupPlayerManager>();
+            services.AddTransient<IMatchGroupUserManager, MatchGroupUserManager>();
             services.AddTransient<IMatchGroupTeamManager, MatchGroupTeamManager>();
             services.AddTransient<IFootballStatManager, FootballStatManager>();
+            services.AddTransient<IUserManager, UserManager>();
             /*********Managers*********/
+
+            var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
 
             services.AddMvc(options =>
                 {
-                    options.Filters.Add(typeof(ValidateModelAttribute));
+                    options.Filters.Add(new AuthorizeFilter(policy));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>

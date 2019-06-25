@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class PlayerModelConfiguration<T> : BaseModelConfiguration<T, int> where T : Player
+    public class PlayerModelConfiguration : BaseModelConfiguration<Player, int> 
     {
-        public override void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<Player> builder)
         {
             base.Configure(builder);
 

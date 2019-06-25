@@ -11,32 +11,32 @@ namespace MySuperStats.WebApi.Data.Repositories
 {
     public interface IBasketballStatRepository : IRepository<BasketballStat, int>
     {
-        Task<BasketballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId);
+        Task<BasketballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId);
         Task<decimal> GetTeamScoreByMatchIdAndTeamId(int matchId, int teamId);
-        Task<ICustomList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<ICustomList<BasketballStat>> GetAllByPlayerIdAsync(int playerId);
-        Task<ICustomList<BasketballStat>> GetAllAsync();
-        List<StatisticDetail> GetTopPointsStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTopPointsPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTopOnePointStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTopOnePointPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetOnePointRatioStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTwoPointStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTwoPointPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTwoPointRatioStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetReboundStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetReboundPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetStealStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetStealPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTurnoverStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetTurnoverPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetAssistStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetAssistPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetInterruptStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetInterruptPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
-        List<StatisticDetail> GetWinsStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
-        List<StatisticDetail> GetWinRatioStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
-        List<StatisticDetail> GetLoosesStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
-        List<StatisticDetail> GetLooseRatioStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
+        Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
+        Task<IList<BasketballStat>> GetAllByUserIdAsync(int userId);
+        Task<IList<BasketballStat>> GetAllAsync();
+        List<StatisticDetail> GetTopPointsStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTopPointsPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTopOnePointStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTopOnePointPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetOnePointRatioStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTwoPointStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTwoPointPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTwoPointRatioStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetReboundStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetReboundPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetStealStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetStealPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTurnoverStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetTurnoverPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetAssistStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetAssistPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetInterruptStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetInterruptPerMatchStat(IList<User> users, IList<BasketballStat> stats);
+        List<StatisticDetail> GetWinsStat(IList<User> users, List<MatchResultByUser> matchResultByUsers);
+        List<StatisticDetail> GetWinRatioStat(IList<User> users, List<MatchResultByUser> matchResultByUsers);
+        List<StatisticDetail> GetLoosesStat(IList<User> users, List<MatchResultByUser> matchResultByUsers);
+        List<StatisticDetail> GetLooseRatioStat(IList<User> users, List<MatchResultByUser> matchResultByUsers);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
@@ -8,6 +9,6 @@ namespace MySuperStats.WebApi.Data.Repositories
     public interface IMatchGroupRepository : IRepository<MatchGroup, int>
     {
         Task<MatchGroup> GetByGroupNameAsync(string groupName);
-        Task<ICustomList<MatchGroup>> GetAllAsync();
+        Task<IList<MatchGroup>> GetAllAsync();
     }
 }

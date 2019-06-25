@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
 using MySuperStats.Contracts.Responses;
+using System.Collections.Generic;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -91,12 +92,12 @@ namespace MySuperStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<ICustomList<Match>> GetAllAsync()
+        public Task<IList<Match>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen()
+        public Task<IList<MatchForMainScreen>> GetMatchForMainScreen()
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }

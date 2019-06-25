@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -59,7 +60,7 @@ namespace MySuperStats.WebApi.Business
             );
         }
 
-        public Task<ICustomList<MatchGroup>> GetMatchGroupsByTeamIdAsync(int teamId)
+        public Task<IList<MatchGroup>> GetMatchGroupsByTeamIdAsync(int teamId)
         {
             return CommonOperationAsync(async () =>
                 await _uow.MatchGroupTeams.GetMatchGroupsByTeamIdAsync(teamId)
@@ -68,7 +69,7 @@ namespace MySuperStats.WebApi.Business
         }
 
 
-        public Task<ICustomList<Team>> GetTeamsByMatchGroupIdAsync(int matchGroupId)
+        public Task<IList<Team>> GetTeamsByMatchGroupIdAsync(int matchGroupId)
         {
             return CommonOperationAsync(async () =>
                 await _uow.MatchGroupTeams.GetTeamsByMatchGroupIdAsync(matchGroupId)

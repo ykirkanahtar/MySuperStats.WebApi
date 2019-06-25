@@ -1,0 +1,18 @@
+﻿@page
+@model RegisterConfirmationModel
+@using MySuperStats.WebUI.Utils
+@{
+    ViewData["Title"] = @AppConstants.RegisterConfirmation;
+    Layout = "_LoginLayout";
+}
+
+<div class="register-box">
+    <div class="register-logo">
+        <b>@AppConstants.AppName</b>
+    </div>
+    <div class="register-box-body">
+        <p>
+            @AppConstants.PleaseCheckYourEmailForCompletingRegistration.
+        </p>
+    </div>
+</div>

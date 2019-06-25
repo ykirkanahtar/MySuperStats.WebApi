@@ -5,21 +5,21 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class MatchGroupTeamModelConfiguration<T> : BaseModelConfiguration<T, int> where T : MatchGroupTeam
+    public class MatchGroupTeamModelConfiguration : BaseModelConfiguration<MatchGroupTeam, int>
     {
-        public override void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<MatchGroupTeam> builder)
         {
             base.Configure(builder);
 
             builder.HasKey(p => new { p.MatchGroupId, p.TeamId });
 
             builder.HasOne(p => p.MatchGroup)
-                .WithMany(p => (IEnumerable<T>)p.MatchGroupTeams)
+                .WithMany(p => p.MatchGroupTeams)
                 .HasForeignKey(p => p.MatchGroupId)
                 .IsRequired();
 
             builder.HasOne(p => p.Team)
-                .WithMany(p => (IEnumerable<T>)p.MatchGroupTeams)
+                .WithMany(p => p.MatchGroupTeams)
                 .HasForeignKey(p => p.TeamId)
                 .IsRequired();
         }

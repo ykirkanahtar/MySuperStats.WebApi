@@ -9,7 +9,7 @@ using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Authorization.Controllers;
+using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -74,7 +74,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllAsync();
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Match>, IEnumerable<MatchResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<Match>, IList<MatchResponse>>(result)));
             });
         }
 
@@ -87,7 +87,7 @@ namespace MySuperStats.WebApi.Controllers
             {
                 var result = await Manager.GetMatchForMainScreen();
 
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result.ResultList, result.Count));
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });
         }
 

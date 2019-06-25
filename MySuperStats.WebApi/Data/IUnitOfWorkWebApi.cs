@@ -1,9 +1,9 @@
 ﻿using MySuperStats.WebApi.Data.Repositories;
-using CustomFramework.WebApiUtils.Authorization.Data;
+using CustomFramework.WebApiUtils.Identity.Data;
 
 namespace MySuperStats.WebApi.Data
 {
-    public interface IUnitOfWorkWebApi : IUnitOfWorkAuthorization
+    public interface IUnitOfWorkWebApi : IUnitOfWorkIdentity
     {
         /*************Repositories************/
         IMatchRepository Matches { get; }
@@ -12,9 +12,10 @@ namespace MySuperStats.WebApi.Data
         IBasketballStatRepository BasketballStats { get; }
         IMatchGroupRepository MatchGroups { get; }
 
-        IMatchGroupPlayerRepository MatchGroupPlayers { get; }
+        IMatchGroupUserRepository MatchGroupUsers { get; }
         IMatchGroupTeamRepository MatchGroupTeams { get; }
         IFootballStatRepository FootballStats { get; }
+        IUserRepository Users { get; }
         /*********End of Repositories*********/
     }
 }

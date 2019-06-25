@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-MySuperStats.WebUI-076631A1-33DB-4084-B262-28D952081B1A</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CustomFramework.WebApiUtils" Version="1.2.5" />
+    <PackageReference Include="CustomFramework.WebApiUtils.Contracts" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MySuperStats.Contracts\MySuperStats.Contracts.csproj" />
+    <ProjectReference Include="..\..\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector.csproj" />
+  </ItemGroup>
+
+</Project>

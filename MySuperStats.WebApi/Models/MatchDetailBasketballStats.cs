@@ -34,7 +34,7 @@ namespace MySuperStats.WebApi.Models
 
     public class PlayerBasketballStats
     {
-        public Player Player { get; set; }
+        public User Player { get; set; }
         public BasketballStat BasketballStat { get; set; }
     }
 }

@@ -1,0 +1,474 @@
+﻿@page
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.TopStatsModel
+@{
+    ViewData["Title"] = "İstatistikler";
+}
+<script>
+  $(function () {
+    $('#players_matches').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+
+    <!-- Main content -->
+    <section class="content">
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+
+            <label>Sayı Krallığı</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Points)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Sayı Krallığı (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.PointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>1 Sayı</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePoint)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>2 Sayı</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPoint)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>1 Sayı (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>2 Sayı (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>1 Sayı İsabet Yüzdesi</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePointRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>% @(Math.Round(stat.Value, 2))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>2 Sayı İsabet Yüzdesi</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPointRatio)
+                    {
+                    <tr>
+                        <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                        <td>% @(Math.Round(stat.Value, 2))</td>
+                        <td>@(stat.GameCount)</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Rebound</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Rebounds)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Rebound (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.ReboundPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Çalma</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Steals)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Çalma (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.StealsPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Kaybı</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Turnovers)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Kaybı (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TurnoversPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Asist</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Assist)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Asist (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.AssistPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Kesme</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Interrupts)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Top Kesme (Maç Başına)</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.InterruptPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Kazanma</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Wins)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Kaybetme</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Looses)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Kazanma %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.WinRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>% @(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>Kaybetme %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.LooseRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td>% @(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</section>
+<!-- /.content -->

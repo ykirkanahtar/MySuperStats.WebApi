@@ -9,12 +9,12 @@ using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Authorization.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using CustomFramework.WebApiUtils.Identity.Controllers;
 
 namespace MySuperStats.WebApi.Controllers
 {
@@ -73,21 +73,21 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllByMatchIdAsync(matchId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));
             });
         }
 
-        [Route("getall/playerid/{playerId:int}")]
+        [Route("getall/userid/{userId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetAllByPlayerId(int playerId)
+        public Task<IActionResult> GetAllByUserId(int userId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllByPlayerIdAsync(playerId);
+                var result = await Manager.GetAllByUserIdAsync(userId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));
             });
         }
 
@@ -101,7 +101,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllAsync();
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<BasketballStat>, IEnumerable<BasketballStatResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));
             });
         }
 

@@ -1,15 +1,21 @@
 ﻿using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Models;
-using CustomFramework.WebApiUtils.Authorization.AutoMapper;
+using CustomFramework.WebApiUtils.Identity.AutoMapper;
 
 namespace MySuperStats.WebApi.AutoMapper
 {
-    public class MappingProfile : AuthorizationMappingProfile
+    public class MappingProfile : IdentityMappingProfile
     {
         public MappingProfile()
         {
             Map();
+
+            CreateMap<User, UserResponse>();
+            CreateMap<UserRegisterRequest, User>();
+
+            CreateMap<Role, RoleResponse>();
+            CreateMap<RoleRequest, Role>();
 
             CreateMap<Match, MatchResponse>();
             CreateMap<MatchRequest, Match>();
@@ -23,19 +29,21 @@ namespace MySuperStats.WebApi.AutoMapper
             CreateMap<Team, TeamResponse>();
             CreateMap<TeamRequest, Team>();
 
-            CreateMap<Player, PlayerDetailResponse>();
+            CreateMap<User, UserDetailResponse>();
 
             CreateMap<MatchGroup, MatchGroupResponse>();
             CreateMap<MatchGroupRequest, MatchGroup>();
 
-            CreateMap<MatchGroupPlayer, MatchGroupPlayerResponse>();
-            CreateMap<MatchGroupPlayerRequest, MatchGroupPlayer>();
+            CreateMap<MatchGroupUser, MatchGroupUserResponse>();
+            CreateMap<MatchGroupUserRequest, MatchGroupUser>();
 
             CreateMap<MatchGroupTeam, MatchGroupTeamResponse>();
             CreateMap<MatchGroupTeamRequest, MatchGroupTeam>();
 
             CreateMap<FootballStat, FootballStatResponse>();
             CreateMap<FootballStatRequest, FootballStat>();
+
+            CreateMap<PlayerBasketballStats, PlayerBasketballStatsResponse>();
         }
     }
 }

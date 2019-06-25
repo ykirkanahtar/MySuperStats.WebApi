@@ -15,8 +15,8 @@ namespace MySuperStats.WebApi.Validators
             RuleFor(x => x.TeamId).NotEmpty()
                 .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Team}");
 
-            RuleFor(x => x.PlayerId).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Player}");
+            RuleFor(x => x.UserId).NotEmpty()
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.User}");
 
             RuleFor(x => x.Goal).GreaterThanOrEqualTo(0)
                 .WithMessage($"{ValidatorConstants.CannotBeNullError} or {ValidatorConstants.CannotBeNegative} : {WebApiResourceConstants.Goal}");

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
@@ -15,17 +16,14 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         }
 
-        public async Task<ICustomList<MatchGroup>> GetAllAsync()
+        public async Task<IList<MatchGroup>> GetAllAsync()
         {
-            return await GetAll().ToCustomList();
+            return await GetAll().ToListAsync();
         }
 
         public async Task<MatchGroup> GetByGroupNameAsync(string groupName)
         {
-            var predicate = PredicateBuilder.New<MatchGroup>();
-            predicate = predicate.And(p=>p.GroupName == groupName);
-
-            return await GetAll(predicate: predicate).FirstOrDefaultAsync();
+            return await GetAll(predicate: p => EF.Functions.Like(p.GroupName.ToLower(), $"{groupName.ToLower()}%")).FirstOrDefaultAsync();
         }
     }
 }

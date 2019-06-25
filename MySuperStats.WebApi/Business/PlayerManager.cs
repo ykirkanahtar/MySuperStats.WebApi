@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Utils;
+using System.Collections.Generic;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -71,7 +72,7 @@ namespace MySuperStats.WebApi.Business
 
         }
 
-        public Task<ICustomList<Player>> GetAllAsync()
+        public Task<IList<Player>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Players.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }

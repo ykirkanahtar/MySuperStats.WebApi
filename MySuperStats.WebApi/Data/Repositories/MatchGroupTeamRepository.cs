@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CustomFramework.Data.Contracts;
@@ -16,25 +17,25 @@ namespace MySuperStats.WebApi.Data.Repositories
             
         }
 
-        public async Task<ICustomList<MatchGroup>> GetMatchGroupsByTeamIdAsync(int teamId)
+        public async Task<IList<MatchGroup>> GetMatchGroupsByTeamIdAsync(int teamId)
         {
             var predicate = PredicateBuilder.New<MatchGroupTeam>();
             predicate = predicate.And(p=>p.TeamId == teamId);
 
-            return (await GetAll(predicate:predicate).Select(p=>p.MatchGroup).ToListAsync()).ToCustomList();
+            return await GetAll(predicate:predicate).Select(p=>p.MatchGroup).ToListAsync();
         }
 
-        public async Task<ICustomList<Team>> GetTeamsByMatchGroupIdAsync(int matchGroupId)
+        public async Task<IList<Team>> GetTeamsByMatchGroupIdAsync(int matchGroupId)
         {
             var predicate = PredicateBuilder.New<MatchGroupTeam>();
             predicate = predicate.And(p=>p.MatchGroupId == matchGroupId);
 
-            return (await GetAll(predicate: predicate).Select(p=>p.Team).ToListAsync()).ToCustomList();
+            return await GetAll(predicate: predicate).Select(p=>p.Team).ToListAsync();
         }
 
-        public async Task<ICustomList<MatchGroupTeam>> GetAllAsync()
+        public async Task<IList<MatchGroupTeam>> GetAllAsync()
         {
-            return await GetAll().ToCustomList();
+            return await GetAll().ToListAsync();
         }
     }
 }

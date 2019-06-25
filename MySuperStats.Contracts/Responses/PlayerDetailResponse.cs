@@ -6,9 +6,9 @@ using MySuperStats.Contracts.Utils;
 
 namespace MySuperStats.Contracts.Responses
 {
-    public class PlayerDetailResponse : PlayerResponse
+    public class UserDetailResponse : UserResponse
     {
-        public PlayerDetailResponse()
+        public UserDetailResponse()
         {
             PerMatchStats = new BasketballStatResponse();
             TotalStats = new BasketballStatResponse();
@@ -27,22 +27,22 @@ namespace MySuperStats.Contracts.Responses
 
         public void SetFields()
         {
-            Matches = (from p in Stats select p.Match).ToList();
+            Matches = (from p in BasketballStats select p.Match).ToList();
             var matchCount = ((from p in Matches select p.Id).Distinct()).Count();
 
             var twoPointMatchCount = ((from p in Matches where p.MatchDate >= ReleaseDates.TwoPointReleasedate select p.Id).Distinct()).Count();
 
             TotalStats = new BasketballStatResponse
             {
-                Assist = Stats.Sum(x => x.Assist),
-                Interrupt = Stats.Sum(x => x.Interrupt),
-                LooseBall = Stats.Sum(x => x.LooseBall),
-                MissingOnePoint = Stats.Sum(x => x.MissingOnePoint),
-                MissingTwoPoint = Stats.Sum(x => x.MissingTwoPoint),
-                OnePoint = Stats.Sum(x => x.OnePoint),
-                Rebound = Stats.Sum(x => x.Rebound),
-                StealBall = Stats.Sum(x => x.StealBall),
-                TwoPoint = Stats.Sum(x => x.TwoPoint),
+                Assist = BasketballStats.Sum(x => x.Assist),
+                Interrupt = BasketballStats.Sum(x => x.Interrupt),
+                LooseBall = BasketballStats.Sum(x => x.LooseBall),
+                MissingOnePoint = BasketballStats.Sum(x => x.MissingOnePoint),
+                MissingTwoPoint = BasketballStats.Sum(x => x.MissingTwoPoint),
+                OnePoint = BasketballStats.Sum(x => x.OnePoint),
+                Rebound = BasketballStats.Sum(x => x.Rebound),
+                StealBall = BasketballStats.Sum(x => x.StealBall),
+                TwoPoint = BasketballStats.Sum(x => x.TwoPoint),
             };
 
             RatioTable.OnePointRatio = TotalStats.OnePoint + TotalStats.MissingOnePoint > 0 ? Math.Round(TotalStats.OnePoint / (TotalStats.OnePoint + TotalStats.MissingOnePoint) * 100, 2) : 0;
@@ -50,19 +50,19 @@ namespace MySuperStats.Contracts.Responses
 
             PerMatchStats = new BasketballStatResponse
             {
-                Assist = Math.Round(Stats.Sum(x => x.Assist) / matchCount, 2),
-                Interrupt = Math.Round(Stats.Sum(x => x.Interrupt) / matchCount, 2),
-                LooseBall = Math.Round(Stats.Sum(x => x.LooseBall) / matchCount, 2),
-                MissingOnePoint = Math.Round(Stats.Sum(x => x.MissingOnePoint) / matchCount, 2),
+                Assist = Math.Round(BasketballStats.Sum(x => x.Assist) / matchCount, 2),
+                Interrupt = Math.Round(BasketballStats.Sum(x => x.Interrupt) / matchCount, 2),
+                LooseBall = Math.Round(BasketballStats.Sum(x => x.LooseBall) / matchCount, 2),
+                MissingOnePoint = Math.Round(BasketballStats.Sum(x => x.MissingOnePoint) / matchCount, 2),
 
-                MissingTwoPoint = Math.Round(Stats.Sum(x => x.MissingTwoPoint) / twoPointMatchCount, 2),
-                OnePoint = Math.Round(Stats.Sum(x => x.OnePoint) / matchCount, 2),
-                Rebound = Math.Round(Stats.Sum(x => x.Rebound) / matchCount, 2),
-                StealBall = Math.Round(Stats.Sum(x => x.StealBall) / matchCount, 2),
-                TwoPoint = Math.Round(Stats.Sum(x => x.TwoPoint) / twoPointMatchCount, 2)
+                MissingTwoPoint = Math.Round(BasketballStats.Sum(x => x.MissingTwoPoint) / twoPointMatchCount, 2),
+                OnePoint = Math.Round(BasketballStats.Sum(x => x.OnePoint) / matchCount, 2),
+                Rebound = Math.Round(BasketballStats.Sum(x => x.Rebound) / matchCount, 2),
+                StealBall = Math.Round(BasketballStats.Sum(x => x.StealBall) / matchCount, 2),
+                TwoPoint = Math.Round(BasketballStats.Sum(x => x.TwoPoint) / twoPointMatchCount, 2)
             };
 
-            GetMatchFormsByPlayerId();
+            GetMatchFormsByUserId();
             WinLooseTable = new WinLooseTable
             {
                 Win = MatchForms.Count(p => p == MatchResult.Win),
@@ -73,9 +73,9 @@ namespace MySuperStats.Contracts.Responses
             WinLooseTable.LooseRatio = matchCount > 0 ? Math.Round(((WinLooseTable.Loose * 100) / matchCount), 2) : 0;
         }
 
-        public void GetMatchFormsByPlayerId()
+        public void GetMatchFormsByUserId()
         {
-            MatchForms = Stats.GetMatchResultByMatchAndPlayerId();
+            MatchForms = BasketballStats.GetMatchResultByMatchAndUserId();
         }
     }
 }

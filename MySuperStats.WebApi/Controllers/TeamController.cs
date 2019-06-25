@@ -9,7 +9,7 @@ using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Authorization.Controllers;
+using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -73,7 +73,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetAllAsync();
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<IEnumerable<Team>, IEnumerable<TeamResponse>>(result.ResultList), result.Count));
+                    Mapper.Map<IList<Team>, IList<TeamResponse>>(result)));
             });
         }
     }

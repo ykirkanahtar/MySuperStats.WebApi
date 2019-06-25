@@ -2,7 +2,7 @@
 {
     public static class ApiConstants
     {
-        public const string DefaultRoute = "api/";
-        public const string AdminRoute = DefaultRoute + "admin/";
+        public const string DefaultRoute = "Api/";
+        public const string AdminRoute = DefaultRoute + "Admin/";
     }
 }

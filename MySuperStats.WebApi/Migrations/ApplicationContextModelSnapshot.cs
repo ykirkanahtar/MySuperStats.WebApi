@@ -17,153 +17,10 @@ namespace MySuperStats.WebApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Application", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_applications");
-
-                    b.HasIndex("Name")
-                        .HasName("ix_applications_name");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_applications_status");
-
-                    b.ToTable("applications");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ApplicationUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnName("application_id");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_application_users");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_application_users_status");
-
-                    b.HasIndex("ApplicationId", "Status")
-                        .HasName("ix_application_users_application_id_status");
-
-                    b.HasIndex("UserId", "Status")
-                        .HasName("ix_application_users_user_id_status");
-
-                    b.ToTable("application_users");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Claim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<string>("CustomClaim")
-                        .IsRequired()
-                        .HasColumnName("custom_claim")
-                        .HasMaxLength(100);
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_claims");
-
-                    b.HasIndex("CustomClaim")
-                        .HasName("ix_claims_custom_claim");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_claims_status");
-
-                    b.ToTable("claims");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ClientApplication", b =>
+            modelBuilder.Entity("CustomFramework.WebApiUtils.Identity.Models.ClientApplication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,6 +54,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("DeleteUserId")
                         .HasColumnName("delete_user_id");
 
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasColumnName("security_stamp")
+                        .HasMaxLength(100);
+
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
@@ -222,368 +84,65 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_client_applications_client_application_code_client_applicat~");
 
                     b.ToTable("client_applications");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientApplicationCode = "web",
+                            ClientApplicationName = "web",
+                            ClientApplicationPassword = "8ohVCPHTYZ3pYrhIBhLYSyiDkYbiKiA7AcRpvkuIOls=",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            SecurityStamp = "nFOhCb4zVdFj8N/aJxnIVA==",
+                            Status = 1
+                        });
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ClientApplicationUtil", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("id");
 
-                    b.Property<int>("ClientApplicationId")
-                        .HasColumnName("client_application_id");
+                    b.Property<string>("ClaimType")
+                        .HasColumnName("claim_type");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("SpecialValue")
-                        .IsRequired()
-                        .HasColumnName("special_value")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_client_application_utils");
-
-                    b.HasIndex("ClientApplicationId")
-                        .IsUnique()
-                        .HasName("ix_client_application_utils_client_application_id");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_client_application_utils_status");
-
-                    b.ToTable("client_application_utils");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("Description")
-                        .HasColumnName("description")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnName("role_name")
-                        .HasMaxLength(25);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_roles");
-
-                    b.HasIndex("RoleName")
-                        .HasName("ix_roles_role_name");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_roles_status");
-
-                    b.ToTable("roles");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnName("application_id");
-
-                    b.Property<int>("ClaimId")
-                        .HasColumnName("claim_id");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnName("claim_value");
 
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
 
                     b.HasKey("Id")
                         .HasName("pk_role_claims");
 
-                    b.HasIndex("ClaimId")
-                        .HasName("ix_role_claims_claim_id");
-
                     b.HasIndex("RoleId")
                         .HasName("ix_role_claims_role_id");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_role_claims_status");
-
-                    b.HasIndex("ApplicationId", "RoleId", "ClaimId")
-                        .HasName("ix_role_claims_application_id_role_id_claim_id");
-
                     b.ToTable("role_claims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "OnlySystemAdmin",
+                            ClaimValue = "true",
+                            RoleId = 1
+                        });
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleEntityClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("id");
 
-                    b.Property<int>("ApplicationId")
-                        .HasColumnName("application_id");
+                    b.Property<string>("ClaimType")
+                        .HasColumnName("claim_type");
 
-                    b.Property<bool>("CanCreate")
-                        .HasColumnName("can_create");
-
-                    b.Property<bool>("CanDelete")
-                        .HasColumnName("can_delete");
-
-                    b.Property<bool>("CanSelect")
-                        .HasColumnName("can_select");
-
-                    b.Property<bool>("CanUpdate")
-                        .HasColumnName("can_update");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("Entity")
-                        .IsRequired()
-                        .HasColumnName("entity")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_role_entity_claims");
-
-                    b.HasIndex("RoleId")
-                        .HasName("ix_role_entity_claims_role_id");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_role_entity_claims_status");
-
-                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanCreate")
-                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_create");
-
-                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanDelete")
-                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_delete");
-
-                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanSelect")
-                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_select");
-
-                    b.HasIndex("ApplicationId", "RoleId", "Entity", "CanUpdate")
-                        .HasName("ix_role_entity_claims_application_id_role_id_entity_can_update");
-
-                    b.ToTable("role_entity_claims");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AccessFailedCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("access_failed_count")
-                        .HasDefaultValue(0);
-
-                    b.Property<int?>("ApplicationId")
-                        .HasColumnName("application_id");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnName("email")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("EmailConfirmCode")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("email_confirm_code")
-                        .HasMaxLength(6)
-                        .HasDefaultValue("581530");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnName("email_confirmed");
-
-                    b.Property<bool>("Lockout")
-                        .HasColumnName("lockout");
-
-                    b.Property<DateTime?>("LockoutEndDateTime")
-                        .HasColumnName("lockout_end_date_time")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnName("password")
-                        .HasMaxLength(256);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnName("surname")
-                        .HasMaxLength(30);
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnName("user_name")
-                        .HasMaxLength(25);
-
-                    b.HasKey("Id")
-                        .HasName("pk_users");
-
-                    b.HasIndex("ApplicationId")
-                        .HasName("ix_users_application_id");
-
-                    b.HasIndex("Email")
-                        .HasName("ix_users_email");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_users_status");
-
-                    b.HasIndex("UserName")
-                        .HasName("ix_users_user_name");
-
-                    b.HasIndex("UserName", "Password")
-                        .HasName("ix_users_user_name_password");
-
-                    b.ToTable("users");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnName("application_id");
-
-                    b.Property<int>("ClaimId")
-                        .HasColumnName("claim_id");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnName("claim_value");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
@@ -591,192 +150,82 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasKey("Id")
                         .HasName("pk_user_claims");
 
-                    b.HasIndex("ClaimId")
-                        .HasName("ix_user_claims_claim_id");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_user_claims_status");
-
                     b.HasIndex("UserId")
                         .HasName("ix_user_claims_user_id");
-
-                    b.HasIndex("ApplicationId", "UserId", "ClaimId")
-                        .HasName("ix_user_claims_application_id_user_id_claim_id");
 
                     b.ToTable("user_claims");
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserEntityClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("LoginProvider")
+                        .HasColumnName("login_provider");
 
-                    b.Property<int>("ApplicationId")
-                        .HasColumnName("application_id");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnName("provider_key");
 
-                    b.Property<bool>("CanCreate")
-                        .HasColumnName("can_create");
-
-                    b.Property<bool>("CanDelete")
-                        .HasColumnName("can_delete");
-
-                    b.Property<bool>("CanSelect")
-                        .HasColumnName("can_select");
-
-                    b.Property<bool>("CanUpdate")
-                        .HasColumnName("can_update");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("Entity")
-                        .IsRequired()
-                        .HasColumnName("entity")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnName("provider_display_name");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_entity_claims");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_user_entity_claims_status");
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_user_logins");
 
                     b.HasIndex("UserId")
-                        .HasName("ix_user_entity_claims_user_id");
+                        .HasName("ix_user_logins_user_id");
 
-                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanCreate")
-                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_create");
-
-                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanDelete")
-                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_delete");
-
-                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanSelect")
-                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_select");
-
-                    b.HasIndex("ApplicationId", "UserId", "Entity", "CanUpdate")
-                        .HasName("ix_user_entity_claims_application_id_user_id_entity_can_update");
-
-                    b.ToTable("user_entity_claims");
+                    b.ToTable("user_logins");
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
 
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
+                    b.HasKey("UserId", "RoleId")
                         .HasName("pk_user_roles");
 
                     b.HasIndex("RoleId")
                         .HasName("ix_user_roles_role_id");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_user_roles_status");
-
-                    b.HasIndex("UserId", "Status")
-                        .HasName("ix_user_roles_user_id_status");
-
                     b.ToTable("user_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 2
+                        });
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserUtil", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<string>("SpecialValue")
-                        .IsRequired()
-                        .HasColumnName("special_value")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_utils");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnName("login_provider");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_user_utils_status");
+                    b.Property<string>("Name")
+                        .HasColumnName("name");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasName("ix_user_utils_user_id");
+                    b.Property<string>("Value")
+                        .HasColumnName("value");
 
-                    b.ToTable("user_utils");
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_user_tokens");
+
+                    b.ToTable("user_tokens");
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.BasketballStat", b =>
@@ -825,7 +274,7 @@ namespace MySuperStats.WebApi.Migrations
                         .HasColumnName("one_point")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int?>("PlayerId")
                         .HasColumnName("player_id");
 
                     b.Property<decimal>("Rebound")
@@ -852,6 +301,9 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("UpdateUserId")
                         .HasColumnName("update_user_id");
 
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_basketball_stats");
 
@@ -867,8 +319,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasIndex("TeamId")
                         .HasName("ix_basketball_stats_team_id");
 
-                    b.HasIndex("MatchId", "PlayerId", "TeamId")
-                        .HasName("ix_basketball_stats_match_id_player_id_team_id");
+                    b.HasIndex("UserId")
+                        .HasName("ix_basketball_stats_user_id");
+
+                    b.HasIndex("MatchId", "UserId", "TeamId")
+                        .HasName("ix_basketball_stats_match_id_user_id_team_id");
 
                     b.ToTable("basketball_stats");
                 });
@@ -919,7 +374,7 @@ namespace MySuperStats.WebApi.Migrations
                         .HasColumnName("penalty_score")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int?>("PlayerId")
                         .HasColumnName("player_id");
 
                     b.Property<decimal>("SaveGoal")
@@ -938,6 +393,9 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("UpdateUserId")
                         .HasColumnName("update_user_id");
 
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id")
                         .HasName("pk_football_stats");
 
@@ -953,8 +411,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasIndex("TeamId")
                         .HasName("ix_football_stats_team_id");
 
-                    b.HasIndex("MatchId", "PlayerId", "TeamId")
-                        .HasName("ix_football_stats_match_id_player_id_team_id");
+                    b.HasIndex("UserId")
+                        .HasName("ix_football_stats_user_id");
+
+                    b.HasIndex("MatchId", "UserId", "TeamId")
+                        .HasName("ix_football_stats_match_id_user_id_team_id");
 
                     b.ToTable("football_stats");
                 });
@@ -1081,54 +542,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.ToTable("match_groups");
                 });
 
-            modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupPlayer", b =>
-                {
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnName("player_id");
-
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
-
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
-
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
-
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
-
-                    b.Property<int>("Id")
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
-
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
-
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
-
-                    b.HasKey("MatchGroupId", "PlayerId")
-                        .HasName("pk_match_group_players");
-
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_match_group_players_create_user_id");
-
-                    b.HasIndex("PlayerId")
-                        .HasName("ix_match_group_players_player_id");
-
-                    b.HasIndex("Status")
-                        .HasName("ix_match_group_players_status");
-
-                    b.ToTable("match_group_players");
-                });
-
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupTeam", b =>
                 {
                     b.Property<int>("MatchGroupId")
@@ -1175,6 +588,57 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_match_group_teams_team_id");
 
                     b.ToTable("match_group_teams");
+                });
+
+            modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupUser", b =>
+                {
+                    b.Property<int>("MatchGroupId")
+                        .HasColumnName("match_group_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("create_date_time");
+
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
+
+                    b.Property<int>("Id")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
+                    b.HasKey("MatchGroupId", "UserId")
+                        .HasName("pk_match_group_users");
+
+                    b.HasIndex("CreateUserId")
+                        .HasName("ix_match_group_users_create_user_id");
+
+                    b.HasIndex("Id")
+                        .HasName("ix_match_group_users_id");
+
+                    b.HasIndex("Status")
+                        .HasName("ix_match_group_users_status");
+
+                    b.HasIndex("UserId")
+                        .HasName("ix_match_group_users_user_id");
+
+                    b.ToTable("match_group_users");
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.Player", b =>
@@ -1230,6 +694,55 @@ namespace MySuperStats.WebApi.Migrations
                     b.ToTable("players");
                 });
 
+            modelBuilder.Entity("MySuperStats.WebApi.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnName("normalized_name")
+                        .HasMaxLength(256);
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id")
+                        .HasName("pk_roles");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("role_name_index");
+
+                    b.ToTable("roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "9e2edbc3-fc63-46b9-9c38-3bb886351f68",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "10195ba2-2ca6-49e2-86a8-770e5c89e969",
+                            Name = "Player",
+                            NormalizedName = "Player",
+                            Status = 1
+                        });
+                });
+
             modelBuilder.Entity("MySuperStats.WebApi.Models.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -1283,131 +796,482 @@ namespace MySuperStats.WebApi.Migrations
                     b.ToTable("teams");
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ApplicationUser", b =>
+            modelBuilder.Entity("MySuperStats.WebApi.Models.User", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_application_users_applications_application_id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
 
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_application_users_users_user_id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnName("access_failed_count");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnName("birth_date");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnName("concurrency_stamp");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("create_date_time");
+
+                    b.Property<int>("CreateUserId")
+                        .HasColumnName("create_user_id");
+
+                    b.Property<DateTime?>("DeleteDateTime")
+                        .HasColumnName("delete_date_time");
+
+                    b.Property<int?>("DeleteUserId")
+                        .HasColumnName("delete_user_id");
+
+                    b.Property<string>("Email")
+                        .HasColumnName("email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnName("email_confirmed");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnName("first_name");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnName("lockout_enabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnName("lockout_end");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnName("normalized_email")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnName("normalized_user_name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnName("phone_number");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnName("phone_number_confirmed");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnName("security_stamp");
+
+                    b.Property<int>("Status")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Surname")
+                        .HasColumnName("surname");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnName("two_factor_enabled");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnName("update_date_time");
+
+                    b.Property<int?>("UpdateUserId")
+                        .HasColumnName("update_user_id");
+
+                    b.Property<string>("UserName")
+                        .HasColumnName("user_name")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id")
+                        .HasName("pk_users");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("email_index");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("user_name_index");
+
+                    b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1982, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yunusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "YUNUS EMRE",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUNUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "YUNUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "KIRKANAHTAR",
+                            TwoFactorEnabled = false,
+                            UserName = "yunusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1975, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "y.unusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "ALİ",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Y.UNUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "Y.UNUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "YUNUSLAR",
+                            TwoFactorEnabled = false,
+                            UserName = "y.unusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1975, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "y..unusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "ARBAK",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Y..UNUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "Y..UNUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "DEMİRDAĞ",
+                            TwoFactorEnabled = false,
+                            UserName = "y..unusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1970, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "y...unusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "FAHRİ",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Y...UNUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "Y...UNUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "SÖYLEMEZGİLLER",
+                            TwoFactorEnabled = false,
+                            UserName = "y...unusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1982, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yu.nusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "MAHMUT",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YU.NUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "YU.NUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "BALCİ",
+                            TwoFactorEnabled = false,
+                            UserName = "yu.nusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1971, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yu..nusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "İLKER",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YU..NUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "YU..NUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "OYMAN",
+                            TwoFactorEnabled = false,
+                            UserName = "yu..nusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1984, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yu...nusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "GÜRCAN",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YU...NUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "YU...NUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "ATEŞ",
+                            TwoFactorEnabled = false,
+                            UserName = "yu...nusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1988, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yun.usemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "CEYHAN",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUN.USEMRE@GMAIL.COM",
+                            NormalizedUserName = "YUN.USEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "GÖNEN",
+                            TwoFactorEnabled = false,
+                            UserName = "yun.usemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1970, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yun..usemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "AHMET",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUN..USEMRE@GMAIL.COM",
+                            NormalizedUserName = "YUN..USEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "OKÇULAR",
+                            TwoFactorEnabled = false,
+                            UserName = "yun..usemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1973, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yun...usemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "MEHMET",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUN...USEMRE@GMAIL.COM",
+                            NormalizedUserName = "YUN...USEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "AYGÜN",
+                            TwoFactorEnabled = false,
+                            UserName = "yun...usemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1987, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yunu.semre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "FIRAT",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUNU.SEMRE@GMAIL.COM",
+                            NormalizedUserName = "YUNU.SEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "TİMUR",
+                            TwoFactorEnabled = false,
+                            UserName = "yunu.semre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1992, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yunus.emre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "GÖKAY",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUNUS.EMRE@GMAIL.COM",
+                            NormalizedUserName = "YUNUS.EMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "PATAR",
+                            TwoFactorEnabled = false,
+                            UserName = "yunus.emre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1989, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "yunusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "ALTUĞ",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "YUNUSE.MRE@GMAIL.COM",
+                            NormalizedUserName = "YUNUSE.MRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "DEMİRSEL",
+                            TwoFactorEnabled = false,
+                            UserName = "yunuse.mre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2000, 7, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "y.u.nusemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "ÖMER",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Y.U.NUSEMRE@GMAIL.COM",
+                            NormalizedUserName = "Y.U.NUSEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "SEFER",
+                            TwoFactorEnabled = false,
+                            UserName = "y.u.nusemre@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(1987, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Email = "y.u.n.usemre@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "CANER",
+                            LockoutEnabled = true,
+                            NormalizedEmail = "Y.U.N.USEMRE@GMAIL.COM",
+                            NormalizedUserName = "Y.U.N.USEMRE@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
+                            Status = 1,
+                            Surname = "PAZAR",
+                            TwoFactorEnabled = false,
+                            UserName = "y.u.n.usemre@gmail.com"
+                        });
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.ClientApplicationUtil", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.ClientApplication", "ClientApplication")
-                        .WithOne("ClientApplicationUtil")
-                        .HasForeignKey("CustomFramework.WebApiUtils.Authorization.Models.ClientApplicationUtil", "ClientApplicationId")
-                        .HasConstraintName("fk_client_application_utils_client_applications_client_applica~")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleClaim", b =>
-                {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
-                        .WithMany("RoleClaims")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_role_claims_applications_application_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Claim", "Claim")
-                        .WithMany("RoleClaims")
-                        .HasForeignKey("ClaimId")
-                        .HasConstraintName("fk_role_claims_claims_claim_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Role", "Role")
-                        .WithMany("RoleClaims")
+                    b.HasOne("MySuperStats.WebApi.Models.Role")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_role_claims_roles_role_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.RoleEntityClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
-                        .WithMany("RoleEntityClaims")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_role_entity_claims_applications_application_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Role", "Role")
-                        .WithMany("RoleEntityClaims")
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_role_entity_claims_roles_role_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.User", b =>
-                {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application")
-                        .WithMany("Users")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_users_applications_application_id");
-                });
-
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserClaim", b =>
-                {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
-                        .WithMany("UserClaims")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_user_claims_applications_application_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Claim", "Claim")
-                        .WithMany("UserClaims")
-                        .HasForeignKey("ClaimId")
-                        .HasConstraintName("fk_user_claims_claims_claim_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
-                        .WithMany("UserClaims")
+                    b.HasOne("MySuperStats.WebApi.Models.User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_claims_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserEntityClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Application", "Application")
-                        .WithMany("UserEntityClaims")
-                        .HasForeignKey("ApplicationId")
-                        .HasConstraintName("fk_user_entity_claims_applications_application_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
-                        .WithMany("UserEntityClaims")
+                    b.HasOne("MySuperStats.WebApi.Models.User")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_entity_claims_users_user_id")
+                        .HasConstraintName("fk_user_logins_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.Role", "Role")
-                        .WithMany("UserRoles")
+                    b.HasOne("MySuperStats.WebApi.Models.Role")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_user_roles_roles_role_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
-                        .WithMany("UserRoles")
+                    b.HasOne("MySuperStats.WebApi.Models.User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Authorization.Models.UserUtil", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("CustomFramework.WebApiUtils.Authorization.Models.User", "User")
-                        .WithOne("UserUtil")
-                        .HasForeignKey("CustomFramework.WebApiUtils.Authorization.Models.UserUtil", "UserId")
-                        .HasConstraintName("fk_user_utils_users_user_id")
+                    b.HasOne("MySuperStats.WebApi.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_tokens_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1419,16 +1283,21 @@ namespace MySuperStats.WebApi.Migrations
                         .HasConstraintName("fk_basketball_stats_matches_match_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
+                    b.HasOne("MySuperStats.WebApi.Models.Player")
                         .WithMany("BasketballStats")
                         .HasForeignKey("PlayerId")
-                        .HasConstraintName("fk_basketball_stats_players_player_id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasConstraintName("fk_basketball_stats_players_player_id");
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("BasketballStats")
                         .HasForeignKey("TeamId")
                         .HasConstraintName("fk_basketball_stats_teams_team_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
+                        .WithMany("BasketballStats")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_basketball_stats_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1440,16 +1309,21 @@ namespace MySuperStats.WebApi.Migrations
                         .HasConstraintName("fk_football_stats_matches_match_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
+                    b.HasOne("MySuperStats.WebApi.Models.Player")
                         .WithMany("FootballStats")
                         .HasForeignKey("PlayerId")
-                        .HasConstraintName("fk_football_stats_players_player_id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasConstraintName("fk_football_stats_players_player_id");
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("FootballStats")
                         .HasForeignKey("TeamId")
                         .HasConstraintName("fk_football_stats_teams_team_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
+                        .WithMany("FootballStats")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_football_stats_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1468,21 +1342,6 @@ namespace MySuperStats.WebApi.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupPlayer", b =>
-                {
-                    b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
-                        .WithMany("MatchGroupPlayers")
-                        .HasForeignKey("MatchGroupId")
-                        .HasConstraintName("fk_match_group_players_match_groups_match_group_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
-                        .WithMany("MatchGroupPlayers")
-                        .HasForeignKey("PlayerId")
-                        .HasConstraintName("fk_match_group_players_players_player_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupTeam", b =>
                 {
                     b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
@@ -1495,6 +1354,27 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany("MatchGroupTeams")
                         .HasForeignKey("TeamId")
                         .HasConstraintName("fk_match_group_teams_teams_team_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupUser", b =>
+                {
+                    b.HasOne("MySuperStats.WebApi.Models.Player")
+                        .WithMany("MatchGroupUsers")
+                        .HasForeignKey("Id")
+                        .HasConstraintName("fk_match_group_users_players_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
+                        .WithMany("MatchGroupUsers")
+                        .HasForeignKey("MatchGroupId")
+                        .HasConstraintName("fk_match_group_users_match_groups_match_group_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
+                        .WithMany("MatchGroupUsers")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_match_group_users_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

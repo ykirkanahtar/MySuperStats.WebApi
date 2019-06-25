@@ -43,8 +43,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="CustomFramework.WebApiUtils.Authorization" Version="1.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MySuperStats.Contracts\MySuperStats.Contracts.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Identity\CustomFramework.WebApiUtils.Identity.csproj" />
   </ItemGroup>
 
 </Project>

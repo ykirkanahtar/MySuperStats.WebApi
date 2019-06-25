@@ -1,0 +1,80 @@
+﻿@page
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.MatchesModel
+@{
+    ViewData["Title"] = "Karşılaşmalar";
+}
+<script>
+  $(function () {
+    $('#basketball_mainpage').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Basketbol Karşılaşmaları</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="basketball_mainpage" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Sıra</th>
+                  <th>Süre</th>
+                  <th>Ev Sahibi</th>
+                  <th>Misafir</th>
+                  <th>Sonuç</th>
+                  <th>Video Bağlantısı</th>
+                  <th>Detaylar</th>
+                </tr>
+                </thead>
+                <tbody>
+                   @foreach (var match in Model.MatchList)
+                    {
+                        <tr>
+                            <td>@match.MatchDate.ToString("dd-MM-yyyy")</td>
+                            <td>@match.MatchOrder</td>
+                            <td>@match.MatchDuration</td>
+                            <td>@match.HomeTeamName</td>
+                            <td>@match.AwayTeamName</td>
+                            <td>@($"{match.HomeTeamScore} - {match.AwayTeamScore}")</td>
+                            <td><a href="@match.VideoLink" target="_blank">@match.VideoLink</a></td>
+                            <td><a asp-page="MatchDetail" asp-route-id="@match.MatchId">Tıklayınız</a></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Sıra</th>
+                  <th>Süre</th>
+                  <th>Ev Sahibi</th>
+                  <th>Misaifr</th>
+                  <th>Sonuç</th>
+                  <th>Video Bağlantısı</th>
+                  <th>Detaylar</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->

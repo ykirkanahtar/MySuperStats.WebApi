@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class BasketballStatModelConfiguration<T> : BaseModelConfiguration<T, int> where T : BasketballStat
+    public class BasketballStatModelConfiguration : BaseModelConfiguration<BasketballStat, int>
     {
-        public override void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<BasketballStat> builder)
         {
             base.Configure(builder);
 
@@ -18,7 +18,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.TeamId)
                 .IsRequired();
 
-            builder.Property(p => p.PlayerId)
+            builder.Property(p => p.UserId)
                 .IsRequired();
 
             builder.Property(p => p.OnePoint)
@@ -58,27 +58,27 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
 
             builder
                 .HasOne(r => r.Match)
-                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
+                .WithMany(c => c.BasketballStats)
                 .HasForeignKey(r => r.MatchId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder
                 .HasOne(r => r.Team)
-                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
+                .WithMany(c => c.BasketballStats)
                 .HasForeignKey(r => r.TeamId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder
-                .HasOne(r => r.Player)
-                .WithMany(c => (IEnumerable<T>)c.BasketballStats)
-                .HasForeignKey(r => r.PlayerId)
+                .HasOne(r => r.User)
+                .WithMany(c => c.BasketballStats)
+                .HasForeignKey(r => r.UserId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
 
-            builder.HasIndex(p => new { p.MatchId, p.PlayerId, p.TeamId });
+            builder.HasIndex(p => new { p.MatchId, p.UserId, p.TeamId });
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,7 +33,7 @@ namespace MySuperStats.WebApi.Business
                 /**********MatchId, TeamId And PlayerId are unique************/
                 /*************************************************************/
                 var matchPlayerAndTeamUniqueResult =
-                    await _uow.FootballStats.GetByMatchIdTeamIdAndPlayerId(result.MatchId, result.TeamId, result.PlayerId);
+                    await _uow.FootballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
 
                 matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
                 /**********MatchId, TeamId And PlayerId are unique************/
@@ -70,7 +71,7 @@ namespace MySuperStats.WebApi.Business
                 /**********MatchId, TeamId And PlayerId are unique************/
                 /*************************************************************/
                 var matchPlayerAndTeamUniqueResult =
-                    await _uow.FootballStats.GetByMatchIdTeamIdAndPlayerId(result.MatchId, result.TeamId, result.PlayerId);
+                    await _uow.FootballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
 
                 matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
                 /**********MatchId, TeamId And PlayerId are unique************/
@@ -105,17 +106,17 @@ namespace MySuperStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<ICustomList<FootballStat>> GetAllByMatchIdAsync(int matchId)
+        public Task<IList<FootballStat>> GetAllByMatchIdAsync(int matchId)
         {
             return CommonOperationAsync(async () => await _uow.FootballStats.GetAllByMatchIdAsync(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<ICustomList<FootballStat>> GetAllByPlayerIdAsync(int playerId)
+        public Task<IList<FootballStat>> GetAllByUserIdAsync(int userId)
         {
-            return CommonOperationAsync(async () => await _uow.FootballStats.GetAllByPlayerIdAsync(playerId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.FootballStats.GetAllByUserIdAsync(userId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<ICustomList<FootballStat>> GetAllAsync()
+        public Task<IList<FootballStat>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.FootballStats.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
 

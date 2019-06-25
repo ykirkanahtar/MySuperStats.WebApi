@@ -31,12 +31,12 @@ namespace MySuperStats.WebApi.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ICustomList<Match>> GetAllAsync()
+        public async Task<IList<Match>> GetAllAsync()
         {
-            return await GetAll().ToCustomList();
+            return await GetAll().ToListAsync();
         }
 
-        public async Task<ICustomList<MatchForMainScreen>> GetMatchForMainScreen()
+        public async Task<IList<MatchForMainScreen>> GetMatchForMainScreen()
         {
             return await (from p in GetAll()
                           select
@@ -51,7 +51,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                                   MatchId = p.Id,
                                   MatchOrder = p.Order,
                                   VideoLink = p.VideoLink
-                              }).OrderBy(p => p.MatchDate).ThenBy(p => p.MatchOrder).ToCustomList();
+                              }).OrderBy(p => p.MatchDate).ThenBy(p => p.MatchOrder).ToListAsync();
         }
 
         public async Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)
@@ -71,10 +71,10 @@ namespace MySuperStats.WebApi.Data.Repositories
                                        (
                                             from i in p.BasketballStats
                                             where i.TeamId == p.HomeTeamId
-                                            orderby i.Player.Name
+                                            orderby i.User.FirstName
                                             select new PlayerBasketballStats
                                             {
-                                                Player = i.Player,
+                                                Player = i.User,
                                                 BasketballStat = i
                                             }
                                        ).ToList()
@@ -86,10 +86,10 @@ namespace MySuperStats.WebApi.Data.Repositories
                                        (
                                             from i in p.BasketballStats
                                             where i.TeamId == p.AwayTeamId
-                                            orderby i.Player.Name
+                                            orderby i.User.FirstName
                                             select new PlayerBasketballStats
                                             {
-                                                Player = i.Player,
+                                                Player = i.User,
                                                 BasketballStat = i
                                             }
                                        ).ToList()

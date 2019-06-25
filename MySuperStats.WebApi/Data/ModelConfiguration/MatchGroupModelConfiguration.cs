@@ -4,9 +4,9 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
-    public class MatchGroupModelConfiguration<T> : BaseModelConfiguration<T, int> where T : MatchGroup
+    public class MatchGroupModelConfiguration : BaseModelConfiguration<MatchGroup, int> 
     {
-        public override void Configure(EntityTypeBuilder<T> builder)
+        public override void Configure(EntityTypeBuilder<MatchGroup> builder)
         {
             base.Configure(builder);
 

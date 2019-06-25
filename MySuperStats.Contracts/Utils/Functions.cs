@@ -8,23 +8,23 @@ namespace MySuperStats.Contracts.Utils
 {
     public static class Functions
     {
-        public static List<MatchResult> GetMatchResultByMatchAndPlayerId(this ICollection<BasketballStatResponse> playerStats)
+        public static List<MatchResult> GetMatchResultByMatchAndUserId(this ICollection<BasketballStatResponse> userStats)
         {
             var matchForms = new List<MatchResult>();
-            var matches = (from p in playerStats orderby p.Match.MatchDate, p.Match.Order select p.Match).ToList().Distinct();
+            var matches = (from p in userStats orderby p.Match.MatchDate, p.Match.Order select p.Match).ToList().Distinct();
             //var mtches = playerStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).Select(p => p.Match)
             //    .Distinct().ToList();
-            var playerId = (from p in playerStats select p.PlayerId).FirstOrDefault();
+            var userId = (from p in userStats select p.UserId).FirstOrDefault();
 
             foreach (var match in matches)
             {
                 var homeTeamScore = match.HomeTeamScore;
                 var awayTeamScore = match.AwayTeamScore;
 
-                if (playerStats.Where(p => p.MatchId == match.Id && p.TeamId == match.HomeTeamId && p.PlayerId == playerId).ToList().Count > 0)
+                if (userStats.Where(p => p.MatchId == match.Id && p.TeamId == match.HomeTeamId && p.UserId == userId).ToList().Count > 0)
                 {
                     //iki takımda da oynadıysa
-                    if (playerStats.Where(p => p.MatchId == match.Id && p.TeamId == match.AwayTeamId && p.PlayerId == playerId).ToList().Count > 0)
+                    if (userStats.Where(p => p.MatchId == match.Id && p.TeamId == match.AwayTeamId && p.UserId == userId).ToList().Count > 0)
                     {
                         matchForms.Add(homeTeamScore == awayTeamScore ? MatchResult.Draw : MatchResult.BothOfTeam);
                     }
@@ -34,10 +34,10 @@ namespace MySuperStats.Contracts.Utils
                         else matchForms.Add(homeTeamScore < awayTeamScore ? MatchResult.Loose : MatchResult.Draw);
                     }
                 }
-                else if (playerStats.Where(p => p.MatchId == match.Id && p.TeamId == match.AwayTeamId && p.PlayerId == playerId).ToList().Count > 0)
+                else if (userStats.Where(p => p.MatchId == match.Id && p.TeamId == match.AwayTeamId && p.UserId == userId).ToList().Count > 0)
                 {
                     //iki takımda da oynadıysa
-                    if (playerStats.Where(p => p.MatchId == match.Id && p.TeamId == match.HomeTeamId && p.PlayerId == playerId).ToList().Count > 0)
+                    if (userStats.Where(p => p.MatchId == match.Id && p.TeamId == match.HomeTeamId && p.UserId == userId).ToList().Count > 0)
                     {
                         matchForms.Add(homeTeamScore == awayTeamScore ? MatchResult.Draw : MatchResult.BothOfTeam);
                     }

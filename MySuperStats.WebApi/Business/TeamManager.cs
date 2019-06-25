@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
 using CustomFramework.WebApiUtils.Contracts;
+using System.Collections.Generic;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -84,7 +85,7 @@ namespace MySuperStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<ICustomList<Team>> GetAllAsync()
+        public Task<IList<Team>> GetAllAsync()
         {
             return CommonOperationAsync(async () => await _uow.Teams.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
