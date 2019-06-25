@@ -67,7 +67,7 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-  <header class="main-header">
+  <header class="main-header" style="position: fixed; width: 100%; ">
     <!-- Logo -->
      <a asp-page="/Index" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -126,7 +126,7 @@
   <!-- =============================================== -->
 
   <!-- Left side column. contains the sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar" style="position:fixed;">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
@@ -167,7 +167,7 @@
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="overflow:hidden; padding-top: 45px;">
     <!-- Content Header (Page header) -->
 
     <!-- Main content -->
@@ -177,7 +177,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+  <footer class="main-footer" style="clear:both;">
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
     </div>
