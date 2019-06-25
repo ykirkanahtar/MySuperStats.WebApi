@@ -14,8 +14,8 @@ namespace MySuperStats.WebApi.Data.Repositories
         Task<BasketballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId);
         Task<decimal> GetTeamScoreByMatchIdAndTeamId(int matchId, int teamId);
         Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<IList<BasketballStat>> GetAllByUserIdAsync(int userId);
-        Task<IList<BasketballStat>> GetAllAsync();
+        Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId);
+        Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId);
         List<StatisticDetail> GetTopPointsStat(IList<User> users, IList<BasketballStat> stats);
         List<StatisticDetail> GetTopPointsPerMatchStat(IList<User> users, IList<BasketballStat> stats);
         List<StatisticDetail> GetTopOnePointStat(IList<User> users, IList<BasketballStat> stats);

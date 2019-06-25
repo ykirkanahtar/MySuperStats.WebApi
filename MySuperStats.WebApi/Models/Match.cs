@@ -15,6 +15,7 @@ namespace MySuperStats.WebApi.Models
             set => _matchDateTime = value.Date;
         }
 
+        public int MatchGroupId { get; set; }
         public int Order { get; set; }
         public int DurationInMinutes { get; set; }
         public int HomeTeamId { get; set; }
@@ -23,8 +24,9 @@ namespace MySuperStats.WebApi.Models
         public decimal AwayTeamScore { get; set; }
         public string VideoLink { get; set; }
 
-        public virtual Team HomeTeam { get; set; }
 
+        public virtual MatchGroup MatchGroup { get; set; }
+        public virtual Team HomeTeam { get; set; }
         public virtual Team AwayTeam { get; set; }
 
         public virtual ICollection<BasketballStat> BasketballStats { get; set; }

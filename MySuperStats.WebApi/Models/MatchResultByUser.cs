@@ -11,6 +11,6 @@ namespace MySuperStats.WebApi.Models
         }
 
         public User User { get; set; }
-        public MatchResult MatchResult { get; set; }
+        public MatchResult MatchResult { get; set; }  //Enum
     }
 }

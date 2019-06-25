@@ -77,42 +77,42 @@ namespace MySuperStats.WebApi.Controllers
             });
         }
 
-        [Route("getall/userid/{userId:int}")]
+        [Route("getall/matchgroupid/{matchGroupId:int}/userid/{userId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetAllByUserId(int userId)
+        public Task<IActionResult> GetAllByUserId(int matchGroupId, int userId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllByUserIdAsync(userId);
+                var result = await Manager.GetAllByMatchGroupIdAndUserIdAsync(matchGroupId, userId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));
             });
         }
 
-        [Route("getall")]
+        [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetAll()
+        public Task<IActionResult> GetAllByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllAsync();
+                var result = await Manager.GetAllByMatchGroupIdAsync(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));
             });
         }
 
-        [Route("gettopstats")]
+        [Route("gettopstats/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetTopStats()
+        public Task<IActionResult> GetTopStats(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetTopStats();
+                var result = await Manager.GetTopStats(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });

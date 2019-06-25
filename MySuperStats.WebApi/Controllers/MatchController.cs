@@ -64,28 +64,28 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseGetByIdAsync(id);
         }
 
-        [Route("getall")]
+        [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetAll(int skip, int take)
+        public Task<IActionResult> GetAll(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllAsync();
+                var result = await Manager.GetAllByMatchGroupIdAsync(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<Match>, IList<MatchResponse>>(result)));
             });
         }
 
-        [Route("getallformainscreen")]
+        [Route("getallformainscreen/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> GetAllForMainScreen()
+        public Task<IActionResult> GetAllForMainScreen(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetMatchForMainScreen();
+                var result = await Manager.GetMatchForMainScreen(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });

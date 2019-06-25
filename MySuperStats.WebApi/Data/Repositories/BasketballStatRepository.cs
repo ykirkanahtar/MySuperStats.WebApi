@@ -53,30 +53,30 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: p => p.MatchId == matchId).ToListAsync();
         }
 
-        public async Task<IList<BasketballStat>> GetAllByUserIdAsync(int userId)
+        public async Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId)
         {
-            return await GetAll(predicate: p => p.UserId == userId).ToListAsync();
+            return await GetAll(predicate: p => p.UserId == userId && p.Match.MatchGroupId == matchGroupId).ToListAsync();
         }
 
-        public async Task<IList<BasketballStat>> GetAllAsync()
+        public async Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId)
         {
-            return await GetAll().ToListAsync();
+            return await GetAll(predicate: p => p.Match.MatchGroupId == matchGroupId).ToListAsync();
         }
 
         public List<StatisticDetail> GetTopPointsStat(IList<User> users, IList<BasketballStat> stats)
         {
             return (from a in
-                    ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
-                      select new
-                      {
-                          UserId = g.Key,
-                          Value = g.Sum(s => s.OnePoint + s.TwoPoint * 2),
-                          MatchCount = matchCount
-                      }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount).ThenBy(p => p.MatchCount)
-                        .Take(Take))
+                     ((from p in stats
+                       where users.Contains(p.User)
+                       group p by p.UserId into g
+                       let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                       select new
+                       {
+                           UserId = g.Key,
+                           Value = g.Sum(s => s.OnePoint + s.TwoPoint * 2),
+                           MatchCount = matchCount
+                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount).ThenBy(p => p.MatchCount)
+                         .Take(Take))
                     join pl in users on a.UserId equals pl.Id
                     select new StatisticDetail
                     {

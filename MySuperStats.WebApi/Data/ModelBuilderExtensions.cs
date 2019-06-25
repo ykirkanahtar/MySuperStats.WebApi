@@ -119,7 +119,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );            
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -141,7 +141,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );       
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -163,7 +163,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );                 
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -207,7 +207,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );            
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -229,7 +229,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );       
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -251,7 +251,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );         
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -273,7 +273,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );        
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -295,7 +295,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );      
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -317,7 +317,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );        
+            );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -339,7 +339,7 @@ namespace MySuperStats.WebApi.Data
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );                                  
+            );
 
             modelBuilder.Entity<ClientApplication>().HasData(
                 new ClientApplication
@@ -400,6 +400,17 @@ namespace MySuperStats.WebApi.Data
                     ClaimType = "OnlySystemAdmin",
                     ClaimValue = "true",
                     RoleId = 1,
+                }
+            );
+
+            modelBuilder.Entity<MatchGroup>().HasData(
+                new MatchGroup
+                {
+                    Id = 1,
+                    GroupName = "Provus Basketbol",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
                 }
             );
 

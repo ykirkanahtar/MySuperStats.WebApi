@@ -10,8 +10,8 @@ namespace MySuperStats.WebApi.Business
     public interface IMatchManager : IBusinessManager<Match, MatchRequest, int>
     , IBusinessManagerUpdate<Match, MatchRequest, int>
     {
-        Task<IList<Match>> GetAllAsync();
-        Task<IList<MatchForMainScreen>> GetMatchForMainScreen();
+        Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId);
+        Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId);
         Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId);
     }
 }

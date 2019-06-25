@@ -12,8 +12,8 @@ namespace MySuperStats.WebApi.Business
     , IBusinessManagerUpdate<BasketballStat, BasketballStatRequest, int>
     {
         Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<IList<BasketballStat>> GetAllByUserIdAsync(int userId);
-        Task<IList<BasketballStat>> GetAllAsync();
-        Task<BasketballStatisticTable> GetTopStats();
+        Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId);
+        Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId);
+        Task<BasketballStatisticTable> GetTopStats(int matchGroupId);
     }
 }

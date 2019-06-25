@@ -11,6 +11,8 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
         {
             base.Configure(builder);
 
+            builder.Property(p => p.MatchGroupId);
+
             builder.Property(p => p.MatchDate)
                 .IsRequired();
 
@@ -48,6 +50,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .IsRequired();
 
             builder.HasIndex(p => new { p.MatchDate, p.Order });
+            builder.HasIndex(p => p.MatchGroupId);
         }
     }
 }

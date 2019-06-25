@@ -3,7 +3,6 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Enums;
@@ -92,14 +91,14 @@ namespace MySuperStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<IList<Match>> GetAllAsync()
+        public Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId)
         {
-            return CommonOperationAsync(async () => await _uow.Matches.GetAllAsync(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Matches.GetAllByMatchGroupIdAsync(matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<IList<MatchForMainScreen>> GetMatchForMainScreen()
+        public Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId)
         {
-            return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         public Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)

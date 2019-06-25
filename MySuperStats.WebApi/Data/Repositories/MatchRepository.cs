@@ -31,14 +31,14 @@ namespace MySuperStats.WebApi.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IList<Match>> GetAllAsync()
+        public async Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId)
         {
-            return await GetAll().ToListAsync();
+            return await GetAll(predicate: p => p.MatchGroupId == matchGroupId).ToListAsync();
         }
 
-        public async Task<IList<MatchForMainScreen>> GetMatchForMainScreen()
+        public async Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId)
         {
-            return await (from p in GetAll()
+            return await (from p in GetAll(predicate: p => p.MatchGroupId == matchGroupId)
                           select
                               new MatchForMainScreen
                               {

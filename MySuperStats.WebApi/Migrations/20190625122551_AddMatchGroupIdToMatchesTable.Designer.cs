@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190625122551_AddMatchGroupIdToMatchesTable")]
+    partial class AddMatchGroupIdToMatchesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -476,9 +478,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasIndex("HomeTeamId")
                         .HasName("ix_matches_home_team_id");
 
-                    b.HasIndex("MatchGroupId")
-                        .HasName("ix_matches_match_group_id");
-
                     b.HasIndex("Status")
                         .HasName("ix_matches_status");
 
@@ -539,10 +538,10 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
+                            CreateDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 0,
                             GroupName = "Provus Basketbol",
-                            Status = 1
+                            Status = 0
                         });
                 });
 
@@ -676,7 +675,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "aa2bf298-b000-418b-b557-4aaa3a5e8125",
+                            ConcurrencyStamp = "e86c50f1-0287-4db9-a0ef-eefcd66f4123",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -684,7 +683,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "d5a5b364-5843-4d2c-ab8c-58e4665bda11",
+                            ConcurrencyStamp = "50435398-6f51-48f8-aeaa-8e5d2e0b9b08",
                             Name = "Player",
                             NormalizedName = "Player",
                             Status = 1
@@ -1277,12 +1276,6 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany("HomeMatches")
                         .HasForeignKey("HomeTeamId")
                         .HasConstraintName("fk_matches_teams_home_team_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
-                        .WithMany("Matches")
-                        .HasForeignKey("MatchGroupId")
-                        .HasConstraintName("fk_matches_match_groups_match_group_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

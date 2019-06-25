@@ -36,7 +36,7 @@ namespace MySuperStats.WebUI.Pages
         {
             try
             {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}";
+                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}{TempConst.DefaultMatchGroupId}";
                 var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)

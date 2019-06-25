@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190625123034_AddMatchGroupIdToMatchesTableWithIndexes")]
+    partial class AddMatchGroupIdToMatchesTableWithIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -542,7 +544,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             GroupName = "Provus Basketbol",
-                            Status = 1
+                            Status = 0
                         });
                 });
 
@@ -676,7 +678,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "aa2bf298-b000-418b-b557-4aaa3a5e8125",
+                            ConcurrencyStamp = "2d5ded2b-62af-48e7-b240-f613f4aff970",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -684,7 +686,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "d5a5b364-5843-4d2c-ab8c-58e4665bda11",
+                            ConcurrencyStamp = "8da30774-c366-4481-ac7b-9bfff744d433",
                             Name = "Player",
                             NormalizedName = "Player",
                             Status = 1

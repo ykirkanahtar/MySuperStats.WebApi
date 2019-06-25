@@ -11,8 +11,8 @@ namespace MySuperStats.WebApi.Data.Repositories
     public interface IMatchRepository : IRepository<Match, int>
     {
         Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order);
-        Task<IList<Match>> GetAllAsync();
-        Task<IList<MatchForMainScreen>> GetMatchForMainScreen();
+        Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId);
+        Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId);
         Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId);
     }
 }

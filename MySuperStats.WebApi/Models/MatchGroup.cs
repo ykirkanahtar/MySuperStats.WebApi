@@ -7,6 +7,7 @@ namespace MySuperStats.WebApi.Models
     {
         public string GroupName { get; set; }
 
+        public virtual ICollection<Match> Matches { get; set; }
         public virtual ICollection<MatchGroupUser> MatchGroupUsers { get; set; }
         public virtual ICollection<MatchGroupTeam> MatchGroupTeams { get; set; }
     }
