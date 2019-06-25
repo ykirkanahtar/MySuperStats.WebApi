@@ -18,7 +18,6 @@ namespace MySuperStats.WebApi.Data
 
 
         public virtual DbSet<Match> Matches { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<BasketballStat> BasketballStats { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<MatchGroup> MatchGroups { get; set; }
@@ -31,7 +30,6 @@ namespace MySuperStats.WebApi.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new MatchModelConfiguration());
-            modelBuilder.ApplyConfiguration(new PlayerModelConfiguration());
             modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration());
             modelBuilder.ApplyConfiguration(new TeamModelConfiguration());
             modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration());

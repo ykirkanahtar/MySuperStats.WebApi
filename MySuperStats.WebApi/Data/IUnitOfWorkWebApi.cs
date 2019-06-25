@@ -8,7 +8,6 @@ namespace MySuperStats.WebApi.Data
         /*************Repositories************/
         IMatchRepository Matches { get; }
         ITeamRepository Teams { get; }
-        IPlayerRepository Players { get; }
         IBasketballStatRepository BasketballStats { get; }
         IMatchGroupRepository MatchGroups { get; }
 

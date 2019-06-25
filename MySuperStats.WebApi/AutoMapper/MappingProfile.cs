@@ -20,9 +20,6 @@ namespace MySuperStats.WebApi.AutoMapper
             CreateMap<Match, MatchResponse>();
             CreateMap<MatchRequest, Match>();
 
-            CreateMap<Player, PlayerResponse>();
-            CreateMap<PlayerRequest, Player>();
-
             CreateMap<BasketballStat, BasketballStatResponse>();
             CreateMap<BasketballStatRequest, BasketballStat>();
 
