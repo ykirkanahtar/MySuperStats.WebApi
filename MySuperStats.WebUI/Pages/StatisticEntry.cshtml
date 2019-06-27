@@ -1,0 +1,151 @@
+﻿@page
+@using MySuperStats.Contracts.Responses
+@model MySuperStats.WebUI.Pages.StatisticEntryModel
+@{
+    ViewData["Title"] = "İstatistik Girişi";
+}
+    <!-- Main content -->
+    <section class="content">
+      <!-- form start -->
+      <form role="form">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">Maç Bilgileri</h3>
+              </div>
+              <!-- /.box-header -->
+
+                <div class="box-body">
+                  <div class="row">                  
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Tarih</label>
+                        <input asp-for="MatchDetail.MatchDate" type="date" class="form-control" data-provide="datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Sıra</label>
+                        <input asp-for="MatchDetail.MatchOrder" class="form-control"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Video Bağlantısı</label>
+                        <input asp-for="MatchDetail.VideoLink" type="text" class="form-control"/>
+                      </div>   
+                    </div>
+                  </div>    
+                  <!-- row -->
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Takım Seçiniz</label>
+                        <select Name="teamId" asp-items="Model.Teams" class="form-control select2" style="width: 100%;"></select>
+                      </div>
+                      <!-- /.form-group -->
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Oyuncu Seçiniz</label>
+                        <select class="form-control select2" style="width: 100%;">
+                          <option selected="selected">Alabama</option>
+                          <option>Alaska</option>
+                          <option>California</option>
+                          <option>Delaware</option>
+                          <option>Tennessee</option>
+                          <option>Texas</option>
+                          <option>Washington</option>
+                        </select>
+                      </div>
+                      <!-- /.form-group -->
+                    </div>                    
+                  </div>
+                  <!-- row -->
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <!-- /.box -->
+          </div>
+        </div>
+      </form>
+
+      @{
+          var teams = new List<TeamBasketballStatsResponse>();
+          teams.Add(Model.MatchDetail.HomeTeamBasketballStats);
+          teams.Add(Model.MatchDetail.AwayTeamBasketballStats);
+      }
+
+      @foreach(var team in teams)
+      {
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <!-- /.box-header -->
+              <div class="box-body">
+                <label>Takım Adı: </label>@(team.Team.Name)<br />
+                <label>Rengi: </label>@(team.Team.Color)<br />
+                <label>Yaş Ort.: </label>@(team.GetAgeRatio())<br />
+                <label>Oyuncu Sayısı: </label>@(team.PlayerBasketballStats.Count)                
+                <table id="match_detail" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Oyuncu</th>
+                    <th>1 Sayı</th>
+                    <th>2 Sayı</th>
+                    <th>Top. Sayı</th>
+                    <th>Ribaunt</th>
+                    <th>Kapma</th>
+                    <th>Asist</th>
+                    <th>Kayıp</th>
+                    <th>Kesme</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                      @foreach (var player in team.PlayerBasketballStats)
+                      {
+                          <tr>
+                              <td class="text-left"><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@(player.Player.FirstName) @(player.Player.Surname)</a></td>
+                              <td>@(decimal.Truncate(player.BasketballStat.OnePoint)) / @(decimal.Truncate((player.BasketballStat.OnePoint + player.BasketballStat.MissingOnePoint)))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.TwoPoint)) / @(decimal.Truncate((player.BasketballStat.TwoPoint + player.BasketballStat.MissingTwoPoint)))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.OnePoint + player.BasketballStat.TwoPoint * 2))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.Rebound))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.StealBall))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.Assist))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.LooseBall))</td>
+                              <td>@(decimal.Truncate(player.BasketballStat.Interrupt))</td>
+                          </tr>
+                      }
+                      <tr>
+                          <td><b>Toplam</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().OnePoint)) / @(decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().MissingOnePoint))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().TwoPoint)) / @(decimal.Truncate(team.GetTeamTotal().TwoPoint + team.GetTeamTotal().MissingTwoPoint))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().TwoPoint * 2))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Rebound))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().StealBall))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Assist))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().LooseBall))</b></td>
+                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Interrupt))</b></td>
+                      </tr>
+                  </tbody>
+                 </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      }
+    </section>
+    <!-- /.content -->

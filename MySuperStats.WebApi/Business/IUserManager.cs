@@ -18,6 +18,7 @@ namespace MySuperStats.WebApi.Business
         Task<User> GetByUserNameAsync(string userName);
         Task<User> GetUserAsync(ClaimsPrincipal ClaimsPrincipal);
         Task<IList<User>> GetAllAsync();
+        Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);
         Task<IdentityResult> ConfirmEmailAsync(int userId, string code);
         Task ForgotPasswordAsync(PasswordRecoveryRequest request, IUrlHelper url, string requestScheme, string callBackUrl);
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);

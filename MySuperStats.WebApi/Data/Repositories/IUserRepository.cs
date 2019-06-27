@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
-    public interface IUserRepository 
+    public interface IUserRepository
     {
-        Task<List<User>> GetAllAsync();
-        Task<User> GetByIdWithBasketballStats(int userId);
+        Task<IList<User>> GetAllAsync();
+        Task<User> GetByIdWithBasketballStatsAsync(int userId);
+        Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);
     }
 }

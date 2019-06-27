@@ -414,6 +414,21 @@ namespace MySuperStats.WebApi.Data
                 }
             );
 
+            for (var i = 1; i < 16; i++)
+            {
+                modelBuilder.Entity<MatchGroupUser>().HasData(
+                    new MatchGroupUser
+                    {
+                        Id = i,
+                        UserId = i,
+                        MatchGroupId = 1,
+                        CreateDateTime = new DateTime(2019, 1, 1),
+                        CreateUserId = 1,
+                        Status = Status.Active
+                    }
+                );
+            }
+
             return modelBuilder;
         }
     }

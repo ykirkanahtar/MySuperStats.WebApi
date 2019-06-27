@@ -15,7 +15,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<IList<User>> GetAllAsync()
         {
             return await (from p in _dbContext.Set<User>()
                           where p.Status == Status.Active
@@ -23,7 +23,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                         .ToListAsync();
         }
 
-        public async Task<User> GetByIdWithBasketballStats(int userId)
+        public async Task<User> GetByIdWithBasketballStatsAsync(int userId)
         {
             var user = await (from p in _dbContext.Set<User>()
                               where p.Id == userId && p.Status == Status.Active
@@ -35,6 +35,18 @@ namespace MySuperStats.WebApi.Data.Repositories
                         .FirstOrDefaultAsync();
 
             return user;
+        }
+
+        public async Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId)
+        {
+            var users = await (from u in _dbContext.Set<User>()
+                               join mu in _dbContext.Set<MatchGroupUser>() on u.Id equals mu.UserId
+                              where u.Status == Status.Active && mu.Status == Status.Active
+                                    && mu.MatchGroupId == matchGroupId
+                              select u)
+                        .ToListAsync();
+
+            return users;
         }
     }
 }

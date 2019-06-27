@@ -75,9 +75,8 @@ namespace MySuperStats.WebApi.Business
 
         public Task<User> GetByIdWithBasketballStats(int id)
         {
-            return CommonOperationAsync(async () => await _uow.Users.GetByIdWithBasketballStats(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+            return CommonOperationAsync(async () => await _uow.Users.GetByIdWithBasketballStatsAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
-
         }
 
         public Task<User> GetByUserNameAsync(string userName)
@@ -102,6 +101,12 @@ namespace MySuperStats.WebApi.Business
             {
                 return await _userManager.GetAllAsync();
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        }
+
+        public Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId)
+        {
+            return CommonOperationAsync(async () => await _uow.Users.GetAllByMatchGroupIdAsync(matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
         public Task<IdentityResult> ConfirmEmailAsync(int userId, string code)

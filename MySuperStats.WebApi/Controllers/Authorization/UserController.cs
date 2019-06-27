@@ -3,11 +3,7 @@ using MySuperStats.WebApi.ApplicationSettings;
 using CustomFramework.WebApiUtils.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CustomFramework.WebApiUtils.Identity.Controllers;
-using Microsoft.AspNetCore.Identity;
-using CustomFramework.WebApiUtils.Identity.Models;
 using CS.Common.EmailProvider;
-using CustomFramework.WebApiUtils.Identity.Business;
 using MySuperStats.WebApi.Models;
 using CustomFramework.WebApiUtils.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
@@ -102,13 +98,13 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             });
         }
 
-        [Route("getall")]
+        [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllByMatchGroupIdAsync(int matchGroupId)
         {
             var result = await CommonOperationAsync<IList<User>>(async () =>
             {
-                return await _userManager.GetAllAsync();
+                return await _userManager.GetAllByMatchGroupIdAsync(matchGroupId);
             });
 
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(
