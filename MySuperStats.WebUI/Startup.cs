@@ -1,24 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MySuperStats.WebUI.ApplicationSettings;
-using MySuperStats.WebUI.Areas.Identity.Data;
-using MySuperStats.WebUI.Data;
+using MySuperStats.WebUI.AutoMapper;
+using MySuperStats.WebUI.Middlewares;
 using MySuperStats.WebUI.Utils;
 
 namespace MySuperStats.WebUI
@@ -36,6 +30,9 @@ namespace MySuperStats.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IWebApiConnector<ApiResponse>, WebApiConnector<ApiResponse>>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped(sp => sp.GetService<IHttpContextAccessor>().HttpContext.Session);
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -47,34 +44,34 @@ namespace MySuperStats.WebUI
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddIdentity<AppUser, AppRole>(config =>
-                {
-                    config.SignIn.RequireConfirmedEmail = true;
-                })
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            // services.AddIdentity<AppUser, AppRole>(config =>
+            //     {
+            //         config.SignIn.RequireConfirmedEmail = true;
+            //     })
+            //     .AddDefaultUI(UIFramework.Bootstrap4)
+            //     .AddEntityFrameworkStores<ApplicationDbContext>()
+            //     .AddDefaultTokenProviders();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
+            // services.Configure<IdentityOptions>(options =>
+            // {
+            //     // Password settings.
+            //     options.Password.RequireDigit = true;
+            //     options.Password.RequireLowercase = true;
+            //     options.Password.RequireNonAlphanumeric = false;
+            //     options.Password.RequireUppercase = true;
+            //     options.Password.RequiredLength = 6;
+            //     options.Password.RequiredUniqueChars = 0;
 
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+            //     // Lockout settings.
+            //     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //     options.Lockout.MaxFailedAccessAttempts = 5;
+            //     options.Lockout.AllowedForNewUsers = true;
 
-                // User settings.
-                options.User.AllowedUserNameCharacters =
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-            });
+            //     // User settings.
+            //     options.User.AllowedUserNameCharacters =
+            //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //     options.User.RequireUniqueEmail = false;
+            // });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -87,16 +84,27 @@ namespace MySuperStats.WebUI
                 options.SlidingExpiration = true;
             });
 
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddAutoMapper();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<AppSettings>>().Value);
+
+            services.AddAntiforgery(option => option.HeaderName = "X-XSRF-TOKEN");
+            services.AddDataProtection();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +112,7 @@ namespace MySuperStats.WebUI
         {
             if (env.IsDevelopment())
             {
+                //app.UseExceptionHandler("/Error");
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
@@ -120,6 +129,8 @@ namespace MySuperStats.WebUI
 
             app.UseAuthentication();
             app.UseSession();
+
+            app.UseSessionMiddleware();
 
             app.UseMvc(routes =>
             {

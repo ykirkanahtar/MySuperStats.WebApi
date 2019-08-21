@@ -29,7 +29,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.Team), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] TeamRequest request)
         {
             return await BaseCreateAsync(request);
@@ -37,7 +37,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(WebApiEntities.Team), Crud.Update)]
+        [Permission(nameof(PermissionEnum.CreateTeam), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] TeamRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -49,7 +49,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.Team), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -57,7 +57,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -65,7 +64,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAll(int skip, int take)
         {
             return CommonOperationAsync<IActionResult>(async () =>

@@ -29,15 +29,27 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.BasketballStat), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] BasketballStatRequest request)
         {
             return await BaseCreateAsync(request);
         }
 
+        [Route("createwithmultistats")]
+        [HttpPost]
+        [Permission(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))]
+        public Task<IActionResult> CreateMultiStats([FromBody] MatchRequest request)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.CreateMultiStats(request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+            });
+        }        
+
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(WebApiEntities.BasketballStat), Crud.Update)]
+        [Permission(nameof(PermissionEnum.UpdateBasketballStat), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] BasketballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -49,7 +61,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.BasketballStat), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteBasketballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -57,7 +69,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -65,7 +76,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/matchid/{matchId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllByMatchId(int matchId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -79,7 +89,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/matchgroupid/{matchGroupId:int}/userid/{userId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllByUserId(int matchGroupId, int userId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -93,7 +102,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -107,7 +115,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("gettopstats/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetTopStats(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>

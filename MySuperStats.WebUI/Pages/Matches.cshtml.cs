@@ -21,14 +21,14 @@ namespace MySuperStats.WebUI.Pages
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
-        public List<MatchForMainScreen> MatchList { get; set; }
+        public List<MatchResponse> MatchList { get; set; }
 
         public MatchesModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            MatchList = new List<MatchForMainScreen>();
+            MatchList = new List<MatchResponse>();
         }
 
         public async Task OnGet()
@@ -38,7 +38,7 @@ namespace MySuperStats.WebUI.Pages
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                MatchList = JsonConvert.DeserializeObject<List<MatchForMainScreen>>(response.Result.ToString());
+                MatchList = JsonConvert.DeserializeObject<List<MatchResponse>>(response.Result.ToString());
             }
             else
                 throw new Exception(response.Message);

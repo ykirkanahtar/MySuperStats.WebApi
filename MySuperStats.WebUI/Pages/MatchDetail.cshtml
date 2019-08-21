@@ -9,16 +9,16 @@
 
       <div class="row">
           <div class="col-xs-12">
-              <label>Tarih:</label> @(Model.MatchDetail.MatchDate.ToString("dd-MM-yyyy"))<br />
-              <label>Sıra:</label> @(Model.MatchDetail.MatchOrder)<br />
-              <label>Video Link: </label><a href="@Model.MatchDetail.VideoLink" target="_blank">@(Model.MatchDetail.VideoLink)</a>
+              <label>Tarih:</label> @(Model.MatchResponse.MatchDate.ToString("dd-MM-yyyy"))<br />
+              <label>Sıra:</label> @(Model.MatchResponse.Order)<br />
+              <label>Video Link: </label><a href="@Model.MatchResponse.VideoLink" target="_blank">@(Model.MatchResponse.VideoLink)</a>
           </div>
       </div>
 
       @{
-          var teams = new List<TeamBasketballStatsResponse>();
-          teams.Add(Model.MatchDetail.HomeTeamBasketballStats);
-          teams.Add(Model.MatchDetail.AwayTeamBasketballStats);
+          var teams = new List<TeamResponse>();
+          teams.Add(Model.MatchResponse.HomeTeam);
+          teams.Add(Model.MatchResponse.AwayTeam);
       }
 
       @foreach(var team in teams)
@@ -28,10 +28,10 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body">
-                <label>Takım Adı: </label>@(team.Team.Name)<br />
-                <label>Rengi: </label>@(team.Team.Color)<br />
-                <label>Yaş Ort.: </label>@(team.GetAgeRatio())<br />
-                <label>Oyuncu Sayısı: </label>@(team.PlayerBasketballStats.Count)                
+                <label>Takım Adı: </label>@(team.Name)<br />
+                <label>Rengi: </label>@(team.Color)<br />
+                <label>Yaş Ort.: </label>@(team.GetAgeRatioForBasketball())<br />
+                <label>Oyuncu Sayısı: </label>@(team.BasketballStats.Count)                
                 <table id="match_detail" class="table table-bordered table-striped">
                   <thead>
                   <tr>
@@ -47,31 +47,35 @@
                   </tr>
                   </thead>
                   <tbody>
-                      @foreach (var player in team.PlayerBasketballStats)
+                      @foreach (var stats in team.BasketballStats)
                       {
+                          var statsForUI = stats.GetStatsForUI();
                           <tr>
-                              <td class="text-left"><a asp-page="PlayerDetail" asp-route-id="@player.Player.Id">@(player.Player.FirstName) @(player.Player.Surname)</a></td>
-                              <td>@(decimal.Truncate(player.BasketballStat.OnePoint)) / @(decimal.Truncate((player.BasketballStat.OnePoint + player.BasketballStat.MissingOnePoint)))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.TwoPoint)) / @(decimal.Truncate((player.BasketballStat.TwoPoint + player.BasketballStat.MissingTwoPoint)))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.OnePoint + player.BasketballStat.TwoPoint * 2))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.Rebound))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.StealBall))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.Assist))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.LooseBall))</td>
-                              <td>@(decimal.Truncate(player.BasketballStat.Interrupt))</td>
+                              <td class="text-left"><a asp-page="PlayerDetail" asp-route-id="@stats.User.Id">@(stats.User.FirstName) @(stats.User.Surname)</a></td>
+                              <td>@(statsForUI.OnePoint)</td>
+                              <td>@(statsForUI.TwoPoint)</td>
+                              <td>@(statsForUI.TotalPoint)</td>
+                              <td>@(statsForUI.Rebound)</td>
+                              <td>@(statsForUI.StealBall)</td>
+                              <td>@(statsForUI.Assist)</td>
+                              <td>@(statsForUI.LooseBall)</td>
+                              <td>@(statsForUI.Interrupt)</td>
                           </tr>
                       }
+                      @{
+                        var totalStatsForUI = team.GetTeamTotalForBasketball().GetStatsForUI();
                       <tr>
                           <td><b>Toplam</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().OnePoint)) / @(decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().MissingOnePoint))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().TwoPoint)) / @(decimal.Truncate(team.GetTeamTotal().TwoPoint + team.GetTeamTotal().MissingTwoPoint))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().OnePoint + team.GetTeamTotal().TwoPoint * 2))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Rebound))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().StealBall))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Assist))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().LooseBall))</b></td>
-                          <td><b>@(decimal.Truncate(team.GetTeamTotal().Interrupt))</b></td>
+                              <td><b>@(totalStatsForUI.OnePoint)</b></td>
+                              <td><b>@(totalStatsForUI.TwoPoint)</b></td>
+                              <td><b>@(totalStatsForUI.TotalPoint)</b></td>
+                              <td><b>@(totalStatsForUI.Rebound)</b></td>
+                              <td><b>@(totalStatsForUI.StealBall)</b></td>
+                              <td><b>@(totalStatsForUI.Assist)</b></td>
+                              <td><b>@(totalStatsForUI.LooseBall)</b></td>
+                              <td><b>@(totalStatsForUI.Interrupt)</b></td>
                       </tr>
+                      }
                   </tbody>
                  </table>
               </div>

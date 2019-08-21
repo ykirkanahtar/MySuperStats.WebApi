@@ -12,7 +12,7 @@ namespace MySuperStats.WebApi.Data.Repositories
     {
         Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order);
         Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId);
-        Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId);
-        Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId);
+        Task<IList<Match>> GetMatchForMainScreen(int matchGroupId);
+        Task<Match> GetMatchDetailBasketballStats(int matchId);
     }
 }

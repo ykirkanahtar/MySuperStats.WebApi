@@ -10,7 +10,6 @@ using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
-using MySuperStats.Contracts.Responses;
 using System.Collections.Generic;
 
 namespace MySuperStats.WebApi.Business
@@ -31,16 +30,7 @@ namespace MySuperStats.WebApi.Business
             {
                 var result = Mapper.Map<Match>(request);
 
-                /**************MatchDate And Order are unique*****************/
-                /*************************************************************/
-                var matchDateAndOrderUniqueResult =
-                    await _uow.Matches.GetByMatchDateAndOrderAsync(result.MatchDate, result.Order);
-
-                matchDateAndOrderUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchDateAndOrder);
-                /**************MatchDate And Order are unique*****************/
-                /*************************************************************/
-
-                SameValueCheckForTeam1AndTeam2(result);
+                await CheckValuesAsync(request);
 
                 _uow.Matches.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
@@ -56,16 +46,7 @@ namespace MySuperStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                /**************MatchDate And Order are unique*****************/
-                /*************************************************************/
-                var matchDateAndOrderUniqueResult =
-                    await _uow.Matches.GetByMatchDateAndOrderAsync(result.MatchDate, result.Order);
-
-                matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchDateAndOrder);
-                /**************MatchDate And Order are unique*****************/
-                /*************************************************************/
-
-                SameValueCheckForTeam1AndTeam2(result);
+                await CheckValuesAsync(request, true, id);
 
                 _uow.Matches.Update(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
@@ -96,21 +77,30 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () => await _uow.Matches.GetAllByMatchGroupIdAsync(matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId)
+        public Task<IList<Match>> GetMatchForMainScreen(int matchGroupId)
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchForMainScreen(matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)
+        public Task<Match> GetMatchDetailBasketballStats(int matchId)
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailBasketballStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        private static void SameValueCheckForTeam1AndTeam2(Match entity)
+        private async Task CheckValuesAsync(MatchRequest request, bool update = false, int? id = null)
         {
-            if (entity.HomeTeamId == entity.AwayTeamId)
-                entity.CheckDuplicatationForUniqueValue(WebApiResourceConstants.Team1AndTeam2);
-        }
+            (await _uow.MatchGroups.GetByIdAsync(request.MatchGroupId)).CheckRecordIsExist(nameof(MatchGroup));
 
+            var matchDateAndOrderUniqueResult =
+                await _uow.Matches.GetByMatchDateAndOrderAsync(request.MatchDate, request.Order);
+
+            if (update)
+                matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate((int)id, WebApiResourceConstants.MatchDateAndOrder);
+            else
+                matchDateAndOrderUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchDateAndOrder);
+
+            if (request.HomeTeamId == request.AwayTeamId)
+                request.CheckDuplicatationForUniqueValue(WebApiResourceConstants.Team1AndTeam2);                
+        }
     }
 }

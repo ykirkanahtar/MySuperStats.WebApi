@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using CustomFramework.Data.Enums;
 using CustomFramework.WebApiUtils.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Data
@@ -372,10 +374,39 @@ namespace MySuperStats.WebApi.Data
                 {
                     Id = 2,
                     Name = "Player",
-                    NormalizedName = "Player",
+                    NormalizedName = "PLAYER",
                     Status = Status.Active
                 }
             );
+
+            var permissionEnums = Enum.GetNames(typeof(PermissionEnum)).ToList();
+
+            var roleClaimId = 1;
+            modelBuilder.Entity<IdentityRoleClaim<int>>().HasData(
+                    new IdentityRoleClaim<int>
+                    {
+                        Id = roleClaimId,
+                        ClaimType = "OnlySystemAdmin",
+                        ClaimValue = "true",
+                        RoleId = 1,
+                    }
+                );
+
+            roleClaimId++;
+
+            foreach (var permissionEnum in permissionEnums)
+            {
+                modelBuilder.Entity<IdentityRoleClaim<int>>().HasData(
+                    new IdentityRoleClaim<int>
+                    {
+                        Id = roleClaimId,
+                        ClaimType = permissionEnum,
+                        ClaimValue = "true",
+                        RoleId = 1,
+                    }
+                );
+                roleClaimId++;
+            }
 
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int>
@@ -390,16 +421,6 @@ namespace MySuperStats.WebApi.Data
                 {
                     RoleId = 2,
                     UserId = 1,
-                }
-            );
-
-            modelBuilder.Entity<IdentityRoleClaim<int>>().HasData(
-                new IdentityRoleClaim<int>
-                {
-                    Id = 1,
-                    ClaimType = "OnlySystemAdmin",
-                    ClaimValue = "true",
-                    RoleId = 1,
                 }
             );
 

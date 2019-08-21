@@ -27,7 +27,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.MatchGroup), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody]MatchGroupRequest request)
         {
             return await BaseCreateAsync(request);
@@ -35,7 +35,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(WebApiEntities.MatchGroup), Crud.Update)]
+        [Permission(nameof(PermissionEnum.UpdateMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Update(int id, [FromBody]MatchGroupRequest request)
         {
             return await BaseUpdateAsync(id, request);
@@ -43,7 +43,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.MatchGroup), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -51,7 +51,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroup), Crud.Select)]
+        [Permission(nameof(PermissionEnum.SelectMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -59,7 +59,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/groupname/{groupName}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroup), Crud.Select)]
+        [Permission(nameof(PermissionEnum.SelectMatchGroup), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetByGroupName(string groupName)
         {
             return CommonOperationAsync<IActionResult>(async()=>

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="CustomFramework.WebApiUtils" Version="1.2.5" />
     <PackageReference Include="CustomFramework.WebApiUtils.Contracts" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190807153239_PermissionData")]
+    partial class PermissionData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -939,7 +941,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "13a18943-e95b-403b-8feb-98b7493abf70",
+                            ConcurrencyStamp = "f1373b85-d08e-4df9-a71d-6c73b8a9b0c0",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -947,9 +949,9 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "4b02fffb-cfa5-45ac-9b5c-76db24a86125",
+                            ConcurrencyStamp = "ba2e9986-47f8-4de7-8f74-0601c3a5f8f0",
                             Name = "Player",
-                            NormalizedName = "PLAYER",
+                            NormalizedName = "Player",
                             Status = 1
                         });
                 });

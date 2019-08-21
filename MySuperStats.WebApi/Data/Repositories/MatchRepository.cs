@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MySuperStats.Contracts.Responses;
+using CustomFramework.Data.Enums;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
@@ -36,66 +37,28 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: p => p.MatchGroupId == matchGroupId).ToListAsync();
         }
 
-        public async Task<IList<MatchForMainScreen>> GetMatchForMainScreen(int matchGroupId)
+        public async Task<IList<Match>> GetMatchForMainScreen(int matchGroupId)
         {
-            return await (from p in GetAll(predicate: p => p.MatchGroupId == matchGroupId)
-                          select
-                              new MatchForMainScreen
-                              {
-                                  MatchDate = p.MatchDate,
-                                  AwayTeamScore = (int)p.AwayTeamScore,
-                                  HomeTeamScore = (int)p.HomeTeamScore,
-                                  AwayTeamName = p.AwayTeam.Name,
-                                  HomeTeamName = p.HomeTeam.Name,
-                                  MatchDuration = p.DurationInMinutes,
-                                  MatchId = p.Id,
-                                  MatchOrder = p.Order,
-                                  VideoLink = p.VideoLink
-                              }).OrderBy(p => p.MatchDate).ThenBy(p => p.MatchOrder).ToListAsync();
+            //Todo orderby sırası ters çalışıyor. Aşağıdaki kod ilk MatchDate, sonra Order'a göre sıralıyor fakat MatchDate Order'a göre sonra yazılmış. Düzeltilmeli
+            return await GetAll(predicate: p => p.MatchGroupId == matchGroupId, orderBy: q => q.OrderBy(s => s.Order).OrderByDescending(s => s.MatchDate))
+            .Include(p => p.HomeTeam).Include(p => p.AwayTeam).ToListAsync();
         }
 
-        public async Task<MatchDetailBasketballStats> GetMatchDetailBasketballStats(int matchId)
+        public async Task<Match> GetMatchDetailBasketballStats(int matchId)
         {
-            return await (from p in GetAll()
-                          where p.Id == matchId
-                          select
-                              new MatchDetailBasketballStats
-                              {
-                                  MatchDate = p.MatchDate,
-                                  MatchOrder = p.Order,
-                                  VideoLink = p.VideoLink,
-                                  HomeTeamBasketballStats = new TeamBasketballStats
-                                  {
-                                      Team = p.HomeTeam,
-                                      PlayerBasketballStats =
-                                       (
-                                            from i in p.BasketballStats
-                                            where i.TeamId == p.HomeTeamId
-                                            orderby i.User.FirstName
-                                            select new PlayerBasketballStats
-                                            {
-                                                Player = i.User,
-                                                BasketballStat = i
-                                            }
-                                       ).ToList()
-                                  },
-                                  AwayTeamBasketballStats = new TeamBasketballStats
-                                  {
-                                      Team = p.AwayTeam,
-                                      PlayerBasketballStats =
-                                       (
-                                            from i in p.BasketballStats
-                                            where i.TeamId == p.AwayTeamId
-                                            orderby i.User.FirstName
-                                            select new PlayerBasketballStats
-                                            {
-                                                Player = i.User,
-                                                BasketballStat = i
-                                            }
-                                       ).ToList()
-                                  },
-                              }).OrderBy(p => p.MatchDate).ThenBy(p => p.MatchOrder).FirstOrDefaultAsync();
+            var match = await (from p in GetAll()
+                               where p.Id == matchId
+                               select
+                                   p
+            ).Include(p => p.HomeTeam).Include(p => p.AwayTeam).FirstOrDefaultAsync();
 
+            var homeTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking() where p.MatchId == matchId && p.TeamId == match.HomeTeamId && p.Status == Status.Active select p).Include(p => p.User).ToListAsync();
+            var awayTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking() where p.MatchId == matchId && p.TeamId == match.AwayTeamId && p.Status == Status.Active select p).Include(p => p.User).ToListAsync();
+
+            match.HomeTeam.BasketballStats = homeTeamStats;
+            match.AwayTeam.BasketballStats = awayTeamStats;
+
+            return match;
         }
 
     }

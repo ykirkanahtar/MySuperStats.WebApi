@@ -31,6 +31,9 @@
     </div>
 @if (Model.PlayerStats.Matches.Count > 0)
 {
+  var totalStatForUI = Model.PlayerStats.TotalStats.GetStatsForUI();
+  var perMatchStatForUI = Model.PlayerStats.PerMatchStats.GetStatsForUI();
+
       <div class="row">
         <div class="col-xs-6">
           <div class="box">
@@ -53,13 +56,13 @@
                 </thead>
                 <tbody>
                       <tr>
-                          <td>@($"{Math.Round(Model.PlayerStats.TotalStats.OnePoint)} / {Math.Round(Model.PlayerStats.TotalStats.OnePoint + Model.PlayerStats.TotalStats.MissingOnePoint)}")</td>
-                          <td>@($"{Math.Round(Model.PlayerStats.TotalStats.TwoPoint)} / {Math.Round(Model.PlayerStats.TotalStats.TwoPoint + Model.PlayerStats.TotalStats.MissingTwoPoint)}")</td>
-                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Rebound))</td>
-                          <td>@(Math.Round(Model.PlayerStats.TotalStats.StealBall))</td>
-                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Assist))</td>
-                          <td>@(Math.Round(Model.PlayerStats.TotalStats.LooseBall))</td>
-                          <td>@(Math.Round(Model.PlayerStats.TotalStats.Interrupt))</td>
+                          <td>@(totalStatForUI.OnePoint)</td>
+                          <td>@(totalStatForUI.TwoPoint)</td>
+                          <td>@(totalStatForUI.Rebound)</td>
+                          <td>@(totalStatForUI.StealBall)</td>
+                          <td>@(totalStatForUI.Assist)</td>
+                          <td>@(totalStatForUI.LooseBall)</td>
+                          <td>@(totalStatForUI.Interrupt)</td>
                       </tr>
                 </tbody>
               </table>
@@ -90,13 +93,13 @@
                 </thead>
                 <tbody>
                       <tr>
-                          <td>@($"{Math.Round(Model.PlayerStats.PerMatchStats.OnePoint, 2)} / {Math.Round(Model.PlayerStats.PerMatchStats.OnePoint + Model.PlayerStats.PerMatchStats.MissingOnePoint, 2)}")</td>
-                          <td>@($"{Math.Round(Model.PlayerStats.PerMatchStats.TwoPoint, 2)} / {Math.Round(Model.PlayerStats.PerMatchStats.TwoPoint + Model.PlayerStats.PerMatchStats.MissingTwoPoint, 2)}")</td>
-                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Rebound, 2))</td>
-                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.StealBall, 2))</td>
-                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Assist, 2))</td>
-                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.LooseBall, 2))</td>
-                          <td>@(Math.Round(Model.PlayerStats.PerMatchStats.Interrupt, 2))</td>
+                          <td>@(perMatchStatForUI.OnePoint)</td>
+                          <td>@(perMatchStatForUI.TwoPoint)</td>
+                          <td>@(perMatchStatForUI.Rebound)</td>
+                          <td>@(perMatchStatForUI.StealBall)</td>
+                          <td>@(perMatchStatForUI.Assist)</td>
+                          <td>@(perMatchStatForUI.LooseBall)</td>
+                          <td>@(perMatchStatForUI.Interrupt)</td>
                       </tr>
                 </tbody>
               </table>
@@ -224,18 +227,19 @@
                    @foreach (var stat in Model.BasketballStats)
                     {
                       var match = stat.Match;
+                      var statForUI = stat.GetStatsForUI();
                       <tr>
                           <td><a asp-page="MatchDetail" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
                           <td>@(match.Order)</td>
                           <td>@(stat.Team.Name)</td>
                           <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
-                          <td>@($"{Math.Round(stat.OnePoint)} / {Math.Round(stat.OnePoint + stat.MissingOnePoint)}")</td>
-                          <td>@($"{Math.Round(stat.TwoPoint)} / {Math.Round(stat.TwoPoint + stat.MissingTwoPoint)}")</td>
-                          <td>@(Math.Round(stat.Rebound))</td>
-                          <td>@(Math.Round(stat.StealBall))</td>
-                          <td>@(Math.Round(stat.Assist))</td>
-                          <td>@(Math.Round(stat.LooseBall))</td>
-                          <td>@(Math.Round(stat.Interrupt))</td>
+                          <td>@(statForUI.OnePoint)</td>
+                          <td>@(statForUI.TwoPoint)</td>
+                          <td>@(statForUI.Rebound)</td>
+                          <td>@(statForUI.StealBall)</td>
+                          <td>@(statForUI.Assist)</td>
+                          <td>@(statForUI.LooseBall)</td>
+                          <td>@(statForUI.Interrupt)</td>                          
                       </tr>
                     }
                 </tbody>

@@ -18,14 +18,14 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
-        public MatchDetailBasketballStatsResponse MatchDetail { get; set; }
+        public MatchResponse MatchResponse { get; set; }
 
         public MatchDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            MatchDetail = new MatchDetailBasketballStatsResponse();
+            MatchResponse = new MatchResponse();
         }
 
         public async Task OnGet(int id)
@@ -35,7 +35,7 @@ namespace MySuperStats.WebUI.Pages
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                MatchDetail = JsonConvert.DeserializeObject<MatchDetailBasketballStatsResponse>(response.Result.ToString());
+                MatchResponse = JsonConvert.DeserializeObject<MatchResponse>(response.Result.ToString());
             }
             else
                 throw new Exception(response.Message);

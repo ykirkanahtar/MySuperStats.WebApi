@@ -30,7 +30,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.Match), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateMatch), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] MatchRequest request)
         {
             return await BaseCreateAsync(request);
@@ -38,7 +38,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(WebApiEntities.Match), Crud.Update)]
+        [Permission(nameof(PermissionEnum.UpdateMatch), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] MatchRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -50,7 +50,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.Match), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteMatch), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -58,7 +58,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -66,7 +65,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAll(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -80,20 +78,19 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallformainscreen/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllForMainScreen(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
                 var result = await Manager.GetMatchForMainScreen(matchGroupId);
 
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                                   Mapper.Map<IList<Match>, IList<MatchResponse>>(result)));
             });
         }
 
         [Route("getmatchdetailbasketballstats/id/{id:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetMatchDetailBasketballStats(int id)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -101,7 +98,7 @@ namespace MySuperStats.WebApi.Controllers
                 var result = await Manager.GetMatchDetailBasketballStats(id);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-                    Mapper.Map<MatchDetailBasketballStats, MatchDetailBasketballStatsResponse>(result)));
+                    Mapper.Map<Match, MatchResponse>(result)));
             });
         }
 

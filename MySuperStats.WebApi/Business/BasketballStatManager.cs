@@ -19,33 +19,63 @@ namespace MySuperStats.WebApi.Business
     public class BasketballStatManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IBasketballStatManager
     {
         private readonly IUnitOfWorkWebApi _uow;
-        public BasketballStatManager(IUnitOfWorkWebApi uow, ILogger<BasketballStatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+        private readonly IMatchManager _matchManager;
+        public BasketballStatManager(IMatchManager matchManager, IUnitOfWorkWebApi uow, ILogger<BasketballStatManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
             : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
+            _matchManager = matchManager;
         }
 
         public Task<BasketballStat> CreateAsync(BasketballStatRequest request)
         {
             return CommonOperationAsync(async () =>
             {
-                var result = Mapper.Map<BasketballStat>(request);
-
-                /**********MatchId, TeamId And PlayerId are unique************/
-                /*************************************************************/
-                var matchPlayerAndTeamUniqueResult =
-                    await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
-
-                matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
-                /**********MatchId, TeamId And PlayerId are unique************/
-                /*************************************************************/
-
-                _uow.BasketballStats.Add(result, GetLoggedInUserId());
-                await _uow.SaveChangesAsync();
+                var result = await CreateUniqueStatAsync(request);
 
                 await UpdateMatchScores(request.MatchId);
 
                 return result;
+            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
+        }
+
+        private async Task<BasketballStat> CreateUniqueStatAsync(BasketballStatRequest request)
+        {
+            var basketballStat = Mapper.Map<BasketballStat>(request);
+            await CheckValuesAsync(request);
+            _uow.BasketballStats.Add(basketballStat, GetLoggedInUserId());
+            await _uow.SaveChangesAsync();
+            return basketballStat;
+        }
+
+        private async Task CreateTeamStatsAsync(ICollection<BasketballStatRequest> teamStats, int matchId)
+        {
+            foreach (var homeTeamStat in teamStats)
+            {
+                var basketballStatRequest = Mapper.Map<BasketballStatRequest>(homeTeamStat);
+                basketballStatRequest.MatchId = matchId;
+                await CreateUniqueStatAsync(basketballStatRequest);
+            }
+        }
+
+        public Task<int> CreateMultiStats(MatchRequest request)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                var homeTeamStats = request.HomeTeam.BasketballStats;
+                var awayTeamStats = request.AwayTeam.BasketballStats;
+                
+                request.HomeTeam = null;
+                request.AwayTeam = null;
+
+                var match = await _matchManager.CreateAsync(request);
+
+                await CreateTeamStatsAsync(homeTeamStats, match.Id);
+                await CreateTeamStatsAsync(awayTeamStats, match.Id);
+
+                await UpdateMatchScores(match.Id);
+
+                return match.Id;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
@@ -69,14 +99,7 @@ namespace MySuperStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                /**********MatchId, TeamId And PlayerId are unique************/
-                /*************************************************************/
-                var matchPlayerAndTeamUniqueResult =
-                    await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
-
-                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
-                /**********MatchId, TeamId And PlayerId are unique************/
-                /*************************************************************/
+                await CheckValuesAsync(request, true, id);
 
                 _uow.BasketballStats.Update(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
@@ -185,6 +208,17 @@ namespace MySuperStats.WebApi.Business
             }
 
             return list;
+        }
+
+        private async Task CheckValuesAsync(BasketballStatRequest request, bool update = false, int? id = null)
+        {
+            var matchPlayerAndTeamUniqueResult =
+                await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(request.MatchId, request.TeamId, request.UserId);
+
+            if (update)
+                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate((int)id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+            else
+                matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
         }
     }
 }

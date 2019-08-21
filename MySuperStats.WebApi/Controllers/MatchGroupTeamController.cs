@@ -29,7 +29,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateMatchGroupTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody]MatchGroupTeamRequest request)
         {
             return await BaseCreateAsync(request);
@@ -37,7 +37,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteMatchGroupTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -45,7 +45,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Select)]
+        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -53,7 +53,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallteam/matchgroup/{matchGroupId:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Select)]
+        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetTeamsByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -67,7 +67,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallmatchgroup/team/{teamId:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupTeam), Crud.Select)]
+        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetMatchGroupsByTeamId(int teamId)
         {
             return CommonOperationAsync<IActionResult>(async () =>

@@ -59,7 +59,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -117,89 +120,91 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+
+  <!-- Errors and Success-->
+  <data name="AnErrorHasOccured" xml:space="preserve">
+    <value>Bir hata oluştu</value>
+  </data>
   <data name="AnUnkonwnErrorHasOccured" xml:space="preserve">
     <value>Bilinmeyen bir hata oluştu</value>
   </data>
-  <data name="clientapplicationcode" xml:space="preserve">
-    <value>istemci uygulama kodu</value>
+  <data name="An exception has been raised that is likely due to a transient failure." xml:space="preserve">
+    <value>Veritabanı bağlantı hatası</value>
   </data>
   <data name="ClientApplicationLoginError" xml:space="preserve">
     <value>Uygulama kimlik doğrulama hatası</value>
   </data>
-  <data name="clientapplicationname" xml:space="preserve">
-    <value>istemci uygulama ismi</value>
-  </data>
   <data name="DuplicateRecordForUniqueValueError" xml:space="preserve">
     <value>Tekil olan alan için çoklu kayıt hatası</value>
-  </data>
-  <data name="email" xml:space="preserve">
-    <value>e-posta</value>
-  </data>
-  <data name="identitynumber" xml:space="preserve">
-    <value>kimlik numarası</value>
-  </data>
-  <data name="LoginError" xml:space="preserve">
-    <value>Kimlik doğrulama hatası</value>
-  </data>
-  <data name="name" xml:space="preserve">
-    <value>isim</value>
-  </data>
-  <data name="photourl" xml:space="preserve">
-    <value>fotoğraf URL</value>
-  </data>
-  <data name="propertyname" xml:space="preserve">
-    <value>özellik ismi</value>
-  </data>
-  <data name="servername" xml:space="preserve">
-    <value>sunucu ismi</value>
-  </data>
-  <data name="Success" xml:space="preserve">
-    <value>İşlem başarıyla tamamlandı</value>
   </data>
   <data name="UnauthorizedAccessError" xml:space="preserve">
     <value>Bu erişim için yetki bulunmamakta</value>
   </data>
-  <data name="usergroupname" xml:space="preserve">
-    <value>kullanıcı grup ismi</value>
-  </data>
-  <data name="username" xml:space="preserve">
-    <value>kullanıcı adı</value>
-  </data>
-  <data name="serialnumber" xml:space="preserve">
-    <value>seri numarası</value>
-  </data>
-  <data name="Camera" xml:space="preserve">
-    <value>kamera</value>
-  </data>
-  <data name="CameraBrand" xml:space="preserve">
-    <value>kamera markası</value>
-  </data>
-  <data name="CameraModel" xml:space="preserve">
-    <value>kamera modeli</value>
-  </data>
-  <data name="ClientApplication" xml:space="preserve">
-    <value>istemci uygulaması</value>
-  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>Bu değere ait bir kayıt bulunamadı :</value>
   </data>
-  <data name="Notification" xml:space="preserve">
-    <value>bildirim</value>
+  <data name="ModelStateErrors" xml:space="preserve">
+    <value>Bazı alanlarda hata oluştu. Hata mesajı detaylarına bakınız.</value>
   </data>
-  <data name="NotificationAuthorization" xml:space="preserve">
-    <value>bildirim yetkisi</value>
+  <data name="RecordExistsError" xml:space="preserve">
+    <value>Bu değere ait bir kayıt daha önceden kayıt edilmiştir</value>
   </data>
-  <data name="Person" xml:space="preserve">
-    <value>kişi</value>
+  <data name="AccessViolationError" xml:space="preserve">
+    <value>Bu kayıt şu alanlar için kullanımdadır</value>
   </data>
-  <data name="Property" xml:space="preserve">
-    <value>özellik</value>
+  <data name="LoginError" xml:space="preserve">
+    <value>Kimlik doğrulama hatası</value>
   </data>
-  <data name="PropertyAuthorization" xml:space="preserve">
-    <value>özellik yetkisi</value>
+  <data name="AuthenticationError" xml:space="preserve">
+    <value>Kullanıcı adı/E-posta ya da parola hatalı</value>
   </data>
-  <data name="Server" xml:space="preserve">
-    <value>sunucu</value>
+  <data name="NewTokenRequestError" xml:space="preserve">
+    <value>Farklı bir yerden oturumunuz açıldı</value>
+  </data>
+  <data name="The operation has timed out." xml:space="preserve">
+    <value>Sunucudan yanıt alınamadı.</value>
+  </data>
+  <data name="An exception has been raised that is likely due to a transient failure.-- The operation has timed out." xml:space="preserve">
+    <value>Veritabanı bağlantı hatası. Sunucudan yanıt alınamadı.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>İşlem başarıyla tamamlandı</value>
+  </data>
+  <!-- Errors and Success-->
+
+  <!-- Annotation Errors -->
+  <data name="RequiredError" xml:space="preserve">
+    <value>alanı zorunludur.</value>
+  </data>
+  <data name="FieldLengthError" xml:space="preserve">
+    <value>alanı uzunluğu şu aralıklarda olmalıdır</value>
+  </data>
+  <!-- Annotation Errors -->
+
+  <!--Identity -->
+  <data name="ClientApplication" xml:space="preserve">
+    <value>istemci uygulaması</value>
+  </data>
+  <data name="ClientApplicationName" xml:space="preserve">
+    <value>istemci uygulama ismi</value>
+  </data>
+  <data name="ClientApplicationCode" xml:space="preserve">
+    <value>istemci uygulama kodu</value>
+  </data>
+  <data name="ClientApplicationPassword" xml:space="preserve">
+    <value>istemci uygulama parolası</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>adı</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>parola</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>rol</value>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>soyadı</value>
   </data>
   <data name="Token" xml:space="preserve">
     <value>token</value>
@@ -207,7 +212,121 @@
   <data name="User" xml:space="preserve">
     <value>kullanıcı</value>
   </data>
-  <data name="UserGroup" xml:space="preserve">
-    <value>kullanıcı grubu</value>
+  <data name="UserLoginLog" xml:space="preserve">
+    <value>kullanıcı giriş logları</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>kullanıcı adı</value>
+  </data>
+  <data name="AnErrorHasOccuredWhileChangingPassword" xml:space="preserve">
+    <value>Parole yenileme sırasında bir hata oluştu</value>
+  </data>
+  <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
+    <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
+  </data>
+  <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
+    <value>Parola yenilemek için kod gerekmektedir</value>
+  </data>
+  <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
+    <value>Yeni parola ile eski aynı olamaz</value>
+  </data>
+  <data name="OrEnterTheCodeToTheForm" xml:space="preserve">
+    <value>Ya da kodu ilgili forma giriniz.</value>
+  </data>
+  <data name="PasswordAndConfirmPasswordDoesntMatch" xml:space="preserve">
+    <value>Yeni parola ile onay parolası uyumlu değil</value>
+  </data>
+  <data name="PleaseConfirmYourRegistration" xml:space="preserve">
+    <value>Lütfen kaydınızı onaylayınız</value>
+  </data>
+  <data name="ThePasswordCreatedBySystem" xml:space="preserve">
+    <value>Sistem tarafından üretilen parola</value>
+  </data>
+  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
+    <value>Aynı anda veriye erişim hatası oluştu. Nesne değiştirilmiş.</value>
+  </data>
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu.</value>
+  </data>
+  <data name="Email {0} is already taken." xml:space="preserve">
+    <value>{0} e-posta adresi daha önceden alınmış.</value>
+  </data>
+  <data name="Role name {0} is already taken." xml:space="preserve">
+    <value>{0} rol adı daha önceden alınmış.</value>
+  </data>
+  <data name="User Name {0} is already taken." xml:space="preserve">
+    <value>{0} kullanıcı adı daha önceden alınmış.</value>
+  </data>
+  <data name="Email {0} is invalid." xml:space="preserve">
+    <value>{0} e-posta adresi geçersiz.</value>
+  </data>
+  <data name="Role name {0} is invalid." xml:space="preserve">
+    <value>{0} rol adı geçersiz.</value>
+  </data>
+  <data name="Invalid token." xml:space="preserve">
+    <value>Geçersiz token</value>
+  </data>
+  <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
+  </data>
+  <data name="A user with this login already exists." xml:space="preserve">
+    <value>Bu kullanıcı girişine ait bir kullanıcı bulunmakta.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Hatalı parola</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Parola en az 1 rakam içermelidir ('0'-'9').</value>
+  </data>
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>Parola en az 1 adet küçük harfli karakter içermelidir ('a'-'z').</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Parola en az 1 adet alfanümerik karakter içermelidir.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Parola en az 1 adet büyük harf içermelidir ('A'-'Z').</value>
+  </data>
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>Parola en az {0} uzunluğunda olmalıdır.</value>
+  </data>
+  <data name="User already has a password set." xml:space="preserve">
+    <value>Bu kullanıcıya daha önceden parola atanmış.</value>
+  </data>
+  <data name="User already in role {0}." xml:space="preserve">
+    <value>Kullanıcı daha önce {0} rolüne atanmış.</value>
+  </data>
+  <data name="Lockout is not enabled for this user." xml:space="preserve">
+    <value>Kullanıcı kilitleme özelliği bu kullanıcı için aktif değil.</value>
+  </data>
+  <data name="User is not in role {0}." xml:space="preserve">
+    <value>Kullanıcı {0} rolüne ait değil.</value>
+  </data>
+  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
+    <value>Yeni parolanız en az 6, en fazla 20 karakter uzunluğunda olabilir.</value>
+  </data>
+  <!--Identity -->
+
+  <!-- Classes and fields-->
+  <data name="BasketballStat" xml:space="preserve">
+    <value>Basketbol İstatistikleri</value>
+  </data>
+  <data name="FootballStat" xml:space="preserve">
+    <value>Futbol İstatistikleri</value>
+  </data>  
+  <data name="Match" xml:space="preserve">
+    <value>Karşılaşma</value>
+  </data>  
+  <data name="MatchGroup" xml:space="preserve">
+    <value>Karşılaşma Grubu</value>
+  </data>  
+  <data name="MatchGroupUser" xml:space="preserve">
+    <value>Karşılaşma Grubu Üyesi</value>
+  </data>  
+  <data name="Team" xml:space="preserve">
+    <value>Takım</value>
+  </data>  
+  <!-- Classes and fields-->
+
+
 </root>

@@ -27,7 +27,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.FootballStat), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateFootballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] FootballStatRequest request)
         {
             return await BaseCreateAsync(request);
@@ -35,7 +35,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(WebApiEntities.FootballStat), Crud.Update)]
+        [Permission(nameof(PermissionEnum.UpdateFootballStat), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] FootballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -47,7 +47,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.FootballStat), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteFootballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -55,7 +55,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -63,7 +62,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/matchid/{matchId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllByMatchId(int matchId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -77,7 +75,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall/userid/{userId:int}")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAllByUserId(int userId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -91,7 +88,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getall")]
         [HttpGet]
-        [AllowAnonymous]
         public Task<IActionResult> GetAll()
         {
             return CommonOperationAsync<IActionResult>(async () =>
