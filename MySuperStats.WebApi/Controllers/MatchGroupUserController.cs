@@ -17,7 +17,7 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers
 {
-    [Route(ApiConstants.DefaultRoute + "matchgroupplayer")]
+    [Route(ApiConstants.DefaultRoute + "MatchGroupUser")]
     public class MatchGroupUserController : BaseControllerWithCrdAuthorization<MatchGroupUser, MatchGroupUserRequest, MatchGroupUserResponse, IMatchGroupUserManager, int>
     {
 
@@ -67,7 +67,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallmatchgroup/user/{userId:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupUser), Crud.Select)]
         public Task<IActionResult> GetMatchGroupsByUserId(int userId)
         {
             return CommonOperationAsync<IActionResult>(async () =>

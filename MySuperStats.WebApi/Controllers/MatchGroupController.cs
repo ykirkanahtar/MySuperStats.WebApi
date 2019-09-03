@@ -16,7 +16,7 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers
 {
-    [Route(ApiConstants.DefaultRoute + "matchgroup")]    
+    [Route(ApiConstants.DefaultRoute + "MatchGroup")]    
     public class MatchGroupController : BaseControllerWithCrudAuthorization<MatchGroup, MatchGroupRequest, MatchGroupRequest, MatchGroupResponse, IMatchGroupManager, int>
     {
         public MatchGroupController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupManager manager)

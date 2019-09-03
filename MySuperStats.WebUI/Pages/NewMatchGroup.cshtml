@@ -1,0 +1,47 @@
+﻿@page
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.NewMatchGroupModel
+@{
+    ViewData["Title"] = "Yeni Karşılaşma Grubu Oluştur";
+}
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Yeni Karşılaşma Grubu Oluştur</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form method="post">
+          <div class="box-body">
+            <div class="form-group">
+              <label for="txtGroupName">Grup İsmi</label>
+              <input type="text" asp-for="MatchGroup.GroupName" class="form-control" id="txtGroupName" placeholder="Grup ismi giriniz">
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <input type="submit" id="btnCreateMatchGroup" asp-page-handler="CreateMatchGroupName" class="btn btn-primary" value="Kaydet"/>
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+
+    </div>
+    <!--/.col (left) -->
+
+  </div>
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-md-12">
+      <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
+    <div>
+  </div>  
+</section>
+<!-- /.content -->

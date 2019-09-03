@@ -20,14 +20,29 @@
     <!-- Main content -->
     <section class="content">
 
-    <div class="row-fluid">
-        <div class="col-md-12">
-            <h2>@ViewData["Title"]</h2>
-
-            <label>Doğum Tarihi : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
-            <br />
-            <br />
+    <div class="row">
+        <div class="col-md-1">
+            <h2>@(ViewData["Title"])</h2>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <label>Doğum Tarihi</label> 
+        </div>
+        <div class="col-md-2">
+            @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1">
+          <label>Karşılaşma Grubu</label>
+      </div>
+      <div class="col-md-2">
+          <select id="slcMatchGroup" Name="slcMatchGroup" asp-items="Model.MatchGroups"
+          class="form-control select2">
+          </select>     
+      </div>
     </div>
 @if (Model.PlayerStats.Matches.Count > 0)
 {

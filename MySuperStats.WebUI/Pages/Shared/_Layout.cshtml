@@ -1,8 +1,11 @@
-﻿@using CS.Common.WebApi.Connector;
+﻿@using CS.Common.WebApi.Connector
 @using CustomFramework.WebApiUtils.Contracts
 @using Microsoft.AspNetCore.Http
 @using MySuperStats.WebUI.ApplicationSettings
 @using MySuperStats.WebUI.Utils
+@using System.Collections.Generic
+@using MySuperStats.Contracts.Responses
+@using Newtonsoft.Json
 
 @inject IWebApiConnector<ApiResponse> webApiConnector
 @inject ISession session
@@ -70,6 +73,9 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
+  @{var loggedUser = SessionUtil.GetLoggedUser(session);}
+
+
   <header class="main-header" style="position: fixed; width: 100%; ">
     <!-- Logo -->
      <a asp-page="/Index" class="logo">
@@ -94,7 +100,8 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">@($"{SessionUtil.GetLoggedUser(session).FirstName} {SessionUtil.GetLoggedUser(session).Surname}")</span>
+            
+              <span class="hidden-xs">@($"{loggedUser.FirstName} {loggedUser.Surname}")</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -102,8 +109,8 @@
                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  @($"{SessionUtil.GetLoggedUser(session).FirstName} {SessionUtil.GetLoggedUser(session).Surname}")
-                  <small>@($"{SessionUtil.GetLoggedUser(session).CreateDateTime.ToShortDateString()}") tarihinde kayıt oldu</small>
+                  @($"{loggedUser.FirstName} {loggedUser.Surname}")
+                  <small>@($"{loggedUser.CreateDateTime.ToShortDateString()}") tarihinde kayıt oldu</small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -139,8 +146,8 @@
               <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-center info">
-              <p>@($"{SessionUtil.GetLoggedUser(session).FirstName}")</p>
-              <p>@($"{SessionUtil.GetLoggedUser(session).Surname}")</p>
+              <p>@($"{loggedUser.FirstName}")</p>
+              <p>@($"{loggedUser.Surname}")</p>
               <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
             </div>
         </div>
@@ -149,12 +156,12 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li>
           <a asp-page="/Matches">
-            <i class="fa fa-table"></i> <span>Karşılaşmalar</span>
+            <i class="fa fa-trophy"></i> <span>Karşılaşmalar</span>
           </a>
         </li>       
         <li>
           <a asp-page="/Players">
-            <i class="fa fa-table"></i> <span>Oyuncular</span>
+            <i class="fa fa-male"></i> <span>Oyuncular</span>
           </a>
         </li>         
         <li>
@@ -164,9 +171,47 @@
         </li>        
         <li>
           <a asp-page="/StatisticEntry">
-            <i class="fa fa-table"></i> <span>İstatistik Girişi</span>
+            <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
           </a>
-        </li>          
+        </li>    
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gear"></i>
+                <span>Ayarlar</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a asp-page="/NewMatchGroup">
+                        <i class="fa fa-group"></i>
+                        Yeni Grup Oluştur
+                    </a>
+                </li>
+
+              @{
+                  var getUrl = $"{appSettings.WebApiUrl}{MySuperStats.WebUI.Constants.ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
+                  var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
+                  
+                  if(response.StatusCode != System.Net.HttpStatusCode.OK)
+                  {
+                    throw new Exception(response.Message);
+                  }
+
+                  var mygroups = JsonConvert.DeserializeObject<List<MatchGroupResponse>>(response.Result.ToString());
+                  foreach(var group in mygroups)
+                  {
+                    <li>
+                        <a asp-page="MatchGroupDetail" asp-route-id="@group.Id">
+                            <i class="fa fa-sitemap"></i>
+                            @(group.GroupName)
+                        </a>
+                    </li>                      
+                  }
+              }
+            </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
