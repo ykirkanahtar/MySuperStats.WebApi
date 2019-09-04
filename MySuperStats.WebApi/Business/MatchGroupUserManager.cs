@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,9 +33,12 @@ namespace MySuperStats.WebApi.Business
                 /******************References Table Check Values****************/
                 /***************************************************************/
                 (await _uow.MatchGroups.GetByIdAsync(result.MatchGroupId)).CheckRecordIsExist(typeof(MatchGroup).Name);
-                //TODO(await _uow.Players.GetByIdAsync(result.PlayerId)).CheckRecordIsExist(typeof(Player).Name);
+                (await _uow.Users.GetByIdAsync(result.UserId)).CheckRecordIsExist(typeof(User).Name);
                 /***************************************************************/
                 /***************************************************************/
+
+                var userInMatchGroupUser = await _uow.MatchGroupUsers.UserIsInMatchGroupAsync(request.MatchGroupId, request.UserId);
+                if (userInMatchGroupUser) throw new DuplicateNameException(nameof(User));
 
                 _uow.MatchGroupUsers.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();

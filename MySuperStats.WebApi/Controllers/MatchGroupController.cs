@@ -16,21 +16,38 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers
 {
-    [Route(ApiConstants.DefaultRoute + "MatchGroup")]    
+    [Route(ApiConstants.DefaultRoute + "MatchGroup")]
     public class MatchGroupController : BaseControllerWithCrudAuthorization<MatchGroup, MatchGroupRequest, MatchGroupRequest, MatchGroupResponse, IMatchGroupManager, int>
     {
-        public MatchGroupController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupManager manager)
+        private readonly IMatchGroupUserManager _matchGroupUserManager;
+        public MatchGroupController(IMatchGroupUserManager matchGroupUserManager, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupManager manager)
          : base(localizationService, logger, mapper, manager)
         {
-
+            _matchGroupUserManager = matchGroupUserManager;
         }
 
         [Route("create")]
         [HttpPost]
         [Permission(nameof(PermissionEnum.CreateMatchGroup), nameof(BooleanEnum.True))]
-        public async Task<IActionResult> Create([FromBody]MatchGroupRequest request)
+        public Task<IActionResult> Create([FromBody]MatchGroupRequest request)
         {
-            return await BaseCreateAsync(request);
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.CreateAsync(request);
+
+                foreach (var userId in request.UserIds)
+                {
+                    var matchGroupUserRequest = new MatchGroupUserRequest
+                    {
+                        MatchGroupId = result.Id,
+                        UserId = userId
+                    };
+                    await _matchGroupUserManager.CreateAsync(matchGroupUserRequest);
+                }
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<MatchGroup, MatchGroupResponse>(result)));
+            });
         }
 
         [Route("{id:int}/update")]
@@ -62,7 +79,7 @@ namespace MySuperStats.WebApi.Controllers
         [Permission(nameof(PermissionEnum.SelectMatchGroup), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetByGroupName(string groupName)
         {
-            return CommonOperationAsync<IActionResult>(async()=>
+            return CommonOperationAsync<IActionResult>(async () =>
             {
                 var result = await Manager.GetByGroupNameAsync(groupName);
 

@@ -15,8 +15,10 @@ namespace MySuperStats.WebUI.Constants
         public const string GetUserById = "User/get/";
         public const string CreateMultiBasketballStats = "basketballstat/createwithmultistats";
         public const string GetAllMatchGroupsByUserId = "MatchGroupUser/getallmatchgroup/user/";
+        public const string CreateMatchGroupUser = "MatchGroupUser/create";
         public const string GetMatchGroupById = "MatchGroup/get/id/";
         public const string CreateMatchGroup = "MatchGroup/create";
+        public const string GetUserByEmailAddress = "User/get/email/";
 
     }
 }

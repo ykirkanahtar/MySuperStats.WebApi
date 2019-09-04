@@ -8,6 +8,7 @@ namespace MySuperStats.WebApi.Data.Repositories
 {
     public interface IUserRepository
     {
+        Task<User> GetByIdAsync(int id);
         Task<IList<User>> GetAllAsync();
         Task<User> GetByIdWithBasketballStatsAsync(int userId);
         Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);

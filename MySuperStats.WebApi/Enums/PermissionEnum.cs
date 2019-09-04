@@ -20,5 +20,8 @@ namespace MySuperStats.WebApi.Enums
         SelectMatchGroupTeam = 16,
         CreateTeam = 17,
         DeleteTeam = 18,
+        CreateMatchGroupUser = 19,
+        DeleteMatchGroupUser = 20,
+        SelectMatchGroupUser = 21,        
     }
 }

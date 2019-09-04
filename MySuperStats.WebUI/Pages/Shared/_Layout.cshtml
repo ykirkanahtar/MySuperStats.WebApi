@@ -173,23 +173,16 @@
           <a asp-page="/StatisticEntry">
             <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
           </a>
-        </li>    
+        </li>   
         <li class="treeview">
             <a href="#">
-                <i class="fa fa-gear"></i>
-                <span>Ayarlar</span>
+                <i class="fa fa-group"></i>
+                <span>Gruplarım</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li>
-                    <a asp-page="/NewMatchGroup">
-                        <i class="fa fa-group"></i>
-                        Yeni Grup Oluştur
-                    </a>
-                </li>
-
               @{
                   var getUrl = $"{appSettings.WebApiUrl}{MySuperStats.WebUI.Constants.ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
                   var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
@@ -203,15 +196,32 @@
                   foreach(var group in mygroups)
                   {
                     <li>
-                        <a asp-page="MatchGroupDetail" asp-route-id="@group.Id">
-                            <i class="fa fa-sitemap"></i>
+                        <a asp-page="/MatchGroupDetail" asp-route-id="@group.Id">
+                            <i class="fa fa-group"></i>
                             @(group.GroupName)
                         </a>
-                    </li>                      
+                    </li>                                                        
                   }
               }
             </ul>
         </li>
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-gear"></i>
+                <span>Ayarlar</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li>
+                    <a asp-page="/NewMatchGroup">
+                        <i class="fa fa-plus"></i>
+                        Yeni Grup Oluştur
+                    </a>
+                </li>
+            </ul>
+        </li>        
       </ul>
     </section>
     <!-- /.sidebar -->

@@ -2,8 +2,21 @@
 @using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.MatchGroupDetailModel
 @{
-    ViewData["Title"] = "Yeni Karşılaşma Grubu Oluştur";
+    ViewData["Title"] = "Karşılaşma Grubu Bilgileri";
 }
+
+<script>
+  $(function () {
+    $('#basketball_players').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
 
 <!-- Main content -->
 <section class="content">
@@ -12,17 +25,15 @@
     <div class="col-md-6">
       <!-- general form elements -->
       <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Karşılaşma Grubunun ismini değiştir</h3>
-        </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtGroupName">Grup İsmi</label>
-              <input type="text" class="form-control" id="txtGroupName" asp-for="MatchGroupRequest.GroupName" placeholder="Grup ismi giriniz">
-              <span asp-validation-for="MatchGroupRequest.GroupName" class="text-danger"></span>
+              <label>Grup İsmi</label>
+              <p class="text-muted">
+                @(Model.MatchGroupResponse.GroupName)
+              </p>
             </div>
           </div>
           <!-- /.box-body -->
@@ -41,36 +52,45 @@
     <div class="col-md-6">
       <!-- general form elements -->
       <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Karşılaşma Grubuna kullanıcı ekle</h3>
-        </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtGroupName">E-posta adresi giriniz:</label>
-              <input type="text" class="form-control" id="txtEmail" placeholder="E-posta adresi giriniz">
+              <table id="basketball_players" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Ad Soyad</th>
+                </tr>
+                </thead>
+                <tbody>
+                   @foreach (var player in Model.Players)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Ad Soyad</th>
+                </tr>
+                </tfoot>
+              </table>
             </div>
           </div>
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <input type="submit" id="btnAddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
+            <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
           </div>
         </form>
       </div>
       <!-- /.box -->
-
     </div>
     <!--/.col (right) -->
-
   </div>
   <!-- /.row -->
-  <div class="row">
-    <div class="col-md-12">
-      <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
-    <div>
-  </div>  
+
 </section>
 <!-- /.content -->

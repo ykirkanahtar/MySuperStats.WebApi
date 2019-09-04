@@ -29,7 +29,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(WebApiEntities.MatchGroupUser), Crud.Create)]
+        [Permission(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody]MatchGroupUserRequest request)
         {
             return await BaseCreateAsync(request);
@@ -37,7 +37,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(WebApiEntities.MatchGroupUser), Crud.Delete)]
+        [Permission(nameof(PermissionEnum.DeleteMatchGroupUser), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             return await BaseDeleteAsync(id);
@@ -45,7 +45,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupUser), Crud.Select)]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -53,7 +52,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getalluser/matchgroup/{matchGroupId:int}")]
         [HttpGet]
-        [Permission(nameof(WebApiEntities.MatchGroupUser), Crud.Select)]
         public Task<IActionResult> GetUsersByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>

@@ -87,6 +87,14 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
+        public Task<User> GetByEmailAddressAsync(string emailAddress)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                return await _userManager.GetByEmailAsync(emailAddress);
+            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        }
+
         public Task<User> GetUserAsync(ClaimsPrincipal claimsPrincipal)
         {
             return CommonOperationAsync(async () =>

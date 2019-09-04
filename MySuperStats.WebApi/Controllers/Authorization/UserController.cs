@@ -85,6 +85,17 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
         }
 
+        [Route("get/email/{emailAddress}")]
+        [HttpGet]
+        public async Task<IActionResult> GetByEmailAddressAsync(string emailAddress)
+        {
+            var result = await CommonOperationAsync<User>(async () =>
+            {
+                return await _userManager.GetByEmailAddressAsync(emailAddress);
+            });
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
+        }
+
         [Route("getwithbasketballstats/id/{id:int}")]
         [HttpGet]
         public Task<IActionResult> GetWithBasketballStatsById(int id)

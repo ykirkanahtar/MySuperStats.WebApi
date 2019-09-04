@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
@@ -23,9 +22,8 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
-
-        [BindProperty]
-        public MatchGroupRequest MatchGroupRequest { get; set; }
+        public MatchGroupResponse MatchGroupResponse { get; set; }
+        public List<UserResponse> Players { get; set; }
 
 
         public MatchGroupDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
@@ -33,42 +31,49 @@ namespace MySuperStats.WebUI.Pages
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            MatchGroupRequest = new MatchGroupRequest();
+            MatchGroupResponse = new MatchGroupResponse();
         }
 
 
         public async Task OnGet(int id)
         {
-            try
-            {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
-                var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
-                    MatchGroupRequest.GroupName = matchGroupResponse.GroupName;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            await GetMatchGroupDetailAsync(id);
+            await GetPlayersOnMatchGroupAsync(id);
         }
 
-        public async Task<IActionResult> OnPostChangeGroupNameAsync(int id)
+        private async Task GetMatchGroupDetailAsync(int id)
         {
-            try
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
+            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                var jsonContent = JsonConvert.SerializeObject(MatchGroupRequest);
-                var putUrl = $"{_appSettings.WebApiUrl}MatchGroup/{id}/update";
-                var response = await _webApiConnector.PutAsync(putUrl, jsonContent, SessionUtil.GetToken(_session));
-                return Page();
+                MatchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            else
+                throw new Exception(response.Message);
         }
 
+        private async Task GetPlayersOnMatchGroupAsync(int id)
+        {
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
+            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Players = JsonConvert.DeserializeObject<List<UserResponse>>(response.Result.ToString());
+            }
+            else
+                throw new Exception(response.Message);
+        }
+
+        public IActionResult OnPostChangeGroupName(int id)
+        {
+            return Redirect($"../ChangeMatchGroupName/{id}");
+        }
+
+        public IActionResult OnPostAddUserToMatchGroup(int id)
+        {
+            return Redirect($"../AddUserToMatchGroup/{id}");
+        }        
     }
 }

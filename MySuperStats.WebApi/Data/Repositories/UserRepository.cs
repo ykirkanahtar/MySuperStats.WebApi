@@ -15,6 +15,14 @@ namespace MySuperStats.WebApi.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await (from p in _dbContext.Set<User>()
+                          where p.Status == Status.Active && p.Id == id
+                          select p)
+                        .FirstOrDefaultAsync();
+        }
+
         public async Task<IList<User>> GetAllAsync()
         {
             return await (from p in _dbContext.Set<User>()

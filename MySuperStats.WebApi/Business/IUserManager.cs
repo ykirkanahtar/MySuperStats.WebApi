@@ -16,6 +16,7 @@ namespace MySuperStats.WebApi.Business
         Task<User> GetByIdAsync(int id);
         Task<User> GetByIdWithBasketballStats(int id);
         Task<User> GetByUserNameAsync(string userName);
+        Task<User> GetByEmailAddressAsync(string emailAddress);
         Task<User> GetUserAsync(ClaimsPrincipal ClaimsPrincipal);
         Task<IList<User>> GetAllAsync();
         Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);

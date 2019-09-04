@@ -36,6 +36,12 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: predicate).Select(p => p.User).ToListAsync();
         }
 
+        public async Task<bool> UserIsInMatchGroupAsync(int matchGroupId, int userId)
+        {
+            var result = await GetAll(predicate: p => p.UserId == userId && p.MatchGroupId == matchGroupId).Select(p => p.MatchGroup).ToListAsync();
+            return result.Count > 0;
+        }
+
         public async Task<IList<MatchGroupUser>> GetAllAsync()
         {
             return await GetAll().ToListAsync();

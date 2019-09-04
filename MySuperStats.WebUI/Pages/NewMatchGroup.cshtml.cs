@@ -34,7 +34,7 @@ namespace MySuperStats.WebUI.Pages
             MatchGroup = new MatchGroupRequest();
         }
 
-        public async Task<IActionResult> OnPostCreateMatchGroupNameAsync()        
+        public async Task<IActionResult> OnPostCreateMatchGroupNameAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -44,19 +44,20 @@ namespace MySuperStats.WebUI.Pages
 
             try
             {
+                MatchGroup.UserIds.Add(SessionUtil.GetLoggedUser(_session).Id);
                 var jsonContent = JsonConvert.SerializeObject(MatchGroup);
 
                 var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMatchGroup}";
                 var response = await _webApiConnector.PostAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
-                if(response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var matchGroupId = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString()).Id;
-                    return Redirect($"MatchGroupSettings/{matchGroupId}");
+                    return Redirect($"MatchGroupDetail/{matchGroupId}");
                 }
-                else 
+                else
                     throw new Exception(response.Message);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 ViewData.ModelState.AddModelError("ModelErrors", ex.Message);
             }
