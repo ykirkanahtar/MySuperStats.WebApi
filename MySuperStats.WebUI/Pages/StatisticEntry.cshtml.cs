@@ -31,7 +31,6 @@ namespace MySuperStats.WebUI.Pages
 
         [BindProperty]
         public MatchRequest MatchRequest { get; set; }
-        //public MatchRequestForMultiStats MatchRequestForStatsEntry { get; set; }
 
 
         [BindProperty]
@@ -71,13 +70,16 @@ namespace MySuperStats.WebUI.Pages
             StatRequest = new BasketballStatRequest();
             StatResponse = new BasketballStatResponse();
 
-            //MatchRequestForStatsEntry = new MatchRequestForMultiStats();
             MatchRequest = new MatchRequest();
             MatchResponse = new MatchResponse();
+
             TeamList = new List<SelectListItem>();
             PlayerList = new List<SelectListItem>();
 
-            InitializePage();
+            //route id değeri constructor'dan alınamadığı için session'dan çekildi
+            var matchGroupId = _httpContextAccessor.HttpContext.Session.GetString($"LastMatchGroupIdForStatisticEntry") as string;
+            if (!string.IsNullOrEmpty(matchGroupId)) OnGet(Convert.ToInt32(matchGroupId));
+
         }
 
         private TeamResponse GetHomeTeam()
@@ -90,8 +92,11 @@ namespace MySuperStats.WebUI.Pages
             return new TeamResponse { Id = 2, Name = "2.Takım" };
         }
 
-        private void InitializePage()
+        public void OnGet(int id)
         {
+            //route id değeri constructor'dan alınamadığı için session'a kaydedildi
+            _httpContextAccessor.HttpContext.Session.SetString($"LastMatchGroupIdForStatisticEntry", id.ToString());
+
             var teams = new List<TeamResponse>
             {
                 GetHomeTeam(),
@@ -111,7 +116,7 @@ namespace MySuperStats.WebUI.Pages
             StatRequest.OnePoint = 0;
             StatRequest.MissingOnePoint = 0;
 
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{TempConst.DefaultMatchGroupId}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
             var response = _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session)).Result;
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -127,7 +132,7 @@ namespace MySuperStats.WebUI.Pages
             else
                 throw new Exception(response.Message);
 
-            OnGetMatchDetailAsync().Wait();
+            OnGetMatchDetailAsync(id).Wait();
         }
 
         // public async Task<IActionResult> OnPostAsync()
@@ -171,18 +176,18 @@ namespace MySuperStats.WebUI.Pages
         //     return OnGetMatchDetail();
         // }
 
-        private void GetMatchDetailFromSession()
+        private void GetMatchDetailFromSession(int id)
         {
-            var matchJson = _httpContextAccessor.HttpContext.Session.GetString("StatisticEntryForBasketballMatch") as string;
+            var matchJson = _httpContextAccessor.HttpContext.Session.GetString($"StatisticEntryForBasketballMatch{id}") as string;
             if (!string.IsNullOrEmpty(matchJson)) MatchRequest = JsonConvert.DeserializeObject<MatchRequest>(matchJson);
         }
 
-        private void SetMatchRequestSession()
+        private void SetMatchRequestSession(int id)
         {
-            _httpContextAccessor.HttpContext.Session.SetString("StatisticEntryForBasketballMatch", JsonConvert.SerializeObject(MatchRequest));
+            _httpContextAccessor.HttpContext.Session.SetString($"StatisticEntryForBasketballMatch{id}", JsonConvert.SerializeObject(MatchRequest));
         }
 
-        public async Task<IActionResult> OnPostAddStatsToTableAsync()
+        public async Task<IActionResult> OnPostAddStatsToTableAsync(int id)
         {
 
             IsModalVisible = true;
@@ -209,7 +214,7 @@ namespace MySuperStats.WebUI.Pages
                 StatResponse = Mapper.Map<BasketballStatResponse>(StatRequest);
                 StatResponse.User = await GetPlayerByIdAsync(PlayerId);
 
-                GetMatchDetailFromSession();
+                GetMatchDetailFromSession(id);
 
                 await SetMatchResponseAsync();
 
@@ -230,7 +235,7 @@ namespace MySuperStats.WebUI.Pages
 
                 MatchRequest = Mapper.Map<MatchRequest>(MatchResponse);
 
-                SetMatchRequestSession();
+                SetMatchRequestSession(id);
                 IsModalVisible = false;
             }
             catch (ValidationException ex)
@@ -241,16 +246,16 @@ namespace MySuperStats.WebUI.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostSaveMatchAsync()
+        public async Task<IActionResult> OnPostSaveMatchAsync(int id)
         {
             var matchDate = MatchRequest.MatchDate;
             var order = MatchRequest.Order;
             var durationInMinutes = MatchRequest.DurationInMinutes;
             var videoLink = MatchRequest.VideoLink;
 
-            GetMatchDetailFromSession();
+            GetMatchDetailFromSession(id);
 
-            MatchRequest.MatchGroupId = 1;
+            MatchRequest.MatchGroupId = id;
             MatchRequest.MatchDate = matchDate;
             MatchRequest.Order = order;
             MatchRequest.DurationInMinutes = durationInMinutes;
@@ -264,7 +269,7 @@ namespace MySuperStats.WebUI.Pages
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var matchId = JsonConvert.DeserializeObject<int>(response.Result.ToString());
-                return Redirect($"MatchDetail/{matchId}");
+                return Redirect($"../MatchDetail/{matchId}");
             }
             else
                 throw new Exception(response.Message);
@@ -282,9 +287,9 @@ namespace MySuperStats.WebUI.Pages
             }
         }
 
-        private async Task<UserResponse> GetPlayerByIdAsync(int id)
+        private async Task<UserResponse> GetPlayerByIdAsync(int userId)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{userId}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -296,9 +301,9 @@ namespace MySuperStats.WebUI.Pages
                 throw new Exception(response.Message);
         }
 
-        public async Task OnGetMatchDetailAsync()
+        public async Task OnGetMatchDetailAsync(int id)
         {
-            var matchRequestJson = _httpContextAccessor.HttpContext.Session.GetString("StatisticEntryForBasketballMatch") as string;
+            var matchRequestJson = _httpContextAccessor.HttpContext.Session.GetString($"StatisticEntryForBasketballMatch{id}") as string;
             if (!string.IsNullOrEmpty(matchRequestJson))
             {
                 MatchRequest = JsonConvert.DeserializeObject<MatchRequest>(matchRequestJson);

@@ -31,9 +31,9 @@ namespace MySuperStats.WebUI.Pages
             MatchList = new List<MatchResponse>();
         }
 
-        public async Task OnGet()
+        public async Task OnGet(int id)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMacthesForMainScreen}{TempConst.DefaultMatchGroupId}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMacthesForMainScreen}{id}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

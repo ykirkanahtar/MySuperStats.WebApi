@@ -30,9 +30,9 @@ namespace MySuperStats.WebUI.Pages
             Players = new List<UserResponse>();
         }
 
-        public async Task OnGet()
+        public async Task OnGet(int id)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{TempConst.DefaultMatchGroupId}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

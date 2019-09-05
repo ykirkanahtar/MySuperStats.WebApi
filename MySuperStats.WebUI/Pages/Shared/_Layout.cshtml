@@ -153,58 +153,58 @@
         </div>
       </a>
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li>
-          <a asp-page="/Matches">
-            <i class="fa fa-trophy"></i> <span>Karşılaşmalar</span>
-          </a>
-        </li>       
-        <li>
-          <a asp-page="/Players">
-            <i class="fa fa-male"></i> <span>Oyuncular</span>
-          </a>
-        </li>         
-        <li>
-          <a asp-page="/TopStats">
-            <i class="fa fa-table"></i> <span>Genel İstatistikler</span>
-          </a>
-        </li>        
-        <li>
-          <a asp-page="/StatisticEntry">
-            <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
-          </a>
-        </li>   
-        <li class="treeview">
-            <a href="#">
-                <i class="fa fa-group"></i>
-                <span>Gruplarım</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-              @{
-                  var getUrl = $"{appSettings.WebApiUrl}{MySuperStats.WebUI.Constants.ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
-                  var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
-                  
-                  if(response.StatusCode != System.Net.HttpStatusCode.OK)
-                  {
-                    throw new Exception(response.Message);
-                  }
+      <ul class="sidebar-menu" data-widget="tree">              
+        @{
+            var getUrl = $"{appSettings.WebApiUrl}{MySuperStats.WebUI.Constants.ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
+            var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
+            
+            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+              throw new Exception(response.Message);
+            }
 
-                  var mygroups = JsonConvert.DeserializeObject<List<MatchGroupResponse>>(response.Result.ToString());
-                  foreach(var group in mygroups)
-                  {
-                    <li>
-                        <a asp-page="/MatchGroupDetail" asp-route-id="@group.Id">
-                            <i class="fa fa-group"></i>
-                            @(group.GroupName)
+            var mygroups = JsonConvert.DeserializeObject<List<MatchGroupResponse>>(response.Result.ToString());
+            foreach(var group in mygroups)
+            {
+              <li class="treeview" id="@group.Id">
+                  <a href="#">
+                      <i class="fa fa-group"></i>
+                      <span>@(group.GroupName)</span>
+                      <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                      </span>
+                  </a>
+                  <ul class="treeview-menu" id="@group.Id">  
+                      <li>
+                          <a id="@group.Id" asp-page="/MatchGroupDetail" asp-route-id="@group.Id">
+                              <i class="fa fa-group"></i>
+                              Grup Bilgileri
+                          </a>
+                      </li>   
+                      <li>
+                        <a id="@group.Id" class="a-match-group" asp-page="/Matches" asp-route-id="@group.Id">
+                          <i class="fa fa-trophy"></i> <span>Karşılaşmalar</span>
                         </a>
-                    </li>                                                        
-                  }
-              }
-            </ul>
-        </li>
+                      </li>
+                      <li>
+                        <a id="@group.Id" class="a-match-group" asp-page="/Players" asp-route-id="@group.Id">
+                          <i class="fa fa-male"></i> <span>Oyuncular</span>
+                        </a>
+                      </li> 
+                      <li>
+                        <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-id="@group.Id">
+                          <i class="fa fa-table"></i> <span>Genel İstatistikler</span>
+                        </a>
+                      </li>    
+                      <li>
+                        <a id="@group.Id" class="a-match-group" asp-page="/StatisticEntry" asp-route-id="@group.Id">
+                          <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
+                        </a>
+                      </li>                                                                                                          
+                  </ul>
+              </li>                                                                   
+            }
+        }
         <li class="treeview">
             <a href="#">
                 <i class="fa fa-gear"></i>
@@ -227,6 +227,33 @@
     <!-- /.sidebar -->
   </aside>
 
+  <script>
+
+    $(document).ready(function(){
+        $('a').click(function() {
+          var id = this.id;
+          if(id > 0){
+            sessionStorage['last-id'] = id;
+          }
+          else{
+            sessionStorage.clear();
+          }
+        });
+    });  
+
+    $(document).ready(function(){
+        $('.sidebar-menu li').each(function() {
+            $('.treeview li').each(function() {
+                $('li#' + sessionStorage['last-id']).addClass("menu-open");
+            });
+        });   
+    });  
+
+    $(document).ready(function(){ 
+        $('#' + sessionStorage['last-id'] + ' ul').css("display", "block");
+    });         
+    
+  </script>
   <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MySuperStats.Contracts.Requests
@@ -6,6 +7,7 @@ namespace MySuperStats.Contracts.Requests
     public class MatchRequest
     {
         public int MatchGroupId { get; set; }
+
         public DateTime MatchDate { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Değer sıfır ya da sıfırdan küçük olamaz")]

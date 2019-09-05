@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
@@ -36,7 +34,7 @@ namespace MySuperStats.WebUI.Pages
         {
             try
             {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}{TempConst.DefaultMatchGroupId}";
+                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}{id}";
                 var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
