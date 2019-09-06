@@ -23,6 +23,7 @@ namespace MySuperStats.WebApi.Business
         Task<IdentityResult> ConfirmEmailAsync(int userId, string code);
         Task ForgotPasswordAsync(PasswordRecoveryRequest request, IUrlHelper url, string requestScheme, string callBackUrl);
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);
+        Task<IList<string>> GetRolesAsync(int userId, int matchGroupId);
     }
 }
 

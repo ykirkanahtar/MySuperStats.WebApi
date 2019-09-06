@@ -6,6 +6,9 @@
 @using System.Collections.Generic
 @using MySuperStats.Contracts.Responses
 @using Newtonsoft.Json
+@using MySuperStats.WebUI.Constants
+@using MySuperStats.Contracts.Enums
+@using System.Net
 
 @inject IWebApiConnector<ApiResponse> webApiConnector
 @inject ISession session
@@ -155,10 +158,10 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">              
         @{
-            var getUrl = $"{appSettings.WebApiUrl}{MySuperStats.WebUI.Constants.ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
+            var getUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
             var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
             
-            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            if(response.StatusCode != HttpStatusCode.OK)
             {
               throw new Exception(response.Message);
             }
@@ -166,6 +169,16 @@
             var mygroups = JsonConvert.DeserializeObject<List<MatchGroupResponse>>(response.Result.ToString());
             foreach(var group in mygroups)
             {
+              
+              var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}";
+              var permissionGetUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{loggedUser.Id}/matchGroupId/{group.Id}?{permissionArray}";
+              var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, SessionUtil.GetToken(session)).Result;
+              if(permissionResponse.StatusCode != HttpStatusCode.OK)
+              {
+                throw new Exception(permissionResponse.Message);
+              }
+              var permissions = JsonConvert.DeserializeObject<PermissionCheckerResponse>(permissionResponse.Result.ToString());
+
               <li class="treeview" id="@group.Id">
                   <a href="#">
                       <i class="fa fa-group"></i>
@@ -195,12 +208,17 @@
                         <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-id="@group.Id">
                           <i class="fa fa-table"></i> <span>Genel İstatistikler</span>
                         </a>
-                      </li>    
-                      <li>
-                        <a id="@group.Id" class="a-match-group" asp-page="/StatisticEntry" asp-route-id="@group.Id">
-                          <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
-                        </a>
-                      </li>                                                                                                          
+                      </li>   
+                      @{
+                        if(permissions.PermissionDetails["CreateBasketballStat"] == true) 
+                        {
+                          <li>
+                            <a id="@group.Id" class="a-match-group" asp-page="/StatisticEntry" asp-route-id="@group.Id">
+                              <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
+                            </a>
+                          </li>     
+                        }
+                      }                                                                                                     
                   </ul>
               </li>                                                                   
             }

@@ -32,6 +32,8 @@ using MySuperStats.WebApi.Models;
 using MySuperStats.WebApi.Resources;
 using MySuperStats.WebApi.Validators;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MySuperStats.WebApi
 {
@@ -68,7 +70,7 @@ namespace MySuperStats.WebApi
         {
             services.AddPostgreSqlServer<ApplicationContext>(ConnectionString);
 
-            IdentityModelExtension<User, Role>.AddIdentityModel(services, new IdentityModel
+            IdentityModelExtension<User, Role, ApplicationContext>.AddIdentityModel(services, new IdentityModel
             {
                 AppName = AppSettings.AppName,
                 EmailConfirmationViaUrl = true,
@@ -114,7 +116,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IUnitOfWorkIdentity, UnitOfWorkWebApi>();
             services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
             services.AddScoped<DbContext, ApplicationContext>();
-            services.AddScoped<IdentityContext<User, Role>, ApplicationContext>();
+            services.AddScoped<IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, ApplicationContext>();
 
             /*********Repositories*********/
             services.AddTransient<IMatchRepository, MatchRepository>();
@@ -146,6 +148,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IMatchGroupTeamManager, MatchGroupTeamManager>();
             services.AddTransient<IFootballStatManager, FootballStatManager>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IPermissionChecker, PermissionChecker>();
             /*********Managers*********/
 
             var policy = new AuthorizationPolicyBuilder()

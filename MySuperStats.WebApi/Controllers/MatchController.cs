@@ -12,37 +12,46 @@ using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "match")]
     public class MatchController : BaseControllerWithCrudAuthorization<Match, MatchRequest, MatchRequest, MatchResponse, IMatchManager, int>
     {
+        private readonly IPermissionChecker _permissionChecker;
 
-        public MatchController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchManager manager)
+        public MatchController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchManager manager)
             : base(localizationService, logger, mapper, manager)
         {
-
+            _permissionChecker = permissionChecker;
         }
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(PermissionEnum.CreateMatch), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] MatchRequest request)
         {
+            var attributes = new List<PermissionAttribute> {
+                new PermissionAttribute(nameof(PermissionEnum.CreateMatch), nameof(BooleanEnum.True))
+            };
+            await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
             return await BaseCreateAsync(request);
         }
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(PermissionEnum.UpdateMatch), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] MatchRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateMatch), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Match, MatchResponse>(result)));
             });
@@ -53,6 +62,11 @@ namespace MySuperStats.WebApi.Controllers
         [Permission(nameof(PermissionEnum.DeleteMatch), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.DeleteMatch), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, id);
+
             return await BaseDeleteAsync(id);
         }
 
@@ -82,6 +96,11 @@ namespace MySuperStats.WebApi.Controllers
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateMatch), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, matchGroupId, attributes);
+
                 var result = await Manager.GetMatchForMainScreen(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(

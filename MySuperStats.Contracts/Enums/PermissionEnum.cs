@@ -1,4 +1,4 @@
-namespace MySuperStats.WebApi.Enums
+namespace MySuperStats.Contracts.Enums
 {
     public enum PermissionEnum
     {
@@ -17,11 +17,9 @@ namespace MySuperStats.WebApi.Enums
         SelectMatchGroup = 13,
         CreateMatchGroupTeam = 14,
         DeleteMatchGroupTeam = 15,
-        SelectMatchGroupTeam = 16,
-        CreateTeam = 17,
-        DeleteTeam = 18,
-        CreateMatchGroupUser = 19,
-        DeleteMatchGroupUser = 20,
-        SelectMatchGroupUser = 21,        
+        CreateTeam = 16,
+        DeleteTeam = 17,
+        CreateMatchGroupUser = 18,
+        DeleteMatchGroupUser = 19,       
     }
 }

@@ -14,17 +14,18 @@ using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "MatchGroupUser")]
     public class MatchGroupUserController : BaseControllerWithCrdAuthorization<MatchGroupUser, MatchGroupUserRequest, MatchGroupUserResponse, IMatchGroupUserManager, int>
     {
-
-        public MatchGroupUserController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupUserManager manager)
+        private readonly IPermissionChecker _permissionChecker;
+        public MatchGroupUserController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupUserManager manager)
              : base(localizationService, logger, mapper, manager)
         {
-
+            _permissionChecker = permissionChecker;
         }
 
         [Route("create")]
@@ -32,6 +33,11 @@ namespace MySuperStats.WebApi.Controllers
         [Permission(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody]MatchGroupUserRequest request)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
             return await BaseCreateAsync(request);
         }
 
@@ -40,6 +46,13 @@ namespace MySuperStats.WebApi.Controllers
         [Permission(nameof(PermissionEnum.DeleteMatchGroupUser), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
+            var matchGroupUser = await Manager.GetByIdAsync(id);
+
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.DeleteMatchGroupUser), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionAsync(User, matchGroupUser.MatchGroupId, attributes);
+
             return await BaseDeleteAsync(id);
         }
 

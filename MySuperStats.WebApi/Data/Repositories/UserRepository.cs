@@ -9,8 +9,8 @@ namespace MySuperStats.WebApi.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DbContext _dbContext;
-        public UserRepository(DbContext dbContext)
+        private readonly ApplicationContext _dbContext;
+        public UserRepository(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -49,12 +49,21 @@ namespace MySuperStats.WebApi.Data.Repositories
         {
             var users = await (from u in _dbContext.Set<User>()
                                join mu in _dbContext.Set<MatchGroupUser>() on u.Id equals mu.UserId
-                              where u.Status == Status.Active && mu.Status == Status.Active
-                                    && mu.MatchGroupId == matchGroupId
-                              select u)
+                               where u.Status == Status.Active && mu.Status == Status.Active
+                                     && mu.MatchGroupId == matchGroupId
+                               select u)
                         .ToListAsync();
 
             return users;
+        }
+
+        public async Task<IList<string>> GetRolesAsync(int userId, int matchGroupId)
+        {
+            return await (from ur in _dbContext.Set<UserRole>()
+                            join r in _dbContext.Set<Role>() on ur.RoleId equals r.Id
+                          where ur.UserId == userId && ur.MatchGroupId == matchGroupId
+                          && r.Status == Status.Active
+                          select r.Name).ToListAsync();
         }
     }
 }

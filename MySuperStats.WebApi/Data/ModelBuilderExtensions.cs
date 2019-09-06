@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CustomFramework.Data.Enums;
 using CustomFramework.WebApiUtils.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 
@@ -373,6 +375,26 @@ namespace MySuperStats.WebApi.Data
                 new Role
                 {
                     Id = 2,
+                    Name = "GroupAdmin",
+                    NormalizedName = "GROUPADMIN",
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = 3,
+                    Name = "Editor",
+                    NormalizedName = "EDITOR",
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = 4,
                     Name = "Player",
                     NormalizedName = "PLAYER",
                     Status = Status.Active
@@ -408,19 +430,58 @@ namespace MySuperStats.WebApi.Data
                 roleClaimId++;
             }
 
-            modelBuilder.Entity<IdentityUserRole<int>>().HasData(
-                new IdentityUserRole<int>
+            var groupAdminPermissionEnums = new List<string>
+            {
+                PermissionEnum.CreateBasketballStat.ToString(),
+                PermissionEnum.CreateFootballStat.ToString(),
+                PermissionEnum.CreateMatch.ToString(),
+                PermissionEnum.UpdateMatch.ToString(),
+                PermissionEnum.CreateMatchGroupUser.ToString(),
+                PermissionEnum.DeleteMatchGroupUser.ToString()
+            };
+
+            foreach (var permissionEnum in groupAdminPermissionEnums)
+            {
+                modelBuilder.Entity<IdentityRoleClaim<int>>().HasData(
+                    new IdentityRoleClaim<int>
+                    {
+                        Id = roleClaimId,
+                        ClaimType = permissionEnum,
+                        ClaimValue = "true",
+                        RoleId = 2,
+                    }
+                );
+                roleClaimId++;
+            }
+
+            var editorPermissionEnums = new List<string>
+            {
+                PermissionEnum.CreateBasketballStat.ToString(),
+                PermissionEnum.CreateFootballStat.ToString(),
+                PermissionEnum.CreateMatch.ToString(),
+                PermissionEnum.UpdateMatch.ToString(),
+            };
+
+            foreach (var permissionEnum in editorPermissionEnums)
+            {
+                modelBuilder.Entity<IdentityRoleClaim<int>>().HasData(
+                    new IdentityRoleClaim<int>
+                    {
+                        Id = roleClaimId,
+                        ClaimType = permissionEnum,
+                        ClaimValue = "true",
+                        RoleId = 3,
+                    }
+                );
+                roleClaimId++;
+            }            
+
+            modelBuilder.Entity<UserRole>().HasData(
+                new UserRole
                 {
                     RoleId = 1,
                     UserId = 1,
-                }
-            );
-
-            modelBuilder.Entity<IdentityUserRole<int>>().HasData(
-                new IdentityUserRole<int>
-                {
-                    RoleId = 2,
-                    UserId = 1,
+                    MatchGroupId = 1,
                 }
             );
 

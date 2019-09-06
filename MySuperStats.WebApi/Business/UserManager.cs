@@ -148,5 +148,13 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
+        public Task<IList<string>> GetRolesAsync(int userId, int matchGroupId)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                return await _userRepository.GetRolesAsync(userId, matchGroupId);
+            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+
+        }
     }
 }

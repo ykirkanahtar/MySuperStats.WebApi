@@ -11,49 +11,63 @@ using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomFramework.WebApiUtils.Identity.Controllers;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "basketballstat")]
     public class BasketballStatController : BaseControllerWithCrudAuthorization<BasketballStat, BasketballStatRequest, BasketballStatRequest, BasketballStatResponse, IBasketballStatManager, int>
     {
-        public BasketballStatController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IBasketballStatManager manager)
+        private readonly IPermissionChecker _permissionChecker;
+
+        public BasketballStatController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IBasketballStatManager manager)
             : base(localizationService, logger, mapper, manager)
         {
-
+            _permissionChecker = permissionChecker;
         }
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] BasketballStatRequest request)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, request.MatchId);
+
             return await BaseCreateAsync(request);
         }
 
         [Route("createwithmultistats")]
         [HttpPost]
-        [Permission(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))]
         public Task<IActionResult> CreateMultiStats([FromBody] MatchRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
                 var result = await Manager.CreateMultiStats(request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });
-        }        
+        }
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(PermissionEnum.UpdateBasketballStat), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] BasketballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateBasketballStat), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, request.MatchId);
+
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<BasketballStat, BasketballStatResponse>(result)));
             });
@@ -61,9 +75,13 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(PermissionEnum.DeleteBasketballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.DeleteBasketballStat), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, id);
+
             return await BaseDeleteAsync(id);
         }
 

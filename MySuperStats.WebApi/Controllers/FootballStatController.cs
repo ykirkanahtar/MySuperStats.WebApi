@@ -6,7 +6,6 @@ using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
@@ -14,32 +13,43 @@ using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
     public class FootballStatController : BaseControllerWithCrudAuthorization<FootballStat, FootballStatRequest, FootballStatRequest, FootballStatResponse, IFootballStatManager, int>
     {
-        public FootballStatController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IFootballStatManager manager)
+        private readonly IPermissionChecker _permissionChecker;
+
+        public FootballStatController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IFootballStatManager manager)
             : base(localizationService, logger, mapper, manager)
         {
-
+            _permissionChecker = permissionChecker;
         }
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(PermissionEnum.CreateFootballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Create([FromBody] FootballStatRequest request)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateFootballStat), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, request.MatchId);
+
             return await BaseCreateAsync(request);
         }
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(PermissionEnum.UpdateFootballStat), nameof(BooleanEnum.True))]
         public Task<IActionResult> UpdateName(int id, [FromBody] FootballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateFootballStat), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, request.MatchId);
+
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<FootballStat, FootballStatResponse>(result)));
             });
@@ -47,9 +57,13 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(PermissionEnum.DeleteFootballStat), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.DeleteFootballStat), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, id);
+
             return await BaseDeleteAsync(id);
         }
 

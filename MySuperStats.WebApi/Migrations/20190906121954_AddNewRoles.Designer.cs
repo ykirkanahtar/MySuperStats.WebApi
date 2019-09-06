@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190906121954_AddNewRoles")]
+    partial class AddNewRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,100 +240,44 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 17,
-                            ClaimType = "CreateTeam",
+                            ClaimType = "SelectMatchGroupTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 18,
-                            ClaimType = "DeleteTeam",
+                            ClaimType = "CreateTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 19,
-                            ClaimType = "CreateMatchGroupUser",
+                            ClaimType = "DeleteTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 20,
-                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimType = "CreateMatchGroupUser",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 21,
-                            ClaimType = "CreateBasketballStat",
+                            ClaimType = "DeleteMatchGroupUser",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 22,
-                            ClaimType = "CreateFootballStat",
+                            ClaimType = "SelectMatchGroupUser",
                             ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 23,
-                            ClaimType = "CreateMatch",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 24,
-                            ClaimType = "UpdateMatch",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 25,
-                            ClaimType = "CreateMatchGroupUser",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 26,
-                            ClaimType = "DeleteMatchGroupUser",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 27,
-                            ClaimType = "CreateBasketballStat",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 28,
-                            ClaimType = "CreateFootballStat",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 29,
-                            ClaimType = "CreateMatch",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 30,
-                            ClaimType = "UpdateMatch",
-                            ClaimValue = "true",
-                            RoleId = 3
+                            RoleId = 1
                         });
                 });
 
@@ -987,7 +933,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "00958741-c4fe-49a9-88d0-4dd0b3281af0",
+                            ConcurrencyStamp = "249642f1-63e0-41b3-bfbb-fc3f42df3cde",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -995,7 +941,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b0fcbb8b-21ee-4c30-b910-0154b507da3f",
+                            ConcurrencyStamp = "93baaa91-d0ad-4b35-a93d-8fcd404f0203",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -1003,7 +949,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "97eb3d23-d1b6-479e-9579-8adb1a5cbbfa",
+                            ConcurrencyStamp = "92db40a2-548a-420a-9b96-abf2ca7d668d",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -1011,7 +957,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "7539a5c2-fd47-4c9a-8ecc-b425d2983afe",
+                            ConcurrencyStamp = "498fb71b-b77d-444a-843f-f7063e0d0be0",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1

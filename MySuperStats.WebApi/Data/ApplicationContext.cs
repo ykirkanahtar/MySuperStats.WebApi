@@ -4,18 +4,20 @@ using MySuperStats.WebApi.Models;
 using CustomFramework.Data.Utils;
 using Microsoft.EntityFrameworkCore;
 using CustomFramework.WebApiUtils.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using CustomFramework.WebApiUtils.Identity.Data.ModelConfigurations;
 using CustomFramework.WebApiUtils.Identity.Models;
 
 namespace MySuperStats.WebApi.Data
 {
-    public class ApplicationContext : IdentityContext<User, Role>
+    public class ApplicationContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ApplicationContext(DbContextOptions options)
             : base(options)
         {
 
         }
-
 
         public virtual DbSet<Match> Matches { get; set; }
         public virtual DbSet<BasketballStat> BasketballStats { get; set; }
@@ -24,10 +26,25 @@ namespace MySuperStats.WebApi.Data
         public virtual DbSet<MatchGroupUser> MatchGroupUsers { get; set; }
         public virtual DbSet<MatchGroupTeam> MatchGroupTeams { get; set; }
         public virtual DbSet<FootballStat> FootballStats { get; set; }
+        public virtual DbSet<ClientApplication> ClientApplications { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            /* Identity */
+            modelBuilder.Entity<User>().ToTable("users");
+            modelBuilder.Entity<Role>().ToTable("roles");
+            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("role_claims");
+            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
+            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
+            modelBuilder.Entity<UserRole>().ToTable("user_roles");
+            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("user_tokens");
+
+            modelBuilder.ApplyConfiguration(new ClientApplicationModelConfiguration<ClientApplication>());
+            /* Identity */
+
 
             modelBuilder.ApplyConfiguration(new MatchModelConfiguration());
             modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration());

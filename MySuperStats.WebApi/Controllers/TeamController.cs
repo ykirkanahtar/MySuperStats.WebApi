@@ -12,9 +12,9 @@ using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Resources;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {

@@ -12,5 +12,6 @@ namespace MySuperStats.WebApi.Data.Repositories
         Task<IList<User>> GetAllAsync();
         Task<User> GetByIdWithBasketballStatsAsync(int userId);
         Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);
+        Task<IList<string>> GetRolesAsync(int userId, int matchGroupId);
     }
 }

@@ -19,6 +19,7 @@ namespace MySuperStats.WebUI.Constants
         public const string GetMatchGroupById = "MatchGroup/get/id/";
         public const string CreateMatchGroup = "MatchGroup/create";
         public const string GetUserByEmailAddress = "User/get/email/";
+        public const string GetPermissions = "PermissionChecker/haspermission/";
 
     }
 }

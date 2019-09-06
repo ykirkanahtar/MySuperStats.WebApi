@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190905201901_NewUserRolesTableDesign")]
+    partial class NewUserRolesTableDesign
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,100 +240,44 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 17,
-                            ClaimType = "CreateTeam",
+                            ClaimType = "SelectMatchGroupTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 18,
-                            ClaimType = "DeleteTeam",
+                            ClaimType = "CreateTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 19,
-                            ClaimType = "CreateMatchGroupUser",
+                            ClaimType = "DeleteTeam",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 20,
-                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimType = "CreateMatchGroupUser",
                             ClaimValue = "true",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 21,
-                            ClaimType = "CreateBasketballStat",
+                            ClaimType = "DeleteMatchGroupUser",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 22,
-                            ClaimType = "CreateFootballStat",
+                            ClaimType = "SelectMatchGroupUser",
                             ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 23,
-                            ClaimType = "CreateMatch",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 24,
-                            ClaimType = "UpdateMatch",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 25,
-                            ClaimType = "CreateMatchGroupUser",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 26,
-                            ClaimType = "DeleteMatchGroupUser",
-                            ClaimValue = "true",
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            Id = 27,
-                            ClaimType = "CreateBasketballStat",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 28,
-                            ClaimType = "CreateFootballStat",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 29,
-                            ClaimType = "CreateMatch",
-                            ClaimValue = "true",
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            Id = 30,
-                            ClaimType = "UpdateMatch",
-                            ClaimValue = "true",
-                            RoleId = 3
+                            RoleId = 1
                         });
                 });
 
@@ -380,6 +326,29 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_user_logins_user_id");
 
                     b.ToTable("user_logins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnName("discriminator");
+
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_user_roles");
+
+                    b.HasIndex("RoleId")
+                        .HasName("ix_user_roles_role_id");
+
+                    b.ToTable("user_roles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<int>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -987,7 +956,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "00958741-c4fe-49a9-88d0-4dd0b3281af0",
+                            ConcurrencyStamp = "42f6ddde-fbd3-4768-84fb-f45ead34b639",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -995,23 +964,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b0fcbb8b-21ee-4c30-b910-0154b507da3f",
-                            Name = "GroupAdmin",
-                            NormalizedName = "GROUPADMIN",
-                            Status = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "97eb3d23-d1b6-479e-9579-8adb1a5cbbfa",
-                            Name = "Editor",
-                            NormalizedName = "EDITOR",
-                            Status = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ConcurrencyStamp = "7539a5c2-fd47-4c9a-8ecc-b425d2983afe",
+                            ConcurrencyStamp = "7035ad98-87f1-487c-913c-5bc1e6388f73",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -1537,28 +1490,26 @@ namespace MySuperStats.WebApi.Migrations
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.UserRole", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<int>");
 
                     b.Property<int>("MatchGroupId")
                         .HasColumnName("match_group_id");
 
-                    b.HasKey("UserId", "RoleId")
-                        .HasName("pk_user_roles");
-
-                    b.HasIndex("RoleId")
-                        .HasName("ix_user_roles_role_id");
-
                     b.ToTable("user_roles");
+
+                    b.HasDiscriminator().HasValue("UserRole");
 
                     b.HasData(
                         new
                         {
                             UserId = 1,
                             RoleId = 1,
+                            MatchGroupId = 1
+                        },
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 2,
                             MatchGroupId = 1
                         });
                 });
@@ -1587,6 +1538,21 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_logins_users_user_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("MySuperStats.WebApi.Models.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_user_roles_roles_role_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1689,21 +1655,6 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_match_group_users_users_user_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("MySuperStats.WebApi.Models.UserRole", b =>
-                {
-                    b.HasOne("MySuperStats.WebApi.Models.Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_user_roles_roles_role_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

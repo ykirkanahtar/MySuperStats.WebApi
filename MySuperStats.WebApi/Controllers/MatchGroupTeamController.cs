@@ -14,6 +14,7 @@ using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
@@ -45,7 +46,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -53,7 +53,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallteam/matchgroup/{matchGroupId:int}")]
         [HttpGet]
-        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetTeamsByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -67,7 +66,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("getallmatchgroup/team/{teamId:int}")]
         [HttpGet]
-        [Permission(nameof(PermissionEnum.SelectMatchGroupTeam), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetMatchGroupsByTeamId(int teamId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
@@ -78,7 +76,5 @@ namespace MySuperStats.WebApi.Controllers
                     Mapper.Map<IList<MatchGroup>, IList<MatchGroupResponse>>(result)));
             });
         }
-
-
     }
 }

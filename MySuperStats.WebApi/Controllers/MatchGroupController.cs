@@ -13,17 +13,21 @@ using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
+using System.Collections.Generic;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "MatchGroup")]
     public class MatchGroupController : BaseControllerWithCrudAuthorization<MatchGroup, MatchGroupRequest, MatchGroupRequest, MatchGroupResponse, IMatchGroupManager, int>
     {
+        private readonly IPermissionChecker _permissionChecker;
         private readonly IMatchGroupUserManager _matchGroupUserManager;
-        public MatchGroupController(IMatchGroupUserManager matchGroupUserManager, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupManager manager)
+        public MatchGroupController(IPermissionChecker permissionChecker, IMatchGroupUserManager matchGroupUserManager, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupManager manager)
          : base(localizationService, logger, mapper, manager)
         {
             _matchGroupUserManager = matchGroupUserManager;
+            _permissionChecker = permissionChecker;
         }
 
         [Route("create")]
@@ -52,9 +56,13 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(PermissionEnum.UpdateMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Update(int id, [FromBody]MatchGroupRequest request)
         {
+            var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateMatchGroup), nameof(BooleanEnum.True))
+                 };
+            await _permissionChecker.HasPermissionAsync(User, id, attributes);
+
             return await BaseUpdateAsync(id, request);
         }
 
@@ -68,7 +76,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/id/{id:int}")]
         [HttpGet]
-        [Permission(nameof(PermissionEnum.SelectMatchGroup), nameof(BooleanEnum.True))]
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
@@ -76,7 +83,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("get/groupname/{groupName}")]
         [HttpGet]
-        [Permission(nameof(PermissionEnum.SelectMatchGroup), nameof(BooleanEnum.True))]
         public Task<IActionResult> GetByGroupName(string groupName)
         {
             return CommonOperationAsync<IActionResult>(async () =>

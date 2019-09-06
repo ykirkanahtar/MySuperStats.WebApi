@@ -18,13 +18,14 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
+using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
     [ApiExplorerSettings(IgnoreApi = false)]
     [Route(ApiConstants.DefaultRoute + "Account")]
-    public class AccountController : BaseAccountController<User, Role>
+    public class AccountController : BaseAccountController<User, Role, ApplicationContext>
     {
         private readonly SignInManager<User> _signInManager;
         private readonly IClientApplicationManager _clientApplicationManager;
