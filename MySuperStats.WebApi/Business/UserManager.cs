@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
+using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Data.Repositories;
 using MySuperStats.WebApi.Models;
@@ -148,7 +149,7 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<IList<string>> GetRolesAsync(int userId, int matchGroupId)
+        public Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId)
         {
             return CommonOperationAsync(async () =>
             {
@@ -156,5 +157,51 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
 
         }
+
+        public Task<UsersAddToRoleResponse> AddUsersToRoleAsync(UsersAddToRoleRequest request)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                var response = new UsersAddToRoleResponse
+                {
+                    MatchGroupdId = request.MatchGroupdId,
+                };
+
+                foreach (var userAddToRole in request.UsersAddToRole)
+                {
+                    /* Kullanıcının karşılaşma grubuna ait tüm rolleri siliniyor */
+                    var existingRoles = await _userRepository.GetRolesAsync(userAddToRole.UserId, request.MatchGroupdId);
+                    foreach (var existingRole in existingRoles)
+                    {
+                        var existingUserRole = new UserRole
+                        {
+                            MatchGroupId = request.MatchGroupdId,
+                            RoleId = existingRole.Id,
+                            UserId = userAddToRole.UserId,
+                        };
+                        _uow.Users.RemoveUserFromRole(existingUserRole);
+                    }
+                    /* ******************************************************* */
+
+                    var userAddToRoleResponse = Mapper.Map<UserAddToRoleResponse>(userAddToRole);
+                    var userRole = new UserRole
+                    {
+                        MatchGroupId = request.MatchGroupdId,
+                        RoleId = userAddToRole.RoleId,
+                        UserId = userAddToRole.UserId
+                    };
+
+                    _uow.Users.AddUserToRole(userRole);
+                    await _uow.SaveChangesAsync();
+                    
+                    userAddToRoleResponse.UserRoleId = userRole.Id;
+                    response.UsersAddToRole.Add(userAddToRoleResponse);
+                }
+
+                return response;
+            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+
+        }
+
     }
 }

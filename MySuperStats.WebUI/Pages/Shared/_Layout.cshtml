@@ -218,6 +218,14 @@
                             </a>
                           </li>     
                         }
+                        if(permissions.PermissionDetails["AddUserToRole"] == true) 
+                        {
+                          <li>
+                            <a id="@group.Id" class="a-match-group" asp-page="/PlayerPermissions" asp-route-id="@group.Id">
+                              <i class="fa fa-edit"></i> <span>Kullanıcı Yetkileri</span>
+                            </a>
+                          </li>     
+                        }                        
                       }                                                                                                     
                   </ul>
               </li>                                                                   

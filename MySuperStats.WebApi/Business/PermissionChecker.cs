@@ -69,7 +69,12 @@ namespace MySuperStats.WebApi.Business
         private async Task<bool> HasPermissionAsync(int userId, int matchGroupId, IList<PermissionAttribute> permissionAttributes)
         {
             var roles = await _userManager.GetRolesAsync(userId, matchGroupId);
-            await _permissionManager.HasPermission(permissionAttributes, roles);
+            var rolesNames = new List<string>();
+            foreach (var role in roles)
+            {
+                rolesNames.Add(role.Name);
+            }
+            await _permissionManager.HasPermission(permissionAttributes, rolesNames);
             return true;
         }
     }

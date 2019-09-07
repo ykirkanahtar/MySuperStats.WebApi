@@ -18,6 +18,7 @@ using System;
 using CustomFramework.WebApiUtils.Identity.Constants;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Business;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
@@ -26,11 +27,13 @@ namespace MySuperStats.WebApi.Controllers.Authorization
     public class UserController : BaseController
     {
         private readonly IUserManager _userManager;
+        private readonly IPermissionChecker _permissionChecker;
 
-        public UserController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
+        public UserController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
             : base(localizationService, logger, mapper)
         {
             _userManager = userManager;
+            _permissionChecker = permissionChecker;
         }
 
         [Route("{id:int}/update")]
@@ -122,5 +125,20 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 Mapper.Map<IList<User>, IList<UserResponse>>(result), result.Count));
         }
 
+        [Route("addtoroles")]
+        [HttpPost]
+        public Task<IActionResult> AddToRolesAsync([FromBody] UsersAddToRoleRequest request)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var attributes = new List<PermissionAttribute> {
+                new PermissionAttribute(nameof(PermissionEnum.AddUserToRole), nameof(BooleanEnum.True))
+                };
+                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupdId, attributes);
+
+                var result = await _userManager.AddUsersToRoleAsync(request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok((result)));
+            });
+        }
     }
 }

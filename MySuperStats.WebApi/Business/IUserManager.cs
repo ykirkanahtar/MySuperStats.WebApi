@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MySuperStats.Contracts.Requests;
+using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Business
@@ -23,7 +24,8 @@ namespace MySuperStats.WebApi.Business
         Task<IdentityResult> ConfirmEmailAsync(int userId, string code);
         Task ForgotPasswordAsync(PasswordRecoveryRequest request, IUrlHelper url, string requestScheme, string callBackUrl);
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);
-        Task<IList<string>> GetRolesAsync(int userId, int matchGroupId);
+        Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId);
+        Task<UsersAddToRoleResponse> AddUsersToRoleAsync(UsersAddToRoleRequest request);
     }
 }
 

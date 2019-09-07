@@ -5,6 +5,7 @@ namespace MySuperStats.WebApi.Models
 {
     public class UserRole : IdentityUserRole<int>
     {
+        public int Id { get; set; }
         public int MatchGroupId { get; set; }
     }
 }

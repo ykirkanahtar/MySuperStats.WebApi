@@ -57,13 +57,23 @@ namespace MySuperStats.WebApi.Data.Repositories
             return users;
         }
 
-        public async Task<IList<string>> GetRolesAsync(int userId, int matchGroupId)
+        public async Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId)
         {
             return await (from ur in _dbContext.Set<UserRole>()
-                            join r in _dbContext.Set<Role>() on ur.RoleId equals r.Id
+                          join r in _dbContext.Set<Role>() on ur.RoleId equals r.Id
                           where ur.UserId == userId && ur.MatchGroupId == matchGroupId
                           && r.Status == Status.Active
-                          select r.Name).ToListAsync();
+                          select r).ToListAsync();
+        }
+
+        public void AddUserToRole(UserRole request)
+        {
+            var result = _dbContext.Set<UserRole>().Add(request);
+        }
+
+        public void RemoveUserFromRole(UserRole request)
+        {
+            _dbContext.Set<UserRole>().Remove(request);
         }
     }
 }
