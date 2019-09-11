@@ -12,7 +12,6 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
-using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Enums;
 
@@ -30,20 +29,36 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        [Permission(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))]
-        public async Task<IActionResult> Create([FromBody]MatchGroupUserRequest request)
+        public async Task<IActionResult> Create([FromBody]MatchGroupUserCreateRequest request)
         {
             var attributes = new List<PermissionAttribute> {
                     new PermissionAttribute(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))
                  };
             await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
 
-            return await BaseCreateAsync(request);
+            var matchGroupUserRequest = Mapper.Map<MatchGroupUserRequest>(request);
+            matchGroupUserRequest.RoleId = (int)RoleEnum.Player;
+            return await BaseCreateAsync(matchGroupUserRequest);
+        }
+
+        [Route("updaterole")]
+        [HttpPut]
+        public Task<IActionResult> UpdateRoleAsync([FromBody]MatchGroupUserRequest request)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.AddUserToRole), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
+                var result = await Manager.UpdateRoleAsync(request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<MatchGroupUser, MatchGroupUserResponse>(result)));
+            });
         }
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(PermissionEnum.DeleteMatchGroupUser), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             var matchGroupUser = await Manager.GetByIdAsync(id);
@@ -61,6 +76,19 @@ namespace MySuperStats.WebApi.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             return await BaseGetByIdAsync(id);
+        }
+
+        [Route("getall/matchgroup/{matchGroupId:int}")]
+        [HttpGet]
+        public Task<IActionResult> GetAllByMatchGroupId(int matchGroupId)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetAllByMatchGroupIdAsync(matchGroupId);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<IList<MatchGroupUser>, IList<MatchGroupUserResponse>>(result)));
+            });
         }
 
         [Route("getalluser/matchgroup/{matchGroupId:int}")]

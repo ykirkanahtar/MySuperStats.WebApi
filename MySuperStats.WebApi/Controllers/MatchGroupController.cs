@@ -39,16 +39,6 @@ namespace MySuperStats.WebApi.Controllers
             {
                 var result = await Manager.CreateAsync(request);
 
-                foreach (var userId in request.UserIds)
-                {
-                    var matchGroupUserRequest = new MatchGroupUserRequest
-                    {
-                        MatchGroupId = result.Id,
-                        UserId = userId
-                    };
-                    await _matchGroupUserManager.CreateAsync(matchGroupUserRequest);
-                }
-
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<MatchGroup, MatchGroupResponse>(result)));
             });

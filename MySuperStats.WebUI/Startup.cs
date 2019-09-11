@@ -102,7 +102,7 @@ namespace MySuperStats.WebUI
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<AppSettings>>().Value);
 
-            services.AddAntiforgery(option => option.HeaderName = "X-XSRF-TOKEN");
+            services.AddAntiforgery(option => option.HeaderName = "XSRF-TOKEN");
             services.AddDataProtection();
 
         }

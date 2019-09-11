@@ -19,6 +19,7 @@ using CustomFramework.WebApiUtils.Identity.Constants;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Business;
 using MySuperStats.Contracts.Enums;
+using CustomFramework.WebApiUtils.Identity.Business;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
@@ -28,12 +29,14 @@ namespace MySuperStats.WebApi.Controllers.Authorization
     {
         private readonly IUserManager _userManager;
         private readonly IPermissionChecker _permissionChecker;
+        private readonly ICustomRoleManager<Role> _roleManager;
 
-        public UserController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
+        public UserController(ICustomRoleManager<Role> roleManager, IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
             : base(localizationService, logger, mapper)
         {
             _userManager = userManager;
             _permissionChecker = permissionChecker;
+            _roleManager = roleManager;
         }
 
         [Route("{id:int}/update")]
@@ -125,20 +128,34 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 Mapper.Map<IList<User>, IList<UserResponse>>(result), result.Count));
         }
 
-        [Route("addtoroles")]
-        [HttpPost]
-        public Task<IActionResult> AddToRolesAsync([FromBody] UsersAddToRoleRequest request)
-        {
-            return CommonOperationAsync<IActionResult>(async () =>
-            {
-                var attributes = new List<PermissionAttribute> {
-                new PermissionAttribute(nameof(PermissionEnum.AddUserToRole), nameof(BooleanEnum.True))
-                };
-                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupdId, attributes);
+        // [Route("getallwithroles/matchgroupid/{matchGroupId:int}")]
+        // [HttpGet]
+        // public async Task<IActionResult> GetUserRolesByMatchGroupIdAsync(int matchGroupId)
+        // {
+        //     return await CommonOperationAsync<IActionResult>(async () =>
+        //     {
+        //         var result = await _userManager.GetUserRolesByMatchGroupIdAsync(matchGroupId);
+        //         return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+        //             Mapper.Map<IList<UserRole>, IList<UserRoleResponse>>(result), result.Count));
+        //     });
+        // }
 
-                var result = await _userManager.AddUsersToRoleAsync(request);
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok((result)));
-            });
-        }
+        // [Route("addtorole")]
+        // [HttpPost]
+        // public Task<IActionResult> AddToRoleAsync([FromBody] UserRoleRequest request)
+        // {
+        //     return CommonOperationAsync<IActionResult>(async () =>
+        //     {
+        //         var attributes = new List<PermissionAttribute> {
+        //         new PermissionAttribute(nameof(PermissionEnum.AddUserToRole), nameof(BooleanEnum.True))
+        //         };
+        //         await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+
+        //         var role = await _roleManager.GetByNameAsync(request.RoleName);
+        //         request.RoleId = role.Id;
+        //         var result = await _userManager.AddUserToRoleAsync(request);
+        //         return Ok(new ApiResponse(LocalizationService, Logger).Ok((result)));
+        //     });
+        // }
     }
 }

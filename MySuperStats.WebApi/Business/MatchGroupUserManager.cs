@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -8,6 +9,7 @@ using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
@@ -47,6 +49,28 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
+        public Task<MatchGroupUser> UpdateRoleAsync(MatchGroupUserRequest request)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                var matchGroupUser = await GetByMatchGroupIdAndUserIdAsync(request.MatchGroupId, request.UserId);
+                var existingRole = matchGroupUser.Role;
+                var newRole = (RoleEnum)request.RoleId;
+
+                if (existingRole.Name == RoleEnum.Admin.ToString() || request.UserId == GetLoggedInUserId() || newRole == RoleEnum.Admin)
+                {
+                    throw new ArgumentException("Bu işlemi yapmaya yetkiniz yok.");
+                }
+
+                matchGroupUser.RoleId = request.RoleId;
+
+                _uow.MatchGroupUsers.Update(matchGroupUser, GetLoggedInUserId());
+                await _uow.SaveChangesAsync();
+
+                return matchGroupUser;
+            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
+        }
+
         public Task DeleteAsync(int id)
         {
             return CommonOperationAsync(async () =>
@@ -65,6 +89,13 @@ namespace MySuperStats.WebApi.Business
             , new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
+        public Task<MatchGroupUser> GetByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId)
+        {
+            return CommonOperationAsync(async () =>
+                await _uow.MatchGroupUsers.GetByMatchGroupIdAndUserIdAsync(matchGroupId, userId)
+            , new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        }
+
         public Task<IList<MatchGroup>> GetMatchGroupsByUserIdAsync(int userId)
         {
             return CommonOperationAsync(async () =>
@@ -76,6 +107,14 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
                 await _uow.MatchGroupUsers.GetUsersByMatchGroupIdAsync(matchGroupId)
+                , new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }
+            );
+        }
+
+        public Task<IList<MatchGroupUser>> GetAllByMatchGroupIdAsync(int matchGroupId)
+        {
+            return CommonOperationAsync(async () =>
+                await _uow.MatchGroupUsers.GetAllByMatchGroupIdAsync(matchGroupId)
                 , new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }
             );
         }

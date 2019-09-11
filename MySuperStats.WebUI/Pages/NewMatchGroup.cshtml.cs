@@ -44,7 +44,6 @@ namespace MySuperStats.WebUI.Pages
 
             try
             {
-                MatchGroup.UserIds.Add(SessionUtil.GetLoggedUser(_session).Id);
                 var jsonContent = JsonConvert.SerializeObject(MatchGroup);
 
                 var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMatchGroup}";

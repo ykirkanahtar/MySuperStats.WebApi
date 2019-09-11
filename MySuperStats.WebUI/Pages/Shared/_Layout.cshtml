@@ -37,6 +37,10 @@
   <link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css">
   
   <link rel="stylesheet" href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+
+<link href="https://unpkg.com/tabulator-tables@4.4.1/dist/css/tabulator.min.css" rel="stylesheet">
+
 </environment>
 
 <environment include="Development">
@@ -45,6 +49,9 @@
 <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+ 
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.4.1/dist/js/tabulator.min.js"></script>
 
 <!-- Bootstrap 3.3.7 -->
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -170,7 +177,7 @@
             foreach(var group in mygroups)
             {
               
-              var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}";
+              var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}&permissions={PermissionEnum.AddUserToRole}";
               var permissionGetUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{loggedUser.Id}/matchGroupId/{group.Id}?{permissionArray}";
               var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, SessionUtil.GetToken(session)).Result;
               if(permissionResponse.StatusCode != HttpStatusCode.OK)
@@ -210,7 +217,7 @@
                         </a>
                       </li>   
                       @{
-                        if(permissions.PermissionDetails["CreateBasketballStat"] == true) 
+                        if(Functions.GetPermissionValue(permissions.PermissionDetails, "CreateBasketballStat") == true) 
                         {
                           <li>
                             <a id="@group.Id" class="a-match-group" asp-page="/StatisticEntry" asp-route-id="@group.Id">
@@ -218,11 +225,11 @@
                             </a>
                           </li>     
                         }
-                        if(permissions.PermissionDetails["AddUserToRole"] == true) 
+                        if(Functions.GetPermissionValue(permissions.PermissionDetails, "AddUserToRole") == true) 
                         {
                           <li>
                             <a id="@group.Id" class="a-match-group" asp-page="/PlayerPermissions" asp-route-id="@group.Id">
-                              <i class="fa fa-edit"></i> <span>Kullanıcı Yetkileri</span>
+                              <i class="fa fa-check-circle"></i> <span>Kullanıcı Yetkileri</span>
                             </a>
                           </li>     
                         }                        

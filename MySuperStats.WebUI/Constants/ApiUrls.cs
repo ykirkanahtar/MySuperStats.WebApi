@@ -20,6 +20,8 @@ namespace MySuperStats.WebUI.Constants
         public const string CreateMatchGroup = "MatchGroup/create";
         public const string GetUserByEmailAddress = "User/get/email/";
         public const string GetPermissions = "PermissionChecker/haspermission/";
+        public const string GetAllMatchGroupUsersByMatchGroupId = "MatchGroupUser/getall/matchgroup/"; //"User/getallwithroles/matchgroupid/";
+        public const string MatchGroupUserUpdateRole = "MatchGroupUser/updaterole";
 
     }
 }

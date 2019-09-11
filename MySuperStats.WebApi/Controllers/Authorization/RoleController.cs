@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 using CustomFramework.Authorization.Attributes;
 using MySuperStats.WebApi.Enums;
 using CustomFramework.Authorization.Enums;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
     [ApiExplorerSettings(IgnoreApi = false)]
-    [Route(ApiConstants.AdminRoute + nameof(Role))]
+    [Route(ApiConstants.DefaultRoute + nameof(Role))]
     public class RoleController : BaseRoleController<Role, RoleRequest, RoleResponse>
     {
         public RoleController(ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, ICustomRoleManager<Role> roleManager)
@@ -51,23 +54,25 @@ namespace MySuperStats.WebApi.Controllers.Authorization
 
         [Route("get/{id}")]
         [HttpGet]
-        public async override Task<IActionResult> GetByIdAsync(int id)
+        public async Task<IActionResult> GetRoleByIdAsync(int id)
         {
             return await base.GetByIdAsync(id);
         }
 
         [Route("get/name/{name}")]
         [HttpGet]
-        public async override Task<IActionResult> GetByNameAsync(string name)
+        public async Task<IActionResult> GetRoleByNameAsync(string name)
         {
             return await base.GetByNameAsync(name);
         }
 
         [Route("getall")]
         [HttpGet]
-        public async override Task<IActionResult> GetAllAsync()
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllRolesAsync()
         {
-            return await base.GetAllAsync();
+            var roles = await _roleManager.GetAllAsync();
+            return Ok(roles.Select(p => p.Name).ToList());
         }
 
     }

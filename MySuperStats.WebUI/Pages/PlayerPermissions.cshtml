@@ -1,20 +1,162 @@
 ﻿@page "{id:int}"
-@using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.PlayerPermissionsModel
 @{
     ViewData["Title"] = "Oyuncu Yetkileri";
 }
 <script>
-  $(function () {
-    $('#basketball_players').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true
-    })
-  })
+$(document).ready(function() {
+
+
+   function getIdFromURL() {
+      var urlArray = window.location.href.split('/');
+      var id = urlArray[urlArray.length - 1];
+      return id;
+  }
+
+  var g_id = getIdFromURL();
+  var loggedUserId = 0;
+  $.ajax({
+        url: "/PlayerPermissions/"+ g_id + "?handler=LoggedUserId",
+        dataType: "json", 
+        type: "GET",
+        async: false,
+        success: function (data) {
+            loggedUserId = data;
+        },
+        error: function (x, y, z) {
+            alert(x.responseText +"  " +x.status);
+        }
+    });
+
+  if(loggedUserId == 0){
+    alert('Bir hata oluştu. Kullanıcı bilgileri alınamadı');
+    return;
+  }
+
+  var editCheck = function(cell){
+    //get row data
+    var data = cell.getRow().getData();
+
+    if(data.userid == loggedUserId){
+        return false;
+    }
+
+    if(data.role == 'Admin'){
+        return false;
+    }
+    else{
+       return true;
+    }
+  };
+
+  var roles = ['GroupAdmin', 'Editor', 'Player'];
+
+  //create Tabulator on DOM element with id "example-table"
+  var table = new Tabulator("#user-role-table", {
+    height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    pagination : "local",
+    paginationSize: 15,
+    locale: true,
+    langs: {
+              "tr-TR":{
+                  "columns":{
+                      "name":"İsim", //replace the title of column name with the value "Name"
+                  },
+                  "ajax":{
+                      "loading":"Yükleniyor..", //ajax loader text
+                      "error":"Hata!", //ajax error text
+                  },
+                  "groups":{ //copy for the auto generated item count in group header
+                      "item":"eleman", //the singular  for item
+                      "items":"elemanlar", //the plural for items
+                  },
+                  "pagination":{
+                      "first":"İlk", //text for the first page button
+                      "first_title":"İlk Sayfa", //tooltip text for the first page button
+                      "last":"Son",
+                      "last_title":"Son Sayfa",
+                      "prev":"Önceki",
+                      "prev_title":"Önceki Sayfa",
+                      "next":"Sonraki",
+                      "next_title":"Sonraki Sayfa",
+                  },
+                  "headerFilters":{
+                      "default":"sütun filtresi...", //default header filter placeholder text
+                      "columns":{
+                          "name":"filter name...", //replace default header filter text for column name
+                      }
+                  }
+              }
+          }, 
+    columns:[ //Define Table Columns
+      {title:"userid", field:"userid", visible:false},
+      {title:"roleid", field:"roleid", visible:false},
+      {title:"Ad-Soyad", field:"name", width:"50%"},
+      {title:"Rol", field:"role", width:"50%", editable:editCheck, editor:"select", editorParams: {
+            values:roles, //create list of values from all values contained in this column
+      }},
+    ],
+    cellEditing: function(cell) {
+        var role = cell.getData().role;
+        var userid = cell.getData().userid;
+
+        if(userid == loggedUserId){
+            $("#warningDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#warningMessage").text('Kendi kullanıcı rolünüzü değiştiremezsiniz.');
+            return;
+        }
+
+        if (role == 'Admin'){
+            $("#warningDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#warningMessage").text('Bu rolü değiştirmeye yetkiniz yok.');
+            return; 
+        }        
+    },
+    cellEdited: function(cell) {
+        var roleid = cell.getData().roleid;
+        var role = cell.getData().role;
+        var userid = cell.getData().userid;
+
+          $.ajax({
+              type: "POST",
+              url: "/PlayerPermissions/"+ g_id + "?handler=FromGrid",
+              beforeSend: function (xhr) {
+                  xhr.setRequestHeader("XSRF-TOKEN",
+                      $('input:hidden[name="__RequestVerificationToken"]').val());
+              },
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              data: JSON.stringify({
+                  userid: userid,
+                  roleid: 0,
+                  role: role
+              }),              
+              success: function(response, textStatus, xhr){
+                if (response == "OK"){
+                  $("#successDiv").hide().slideDown().delay(500).fadeOut();
+                }
+                else{
+                  $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
+                  $("#errorMessage").text(response);                  
+                }
+              },
+              error: function(XMLHttpRequest, textStatus, error){
+                $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+                $("#errorMessage").text("Bir hata oluştu.");
+              }
+          })
+
+     },        
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+      //alert("Row " + row.getData().id + " Clicked!!!!");
+    },
+  });
+  table.setData("/PlayerPermissions/"+ g_id + "?handler=Roles");
+  table.setLocale("tr-TR");
+
+} );
+
 </script>
 
     <!-- Main content -->
@@ -23,30 +165,11 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Oyuncular</h3>
+              <h3 class="box-title">Kullanıcı rolünü tablo üzerinde ilgili role tıklayarak değiştirebilirsiniz...</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="basketball_players" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Ad Soyad</th>
-                </tr>
-                </thead>
-                <tbody>
-                   @foreach (var player in Model.Players)
-                    {
-                        <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>Ad Soyad</th>
-                </tr>
-                </tfoot>
-              </table>
+              <div id="user-role-table"></div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -55,5 +178,18 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+
+      <div class="container">
+        <div id="successDiv" class="alert alert-success" style="display:none">
+          <strong>Başarılı!</strong> <span id="successMessage">Kayıt başarı ile güncellenmiştir.</span>
+        </div>
+        <div id="warningDiv" class="alert alert-warning" style="display:none">
+          <strong>Uyarı!</strong> <span id="warningMessage">This alert box could indicate a warning that might need attention.</span>
+        </div>        
+        <div id="errorDiv" class="alert alert-danger" style="display:none">
+          <strong>Hata Oluştu!</strong> <span id="errorMessage">Kayıt güncellenirken bir hata oluştu.</span>
+        </div>
+      </div>
+
     </section>
     <!-- /.content -->

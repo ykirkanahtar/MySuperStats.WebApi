@@ -4,14 +4,10 @@ using MySuperStats.WebApi.Models;
 using CustomFramework.Data.Utils;
 using Microsoft.EntityFrameworkCore;
 using CustomFramework.WebApiUtils.Identity.Data;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using CustomFramework.WebApiUtils.Identity.Data.ModelConfigurations;
-using CustomFramework.WebApiUtils.Identity.Models;
 
 namespace MySuperStats.WebApi.Data
 {
-    public class ApplicationContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class ApplicationContext : IdentityContext<User,Role>
     {
         public ApplicationContext(DbContextOptions options)
             : base(options)
@@ -26,7 +22,7 @@ namespace MySuperStats.WebApi.Data
         public virtual DbSet<MatchGroupUser> MatchGroupUsers { get; set; }
         public virtual DbSet<MatchGroupTeam> MatchGroupTeams { get; set; }
         public virtual DbSet<FootballStat> FootballStats { get; set; }
-        public virtual DbSet<ClientApplication> ClientApplications { get; set; }
+        //public virtual DbSet<ClientApplication> ClientApplications { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,16 +30,40 @@ namespace MySuperStats.WebApi.Data
             base.OnModelCreating(modelBuilder);
 
             /* Identity */
-            modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<Role>().ToTable("roles");
-            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("role_claims");
-            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
-            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
-            modelBuilder.Entity<UserRole>().ToTable("user_roles");
-            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("user_tokens");
+            // modelBuilder.Entity<User>().ToTable("users");
+            // modelBuilder.Entity<Role>().ToTable("roles");
+            // modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("role_claims");
+            // modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
+            // modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
+            // modelBuilder.Entity<IdentityUserRole<int>>().ToTable("user_roles");
+            // //modelBuilder.Entity<UserRole>().ToTable("user_roles");
+            // modelBuilder.Entity<IdentityUserToken<int>>().ToTable("user_tokens");
 
-            modelBuilder.ApplyConfiguration(new ClientApplicationModelConfiguration<ClientApplication>());
-            /* Identity */
+            //modelBuilder.Entity<UserRole>().Property(p => p.Id).UseNpgsqlIdentityColumn();
+
+            //modelBuilder.Entity<UserRole>().HasOne(e => e.Role).WithMany(c => c.UserRoles).HasForeignKey(e => e.RoleId);
+            //modelBuilder.Entity<UserRole>().HasOne(e => e.User).WithMany(c => c.UserRoles).HasForeignKey(e => e.UserId);
+            //modelBuilder.Entity<UserRole>().HasOne(e => e.MatchGroup).WithMany(c => c.UserRoles).HasForeignKey(e => e.MatchGroupId);
+
+            // modelBuilder.Entity<UserRole>().HasIndex(pr => new
+            // {
+            //     pr.UserId,
+            //     pr.RoleId,
+            //     pr.MatchGroupId
+            // }).IsUnique();
+
+            // modelBuilder.Entity<UserRole>(userRole =>
+            // {
+            //     userRole.HasKey(pr => new
+            //     {
+            //         pr.UserId,
+            //         pr.RoleId,
+            //         pr.MatchGroupId
+            //     });
+            // });
+
+            // modelBuilder.ApplyConfiguration(new ClientApplicationModelConfiguration<ClientApplication>());
+            // /* Identity */
 
 
             modelBuilder.ApplyConfiguration(new MatchModelConfiguration());

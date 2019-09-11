@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190911083026_UserRoleKeyChange")]
+    partial class UserRoleKeyChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -394,23 +396,6 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_user_logins_user_id");
 
                     b.ToTable("user_logins");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
-
-                    b.HasKey("UserId", "RoleId")
-                        .HasName("pk_user_roles");
-
-                    b.HasIndex("RoleId")
-                        .HasName("ix_user_roles_role_id");
-
-                    b.ToTable("user_roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -801,10 +786,11 @@ namespace MySuperStats.WebApi.Migrations
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("MatchGroupId")
+                        .HasColumnName("match_group_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
@@ -818,11 +804,9 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("DeleteUserId")
                         .HasColumnName("delete_user_id");
 
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.Property<int>("Id")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
@@ -833,17 +817,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("UpdateUserId")
                         .HasColumnName("update_user_id");
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
+                    b.HasKey("MatchGroupId", "UserId")
                         .HasName("pk_match_group_users");
 
                     b.HasIndex("CreateUserId")
                         .HasName("ix_match_group_users_create_user_id");
-
-                    b.HasIndex("RoleId")
-                        .HasName("ix_match_group_users_role_id");
 
                     b.HasIndex("Status")
                         .HasName("ix_match_group_users_status");
@@ -851,162 +829,143 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasIndex("UserId")
                         .HasName("ix_match_group_users_user_id");
 
-                    b.HasIndex("MatchGroupId", "UserId", "RoleId")
-                        .IsUnique()
-                        .HasName("ix_match_group_users_match_group_id_user_id_role_id");
-
                     b.ToTable("match_group_users");
 
                     b.HasData(
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 1,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 1,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 1,
-                            Status = 1,
-                            UserId = 1
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 2,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 2,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 2
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 3,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 3,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 3
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 4,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 2,
-                            Status = 1,
-                            UserId = 4
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 5,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 5,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 2,
-                            Status = 1,
-                            UserId = 5
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 6,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 6,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 6
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 7,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 7,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 7
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 8,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 8,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 8
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 9,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 9,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 9
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 10,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 10,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 10
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 11,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 11,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 11
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 12,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 12,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 12
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 13,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 13,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 13
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 14,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 14,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 14
+                            Status = 1
                         },
                         new
                         {
-                            Id = 15,
+                            MatchGroupId = 1,
+                            UserId = 15,
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 15
+                            Id = 15,
+                            Status = 1
                         });
                 });
 
@@ -1044,7 +1003,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1ba4a65b-4efe-4d92-bb67-8bd7a0a61bed",
+                            ConcurrencyStamp = "96636f89-d564-49ab-88e0-f04fb5e27340",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -1052,7 +1011,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "226c1a73-136d-474f-9a26-a715c81197b1",
+                            ConcurrencyStamp = "58fae60b-0f6b-45c4-b2a4-4e7ac5e323cb",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -1060,7 +1019,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "3a3c82ed-337d-43cc-99b3-bc26897b6f07",
+                            ConcurrencyStamp = "d02b2d23-c82a-48a7-8f48-23d94c8337c7",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -1068,7 +1027,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "cadbb47f-dd0b-4e7d-ab51-b17e76381545",
+                            ConcurrencyStamp = "9f2bf02a-6df4-4125-9303-48ac0949a36b",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -1592,6 +1551,44 @@ namespace MySuperStats.WebApi.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MySuperStats.WebApi.Models.UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnName("role_id");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("MatchGroupId")
+                        .HasColumnName("match_group_id");
+
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_user_roles");
+
+                    b.HasIndex("RoleId")
+                        .HasName("ix_user_roles_role_id");
+
+                    b.HasIndex("UserId", "RoleId", "MatchGroupId")
+                        .IsUnique()
+                        .HasName("ix_user_roles_user_id_role_id_match_group_id");
+
+                    b.ToTable("user_roles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1,
+                            Id = 1,
+                            MatchGroupId = 1
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("MySuperStats.WebApi.Models.Role")
@@ -1616,21 +1613,6 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_logins_users_user_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
-                {
-                    b.HasOne("MySuperStats.WebApi.Models.Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_user_roles_roles_role_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1729,16 +1711,25 @@ namespace MySuperStats.WebApi.Migrations
                         .HasConstraintName("fk_match_group_users_match_groups_match_group_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("MySuperStats.WebApi.Models.Role", "Role")
-                        .WithMany("MatchGroupUsers")
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_match_group_users_roles_role_id")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_match_group_users_users_user_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("MySuperStats.WebApi.Models.UserRole", b =>
+                {
+                    b.HasOne("MySuperStats.WebApi.Models.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_user_roles_roles_role_id")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

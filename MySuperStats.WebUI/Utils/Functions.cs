@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Utils
 {
-    public static class ConvertFunctions
+    public static class Functions
     {
         public static string GetFirstCharOfEnumValues(IList<MatchResult> matchScores)
         {
@@ -25,6 +25,19 @@ namespace MySuperStats.WebUI.Utils
             object o;
             tempData.TryGetValue(key, out o);
             return o == null ? null : JsonConvert.DeserializeObject<T>((string)o);
+        }
+
+        public static bool GetPermissionValue(Dictionary<string, bool> permissionDetail, string value)
+        {
+            bool response = false;
+            if (permissionDetail.TryGetValue(value, out response))
+            {
+                return response;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

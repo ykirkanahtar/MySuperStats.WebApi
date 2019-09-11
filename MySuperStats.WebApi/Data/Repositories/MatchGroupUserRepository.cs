@@ -28,12 +28,29 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: predicate).Select(p => p.MatchGroup).ToListAsync();
         }
 
+        public async Task<IList<MatchGroupUser>> GetAllByMatchGroupIdAsync(int matchGroupId)
+        {
+            var predicate = PredicateBuilder.New<MatchGroupUser>();
+            predicate = predicate.And(p => p.MatchGroupId == matchGroupId);
+
+            return await GetAll(predicate: predicate).Include(p => p.User).Include(p => p.Role).ToListAsync();
+        }
+
         public async Task<IList<User>> GetUsersByMatchGroupIdAsync(int matchGroupId)
         {
             var predicate = PredicateBuilder.New<MatchGroupUser>();
             predicate = predicate.And(p => p.MatchGroupId == matchGroupId);
 
             return await GetAll(predicate: predicate).Select(p => p.User).ToListAsync();
+        }
+
+        public async Task<MatchGroupUser> GetByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId)
+        {
+            var predicate = PredicateBuilder.New<MatchGroupUser>();
+            predicate = predicate.And(p => p.MatchGroupId == matchGroupId);
+            predicate = predicate.And(p => p.UserId == userId);
+
+            return await GetAll(predicate: predicate).Include(p => p.Role).FirstOrDefaultAsync();
         }
 
         public async Task<bool> UserIsInMatchGroupAsync(int matchGroupId, int userId)

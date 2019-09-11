@@ -24,8 +24,9 @@ namespace MySuperStats.WebApi.Business
         Task<IdentityResult> ConfirmEmailAsync(int userId, string code);
         Task ForgotPasswordAsync(PasswordRecoveryRequest request, IUrlHelper url, string requestScheme, string callBackUrl);
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);
-        Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId);
-        Task<UsersAddToRoleResponse> AddUsersToRoleAsync(UsersAddToRoleRequest request);
+        // Task<Role> GetRoleByUserIdAndMatchGroupIdAsync(int userId, int matchGroupId);
+        // Task<UserRole> AddUserToRoleAsync(UserRoleRequest request);
+        // Task<IList<UserRole>> GetUserRolesByMatchGroupIdAsync(int matchGroupId);
     }
 }
 

@@ -135,47 +135,6 @@ namespace MySuperStats.WebUI.Pages
             OnGetMatchDetailAsync(id).Wait();
         }
 
-        // public async Task<IActionResult> OnPostAsync()
-        // {
-        //     {
-        //         MemoryStream stream = new MemoryStream();
-        //         Request.Body.CopyTo(stream);
-        //         stream.Position = 0;
-        //         using (StreamReader reader = new StreamReader(stream))
-        //         {
-        //             string requestBody = reader.ReadToEnd();
-        //             if (requestBody.Length > 0)
-        //             {
-        //                 Stats = JsonConvert.DeserializeObject<BasketballStatResponse>(requestBody);
-        //                 var playerBasketballStatsResponse = new PlayerBasketballStatsResponse
-        //                 {
-        //                     BasketballStat = Stats,
-        //                     Player = await GetPlayerByIdAsync(Stats.UserId),
-        //                 };
-
-        //                 var matchDetail = new MatchDetailBasketballStatsResponse();
-        //                 var matchDetailJson = HttpContext.Session.GetString("MatchDetail") as string;
-        //                 if (!string.IsNullOrEmpty(matchDetailJson)) matchDetail = JsonConvert.DeserializeObject<MatchDetailBasketballStatsResponse>(matchDetailJson);
-
-        //                 if (Stats.TeamId == 1)
-        //                 {
-        //                     matchDetail.HomeTeamBasketballStats.PlayerBasketballStats.Add(playerBasketballStatsResponse);
-        //                 }
-        //                 else if (Stats.TeamId == 2)
-        //                 {
-        //                     matchDetail.AwayTeamBasketballStats.PlayerBasketballStats.Add(playerBasketballStatsResponse);
-        //                 }
-        //                 else
-        //                     throw new Exception("Takım seçmediniz");
-
-        //                 MatchDetail = matchDetail;
-        //                 HttpContext.Session.SetString("MatchDetail", JsonConvert.SerializeObject(matchDetail));
-        //             }
-        //         }
-        //     }
-        //     return OnGetMatchDetail();
-        // }
-
         private void GetMatchDetailFromSession(int id)
         {
             var matchJson = _httpContextAccessor.HttpContext.Session.GetString($"StatisticEntryForBasketballMatch{id}") as string;

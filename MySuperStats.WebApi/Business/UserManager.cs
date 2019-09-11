@@ -5,12 +5,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CustomFramework.WebApiUtils.Business;
+using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Identity.Business;
+using CustomFramework.WebApiUtils.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Data;
@@ -19,13 +22,13 @@ using MySuperStats.WebApi.Models;
 
 namespace MySuperStats.WebApi.Business
 {
-    public class UserManager : BaseBusinessManager, IUserManager
+    public class UserManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IUserManager
     {
         private readonly IUnitOfWorkWebApi _uow;
         private readonly ICustomUserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
 
-        public UserManager(ICustomUserManager<User> userManager, IUserRepository userRepository, IUnitOfWorkWebApi uow, ILogger<UserManager> logger, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(logger, mapper, httpContextAccessor)
+        public UserManager(ICustomUserManager<User> userManager, IUserRepository userRepository, IUnitOfWorkWebApi uow, ILogger<UserManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor) : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
             _userManager = userManager;
@@ -149,59 +152,53 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                return await _userRepository.GetRolesAsync(userId, matchGroupId);
-            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        // public Task<Role> GetRoleByUserIdAndMatchGroupIdAsync(int userId, int matchGroupId)
+        // {
+        //     return CommonOperationAsync(async () =>
+        //     {
+        //         var roles = await _userRepository.GetRolesAsync(userId, matchGroupId);
+        //         if(roles.Count > 1) throw new Exception("Sistem hatası, bir kullanıcı birden fazla role sahip olamaz.");
 
-        }
+        //         var role = roles.Count == 1 ? roles[0] : new Role();
+        //         return role;
+        //     }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        // }
 
-        public Task<UsersAddToRoleResponse> AddUsersToRoleAsync(UsersAddToRoleRequest request)
-        {
-            return CommonOperationAsync(async () =>
-            {
-                var response = new UsersAddToRoleResponse
-                {
-                    MatchGroupdId = request.MatchGroupdId,
-                };
+        // public Task<UserRole> AddUserToRoleAsync(UserRoleRequest request)
+        // {
+        //     return CommonOperationAsync(async () =>
+        //     {
+        //         /* Kullanıcının karşılaşma grubuna ait tüm rolleri siliniyor */
+        //         var existingRole = await GetRoleByUserIdAndMatchGroupIdAsync(request.UserId, request.MatchGroupId);
+        //         if (existingRole.Name == RoleEnum.Admin.ToString() || request.UserId == GetLoggedInUserId())
+        //         {
+        //             throw new ArgumentException("Bu işlemi yapmaya yetkiniz yok.");
+        //         }
 
-                foreach (var userAddToRole in request.UsersAddToRole)
-                {
-                    /* Kullanıcının karşılaşma grubuna ait tüm rolleri siliniyor */
-                    var existingRoles = await _userRepository.GetRolesAsync(userAddToRole.UserId, request.MatchGroupdId);
-                    foreach (var existingRole in existingRoles)
-                    {
-                        var existingUserRole = new UserRole
-                        {
-                            MatchGroupId = request.MatchGroupdId,
-                            RoleId = existingRole.Id,
-                            UserId = userAddToRole.UserId,
-                        };
-                        _uow.Users.RemoveUserFromRole(existingUserRole);
-                    }
-                    /* ******************************************************* */
+        //         var existingUserRole = new UserRole
+        //         {
+        //             MatchGroupId = request.MatchGroupId,
+        //             RoleId = existingRole.Id,
+        //             UserId = request.UserId,
+        //         };
+        //         _uow.Users.RemoveUserFromRole(existingUserRole);
+        //         /* ******************************************************* */
 
-                    var userAddToRoleResponse = Mapper.Map<UserAddToRoleResponse>(userAddToRole);
-                    var userRole = new UserRole
-                    {
-                        MatchGroupId = request.MatchGroupdId,
-                        RoleId = userAddToRole.RoleId,
-                        UserId = userAddToRole.UserId
-                    };
+        //         var userRole = Mapper.Map<UserRole>(request);
 
-                    _uow.Users.AddUserToRole(userRole);
-                    await _uow.SaveChangesAsync();
-                    
-                    userAddToRoleResponse.UserRoleId = userRole.Id;
-                    response.UsersAddToRole.Add(userAddToRoleResponse);
-                }
+        //         _uow.Users.AddUserToRole(userRole);
+        //         await _uow.SaveChangesAsync();
 
-                return response;
-            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        //         return userRole;
+        //     }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        // }
 
-        }
-
+        // public Task<IList<UserRole>> GetUserRolesByMatchGroupIdAsync(int matchGroupId)
+        // {
+        //     return CommonOperationAsync(async () =>
+        //     {
+        //         return await _userRepository.GetUserRolesByMatchGroupIdAsync(matchGroupId);
+        //     }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        // }
     }
 }

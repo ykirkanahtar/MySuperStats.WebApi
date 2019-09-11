@@ -5,9 +5,9 @@ using MySuperStats.WebApi.Constants;
 
 namespace MySuperStats.WebApi.Validators
 {
-    public class MatchGroupUserValidator : AbstractValidator<MatchGroupUserRequest>
+    public class MatchGroupUserCreateValidator : AbstractValidator<MatchGroupUserCreateRequest>
     {
-        public MatchGroupUserValidator()
+        public MatchGroupUserCreateValidator()
         {
             RuleFor(x => x.MatchGroupId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.MatchGroup}");
             RuleFor(x => x.UserId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.User}");

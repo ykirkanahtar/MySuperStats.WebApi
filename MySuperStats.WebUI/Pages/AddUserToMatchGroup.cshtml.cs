@@ -56,7 +56,7 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task AddUserToMatchGroupAsync(int matchGroupId, int userId, string token)
         {
-            var matchGroupUserRequest = new MatchGroupUserRequest { MatchGroupId = matchGroupId, UserId = userId };
+            var matchGroupUserRequest = new MatchGroupUserCreateRequest { MatchGroupId = matchGroupId, UserId = userId };
 
             var jsonContent = JsonConvert.SerializeObject(matchGroupUserRequest);
 

@@ -14,13 +14,13 @@ namespace MySuperStats.WebApi.Business
     public class PermissionChecker : IPermissionChecker
     {
         private readonly IPermissionManager _permissionManager;
-        private readonly IUserManager _userManager;
+        private readonly IMatchGroupUserManager _matchGroupUserManager;
         private readonly IMatchManager _matchManager;
 
-        public PermissionChecker(IPermissionManager permissionManager, IUserManager userManager, IMatchManager matchManager)
+        public PermissionChecker(IPermissionManager permissionManager, IMatchGroupUserManager matchGroupUserManager, IMatchManager matchManager)
         {
             _permissionManager = permissionManager;
-            _userManager = userManager;
+            _matchGroupUserManager = matchGroupUserManager;
             _matchManager = matchManager;
         }
 
@@ -68,12 +68,11 @@ namespace MySuperStats.WebApi.Business
 
         private async Task<bool> HasPermissionAsync(int userId, int matchGroupId, IList<PermissionAttribute> permissionAttributes)
         {
-            var roles = await _userManager.GetRolesAsync(userId, matchGroupId);
+            var matchGroupUser = await _matchGroupUserManager.GetByMatchGroupIdAndUserIdAsync(matchGroupId, userId);
+            var role = matchGroupUser.Role;
             var rolesNames = new List<string>();
-            foreach (var role in roles)
-            {
-                rolesNames.Add(role.Name);
-            }
+            rolesNames.Add(role.Name);
+            
             await _permissionManager.HasPermission(permissionAttributes, rolesNames);
             return true;
         }

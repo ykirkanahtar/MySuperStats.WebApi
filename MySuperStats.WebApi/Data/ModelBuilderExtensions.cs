@@ -360,46 +360,20 @@ namespace MySuperStats.WebApi.Data
                 }
             );
 
-            modelBuilder.Entity<Role>().HasData(
-                new Role
-                {
-                    Id = 1,
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                    Status = Status.Active
-                }
-            );
+            var roleEnums = Enum.GetValues(typeof(RoleEnum)).Cast<RoleEnum>().ToList();
 
-
-            modelBuilder.Entity<Role>().HasData(
-                new Role
-                {
-                    Id = 2,
-                    Name = "GroupAdmin",
-                    NormalizedName = "GROUPADMIN",
-                    Status = Status.Active
-                }
-            );
-
-            modelBuilder.Entity<Role>().HasData(
-                new Role
-                {
-                    Id = 3,
-                    Name = "Editor",
-                    NormalizedName = "EDITOR",
-                    Status = Status.Active
-                }
-            );
-
-            modelBuilder.Entity<Role>().HasData(
-                new Role
-                {
-                    Id = 4,
-                    Name = "Player",
-                    NormalizedName = "PLAYER",
-                    Status = Status.Active
-                }
-            );
+            foreach (var roleEnum in roleEnums)
+            {
+                modelBuilder.Entity<Role>().HasData(
+                    new Role
+                    {
+                        Id = (int)roleEnum,
+                        Name = roleEnum.ToString(),
+                        NormalizedName = roleEnum.ToString().ToUpper(),
+                        Status = Status.Active
+                    }
+                );
+            }
 
             var permissionEnums = Enum.GetNames(typeof(PermissionEnum)).ToList();
 
@@ -474,16 +448,7 @@ namespace MySuperStats.WebApi.Data
                     }
                 );
                 roleClaimId++;
-            }            
-
-            modelBuilder.Entity<UserRole>().HasData(
-                new UserRole
-                {
-                    RoleId = 1,
-                    UserId = 1,
-                    MatchGroupId = 1,
-                }
-            );
+            }
 
             modelBuilder.Entity<MatchGroup>().HasData(
                 new MatchGroup
@@ -498,17 +463,21 @@ namespace MySuperStats.WebApi.Data
 
             for (var i = 1; i < 16; i++)
             {
-                modelBuilder.Entity<MatchGroupUser>().HasData(
-                    new MatchGroupUser
-                    {
-                        Id = i,
-                        UserId = i,
-                        MatchGroupId = 1,
-                        CreateDateTime = new DateTime(2019, 1, 1),
-                        CreateUserId = 1,
-                        Status = Status.Active
-                    }
-                );
+                var matchGroupUser = new MatchGroupUser
+                {
+                    Id = i,
+                    UserId = i,
+                    MatchGroupId = 1,
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                };
+
+                if (i == 1) matchGroupUser.RoleId = (int)RoleEnum.Admin;
+                else if (i == 4 || i == 5) matchGroupUser.RoleId = (int)RoleEnum.GroupAdmin;
+                else matchGroupUser.RoleId = (int)RoleEnum.Player;
+
+                modelBuilder.Entity<MatchGroupUser>().HasData(matchGroupUser);
             }
 
             return modelBuilder;

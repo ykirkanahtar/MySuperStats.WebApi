@@ -9,7 +9,10 @@ namespace MySuperStats.WebApi.Business
 {
     public interface IMatchGroupUserManager : IBusinessManager<MatchGroupUser, MatchGroupUserRequest, int>
     {
+        Task<MatchGroupUser> GetByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId);
+        Task<MatchGroupUser> UpdateRoleAsync(MatchGroupUserRequest request);
         Task<IList<MatchGroup>> GetMatchGroupsByUserIdAsync(int userId);
         Task<IList<User>> GetUsersByMatchGroupIdAsync(int matchGroupId);
+        Task<IList<MatchGroupUser>> GetAllByMatchGroupIdAsync(int matchGroupId);
     }
 }

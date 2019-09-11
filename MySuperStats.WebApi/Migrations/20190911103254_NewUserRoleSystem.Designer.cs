@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190911103254_NewUserRoleSystem")]
+    partial class NewUserRoleSystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -801,10 +803,14 @@ namespace MySuperStats.WebApi.Migrations
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("MatchGroupId")
+                        .HasColumnName("match_group_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnName("role_id");
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
@@ -818,11 +824,9 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("DeleteUserId")
                         .HasColumnName("delete_user_id");
 
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.Property<int>("Id")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
@@ -833,10 +837,7 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int?>("UpdateUserId")
                         .HasColumnName("update_user_id");
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
+                    b.HasKey("MatchGroupId", "UserId", "RoleId")
                         .HasName("pk_match_group_users");
 
                     b.HasIndex("CreateUserId")
@@ -851,162 +852,158 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasIndex("UserId")
                         .HasName("ix_match_group_users_user_id");
 
-                    b.HasIndex("MatchGroupId", "UserId", "RoleId")
-                        .IsUnique()
-                        .HasName("ix_match_group_users_match_group_id_user_id_role_id");
-
                     b.ToTable("match_group_users");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
                             MatchGroupId = 1,
+                            UserId = 1,
                             RoleId = 1,
-                            Status = 1,
-                            UserId = 1
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Id = 1,
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 2,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 2,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 2
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 3,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 3,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 3
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 4,
+                            RoleId = 2,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 4,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 2,
-                            Status = 1,
-                            UserId = 4
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 5,
+                            RoleId = 2,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 5,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 2,
-                            Status = 1,
-                            UserId = 5
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 6,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 6,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 6
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 7,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 7,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 7
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 8,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 8,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 8
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 9,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 9,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 9
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 10,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 10,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 10
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 11,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 11,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 11
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 12,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 12,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 12
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 13,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 13,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 13
+                            Status = 1
                         },
                         new
                         {
+                            MatchGroupId = 1,
+                            UserId = 14,
+                            RoleId = 4,
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
                             Id = 14,
-                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 14
+                            Status = 1
                         },
                         new
                         {
-                            Id = 15,
+                            MatchGroupId = 1,
+                            UserId = 15,
+                            RoleId = 4,
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
-                            MatchGroupId = 1,
-                            RoleId = 4,
-                            Status = 1,
-                            UserId = 15
+                            Id = 15,
+                            Status = 1
                         });
                 });
 
@@ -1044,7 +1041,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1ba4a65b-4efe-4d92-bb67-8bd7a0a61bed",
+                            ConcurrencyStamp = "2c14f509-a144-494b-85a3-6147a44913fd",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -1052,7 +1049,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "226c1a73-136d-474f-9a26-a715c81197b1",
+                            ConcurrencyStamp = "c61f493f-6451-4658-b844-d7e2533de9bc",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -1060,7 +1057,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "3a3c82ed-337d-43cc-99b3-bc26897b6f07",
+                            ConcurrencyStamp = "920a1cf3-1049-4f35-ad30-228ae3a06a77",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -1068,7 +1065,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "cadbb47f-dd0b-4e7d-ab51-b17e76381545",
+                            ConcurrencyStamp = "e250af7f-d343-4602-b5ea-d6e43f70e72f",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1

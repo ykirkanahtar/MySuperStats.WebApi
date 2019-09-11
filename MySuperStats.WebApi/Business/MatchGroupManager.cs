@@ -11,6 +11,8 @@ using MySuperStats.WebApi.Models;
 using MySuperStats.WebApi.Constants;
 using System.Reflection;
 using CustomFramework.WebApiUtils.Enums;
+using System.Collections.Generic;
+using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -18,10 +20,12 @@ namespace MySuperStats.WebApi.Business
                                         IMatchGroupManager
     {
         private readonly IUnitOfWorkWebApi _uow;
+        private readonly IMatchGroupUserManager _matchGroupUserManager;
 
-        public MatchGroupManager(IUnitOfWorkWebApi uow, ILogger<MatchGroupManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor) : base(logger, mapper, apiRequestAccessor)
+        public MatchGroupManager(IMatchGroupUserManager matchGroupUserManager, IUnitOfWorkWebApi uow, ILogger<MatchGroupManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor) : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
+            _matchGroupUserManager = matchGroupUserManager;
         }
 
         public Task<MatchGroup> CreateAsync(MatchGroupRequest request)
@@ -40,6 +44,14 @@ namespace MySuperStats.WebApi.Business
 
                 _uow.MatchGroups.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
+
+                var matchGroupUserRequest = new MatchGroupUserRequest
+                {
+                    MatchGroupId = result.Id,
+                    RoleId = (int)RoleEnum.GroupAdmin,
+                    UserId = GetLoggedInUserId(),
+                };
+                await _matchGroupUserManager.CreateAsync(matchGroupUserRequest);
 
                 return result;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });

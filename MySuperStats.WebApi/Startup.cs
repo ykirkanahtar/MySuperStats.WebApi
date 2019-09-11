@@ -116,7 +116,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IUnitOfWorkIdentity, UnitOfWorkWebApi>();
             services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
             services.AddScoped<DbContext, ApplicationContext>();
-            services.AddScoped<IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, ApplicationContext>();
+            services.AddScoped<IdentityContext<User,Role>, ApplicationContext>();
 
             /*********Repositories*********/
             services.AddTransient<IMatchRepository, MatchRepository>();
@@ -134,7 +134,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IValidator<TeamRequest>, TeamValidator>();
             services.AddTransient<IValidator<BasketballStatRequest>, BasketballStatValidator>();
             services.AddTransient<IValidator<MatchGroupRequest>, MatchGroupValidator>();
-            services.AddTransient<IValidator<MatchGroupUserRequest>, MatchGroupUserValidator>();
+            services.AddTransient<IValidator<MatchGroupUserCreateRequest>, MatchGroupUserCreateValidator>();
             services.AddTransient<IValidator<MatchGroupTeamRequest>, MatchGroupTeamValidator>();
             services.AddTransient<IValidator<FootballStatRequest>, FootballStatValidator>();
             /*********Validators*********/
