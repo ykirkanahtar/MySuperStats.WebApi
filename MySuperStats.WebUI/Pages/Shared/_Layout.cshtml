@@ -66,8 +66,28 @@
 <!-- DataTables -->
 <script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
 <!-- page script -->
 </environment>
+
+<style>
+  #loading-img {
+      background: url(https://preloaders.net/preloaders/360/Velocity.gif) center center no-repeat;
+      height: 100%;
+      z-index: 20;
+  }
+
+  .overlay {
+      background: #e9e9e9;
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0.5;
+  }
+</style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -80,11 +100,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+
+
 <!-- Site wrapper -->
 <div class="wrapper">
 
   @{var loggedUser = SessionUtil.GetLoggedUser(session);}
-
 
   <header class="main-header" style="position: fixed; width: 100%; ">
     <!-- Logo -->
@@ -92,7 +114,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>SS</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>MySuperStats</b></span>
+      <span class="logo-lg"><b>My Super Stats</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -109,15 +131,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-            
+              <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">             -->
               <span class="hidden-xs">@($"{loggedUser.FirstName} {loggedUser.Surname}")</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
                 <p>
                   @($"{loggedUser.FirstName} {loggedUser.Surname}")
                   <small>@($"{loggedUser.CreateDateTime.ToShortDateString()}") tarihinde kayıt oldu</small>
@@ -126,7 +146,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a asp-page="/UserProfile" class="btn btn-default btn-flat">Profilim</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Çıkış</a>
@@ -135,9 +155,9 @@
             </ul>
           </li>
           <!-- Control Sidebar Toggle Button -->
-          <li>
+          <!-- <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
@@ -150,18 +170,18 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <a asp-page="/Index">
-        <div class="user-panel">
-            <div class="pull-left image">
+      <!-- <a asp-page="/Index"> -->
+        <!-- <div class="user-panel" style="height:60px;"> -->
+            <!-- <div class="pull-left image">
               <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-center info">
+            </div> -->
+            <!-- <div class="pull-center info">
               <p>@($"{loggedUser.FirstName}")</p>
               <p>@($"{loggedUser.Surname}")</p>
-              <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-            </div>
-        </div>
-      </a>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div> -->
+        <!-- </div> -->
+      <!-- </a> -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">              
         @{
@@ -253,6 +273,12 @@
                         Yeni Grup Oluştur
                     </a>
                 </li>
+                <li>
+                    <a asp-page="/UserProfile">
+                        <i class="fa fa-user"></i>
+                        Profilim
+                    </a>
+                </li>                
             </ul>
         </li>        
       </ul>
@@ -294,7 +320,13 @@
     <!-- Content Header (Page header) -->
 
     <!-- Main content -->
+
+
+
     @RenderBody()
+      <div class="overlay">
+          <div id="loading-img"></div>
+      </div>
 
     <!-- /.content -->
   </div>
@@ -302,10 +334,9 @@
 
   <footer class="main-footer" style="clear:both;">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> 1.0.0
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
+    .
   </footer>
 
   <!-- Control Sidebar -->
@@ -508,7 +539,7 @@
 <script>
   $(document).ready(function () {
     $('.sidebar-menu').tree()
-  })
+  });
 </script>
     @RenderSection("Scripts", required: false)
 </body>

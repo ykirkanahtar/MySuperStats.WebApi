@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MySuperStats.WebApi.Migrations
 {
@@ -16,9 +15,8 @@ namespace MySuperStats.WebApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Identity.Models.ClientApplication", b =>
                 {
@@ -81,7 +79,7 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_client_applications_status");
 
                     b.HasIndex("ClientApplicationCode", "ClientApplicationPassword")
-                        .HasName("ix_client_applications_client_application_code_client_applicat~");
+                        .HasName("ix_client_applications_client_application_code_client_applicati~");
 
                     b.ToTable("client_applications");
 
@@ -106,10 +104,12 @@ namespace MySuperStats.WebApi.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnName("claim_type");
+                        .HasColumnName("claim_type")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnName("claim_value");
+                        .HasColumnName("claim_value")
+                        .HasMaxLength(100);
 
                     b.Property<int>("RoleId")
                         .HasColumnName("role_id");
@@ -356,10 +356,12 @@ namespace MySuperStats.WebApi.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnName("claim_type");
+                        .HasColumnName("claim_type")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnName("claim_value");
+                        .HasColumnName("claim_value")
+                        .HasMaxLength(100);
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
@@ -376,13 +378,16 @@ namespace MySuperStats.WebApi.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnName("login_provider");
+                        .HasColumnName("login_provider")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnName("provider_key");
+                        .HasColumnName("provider_key")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnName("provider_display_name");
+                        .HasColumnName("provider_display_name")
+                        .HasMaxLength(100);
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
@@ -419,13 +424,16 @@ namespace MySuperStats.WebApi.Migrations
                         .HasColumnName("user_id");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnName("login_provider");
+                        .HasColumnName("login_provider")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Name")
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Value")
-                        .HasColumnName("value");
+                        .HasColumnName("value")
+                        .HasMaxLength(100);
 
                     b.HasKey("UserId", "LoginProvider", "Name")
                         .HasName("pk_user_tokens");
@@ -525,6 +533,1775 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_basketball_stats_match_id_user_id_team_id");
 
                     b.ToTable("basketball_stats");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 23.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 17.00m,
+                            Rebound = 27.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Assist = 6.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 9.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 13.00m,
+                            Rebound = 20.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 8.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 20.00m,
+                            MissingTwoPoint = 6.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 21.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 4.00m,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 6.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 20.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 1,
+                            TwoPoint = 1.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Assist = 16.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 20.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 15.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 1.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 16.00m,
+                            MissingTwoPoint = 4.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 5,
+                            MissingOnePoint = 18.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 15.00m,
+                            Rebound = 14.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 9.00m,
+                            Rebound = 19.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 12.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 4.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 25.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 17.00m,
+                            Rebound = 24.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 10.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 12.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 17.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 22.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 1,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 20.00m,
+                            Rebound = 11.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 12.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 12.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 4.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 13.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 15.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 12.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 8.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 10.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 12.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 14.00m,
+                            Rebound = 10.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 18.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 9.00m,
+                            Rebound = 11.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 18.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 14.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 20.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 12.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 2,
+                            MissingOnePoint = 6.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 1.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 22.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 13.00m,
+                            Rebound = 23.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 7.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 12.00m,
+                            Rebound = 3.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 21.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 14.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 14.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 18.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 13.00m,
+                            Rebound = 18.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 10.00m,
+                            Rebound = 15.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 0.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 7.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 4.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 0.00m,
+                            MatchId = 3,
+                            MissingOnePoint = 1.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 1.00m,
+                            Rebound = 0.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 13.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 16.00m,
+                            Rebound = 22.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Assist = 6.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 8.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 17.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 16.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 24.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 12.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 4.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 21.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 2.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 12.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 4.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 9.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 15.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 4,
+                            MissingOnePoint = 6.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 1.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 14.00m,
+                            Rebound = 28.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Assist = 9.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 8.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 5.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 16.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 4.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 19.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 21.00m,
+                            MissingTwoPoint = 6.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 20.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 14.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 9.00m,
+                            MissingTwoPoint = 9.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 17.00m,
+                            Status = 1,
+                            StealBall = 8.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 20.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 3.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 6,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 2.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 17.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 11.00m,
+                            Rebound = 40.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 8.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 23.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 14.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 16.00m,
+                            MissingTwoPoint = 15.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 17.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 1,
+                            TwoPoint = 3.00m,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 2.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 12.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 36.00m,
+                            MissingTwoPoint = 9.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 12.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 2,
+                            TwoPoint = 3.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 21.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 18.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 16.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 19.00m,
+                            Rebound = 34.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 7,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 10.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 4.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 31.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 12.00m,
+                            Rebound = 14.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 19.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 15.00m,
+                            Rebound = 15.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 4.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 8.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 18.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 9.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 13.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 24.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 14.00m,
+                            Rebound = 27.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Assist = 6.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 19.00m,
+                            MissingTwoPoint = 4.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 22.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 8.00m,
+                            MatchId = 8,
+                            MissingOnePoint = 25.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 13.00m,
+                            Rebound = 23.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 17.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 6.00m,
+                            MissingTwoPoint = 5.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 10.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 16.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 69,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 3.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 70,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 7.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 9.00m,
+                            Rebound = 23.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 71,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 13.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 3.00m,
+                            Rebound = 11.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 72,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 7.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 3.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 73,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 9.00m,
+                            MatchId = 9,
+                            MissingOnePoint = 17.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 10.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 4.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 74,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 8.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 4.00m,
+                            MissingTwoPoint = 14.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 15.00m,
+                            Status = 1,
+                            StealBall = 6.00m,
+                            TeamId = 1,
+                            TwoPoint = 8.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 75,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 10.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 4.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 76,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 15.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 14.00m,
+                            Status = 1,
+                            StealBall = 3.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 77,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 4.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 9.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 78,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 1.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 15.00m,
+                            Rebound = 19.00m,
+                            Status = 1,
+                            StealBall = 2.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 79,
+                            Assist = 4.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 2.00m,
+                            LooseBall = 6.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 14.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 9.00m,
+                            Rebound = 8.00m,
+                            Status = 1,
+                            StealBall = 1.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 80,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 7.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 14.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 8.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 5.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 81,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 5.00m,
+                            MatchId = 10,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 8.00m,
+                            OnePoint = 10.00m,
+                            Rebound = 12.00m,
+                            Status = 1,
+                            StealBall = 7.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 82,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 7.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 6.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 83,
+                            Assist = 1.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 8.00m,
+                            MissingTwoPoint = 2.00m,
+                            OnePoint = 5.00m,
+                            Rebound = 4.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 1.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 84,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 10.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 3.00m,
+                            Rebound = 4.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 85,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 6.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 7.00m,
+                            Rebound = 11.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 1.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 86,
+                            Assist = 5.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 9.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 5.00m,
+                            MissingTwoPoint = 6.00m,
+                            OnePoint = 4.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 5.00m,
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 87,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 11,
+                            MissingOnePoint = 3.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 88,
+                            Assist = 2.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 2.00m,
+                            MissingTwoPoint = 4.00m,
+                            OnePoint = 3.00m,
+                            Rebound = 7.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 1.00m,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 89,
+                            Assist = 3.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 1.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 3.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 15
+                        },
+                        new
+                        {
+                            Id = 90,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 0.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 11.00m,
+                            MissingTwoPoint = 1.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 5.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 1,
+                            TwoPoint = 0.00m,
+                            UserId = 14
+                        },
+                        new
+                        {
+                            Id = 91,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 0.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 5.00m,
+                            MissingTwoPoint = 0.00m,
+                            OnePoint = 1.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 92,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 3.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 5.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 1.00m,
+                            Rebound = 6.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 93,
+                            Assist = 0.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Interrupt = 0.00m,
+                            LooseBall = 2.00m,
+                            MatchId = 12,
+                            MissingOnePoint = 5.00m,
+                            MissingTwoPoint = 3.00m,
+                            OnePoint = 2.00m,
+                            Rebound = 3.00m,
+                            Status = 1,
+                            StealBall = 0.00m,
+                            TeamId = 2,
+                            TwoPoint = 0.00m,
+                            UserId = 10
+                        });
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.FootballStat", b =>
@@ -691,6 +2468,200 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_matches_match_date_order");
 
                     b.ToTable("matches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 43.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 38.00m,
+                            MatchDate = new DateTime(2018, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=kE99vlYOB2Q"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 36.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 32.00m,
+                            MatchDate = new DateTime(2018, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=wWCI6UwSglc"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 35.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 42.00m,
+                            MatchDate = new DateTime(2018, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=egESDCEFAYI"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 32.00m,
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 36.00m,
+                            MatchDate = new DateTime(2018, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=dVuBax06kpY"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 47.00m,
+                            CreateDateTime = new DateTime(2018, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 56.00m,
+                            MatchDate = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=NTWW2JwpOTE"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 30.00m,
+                            CreateDateTime = new DateTime(2018, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 35.00m,
+                            MatchDate = new DateTime(2018, 4, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=EIbnNsMsxQc"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 43.00m,
+                            CreateDateTime = new DateTime(2018, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 47.00m,
+                            MatchDate = new DateTime(2018, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=3p7Z4LNknB8"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 37.00m,
+                            CreateDateTime = new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 38.00m,
+                            MatchDate = new DateTime(2018, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=EVJvdvCDuMs"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 25.00m,
+                            CreateDateTime = new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 45,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 23.00m,
+                            MatchDate = new DateTime(2018, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=Ueo_InIYTBk"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 44.00m,
+                            CreateDateTime = new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 60,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 39.00m,
+                            MatchDate = new DateTime(2018, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=lplrXOBu3fs"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 25.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 30,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 16.00m,
+                            MatchDate = new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 1,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=uVldmTIKMjo"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AwayTeamId = 2,
+                            AwayTeamScore = 4.00m,
+                            CreateDateTime = new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            DurationInMinutes = 30,
+                            HomeTeamId = 1,
+                            HomeTeamScore = 9.00m,
+                            MatchDate = new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MatchGroupId = 1,
+                            Order = 2,
+                            Status = 1,
+                            VideoLink = "https://www.youtube.com/watch?v=XaKCOZ5sKUE"
+                        });
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroup", b =>
@@ -1018,15 +2989,16 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("concurrency_stamp");
+                        .HasColumnName("concurrency_stamp")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("Name")
                         .HasColumnName("name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.Property<string>("NormalizedName")
                         .HasColumnName("normalized_name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
@@ -1044,7 +3016,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1ba4a65b-4efe-4d92-bb67-8bd7a0a61bed",
+                            ConcurrencyStamp = "08166285-4926-400b-8ffc-7857e50cf6e2",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -1052,7 +3024,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "226c1a73-136d-474f-9a26-a715c81197b1",
+                            ConcurrencyStamp = "bbca4031-9b4f-4b6f-990a-752af88c7bcc",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -1060,7 +3032,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "3a3c82ed-337d-43cc-99b3-bc26897b6f07",
+                            ConcurrencyStamp = "4ce6b4c8-88a4-4c12-b241-16db3cb5ba22",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -1068,7 +3040,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "cadbb47f-dd0b-4e7d-ab51-b17e76381545",
+                            ConcurrencyStamp = "7e796633-2380-41b5-a8c3-7deac22e9f23",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -1126,6 +3098,26 @@ namespace MySuperStats.WebApi.Migrations
                         .HasName("ix_teams_status");
 
                     b.ToTable("teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Color = "Green",
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Name = "Home",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Color = "White",
+                            CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            Name = "Away",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.User", b =>
@@ -1142,7 +3134,8 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("concurrency_stamp");
+                        .HasColumnName("concurrency_stamp")
+                        .HasMaxLength(1000);
 
                     b.Property<DateTime>("CreateDateTime")
                         .HasColumnName("create_date_time");
@@ -1158,13 +3151,14 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnName("email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnName("email_confirmed");
 
                     b.Property<string>("FirstName")
-                        .HasColumnName("first_name");
+                        .HasColumnName("first_name")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("LastLogOutDate")
                         .HasColumnName("last_log_out_date");
@@ -1180,29 +3174,33 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnName("normalized_email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.Property<string>("NormalizedUserName")
                         .HasColumnName("normalized_user_name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnName("password_hash");
+                        .HasColumnName("password_hash")
+                        .HasMaxLength(1000);
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnName("phone_number");
+                        .HasColumnName("phone_number")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnName("phone_number_confirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnName("security_stamp");
+                        .HasColumnName("security_stamp")
+                        .HasMaxLength(1000);
 
                     b.Property<int>("Status")
                         .HasColumnName("status");
 
                     b.Property<string>("Surname")
-                        .HasColumnName("surname");
+                        .HasColumnName("surname")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnName("two_factor_enabled");
@@ -1215,7 +3213,7 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("UserName")
                         .HasColumnName("user_name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(100);
 
                     b.HasKey("Id")
                         .HasName("pk_users");

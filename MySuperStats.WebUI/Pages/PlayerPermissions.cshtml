@@ -15,6 +15,7 @@ $(document).ready(function() {
 
   var g_id = getIdFromURL();
   var loggedUserId = 0;
+
   $.ajax({
         url: "/PlayerPermissions/"+ g_id + "?handler=LoggedUserId",
         dataType: "json", 
@@ -56,6 +57,8 @@ $(document).ready(function() {
     height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
     layout:"fitColumns", //fit columns to width of table (optional)
     pagination : "local",
+    ajaxLoader: true,
+    ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 15,
     locale: true,
     langs: {
@@ -124,6 +127,7 @@ $(document).ready(function() {
               beforeSend: function (xhr) {
                   xhr.setRequestHeader("XSRF-TOKEN",
                       $('input:hidden[name="__RequestVerificationToken"]').val());
+                      $(".overlay").show();
               },
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -131,7 +135,7 @@ $(document).ready(function() {
                   userid: userid,
                   roleid: 0,
                   role: role
-              }),              
+              }),     
               success: function(response, textStatus, xhr){
                 if (response == "OK"){
                   $("#successDiv").hide().slideDown().delay(500).fadeOut();
@@ -144,9 +148,11 @@ $(document).ready(function() {
               error: function(XMLHttpRequest, textStatus, error){
                 $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
                 $("#errorMessage").text("Bir hata oluştu.");
+              },
+              complete: function(){
+                $(".overlay").hide();
               }
-          })
-
+          });
      },        
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
       //alert("Row " + row.getData().id + " Clicked!!!!");
@@ -190,6 +196,5 @@ $(document).ready(function() {
           <strong>Hata Oluştu!</strong> <span id="errorMessage">Kayıt güncellenirken bir hata oluştu.</span>
         </div>
       </div>
-
     </section>
     <!-- /.content -->
