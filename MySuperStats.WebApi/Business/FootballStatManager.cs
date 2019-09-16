@@ -35,7 +35,7 @@ namespace MySuperStats.WebApi.Business
                 var matchPlayerAndTeamUniqueResult =
                     await _uow.FootballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
 
-                matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                matchPlayerAndTeamUniqueResult.CheckUniqueValue(AppConstants.MatchIdAndTeamIdAndPlayerId);
                 /**********MatchId, TeamId And PlayerId are unique************/
                 /*************************************************************/
 
@@ -73,7 +73,7 @@ namespace MySuperStats.WebApi.Business
                 var matchPlayerAndTeamUniqueResult =
                     await _uow.FootballStats.GetByMatchIdTeamIdAndUserId(result.MatchId, result.TeamId, result.UserId);
 
-                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate(result.Id, AppConstants.MatchIdAndTeamIdAndPlayerId);
                 /**********MatchId, TeamId And PlayerId are unique************/
                 /*************************************************************/
 

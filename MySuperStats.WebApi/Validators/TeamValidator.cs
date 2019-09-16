@@ -10,14 +10,14 @@ namespace MySuperStats.WebApi.Validators
         public TeamValidator()
         {
             RuleFor(x => x.Name).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Name}")
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.Name}")
                 .MaximumLength(25)
-                .WithMessage($"{ValidatorConstants.MaxLengthError} : {WebApiResourceConstants.Name}");
+                .WithMessage($"{ValidatorConstants.MaxLengthError} : {AppConstants.Name}");
 
             RuleFor(x => x.Color).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Color}")
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.Color}")
                 .MaximumLength(25)
-                .WithMessage($"{ValidatorConstants.MaxLengthError} : {WebApiResourceConstants.Color}");
+                .WithMessage($"{ValidatorConstants.MaxLengthError} : {AppConstants.Color}");
 
 
         }

@@ -216,9 +216,9 @@ namespace MySuperStats.WebApi.Business
                 await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(request.MatchId, request.TeamId, request.UserId);
 
             if (update)
-                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate((int)id, WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate((int)id, AppConstants.MatchIdAndTeamIdAndPlayerId);
             else
-                matchPlayerAndTeamUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchIdAndTeamIdAndPlayerId);
+                matchPlayerAndTeamUniqueResult.CheckUniqueValue(AppConstants.MatchIdAndTeamIdAndPlayerId);
         }
     }
 }

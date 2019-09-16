@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using CustomFramework.Data.Enums;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
@@ -57,14 +58,14 @@ namespace MySuperStats.WebApi.Data.Repositories
             return users;
         }
 
-        // public async Task<IList<Role>> GetRolesAsync(int userId, int matchGroupId)
-        // {
-        //     return await (from ur in _dbContext.Set<UserRole>()
-        //                   join r in _dbContext.Set<Role>() on ur.RoleId equals r.Id
-        //                   where ur.UserId == userId && ur.MatchGroupId == matchGroupId
-        //                   && r.Status == Status.Active
-        //                   select r).ToListAsync();
-        // }
+        public async Task<IList<Role>> GetRolesByUserIdAsync(int userId)
+        {
+            return await (from ur in _dbContext.Set<IdentityUserRole<int>>()
+                          join r in _dbContext.Set<Role>() on ur.RoleId equals r.Id
+                          where ur.UserId == userId
+                          && r.Status == Status.Active
+                          select r).ToListAsync();
+        }
 
         // public void AddUserToRole(UserRole request)
         // {

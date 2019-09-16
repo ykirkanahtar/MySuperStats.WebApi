@@ -21,10 +21,13 @@ namespace MySuperStats.WebApi.Business
         Task<User> GetUserAsync(ClaimsPrincipal ClaimsPrincipal);
         Task<IList<User>> GetAllAsync();
         Task<IList<User>> GetAllByMatchGroupIdAsync(int matchGroupId);
+        Task<IdentityResult> ChangeEmailAsync(int userId, string newEmail, string token);
         Task<IdentityResult> ConfirmEmailAsync(int userId, string code);
         Task ForgotPasswordAsync(PasswordRecoveryRequest request, IUrlHelper url, string requestScheme, string callBackUrl);
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);
-        // Task<Role> GetRoleByUserIdAndMatchGroupIdAsync(int userId, int matchGroupId);
+        Task<Role> GetRoleByUserIdAsync(int userId);
+        Task GenerateTokenForChangeEmailAsync(int id, string newEmail, IUrlHelper url, string requestScheme);
+
         // Task<UserRole> AddUserToRoleAsync(UserRoleRequest request);
         // Task<IList<UserRole>> GetUserRolesByMatchGroupIdAsync(int matchGroupId);
     }

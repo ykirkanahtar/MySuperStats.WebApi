@@ -36,7 +36,7 @@ namespace MySuperStats.WebApi.Business
                 var teamNameUniqueResult =
                     await _uow.Teams.GetByNameAsync(result.Name);
 
-                teamNameUniqueResult.CheckUniqueValue(WebApiResourceConstants.Name);
+                teamNameUniqueResult.CheckUniqueValue(AppConstants.Name);
                 /**************Name is unique*****************/
                 /*********************************************/
 
@@ -58,7 +58,7 @@ namespace MySuperStats.WebApi.Business
                 var teamNameUniqueResult =
                     await _uow.Teams.GetByNameAsync(result.Name);
 
-                teamNameUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.Name);
+                teamNameUniqueResult.CheckUniqueValueForUpdate(result.Id, AppConstants.Name);
                 /**************Name is unique*****************/
                 /*********************************************/
 

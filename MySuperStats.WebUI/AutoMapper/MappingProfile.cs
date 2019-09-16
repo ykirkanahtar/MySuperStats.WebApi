@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
@@ -14,6 +15,7 @@ namespace MySuperStats.WebUI.AutoMapper
             CreateMap<MatchRequest, MatchResponse>();
             CreateMap<TeamRequest, TeamResponse>();
             CreateMap<TeamResponse, TeamRequest>();
+            CreateMap<UserUpdateRequest, UserResponse>();
         }
     }
 }

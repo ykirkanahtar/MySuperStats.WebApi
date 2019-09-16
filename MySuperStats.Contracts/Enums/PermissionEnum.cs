@@ -23,5 +23,7 @@ namespace MySuperStats.Contracts.Enums
         DeleteMatchGroupUser = 19,
         AddUserToRole = 20,
         RemoveUserFromRole = 21,
+        UpdateUser = 22,
+        UpdateEmail = 23,
     }
 }

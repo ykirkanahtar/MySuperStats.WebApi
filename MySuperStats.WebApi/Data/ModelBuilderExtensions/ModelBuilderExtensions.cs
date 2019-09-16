@@ -460,6 +460,14 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                 }
             );
 
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(
+                new IdentityUserRole<int>
+                {
+                    RoleId = 1,
+                    UserId = 1
+                }
+            );
+
             for (var i = 1; i < 16; i++)
             {
                 var matchGroupUser = new MatchGroupUser

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Net;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace MySuperStats.WebApi
 {

@@ -9,8 +9,8 @@ namespace MySuperStats.WebApi.Validators
     {
         public MatchGroupUserCreateValidator()
         {
-            RuleFor(x => x.MatchGroupId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.MatchGroup}");
-            RuleFor(x => x.UserId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.User}");
+            RuleFor(x => x.MatchGroupId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.MatchGroup}");
+            RuleFor(x => x.UserId).GreaterThan(0).WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.User}");
         }
 
     }

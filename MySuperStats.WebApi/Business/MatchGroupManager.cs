@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Utils;
@@ -11,7 +10,6 @@ using MySuperStats.WebApi.Models;
 using MySuperStats.WebApi.Constants;
 using System.Reflection;
 using CustomFramework.WebApiUtils.Enums;
-using System.Collections.Generic;
 using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Business
@@ -38,7 +36,7 @@ namespace MySuperStats.WebApi.Business
                 /**************************************************/
                 var groupNameUniqueResult = await _uow.MatchGroups.GetByGroupNameAsync(result.GroupName);
 
-                groupNameUniqueResult.CheckUniqueValue(WebApiResourceConstants.GroupName);
+                groupNameUniqueResult.CheckUniqueValue(AppConstants.GroupName);
                 /**************GroupName is unique*****************/
                 /**************************************************/
 
@@ -68,7 +66,7 @@ namespace MySuperStats.WebApi.Business
                 /**************************************************/
                 var groupNameUniqueResult = await _uow.MatchGroups.GetByGroupNameAsync(result.GroupName);
 
-                groupNameUniqueResult.CheckUniqueValueForUpdate(result.Id, WebApiResourceConstants.GroupName);
+                groupNameUniqueResult.CheckUniqueValueForUpdate(result.Id, AppConstants.GroupName);
                 /**************GroupName is unique*****************/
                 /**************************************************/
 

@@ -95,12 +95,12 @@ namespace MySuperStats.WebApi.Business
                 await _uow.Matches.GetByMatchDateAndOrderAsync(request.MatchDate, request.Order);
 
             if (update)
-                matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate((int)id, WebApiResourceConstants.MatchDateAndOrder);
+                matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate((int)id, AppConstants.MatchDateAndOrder);
             else
-                matchDateAndOrderUniqueResult.CheckUniqueValue(WebApiResourceConstants.MatchDateAndOrder);
+                matchDateAndOrderUniqueResult.CheckUniqueValue(AppConstants.MatchDateAndOrder);
 
             if (request.HomeTeamId == request.AwayTeamId)
-                request.CheckDuplicatationForUniqueValue(WebApiResourceConstants.Team1AndTeam2);                
+                request.CheckDuplicatationForUniqueValue(AppConstants.Team1AndTeam2);                
         }
     }
 }

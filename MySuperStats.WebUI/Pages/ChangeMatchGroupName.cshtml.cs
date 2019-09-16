@@ -54,17 +54,15 @@ namespace MySuperStats.WebUI.Pages
 
         public async Task<IActionResult> OnPostChangeGroupNameAsync(int id)
         {
-            try
-            {
-                var jsonContent = JsonConvert.SerializeObject(MatchGroupRequest);
-                var putUrl = $"{_appSettings.WebApiUrl}MatchGroup/{id}/update";
-                var response = await _webApiConnector.PutAsync(putUrl, jsonContent, SessionUtil.GetToken(_session));
+            var jsonContent = JsonConvert.SerializeObject(MatchGroupRequest);
+            var putUrl = $"{_appSettings.WebApiUrl}MatchGroup/{id}/update";
+            var response = await _webApiConnector.PutAsync(putUrl, jsonContent, SessionUtil.GetToken(_session));
+            if (response.StatusCode == HttpStatusCode.OK)
                 return Redirect($"../MatchGroupDetail/{id}");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            else
+                ViewData.ModelState.AddModelError("ModelErrors", response.Message);
+
+            return Page();
         }
     }
 }

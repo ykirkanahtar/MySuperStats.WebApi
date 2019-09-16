@@ -10,19 +10,19 @@ namespace MySuperStats.WebApi.Validators
         public MatchValidator()
         {
             RuleFor(x => x.Order).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.Order}");
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.Order}");
 
             RuleFor(x => x.DurationInMinutes).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.DurationInMinutes}");
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.DurationInMinutes}");
 
             RuleFor(x => x.HomeTeamId).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.HomeTeam}");
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.HomeTeam}");
 
             RuleFor(x => x.AwayTeamId).NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.AwayTeam}");
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.AwayTeam}");
 
             RuleFor(x => x.VideoLink).MaximumLength(1000)
-                .WithMessage($"{ValidatorConstants.MaxLengthError} : {WebApiResourceConstants.VideoLink}");
+                .WithMessage($"{ValidatorConstants.MaxLengthError} : {AppConstants.VideoLink}");
 
         }
     }

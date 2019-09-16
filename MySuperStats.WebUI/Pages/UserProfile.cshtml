@@ -1,5 +1,4 @@
 ﻿@page
-@using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.UserProfileModel
 @{
     ViewData["Title"] = "Kullanıcı Bilgileri";
@@ -10,72 +9,51 @@
   <div class="row">
     <!-- left column -->
     <div class="col-md-6">
-      <!-- general form elements -->
       <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Profilim</h3>
+        </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label>Grup İsmi</label>
+              <label for="txtFirstName">İsim</label>
               <p class="text-muted">
-                @(Model.MatchGroupResponse.GroupName)
-              </p>
+                @(Model.UserInfo.FirstName)
+              </p>              
             </div>
+            <div class="form-group">
+              <label for="txtSurname">Soyisim</label>
+              <p class="text-muted">
+                @(Model.UserInfo.Surname)
+              </p> 
+            </div>
+            <div class="form-group">
+              <label for="txtSurname">E-Posta</label>
+              <p class="text-muted">
+                @(Model.UserInfo.Email)
+              </p> 
+            </div>            
+            <div class="form-group">
+              <label for="txtBirthDate">Doğum Tarihi</label>
+              <div class="input-group date">
+                <p class="text-muted">
+                  @(Model.UserInfo.BirthDate.ToShortDateString())
+                </p> 
+              </div>              
+            </div>            
           </div>
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="Grup ismini değiştir"/>
+            <input type="submit" id="btnUpdateProfile" asp-page-handler="UpdateUserProfile"  class="btn btn-primary" value="Profilimi Güncelle"/>            
           </div>
         </form>
       </div>
       <!-- /.box -->
-
     </div>
     <!--/.col (left) -->
-
-    <!-- right column -->
-    <div class="col-md-6">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form method="post">
-          <div class="box-body">
-            <div class="form-group">
-              <table id="basketball_players" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Ad Soyad</th>
-                </tr>
-                </thead>
-                <tbody>
-                   @foreach (var player in Model.Players)
-                    {
-                        <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>Ad Soyad</th>
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-          <!-- /.box-body -->
-
-          <div class="box-footer">
-            <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
-          </div>
-        </form>
-      </div>
-      <!-- /.box -->
-    </div>
-    <!--/.col (right) -->
   </div>
   <!-- /.row -->
 

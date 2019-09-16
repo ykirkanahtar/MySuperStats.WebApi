@@ -22,6 +22,8 @@ namespace MySuperStats.WebUI.Constants
         public const string GetPermissions = "PermissionChecker/haspermission/";
         public const string GetAllMatchGroupUsersByMatchGroupId = "MatchGroupUser/getall/matchgroup/"; //"User/getallwithroles/matchgroupid/";
         public const string MatchGroupUserUpdateRole = "MatchGroupUser/updaterole";
+        public const string UserEmailUpdateRequest = "User/get/email/";
+
 
     }
 }

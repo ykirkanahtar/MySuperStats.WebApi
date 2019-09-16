@@ -122,7 +122,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 throw new ArgumentException($"E-posta doğrulaması sırasında hata oluştu : {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
             }
 
-            return Ok(new ApiResponse(LocalizationService, Logger).Ok("Hesabınız onaylanmıştır"));
+            return Ok("Hesabınız onaylanmıştır");
         }
 
         [AllowAnonymous]

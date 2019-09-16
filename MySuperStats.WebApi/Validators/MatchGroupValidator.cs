@@ -12,9 +12,9 @@ namespace MySuperStats.WebApi.Validators
         {
             RuleFor(x => x.GroupName)
             .NotEmpty()
-                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {WebApiResourceConstants.GroupName}")
+                .WithMessage($"{ValidatorConstants.CannotBeNullError} : {AppConstants.GroupName}")
             .MaximumLength(100)
-                .WithMessage($"{ValidatorConstants.MaxLengthError} : {WebApiResourceConstants.GroupName}");
+                .WithMessage($"{ValidatorConstants.MaxLengthError} : {AppConstants.GroupName}");
 
         }
     }

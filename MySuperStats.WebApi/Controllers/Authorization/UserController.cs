@@ -19,7 +19,10 @@ using CustomFramework.WebApiUtils.Identity.Constants;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Business;
 using MySuperStats.Contracts.Enums;
-using CustomFramework.WebApiUtils.Identity.Business;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using MySuperStats.WebApi.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
@@ -29,21 +32,30 @@ namespace MySuperStats.WebApi.Controllers.Authorization
     {
         private readonly IUserManager _userManager;
         private readonly IPermissionChecker _permissionChecker;
-        private readonly ICustomRoleManager<Role> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserController(ICustomRoleManager<Role> roleManager, IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
+        public UserController(IHttpContextAccessor httpContextAccessor, IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
             : base(localizationService, logger, mapper)
         {
             _userManager = userManager;
             _permissionChecker = permissionChecker;
-            _roleManager = roleManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [Route("{id:int}/update")]
         [HttpPut]
-        [Permission(nameof(SpecialEnums.OnlyAdmin), nameof(BooleanEnum.True))]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserUpdateRequest request)
         {
+            var loggedUserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (loggedUserId != id) //Eğer giriş yapan kullanıcı, farklı kullanıcıya ait bilgileri güncellemek istiyorsa yetkisi kontrol ediliyor
+            {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateUser), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, 0, attributes);
+            }
+
             if (!ModelState.IsValid)
                 throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
 
@@ -69,6 +81,55 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             });
 
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
+        }
+
+        [Route("{id:int}/update/email/request")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateEmailAsync(int id, [FromBody] UserEmailUpdateRequest request)
+        {
+            var loggedUserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (loggedUserId != id) //Eğer giriş yapan kullanıcı, farklı kullanıcıya ait bilgileri güncellemek istiyorsa yetkisi kontrol ediliyor
+            {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.UpdateEmail), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, 0, attributes);
+            }
+
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
+            var result = await CommonOperationAsync<bool>(async () =>
+            {
+                var user = await _userManager.GetByIdAsync(id);
+                if (user == null)
+                    throw new KeyNotFoundException(IdentityStringMessages.User);
+
+                await _userManager.GenerateTokenForChangeEmailAsync(id, request.NewEmail, Url, Request.Scheme);
+                return true;
+            });
+
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+        }
+
+        [Route("update/email/confirm/userId/{userId:int}/newEmail/{email}/code/{code}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateEmailConfirmationAsync(int userId, string email, string code)
+        {
+            var result = await _userManager.ChangeEmailAsync(userId, email, code);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                throw new ArgumentException($"E-posta doğrulaması sırasında hata oluştu : {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
+            }
+
+            return Ok("Yeni E-Posta adresiniz onaylanmıştır");
         }
 
         [Route("delete/{id:int}")]

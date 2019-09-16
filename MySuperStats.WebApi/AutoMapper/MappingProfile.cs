@@ -13,6 +13,7 @@ namespace MySuperStats.WebApi.AutoMapper
 
             CreateMap<User, UserResponse>();
             CreateMap<UserRegisterRequest, User>();
+            CreateMap<UserUpdateRequest, User>();
 
             CreateMap<Role, RoleResponse>();
             CreateMap<RoleRequest, Role>();

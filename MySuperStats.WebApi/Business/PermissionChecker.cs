@@ -16,12 +16,14 @@ namespace MySuperStats.WebApi.Business
         private readonly IPermissionManager _permissionManager;
         private readonly IMatchGroupUserManager _matchGroupUserManager;
         private readonly IMatchManager _matchManager;
+        private readonly IUserManager _userManager;
 
-        public PermissionChecker(IPermissionManager permissionManager, IMatchGroupUserManager matchGroupUserManager, IMatchManager matchManager)
+        public PermissionChecker(IPermissionManager permissionManager, IUserManager userManager, IMatchGroupUserManager matchGroupUserManager, IMatchManager matchManager)
         {
             _permissionManager = permissionManager;
             _matchGroupUserManager = matchGroupUserManager;
             _matchManager = matchManager;
+            _userManager = userManager;
         }
 
         public async Task<bool> HasPermissionAsync(ClaimsPrincipal user, int matchGroupId, IList<PermissionAttribute> permissionAttributes)
@@ -68,12 +70,25 @@ namespace MySuperStats.WebApi.Business
 
         private async Task<bool> HasPermissionAsync(int userId, int matchGroupId, IList<PermissionAttribute> permissionAttributes)
         {
-            var matchGroupUser = await _matchGroupUserManager.GetByMatchGroupIdAndUserIdAsync(matchGroupId, userId);
-            var role = matchGroupUser.Role;
             var rolesNames = new List<string>();
-            rolesNames.Add(role.Name);
-            
-            await _permissionManager.HasPermission(permissionAttributes, rolesNames);
+
+            var userRole = await _userManager.GetRoleByUserIdAsync(userId);
+            if (userRole != null)
+            {
+                rolesNames.Add(userRole.Name);
+            }
+
+            if (matchGroupId > 0)
+            {
+                var matchGroupUser = await _matchGroupUserManager.GetByMatchGroupIdAndUserIdAsync(matchGroupId, userId);
+                rolesNames.Add(matchGroupUser.Role.Name);
+            }
+
+            if (rolesNames.Count > 0)
+                await _permissionManager.HasPermission(permissionAttributes, rolesNames);
+            else
+                throw new UnauthorizedAccessException();
+
             return true;
         }
     }
