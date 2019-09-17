@@ -29,17 +29,17 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
         data: $("#txtEmail").val(),         
         success: function(response, textStatus, xhr){
           if (response == "OK"){
-            $("#errorDiv").hide();
-            $("#successDiv").show();
+            $("#errorDivForEmailUpdate").hide();
+            $("#successDivForEmailUpdate").show();
           }
           else{
-            $("#errorDiv").show();
-            $("#errorMessage").text(response);                  
+            $("#errorDivForEmailUpdate").show();
+            $("#errorMessageForEmailUpdate").text(response);                  
           }
         },
         error: function(XMLHttpRequest, textStatus, error){
-          $("#errorDiv").show();
-          $("#errorMessage").text("Bir hata oluştu.");
+          $("#errorDivForEmailUpdate").show();
+          $("#errorMessageForEmailUpdate").text("Bir hata oluştu.");
         },
         complete: function(){
           $(".overlay").hide();
@@ -119,6 +119,15 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
                 <input type="submit" id="btnUpdateEmailRequest" class="btn btn-primary" 
                 value="E-Posta Adresimi Güncelle"/>
           </div>
+
+          <div class="container">   
+            <div id="successDivForEmailUpdate" class="alert alert-success" style="display:none">
+              <strong>Başarılı!</strong> <span id="successMessageForEmailUpdate">İşlem tamamlandı, onay bağlantısı e-posta adresinize gönderildi.</span>
+            </div>    
+            <div id="errorDivForEmailUpdate" class="alert alert-danger" style="display:none">
+              <strong>Hata Oluştu!</strong> <span id="errorMessageForEmailUpdate">Kayıt güncellenirken bir hata oluştu.</span>
+            </div>
+          </div>          
         </form>
       </div>
       <!-- /.box -->
@@ -130,14 +139,7 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
   </div>
   <!-- /.row -->
 
-  <div class="container">   
-    <div id="successDiv" class="alert alert-success" style="display:none">
-      <strong>Başarılı!</strong> <span id="successMessage">İşlem tamamlandı, onay bağlantısı e-posta adresinize gönderildi.</span>
-    </div>    
-    <div id="errorDiv" class="alert alert-danger" style="display:none">
-      <strong>Hata Oluştu!</strong> <span id="errorMessage">Kayıt güncellenirken bir hata oluştu.</span>
-    </div>
-  </div>
+
 
   <div class="row">
     <div class="col-md-12">

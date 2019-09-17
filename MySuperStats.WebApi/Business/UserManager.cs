@@ -76,11 +76,14 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task GenerateTokenForChangeEmailAsync(int id, string newEmail, IUrlHelper url, string requestScheme)
+        public Task GenerateTokenForChangeEmailAsync(User user, string newEmail, IUrlHelper url, string requestScheme)
         {
             return CommonOperationAsync(async () =>
             {
-                var token = await _userManager.GenerateTokenForChangeEmailAsync(id, newEmail);
+                if (user.Email == newEmail)
+                    throw new ArgumentException("Yeni E-posta adresiniz kayıtlı e-posta adresinizden farklı olmalıdır");
+
+                var token = await _userManager.GenerateTokenForChangeEmailAsync(user, newEmail);
 
                 var codeBytes = Encoding.UTF8.GetBytes(token);
                 var codeEncoded = WebEncoders.Base64UrlEncode(codeBytes);
@@ -88,7 +91,7 @@ namespace MySuperStats.WebApi.Business
                 var callbackUrl = url.Action(
                      action: "UpdateEmailConfirmationAsync",
                      controller: "User",
-                     values: new { userId = id, email = newEmail, code = codeEncoded },
+                     values: new { userId = user.Id, email = newEmail, code = codeEncoded },
                      protocol: requestScheme);
 
                 await _emailSender.SendEmailAsync(

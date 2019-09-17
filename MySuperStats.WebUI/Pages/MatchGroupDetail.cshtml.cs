@@ -8,7 +8,7 @@ using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MySuperStats.Contracts.Requests;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
@@ -21,22 +21,38 @@ namespace MySuperStats.WebUI.Pages
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly IPermissionChecker _permissionChecker;
         public MatchGroupResponse MatchGroupResponse { get; set; }
         public List<UserResponse> Players { get; set; }
 
+        [BindProperty]
+        public bool HasPermissionForChangeGroupName { get; set; }
 
-        public MatchGroupDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        [BindProperty]
+        public bool HasPermissionForAddUser { get; set; }
+
+        public MatchGroupDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
+            _permissionChecker = permissionChecker;
+
             MatchGroupResponse = new MatchGroupResponse();
         }
 
 
         public async Task OnGet(int id)
         {
+            var user = SessionUtil.GetLoggedUser(_session);
+
+            HasPermissionForChangeGroupName =
+                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup);
+
+            HasPermissionForAddUser =
+                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.CreateMatchGroupUser);
+
             await GetMatchGroupDetailAsync(id);
             await GetPlayersOnMatchGroupAsync(id);
         }
@@ -74,6 +90,6 @@ namespace MySuperStats.WebUI.Pages
         public IActionResult OnPostAddUserToMatchGroup(int id)
         {
             return Redirect($"../AddUserToMatchGroup/{id}");
-        }        
+        }
     }
 }

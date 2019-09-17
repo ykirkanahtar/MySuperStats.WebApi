@@ -38,9 +38,12 @@
           </div>
           <!-- /.box-body -->
 
+          @if(Model.HasPermissionForChangeGroupName)
+          {
           <div class="box-footer">
             <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="Grup ismini değiştir"/>
           </div>
+          }
         </form>
       </div>
       <!-- /.box -->
@@ -80,10 +83,12 @@
             </div>
           </div>
           <!-- /.box-body -->
-
-          <div class="box-footer">
-            <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
-          </div>
+          @if(Model.HasPermissionForAddUser)
+          {
+              <div class="box-footer">
+                <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
+              </div>
+          }
         </form>
       </div>
       <!-- /.box -->

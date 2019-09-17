@@ -106,7 +106,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 if (user == null)
                     throw new KeyNotFoundException(IdentityStringMessages.User);
 
-                await _userManager.GenerateTokenForChangeEmailAsync(id, request.NewEmail, Url, Request.Scheme);
+                await _userManager.GenerateTokenForChangeEmailAsync(user, request.NewEmail, Url, Request.Scheme);
                 return true;
             });
 

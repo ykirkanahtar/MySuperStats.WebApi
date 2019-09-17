@@ -9,6 +9,7 @@ using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
@@ -22,18 +23,30 @@ namespace MySuperStats.WebUI.Pages
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly IPermissionChecker _permissionChecker;
 
         [BindProperty]
         [Required]
         [EmailAddress]
         public string EmailAddress { get; set; }
 
-        public AddUserToMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public AddUserToMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
+            _permissionChecker = permissionChecker;
+        }
+
+        public async Task OnGet(int id)
+        {
+            var user = SessionUtil.GetLoggedUser(_session);
+
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup) == false)
+            {
+                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+            }
         }
 
         public async Task<IActionResult> OnPostAddUserToMatchGroup(int id)

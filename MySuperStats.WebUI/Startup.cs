@@ -33,6 +33,8 @@ namespace MySuperStats.WebUI
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<IPermissionChecker, PermissionChecker>();
+
             services.AddScoped(sp => sp.GetService<IHttpContextAccessor>().HttpContext.Session);
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -43,35 +45,6 @@ namespace MySuperStats.WebUI
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            // services.AddIdentity<AppUser, AppRole>(config =>
-            //     {
-            //         config.SignIn.RequireConfirmedEmail = true;
-            //     })
-            //     .AddDefaultUI(UIFramework.Bootstrap4)
-            //     .AddEntityFrameworkStores<ApplicationDbContext>()
-            //     .AddDefaultTokenProviders();
-
-            // services.Configure<IdentityOptions>(options =>
-            // {
-            //     // Password settings.
-            //     options.Password.RequireDigit = true;
-            //     options.Password.RequireLowercase = true;
-            //     options.Password.RequireNonAlphanumeric = false;
-            //     options.Password.RequireUppercase = true;
-            //     options.Password.RequiredLength = 6;
-            //     options.Password.RequiredUniqueChars = 0;
-
-            //     // Lockout settings.
-            //     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //     options.Lockout.MaxFailedAccessAttempts = 5;
-            //     options.Lockout.AllowedForNewUsers = true;
-
-            //     // User settings.
-            //     options.User.AllowedUserNameCharacters =
-            //         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            //     options.User.RequireUniqueEmail = false;
-            // });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -112,9 +85,9 @@ namespace MySuperStats.WebUI
         {
             if (env.IsDevelopment())
             {
-                //app.UseExceptionHandler("/Error");
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseExceptionHandler("/Error");
+                //app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {

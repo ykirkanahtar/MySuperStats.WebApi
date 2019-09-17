@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
@@ -26,7 +27,8 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly IPermissionChecker _permissionChecker;
 
 
         [BindProperty]
@@ -59,13 +61,14 @@ namespace MySuperStats.WebUI.Pages
         public bool IsModalVisible { get; set; }
 
 
-        public StatisticEntryModel(IHttpContextAccessor httpContextAccessor, ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper)
+        public StatisticEntryModel(IHttpContextAccessor httpContextAccessor, ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, IPermissionChecker permissionChecker)
         {
             _httpContextAccessor = httpContextAccessor;
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
             _mapper = mapper;
+            _permissionChecker = permissionChecker;
 
             StatRequest = new BasketballStatRequest();
             StatResponse = new BasketballStatResponse();
@@ -94,6 +97,14 @@ namespace MySuperStats.WebUI.Pages
 
         public void OnGet(int id)
         {
+            var user = SessionUtil.GetLoggedUser(_session);
+
+            if (_permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.CreateBasketballStat).Result == false)
+            {
+                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+            }
+
+
             //route id değeri constructor'dan alınamadığı için session'a kaydedildi
             _httpContextAccessor.HttpContext.Session.SetString($"LastMatchGroupIdForStatisticEntry", id.ToString());
 

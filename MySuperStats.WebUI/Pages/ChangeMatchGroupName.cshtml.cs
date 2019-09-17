@@ -7,6 +7,7 @@ using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
@@ -20,35 +21,39 @@ namespace MySuperStats.WebUI.Pages
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly IPermissionChecker _permissionChecker;
+
 
         [BindProperty]
         public MatchGroupRequest MatchGroupRequest { get; set; }
 
-        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
+            _permissionChecker = permissionChecker;
+
             MatchGroupRequest = new MatchGroupRequest();
         }
 
 
         public async Task OnGet(int id)
         {
-            try
+            var user = SessionUtil.GetLoggedUser(_session);
+
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup) == false)
             {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
-                var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
-                    MatchGroupRequest.GroupName = matchGroupResponse.GroupName;
-                }
+                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
             }
-            catch (Exception ex)
+
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
+            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                throw new Exception(ex.Message);
+                var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
+                MatchGroupRequest.GroupName = matchGroupResponse.GroupName;
             }
         }
 

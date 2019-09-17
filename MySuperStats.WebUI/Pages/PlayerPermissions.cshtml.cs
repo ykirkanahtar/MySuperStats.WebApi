@@ -24,7 +24,8 @@ namespace MySuperStats.WebUI.Pages
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly IPermissionChecker _permissionChecker;
         public List<MatchGroupUserResponse> MatchGroupUsers { get; set; }
 
 
@@ -37,12 +38,24 @@ namespace MySuperStats.WebUI.Pages
             public string role { get; set; }
         }
 
-        public PlayerPermissionsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public PlayerPermissionsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
+            _permissionChecker = permissionChecker;
+
             MatchGroupUsers = new List<MatchGroupUserResponse>();
+        }
+
+        public async Task OnGetAsync(int id)
+        {
+            var user = SessionUtil.GetLoggedUser(_session);
+
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.AddUserToRole) == false)
+            {
+                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+            }
         }
 
         public JsonResult OnGetLoggedUserId()
@@ -95,7 +108,7 @@ namespace MySuperStats.WebUI.Pages
             {
                 return new JsonResult(HttpStatusCode.OK.ToString());
             }
-            else if(response.StatusCode == HttpStatusCode.BadRequest)
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 return new JsonResult(response.Message);
             }
