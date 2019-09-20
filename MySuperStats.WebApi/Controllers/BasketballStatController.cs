@@ -5,16 +5,17 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
-using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using MySuperStats.Contracts.Enums;
+using System;
+using CustomFramework.WebApiUtils.Utils.Exceptions;
 
 namespace MySuperStats.WebApi.Controllers
 {
@@ -52,6 +53,9 @@ namespace MySuperStats.WebApi.Controllers
                  };
                 await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
 
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
                 var result = await Manager.CreateMultiStats(request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
             });
@@ -59,7 +63,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        public Task<IActionResult> UpdateName(int id, [FromBody] BasketballStatRequest request)
+        public Task<IActionResult> Update(int id, [FromBody] BasketballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
@@ -67,6 +71,9 @@ namespace MySuperStats.WebApi.Controllers
                     new PermissionAttribute(nameof(PermissionEnum.UpdateBasketballStat), nameof(BooleanEnum.True))
                  };
                 await _permissionChecker.HasPermissionByMatchIdAsync(User, attributes, request.MatchId);
+
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
 
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<BasketballStat, BasketballStatResponse>(result)));

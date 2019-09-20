@@ -8,7 +8,7 @@ using CustomFramework.WebApiUtils.Contracts;
 using CustomFramework.WebApiUtils.Identity.Business;
 using CustomFramework.WebApiUtils.Identity.Constants;
 using CustomFramework.WebApiUtils.Identity.Controllers;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using CustomFramework.WebApiUtils.Utils.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

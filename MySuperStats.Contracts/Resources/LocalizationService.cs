@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using CustomFramework.WebApiUtils.Resources;
 using Microsoft.Extensions.Localization;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 
-namespace MySuperStats.WebApi.Resources
+namespace MySuperStats.Contracts.Resources
 {
     public class LocalizationService : ILocalizationService
     {

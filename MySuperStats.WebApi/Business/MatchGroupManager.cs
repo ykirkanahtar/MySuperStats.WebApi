@@ -36,7 +36,7 @@ namespace MySuperStats.WebApi.Business
                 /**************************************************/
                 var groupNameUniqueResult = await _uow.MatchGroups.GetByGroupNameAsync(result.GroupName);
 
-                groupNameUniqueResult.CheckUniqueValue(AppConstants.GroupName);
+                groupNameUniqueResult.CheckUniqueValue(nameof(request.GroupName));
                 /**************GroupName is unique*****************/
                 /**************************************************/
 
@@ -66,7 +66,7 @@ namespace MySuperStats.WebApi.Business
                 /**************************************************/
                 var groupNameUniqueResult = await _uow.MatchGroups.GetByGroupNameAsync(result.GroupName);
 
-                groupNameUniqueResult.CheckUniqueValueForUpdate(result.Id, AppConstants.GroupName);
+                groupNameUniqueResult.CheckUniqueValueForUpdate(result.Id, nameof(result.GroupName));
                 /**************GroupName is unique*****************/
                 /**************************************************/
 

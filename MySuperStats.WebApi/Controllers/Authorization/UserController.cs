@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MySuperStats.WebApi.ApplicationSettings;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CS.Common.EmailProvider;

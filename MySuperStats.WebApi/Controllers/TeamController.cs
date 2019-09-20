@@ -11,10 +11,12 @@ using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Enums;
+using System;
+using CustomFramework.WebApiUtils.Utils.Exceptions;
 
 namespace MySuperStats.WebApi.Controllers
 {
@@ -42,6 +44,9 @@ namespace MySuperStats.WebApi.Controllers
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Team, TeamResponse>(result)));
             });

@@ -6,7 +6,7 @@ namespace MySuperStats.WebApi.Models
 {
     public class Team : BaseModel<int>
     {
-        public string Name { get; set; }
+        public string TeamName { get; set; }
         public string Color { get; set; }
 
         [JsonIgnore]

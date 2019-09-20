@@ -6,11 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="CustomFramework.Utils" Version="1.3.5" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.2.0" />
     <PackageReference Include="system.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Identity.Contracts\CustomFramework.WebApiUtils.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Contracts\CustomFramework.WebApiUtils.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

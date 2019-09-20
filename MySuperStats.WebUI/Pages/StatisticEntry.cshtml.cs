@@ -87,12 +87,12 @@ namespace MySuperStats.WebUI.Pages
 
         private TeamResponse GetHomeTeam()
         {
-            return new TeamResponse { Id = 1, Name = "1.Takım" };
+            return new TeamResponse { Id = 1, TeamName = "1.Takım" };
         }
 
         private TeamResponse GetAwayTeam()
         {
-            return new TeamResponse { Id = 2, Name = "2.Takım" };
+            return new TeamResponse { Id = 2, TeamName = "2.Takım" };
         }
 
         public void OnGet(int id)
@@ -118,7 +118,7 @@ namespace MySuperStats.WebUI.Pages
                               new SelectListItem
                               {
                                   Value = a.Id.ToString(),
-                                  Text = a.Name
+                                  Text = a.TeamName
                               }).OrderBy(a => a.Text).ToList();
 
             MatchRequest.MatchDate = DateTime.Now.AddDays(-1);

@@ -8,8 +8,6 @@ using CustomFramework.Data.Extensions;
 using CustomFramework.WebApiUtils.Extensions;
 using CustomFramework.WebApiUtils.Identity.Data;
 using CustomFramework.WebApiUtils.Identity.Extensions;
-using CustomFramework.WebApiUtils.Resources;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -23,17 +21,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Data.Repositories;
 using MySuperStats.WebApi.Models;
-using MySuperStats.WebApi.Resources;
-using MySuperStats.WebApi.Validators;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CustomFramework.WebApiUtils.Contracts.Resources;
+using MySuperStats.Contracts.Resources;
 
 namespace MySuperStats.WebApi
 {
@@ -129,15 +124,6 @@ namespace MySuperStats.WebApi
             services.AddTransient<IUserRepository, UserRepository>();
             /*********Repositories*********/
 
-            /*********Validators*********/
-            services.AddTransient<IValidator<MatchRequest>, MatchValidator>();
-            services.AddTransient<IValidator<TeamRequest>, TeamValidator>();
-            services.AddTransient<IValidator<BasketballStatRequest>, BasketballStatValidator>();
-            services.AddTransient<IValidator<MatchGroupRequest>, MatchGroupValidator>();
-            services.AddTransient<IValidator<MatchGroupUserCreateRequest>, MatchGroupUserCreateValidator>();
-            services.AddTransient<IValidator<MatchGroupTeamRequest>, MatchGroupTeamValidator>();
-            services.AddTransient<IValidator<FootballStatRequest>, FootballStatValidator>();
-            /*********Validators*********/
 
             /*********Managers*********/
             services.AddTransient<IMatchManager, MatchManager>();

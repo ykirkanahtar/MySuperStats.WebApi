@@ -491,7 +491,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                 new Team
                 {
                     Id = 1,
-                    Name = "Home",
+                    TeamName = "Home",
                     Color = "Green",
                     CreateDateTime = new DateTime(2018, 3, 29),
                     CreateUserId = 1,
@@ -503,7 +503,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                 new Team
                 {
                     Id = 2,
-                    Name = "Away",
+                    TeamName = "Away",
                     Color = "White",
                     CreateDateTime = new DateTime(2018, 3, 29),
                     CreateUserId = 1,

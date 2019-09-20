@@ -4,7 +4,7 @@ using AutoMapper;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomFramework.WebApiUtils.Controllers;

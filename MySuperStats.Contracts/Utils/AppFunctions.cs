@@ -6,6 +6,7 @@ using MySuperStats.Contracts.Responses;
 
 namespace MySuperStats.Contracts.Utils
 {
+
     public static class AppFunctions
     {
         public static List<MatchResult> GetMatchResultByMatchAndUserId(this ICollection<BasketballStatResponse> userStats)

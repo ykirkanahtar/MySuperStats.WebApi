@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="CustomFramework.WebApiUtils" Version="1.2.5" />
-    <PackageReference Include="CustomFramework.WebApiUtils.Contracts" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -23,6 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MySuperStats.Contracts\MySuperStats.Contracts.csproj" />
     <ProjectReference Include="..\..\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils\CustomFramework.WebApiUtils.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Contracts\CustomFramework.WebApiUtils.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,24 @@
 using System;
+using System.Globalization;
 using AutoMapper;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Internal;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using MySuperStats.Contracts.Resources;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.AutoMapper;
 using MySuperStats.WebUI.Middlewares;
@@ -34,6 +43,7 @@ namespace MySuperStats.WebUI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IPermissionChecker, PermissionChecker>();
+            services.AddTransient<ILocalizationService, LocalizationService>();
 
             services.AddScoped(sp => sp.GetService<IHttpContextAccessor>().HttpContext.Session);
 
@@ -68,7 +78,36 @@ namespace MySuperStats.WebUI
             services.AddSession();
             services.AddAutoMapper();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddFolderRouteModelConvention("/", model =>
+                {
+                    foreach (var selector in model.Selectors)
+                    {
+                        selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{lang=tr}", selector.AttributeRouteModel.Template);
+                    }
+                });
+            })
+            .AddViewLocalization(o => o.ResourcesPath = "Resources")
+            .AddDataAnnotationsLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var defaultCulture = new CultureInfo("tr");
+                var supportedCultures = new CultureInfo[] { defaultCulture, new CultureInfo("en") };
+
+                options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+
+                options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider()
+                {
+                    RouteDataStringKey = "lang",
+                    UIRouteDataStringKey = "lang",
+                    Options = options
+                });
+            });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
@@ -96,6 +135,31 @@ namespace MySuperStats.WebUI
                 app.UseHsts();
             }
 
+            //Localization için
+            var routeBuilder = new RouteBuilder(app)
+            {
+                DefaultHandler = app.ApplicationServices.GetRequiredService<MvcRouteHandler>(),
+            };
+            routeBuilder.Routes.Insert(0, AttributeRouting.CreateAttributeMegaRoute(app.ApplicationServices));
+            var router = routeBuilder.Build();
+
+            app.Use(async (context, next) =>
+            {
+                var routeContext = new RouteContext(context);
+                await router.RouteAsync(routeContext);
+
+                context.Features[typeof(IRoutingFeature)] = new RoutingFeature()
+                {
+                    RouteData = routeContext.RouteData
+                };
+
+                await next();
+            });
+
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+            //Localization için
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -105,12 +169,7 @@ namespace MySuperStats.WebUI
 
             app.UseSessionMiddleware();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                name: "default",
-                template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }

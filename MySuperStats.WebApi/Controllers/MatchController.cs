@@ -10,10 +10,12 @@ using CustomFramework.Authorization.Attributes;
 using CustomFramework.Authorization.Enums;
 using CustomFramework.WebApiUtils.Identity.Controllers;
 using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Resources;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Enums;
+using System;
+using CustomFramework.WebApiUtils.Utils.Exceptions;
 
 namespace MySuperStats.WebApi.Controllers
 {
@@ -42,7 +44,7 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("{id:int}/update")]
         [HttpPut]
-        public Task<IActionResult> UpdateName(int id, [FromBody] MatchRequest request)
+        public Task<IActionResult> Update(int id, [FromBody] MatchRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
@@ -51,6 +53,9 @@ namespace MySuperStats.WebApi.Controllers
                  };
                 await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
 
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
                 var result = await Manager.UpdateAsync(id, request);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Match, MatchResponse>(result)));
             });
@@ -58,7 +63,6 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("delete/{id:int}")]
         [HttpDelete]
-        [Permission(nameof(PermissionEnum.DeleteMatch), nameof(BooleanEnum.True))]
         public async Task<IActionResult> Delete(int id)
         {
             var attributes = new List<PermissionAttribute> {

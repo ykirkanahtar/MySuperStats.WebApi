@@ -1,6 +1,11 @@
 ﻿@page "{id:int}"
 @using MySuperStats.WebUI.Pages
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @model MySuperStats.WebUI.Pages.PlayerDetailModel
+
+@inject ILocalizationService localizer
+
 @{
     ViewData["Title"] = $"{Model.PlayerStats.FirstName} {Model.PlayerStats.Surname}";
 }
@@ -24,7 +29,7 @@
         <div class="col-md-12">
             <h2>@ViewData["Title"]</h2>
 
-            <label>Doğum Tarihi : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
+            <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
             <br />
             <br />
         </div>
@@ -45,7 +50,7 @@
               <table id="total_stats" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>1 Sayı</th>
+                    <th>@(localizer.GetValue("OnePoint"))</th>
                     <th>2 Sayı</th>
                     <th>Ribaunt</th>
                     <th>Kapma</th>
@@ -231,7 +236,7 @@
                       <tr>
                           <td><a asp-page="MatchDetail" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
                           <td>@(match.Order)</td>
-                          <td>@(stat.Team.Name)</td>
+                          <td>@(stat.Team.TeamName)</td>
                           <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
                           <td>@(statForUI.OnePoint)</td>
                           <td>@(statForUI.TwoPoint)</td>

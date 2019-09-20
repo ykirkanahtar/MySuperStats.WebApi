@@ -13,11 +13,20 @@ $(document).ready(function() {
       return id;
   }
 
+   function getLanguageFromURL() {
+      var urlArray = window.location.href.split('/');
+      var language = urlArray[urlArray.length - 2];
+      return language;
+  }  
+
+  var language = getLanguageFromURL();
   var g_id = getIdFromURL();
   var loggedUserId = 0;
+  var pageUrl = "/PlayerPermissions/" + language + "/"  + g_id;
+
 
   $.ajax({
-        url: "/PlayerPermissions/"+ g_id + "?handler=LoggedUserId",
+        url: pageUrl + "?handler=LoggedUserId",
         dataType: "json", 
         type: "GET",
         async: false,
@@ -123,7 +132,7 @@ $(document).ready(function() {
 
           $.ajax({
               type: "POST",
-              url: "/PlayerPermissions/"+ g_id + "?handler=FromGrid",
+              url: pageUrl + "?handler=FromGrid",
               beforeSend: function (xhr) {
                   xhr.setRequestHeader("XSRF-TOKEN",
                       $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -158,7 +167,7 @@ $(document).ready(function() {
       //alert("Row " + row.getData().id + " Clicked!!!!");
     },
   });
-  table.setData("/PlayerPermissions/"+ g_id + "?handler=Roles");
+  table.setData(pageUrl + "?handler=Roles");
   table.setLocale("tr-TR");
 
 } );

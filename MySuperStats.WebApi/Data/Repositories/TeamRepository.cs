@@ -21,7 +21,7 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         public async Task<Team> GetByNameAsync(string name)
         {
-            return await GetAll(predicate: p => EF.Functions.Like(p.Name.ToLower(), $"{name.ToLower()}%")).FirstOrDefaultAsync();
+            return await GetAll(predicate: p => EF.Functions.Like(p.TeamName.ToLower(), $"{name.ToLower()}%")).FirstOrDefaultAsync();
         }
 
         public async Task<IList<Team>> GetAllAsync()

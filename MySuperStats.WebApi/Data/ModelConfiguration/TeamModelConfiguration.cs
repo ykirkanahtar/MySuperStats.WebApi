@@ -10,7 +10,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
         {
             base.Configure(builder);
 
-            builder.Property(p => p.Name)
+            builder.Property(p => p.TeamName)
                 .IsRequired()
                 .HasMaxLength(25);
 
@@ -18,7 +18,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .IsRequired()
                 .HasMaxLength(25);
 
-            builder.HasIndex(p => p.Name);
+            builder.HasIndex(p => p.TeamName);
         }
     }
 }
