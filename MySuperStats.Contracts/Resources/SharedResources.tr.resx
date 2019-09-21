@@ -413,6 +413,9 @@
   <data name="VideoLink" xml:space="preserve">
     <value>Video bağlantısı</value>
   </data>   
+  <data name="{0} field is required" xml:space="preserve">
+    <value>{0} zorunludur</value>
+  </data>     
   <!-- Classes and fields-->
 
 

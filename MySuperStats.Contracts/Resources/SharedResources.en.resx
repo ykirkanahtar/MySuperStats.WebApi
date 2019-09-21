@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Errors and Success-->
+  <data name="AccessViolationError" xml:space="preserve">
+    <value>Bu kayıt şu alanlar için kullanımdadır</value>
+  </data>  
+  <data name="An exception has been raised that is likely due to a transient failure." xml:space="preserve">
+    <value>Veritabanı bağlantı hatası</value>
+  </data>  
+  <data name="An exception has been raised that is likely due to a transient failure.-- The operation has timed out." xml:space="preserve">
+    <value>Veritabanı bağlantı hatası. Sunucudan yanıt alınamadı.</value>
+  </data>    
+  <data name="AnErrorHasOccured" xml:space="preserve">
+    <value>Bir hata oluştu</value>
+  </data> 
+  <data name="AnUnkonwnErrorHasOccured" xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu</value>
+  </data>
+  <data name="ArgumentExceptionError" xml:space="preserve">
+    <value>Veri doğrulama hatası</value>
+  </data>     
+  <data name="AuthenticationError" xml:space="preserve">
+    <value>Kullanıcı adı/E-posta ya da parola hatalı</value>
+  </data>  
+  <data name="ClientApplicationLoginError" xml:space="preserve">
+    <value>Uygulama kimlik doğrulama hatası</value>
+  </data>
+  <data name="DbConnectionError" xml:space="preserve">
+    <value>Veritabanı bağlantı hatası</value>
+  </data>    
+  <data name="DuplicateRecordForUniqueValueError" xml:space="preserve">
+    <value>Tekil olan alan için çoklu kayıt hatası</value>
+  </data>
+  <data name="LoginError" xml:space="preserve">
+    <value>Kimlik doğrulama hatası</value>
+  </data>  
+  <data name="ModelStateErrors" xml:space="preserve">
+    <value>Bazı alanlarda hata oluştu. Hata mesajı detaylarına bakınız.</value>
+  </data>  
+  <data name="NewTokenRequestError" xml:space="preserve">
+    <value>Farklı bir yerden oturumunuz açıldı</value>
+  </data>  
+  <data name="NotFoundError" xml:space="preserve">
+    <value>Bu değere ait bir kayıt bulunamadı</value>
+  </data>  
+  <data name="RecordExistsError" xml:space="preserve">
+    <value>Bu değere ait bir kayıt daha önceden kayıt edilmiştir</value>
+  </data>  
+  <data name="Success" xml:space="preserve">
+    <value>İşlem başarıyla tamamlandı</value>
+  </data>  
+  <data name="The operation has timed out." xml:space="preserve">
+    <value>Sunucudan yanıt alınamadı.</value>
+  </data>    
+  <data name="UnauthorizedAccessError" xml:space="preserve">
+    <value>Bu erişim için yetki bulunmamakta</value>
+  </data>
+  <!-- Errors and Success-->
+
+  <!-- Annotation Errors -->
+  <data name="RequiredError" xml:space="preserve">
+    <value>alanı zorunludur.</value>
+  </data>
+  <data name="GroupName RequiredError" xml:space="preserve">
+    <value>bla bla zorunludur.</value>
+  </data>  
+  <data name="FieldLengthError" xml:space="preserve">
+    <value>alanı uzunluğu şu aralıklarda olmalıdır</value>
+  </data>
+  <data name="MinMaxValueError" xml:space="preserve">
+    <value>Bu alan şu değerler arasında olmalıdır</value>
+  </data>  
+  <data name="MinValueError" xml:space="preserve">
+    <value>alanının en düşük alabileceği değer</value>
+  </data>    
+  <!-- Annotation Errors -->
+
+  <!--Identity -->
+  <data name="ClientApplication" xml:space="preserve">
+    <value>istemci uygulaması</value>
+  </data>
+  <data name="ClientApplicationName" xml:space="preserve">
+    <value>istemci uygulama ismi</value>
+  </data>
+  <data name="ClientApplicationCode" xml:space="preserve">
+    <value>istemci uygulama kodu</value>
+  </data>
+  <data name="ClientApplicationPassword" xml:space="preserve">
+    <value>istemci uygulama parolası</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>adı</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>parola</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>rol</value>
+  </data>
+  <data name="Surname" xml:space="preserve">
+    <value>soyadı</value>
+  </data>
+  <data name="Token" xml:space="preserve">
+    <value>token</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>kullanıcı</value>
+  </data>
+  <data name="UserLoginLog" xml:space="preserve">
+    <value>kullanıcı giriş logları</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>kullanıcı adı</value>
+  </data>
+  <data name="AnErrorHasOccuredWhileChangingPassword" xml:space="preserve">
+    <value>Parole yenileme sırasında bir hata oluştu</value>
+  </data>
+  <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
+    <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
+  </data>
+  <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
+    <value>Parola yenilemek için kod gerekmektedir</value>
+  </data>
+  <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
+    <value>Yeni parola ile eski aynı olamaz</value>
+  </data>
+  <data name="OrEnterTheCodeToTheForm" xml:space="preserve">
+    <value>Ya da kodu ilgili forma giriniz.</value>
+  </data>
+  <data name="PasswordAndConfirmPasswordDoesntMatch" xml:space="preserve">
+    <value>Yeni parola ile onay parolası uyumlu değil</value>
+  </data>
+  <data name="PleaseConfirmYourRegistration" xml:space="preserve">
+    <value>Lütfen kaydınızı onaylayınız</value>
+  </data>
+  <data name="ThePasswordCreatedBySystem" xml:space="preserve">
+    <value>Sistem tarafından üretilen parola</value>
+  </data>
+  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
+    <value>Aynı anda veriye erişim hatası oluştu. Nesne değiştirilmiş.</value>
+  </data>  
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu.</value>
+  </data>    
+  <data name="Email {0} is already taken." xml:space="preserve">
+    <value>{0} e-posta adresi daha önceden alınmış.</value>
+  </data>    
+  <data name="Role name {0} is already taken." xml:space="preserve">
+    <value>{0} rol adı daha önceden alınmış.</value>
+  </data>  
+  <data name="User Name {0} is already taken." xml:space="preserve">
+    <value>{0} kullanıcı adı daha önceden alınmış.</value>
+  </data>    
+  <data name="Email {0} is invalid." xml:space="preserve">
+    <value>{0} e-posta adresi geçersiz.</value>
+  </data>     
+  <data name="Role name {0} is invalid." xml:space="preserve">
+    <value>{0} rol adı geçersiz.</value>
+  </data>    
+  <data name="Invalid token." xml:space="preserve">
+    <value>Geçersiz token</value>
+  </data>   
+  <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
+  </data>      
+  <data name="A user with this login already exists." xml:space="preserve">
+    <value>Bu kullanıcı girişine ait bir kullanıcı bulunmakta.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Hatalı parola</value>
+  </data>   
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Parola en az 1 rakam içermelidir ('0'-'9').</value>
+  </data>     
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>Parola en az 1 adet küçük harfli karakter içermelidir ('a'-'z').</value>
+  </data>      
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Parola en az 1 adet alfanümerik karakter içermelidir.</value>
+  </data>    
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Parola en az 1 adet büyük harf içermelidir ('A'-'Z').</value>
+  </data>     
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>Parola en az {0} uzunluğunda olmalıdır.</value>
+  </data>  
+  <data name="User already has a password set." xml:space="preserve">
+    <value>Bu kullanıcıya daha önceden parola atanmış.</value>
+  </data>     
+  <data name="User already in role {0}." xml:space="preserve">
+    <value>Kullanıcı daha önce {0} rolüne atanmış.</value>
+  </data>     
+  <data name="Lockout is not enabled for this user." xml:space="preserve">
+    <value>Kullanıcı kilitleme özelliği bu kullanıcı için aktif değil.</value>
+  </data>       
+  <data name="User is not in role {0}." xml:space="preserve">
+    <value>Kullanıcı {0} rolüne ait değil.</value>
+  </data>    
+  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
+    <value>Yeni parolanız en az 6, en fazla 20 karakter uzunluğunda olabilir.</value>
+  </data>  
+  <!--Identity -->
+
+  <!-- Classes and fields-->
+  <data name="Assist" xml:space="preserve">
+    <value>Asist</value>
+  </data>  
+  <data name="AwayTeam" xml:space="preserve">
+    <value>Deplasman takımı</value>
+  </data>      
+  <data name="BasketballStat" xml:space="preserve">
+    <value>Basketbol İstatistikleri</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>Birth Date</value>
+  </data>   
+  <data name="ConcedeGoal" xml:space="preserve">
+    <value>Yediği gol</value>
+  </data>    
+  <data name="DurationInMinutes" xml:space="preserve">
+    <value>Karşılaşma süresi(dk)</value>
+  </data>    
+  <data name="FootballStat" xml:space="preserve">
+    <value>Futbol İstatistikleri</value>
+  </data>  
+  <data name="Goal" xml:space="preserve">
+    <value>Gol</value>
+  </data>   
+  <data name="GroupName" xml:space="preserve">
+    <value>Karşılaşma grubu adı</value>
+  </data>   
+  <data name="HomeTeam" xml:space="preserve">
+    <value>Ev sahibi takım</value>
+  </data>     
+  <data name="Interrupt" xml:space="preserve">
+    <value>Top kesme</value>
+  </data>   
+  <data name="LooseBall" xml:space="preserve">
+    <value>Top kaybı</value>
+  </data>    
+  <data name="Match" xml:space="preserve">
+    <value>Karşılaşma</value>
+  </data>  
+  <data name="MatchDate" xml:space="preserve">
+    <value>Karşılaşma Tarihi</value>
+  </data>    
+  <data name="MatchGroup" xml:space="preserve">
+    <value>Karşılaşma Grubu</value>
+  </data>  
+  <data name="MatchGroupUser" xml:space="preserve">
+    <value>Karşılaşma Grubu Üyesi</value>
+  </data>  
+  <data name="MissedPenalty" xml:space="preserve">
+    <value>Kaçan penaltı</value>
+  </data>   
+  <data name="MissingOnePoint" xml:space="preserve">
+    <value>Kaçan bir sayı</value>
+  </data>   
+  <data name="MissingTwoPoint" xml:space="preserve">
+    <value>Kaçan iki sayı</value>
+  </data>         
+  <data name="Order" xml:space="preserve">
+    <value>Sıra</value>
+  </data>    
+  <data name="OnePoint" xml:space="preserve">
+    <value>Bir sayı</value>
+  </data>      
+  <data name="OwnGoal" xml:space="preserve">
+    <value>Kendi kalesine gol</value>
+  </data>   
+  <data name="PenaltyScore" xml:space="preserve">
+    <value>Penaltı golü</value>
+  </data>     
+  <data name="Rebound" xml:space="preserve">
+    <value>Rebound</value>
+  </data>
+  <data name="SaveGoal" xml:space="preserve">
+    <value>Kurtarış</value>
+  </data>          
+  <data name="StealBall" xml:space="preserve">
+    <value>Top çalma</value>
+  </data>   
+  <data name="Team" xml:space="preserve">
+    <value>Takım</value>
+  </data>  
+  <data name="TeamName" xml:space="preserve">
+    <value>Takım adı</value>
+  </data>    
+  <data name="TwoPoint" xml:space="preserve">
+    <value>İki sayı</value>
+  </data>   
+  <data name="VideoLink" xml:space="preserve">
+    <value>Video bağlantısı</value>
+  </data>   
+  <data name="{0} field is required" xml:space="preserve">
+    <value>{0} is required</value>
+  </data>     
+  <!-- Classes and fields-->
+
+
+</root>

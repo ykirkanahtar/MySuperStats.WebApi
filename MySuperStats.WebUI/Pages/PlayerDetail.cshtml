@@ -8,7 +8,10 @@
 
 @{
     ViewData["Title"] = $"{Model.PlayerStats.FirstName} {Model.PlayerStats.Surname}";
+    var cultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+
 }
+
 <script>
   $(function () {
     $('#players_matches').DataTable({
@@ -28,7 +31,7 @@
     <div class="row-fluid">
         <div class="col-md-12">
             <h2>@ViewData["Title"]</h2>
-
+            <label>Culture : @(cultureInfo)</label> 
             <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
             <br />
             <br />

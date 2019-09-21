@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Reflection;
 using AutoMapper;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using MySuperStats.Contracts.Resources;
 using MySuperStats.WebUI.ApplicationSettings;
@@ -78,7 +80,18 @@ namespace MySuperStats.WebUI
             services.AddSession();
             services.AddAutoMapper();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+            services.AddMvc()
+            .SetCompatibilityVersion(CompatibilityVersion.Latest)
+            .AddViewLocalization(o => o.ResourcesPath = "Resources")
+            .AddModelBindingMessagesLocalizer(services)
+            .AddDataAnnotationsLocalization(o =>
+            {
+                var type = typeof(SharedResources);
+                var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+                var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                var localizer = factory.Create("SharedResources", assemblyName.Name);
+                o.DataAnnotationLocalizerProvider = (t, f) => localizer;
+            })
             .AddRazorPagesOptions(options =>
             {
                 options.Conventions.AddFolderRouteModelConvention("/", model =>
@@ -88,14 +101,16 @@ namespace MySuperStats.WebUI
                         selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{lang=tr}", selector.AttributeRouteModel.Template);
                     }
                 });
-            })
-            .AddViewLocalization(o => o.ResourcesPath = "Resources")
-            .AddDataAnnotationsLocalization();
+            });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var defaultCulture = new CultureInfo("tr");
-                var supportedCultures = new CultureInfo[] { defaultCulture, new CultureInfo("en") };
+                var supportedCultures = new CultureInfo[]
+                {
+                    defaultCulture
+                    , new CultureInfo("en")
+                };
 
                 options.DefaultRequestCulture = new RequestCulture(defaultCulture);
                 options.SupportedCultures = supportedCultures;
@@ -169,7 +184,7 @@ namespace MySuperStats.WebUI
 
             app.UseSessionMiddleware();
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
