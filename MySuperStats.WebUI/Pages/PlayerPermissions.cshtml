@@ -7,23 +7,11 @@
 <script>
 $(document).ready(function() {
 
-
-   function getIdFromURL() {
-      var urlArray = window.location.href.split('/');
-      var id = urlArray[urlArray.length - 1];
-      return id;
-  }
-
-   function getLanguageFromURL() {
-      var urlArray = window.location.href.split('/');
-      var language = urlArray[urlArray.length - 3];
-      return language;
-  }  
-  var language = getLanguageFromURL();
+  var culture = getCultureFromURL();
   var g_id = getIdFromURL();
   var loggedUserId = 0;
 
-  var pageUrl = "/" + language + "/PlayerPermissions/" + g_id;
+  var pageUrl = "/" + culture + "/PlayerPermissions/" + g_id;
 
   $.ajax({
         url: pageUrl + "?handler=LoggedUserId",
@@ -61,6 +49,7 @@ $(document).ready(function() {
 
   var roles = ['GroupAdmin', 'Editor', 'Player'];
 
+
   //create Tabulator on DOM element with id "example-table"
   var table = new Tabulator("#user-role-table", {
     height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
@@ -70,37 +59,7 @@ $(document).ready(function() {
     ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 15,
     locale: true,
-    langs: {
-              "tr-TR":{
-                  "columns":{
-                      "name":"İsim", //replace the title of column name with the value "Name"
-                  },
-                  "ajax":{
-                      "loading":"Yükleniyor..", //ajax loader text
-                      "error":"Hata!", //ajax error text
-                  },
-                  "groups":{ //copy for the auto generated item count in group header
-                      "item":"eleman", //the singular  for item
-                      "items":"elemanlar", //the plural for items
-                  },
-                  "pagination":{
-                      "first":"İlk", //text for the first page button
-                      "first_title":"İlk Sayfa", //tooltip text for the first page button
-                      "last":"Son",
-                      "last_title":"Son Sayfa",
-                      "prev":"Önceki",
-                      "prev_title":"Önceki Sayfa",
-                      "next":"Sonraki",
-                      "next_title":"Sonraki Sayfa",
-                  },
-                  "headerFilters":{
-                      "default":"sütun filtresi...", //default header filter placeholder text
-                      "columns":{
-                          "name":"filter name...", //replace default header filter text for column name
-                      }
-                  }
-              }
-          }, 
+    langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
       {title:"roleid", field:"roleid", visible:false},
@@ -168,7 +127,7 @@ $(document).ready(function() {
     },
   });
   table.setData(pageUrl + "?handler=Roles");
-  table.setLocale("tr-TR");
+  table.setLocale(culture);
 
 } );
 

@@ -14,23 +14,11 @@ $(document).ready(function() {
       orientation: "bottom auto"
   });
 
-  function getIdFromURL() {
-      var urlArray = window.location.href.split('/');
-      var id = urlArray[urlArray.length - 1];
-      return id;
-  }
-
-   function getLanguageFromURL() {
-      var urlArray = window.location.href.split('/');
-      var language = urlArray[urlArray.length - 3];
-      return language;
-  }  
-
-  var language = getLanguageFromURL();
+  var culture = getCultureFromURL();
 
   var g_id = getIdFromURL();
   var loggedUserId = 0;
-  var pageUrl = "/" + language + "/BasketballStatsEntry/" + g_id;
+  var pageUrl = "/" + culture + "/BasketballStatsEntry/" + g_id;
 
 
   function UserStats(userid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt){
@@ -88,8 +76,6 @@ $(document).ready(function() {
 
   //toggle cell value on click
   var tickToggle = function(e, cell, value, data){
-    alert('burada');
-    alert(value);
     cell.trigger("editval", !value);
   }
 
@@ -103,6 +89,7 @@ $(document).ready(function() {
     ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 15,
     locale: true,
+    langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
       {title:"Ad-Soyad", field:"name"},
@@ -123,7 +110,7 @@ $(document).ready(function() {
     },
   });
   table1.setData(pageUrl + "?handler=Players");
-  table1.setLocale("tr");
+  table1.setLocale(culture);
 
   var table2 = new Tabulator("#second-team-players", {
     height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
@@ -135,6 +122,7 @@ $(document).ready(function() {
     ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 15,
     locale: true,
+    langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
       {title:"Ad-Soyad", field:"name"},
@@ -155,7 +143,7 @@ $(document).ready(function() {
     },
   });
   table2.setData(pageUrl + "?handler=Players");
-  table2.setLocale("tr");
+  table2.setLocale(culture);
 
 
   var table3 = new Tabulator("#first-team-stats", {
@@ -167,6 +155,7 @@ $(document).ready(function() {
     ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 6,
     locale: true,
+    langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
       {title:"Ad-Soyad", field:"name"},
@@ -188,6 +177,7 @@ $(document).ready(function() {
         $("#firstTeamScore").text(onePointTotal + (twoPointTotal*2));
      },        
   });    
+ table3.setLocale(culture);
 
   var table4 = new Tabulator("#second-team-stats", {
     height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
@@ -198,6 +188,7 @@ $(document).ready(function() {
     ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 6,
     locale: true,
+    langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
       {title:"Ad-Soyad", field:"name"},
@@ -219,6 +210,7 @@ $(document).ready(function() {
         $("#secondTeamScore").text(onePointTotal + (twoPointTotal*2));
      },       
   });    
+  table4.setLocale(culture);
 
   $("#btnBackToMatchDetails").click( function(e)
   {
