@@ -10,7 +10,7 @@ namespace MySuperStats.WebApi.Business
     public interface IBasketballStatManager : IBusinessManager<BasketballStat, BasketballStatRequest, int>
     , IBusinessManagerUpdate<BasketballStat, BasketballStatRequest, int>
     {
-        Task<int> CreateMultiStats(MatchRequest request);
+        Task<int> CreateMultiStats(CreateMatchRequestWithMultiBasketballStats request);
         Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
         Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId);
         Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId);

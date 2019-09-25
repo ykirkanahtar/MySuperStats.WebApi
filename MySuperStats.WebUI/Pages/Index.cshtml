@@ -3,6 +3,7 @@
 @model MySuperStats.WebUI.Pages.IndexModel
 @{
     ViewData["Title"] = "İstatistiklerim";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
   $(function () {
@@ -244,7 +245,7 @@
                       var match = stat.Match;
                       var statForUI = stat.GetStatsForUI();
                       <tr>
-                          <td><a asp-page="MatchDetail" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
+                          <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
                           <td>@(match.Order)</td>
                           <td>@(stat.Team.TeamName)</td>
                           <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>

@@ -16,7 +16,6 @@ using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
 using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace MySuperStats.WebUI.Pages
 {

@@ -3,6 +3,7 @@
 @model MySuperStats.WebUI.Pages.MatchGroupDetailModel
 @{
     ViewData["Title"] = "Karşılaşma Grubu Bilgileri";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
 <script>
@@ -70,7 +71,7 @@
                    @foreach (var player in Model.Players)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
                         </tr>
                     }
                 </tbody>

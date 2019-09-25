@@ -3,6 +3,7 @@
 @model MySuperStats.WebUI.Pages.PlayersModel
 @{
     ViewData["Title"] = "Oyuncular";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
   $(function () {
@@ -37,7 +38,7 @@
                    @foreach (var player in Model.Players)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
                         </tr>
                     }
                 </tbody>

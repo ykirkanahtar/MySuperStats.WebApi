@@ -14,6 +14,10 @@
 @inject ISession session
 @inject AppSettings appSettings
 
+@{ 
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,7 +121,7 @@
 
   <header class="main-header" style="position: fixed; width: 100%; ">
     <!-- Logo -->
-     <a asp-page="/Index" class="logo">
+     <a asp-page="/Index" asp-route-culture="@culture" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>M</b>SS</span>
       <!-- logo for regular state and mobile devices -->
@@ -132,7 +136,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-
+      <partial name="_LanguagePartial"/>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- User Account: style can be found in dropdown.less -->
@@ -153,7 +157,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a asp-page="/UserProfile" class="btn btn-default btn-flat">Profilim</a>
+                  <a asp-page="/UserProfile" asp-route-culture="@culture" class="btn btn-default btn-flat">Profilim</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Çıkış</a>
@@ -223,39 +227,39 @@
                   </a>
                   <ul class="treeview-menu" id="@group.Id">  
                       <li>
-                          <a id="@group.Id" asp-page="/MatchGroupDetail" asp-route-id="@group.Id">
+                          <a id="@group.Id" asp-page="/MatchGroupDetail" asp-route-culture="@culture" asp-route-id="@group.Id">
                               <i class="fa fa-group"></i>
                               Grup Bilgileri
                           </a>
                       </li>   
                       <li>
-                        <a id="@group.Id" class="a-match-group" asp-page="/Matches" asp-route-id="@group.Id">
+                        <a id="@group.Id" class="a-match-group" asp-page="/Matches" asp-route-culture="@culture" asp-route-id="@group.Id">
                           <i class="fa fa-trophy"></i> <span>Karşılaşmalar</span>
                         </a>
                       </li>
                       <li>
-                        <a id="@group.Id" class="a-match-group" asp-page="/Players" asp-route-id="@group.Id">
+                        <a id="@group.Id" class="a-match-group" asp-page="/Players" asp-route-culture="@culture" asp-route-id="@group.Id">
                           <i class="fa fa-male"></i> <span>Oyuncular</span>
                         </a>
                       </li> 
                       <li>
-                        <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-id="@group.Id">
+                        <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-culture="@culture" asp-route-id="@group.Id">
                           <i class="fa fa-table"></i> <span>Genel İstatistikler</span>
                         </a>
                       </li>   
                       @{
                         if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateBasketballStat.ToString()) == true) 
-                        {
+                        { 
                           <li>
-                            <a id="@group.Id" class="a-match-group" asp-page="/StatisticEntry" asp-route-id="@group.Id">
+                            <a id="@group.Id" class="a-match-group" asp-page="/BasketballStatsEntry" asp-route-culture="@culture" asp-route-id="@group.Id">
                               <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
                             </a>
-                          </li>     
+                          </li>                               
                         }
                         if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.AddUserToRole.ToString()) == true) 
                         {
                           <li>
-                            <a id="@group.Id" class="a-match-group" asp-page="/PlayerPermissions" asp-route-id="@group.Id">
+                            <a id="@group.Id" class="a-match-group" asp-page="/PlayerPermissions" asp-route-culture="@culture" asp-route-id="@group.Id">
                               <i class="fa fa-check-circle"></i> <span>Kullanıcı Yetkileri</span>
                             </a>
                           </li>     
@@ -275,13 +279,13 @@
             </a>
             <ul class="treeview-menu">
                 <li>
-                    <a id="-1" asp-page="/NewMatchGroup">
+                    <a id="-1" asp-route-culture="@culture" asp-page="/NewMatchGroup">
                         <i class="fa fa-plus"></i>
                         Yeni Grup Oluştur
                     </a>
                 </li>
                 <li>
-                    <a id="-1" asp-page="/UserProfile">
+                    <a id="-1" asp-route-culture="@culture" asp-page="/UserProfile">
                         <i class="fa fa-user"></i>
                         Profilim
                     </a>

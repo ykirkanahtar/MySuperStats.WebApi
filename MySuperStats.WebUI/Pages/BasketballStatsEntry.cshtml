@@ -1,0 +1,559 @@
+﻿@page "{id:int}"
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.BasketballStatsEntryModel
+@{
+    ViewData["Title"] = "İstatistik Girişi";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<script>
+$(document).ready(function() {
+
+  $('.input-group.date').datepicker({
+      todayBtn: "linked",
+      language: "tr",
+      orientation: "bottom auto"
+  });
+
+  function getIdFromURL() {
+      var urlArray = window.location.href.split('/');
+      var id = urlArray[urlArray.length - 1];
+      return id;
+  }
+
+   function getLanguageFromURL() {
+      var urlArray = window.location.href.split('/');
+      var language = urlArray[urlArray.length - 3];
+      return language;
+  }  
+
+  var language = getLanguageFromURL();
+
+  var g_id = getIdFromURL();
+  var loggedUserId = 0;
+  var pageUrl = "/" + language + "/BasketballStatsEntry/" + g_id;
+
+
+  function UserStats(userid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt){
+      this.userid = userid;
+      this.name = name;
+      this.teamId = teamid;
+      this.onepoint = onepoint;
+      this.twopoint = twopoint;
+      this.missingonepoint = missingonepoint;
+      this.missingtwopoint = missingtwopoint;
+      this.rebound = rebound;
+      this.stealball = stealball;
+      this.looseball = looseball;
+      this.assist = assist;
+      this.interrupt = interrupt;
+  }
+
+  function MatchStats(matchdate, order,durationinminutes, videolink, firstteamstats, secondteamstats){
+      this.matchdate = matchdate;
+      this.order = order;
+      this.durationinminutes = durationinminutes;
+      this.videolink = videolink;
+      this.firstteamstats = firstteamstats;
+      this.secondteamstats = secondteamstats;
+  }  
+
+  var firstTeam = [];
+  var secondTeam = [];
+
+  var firstTeamStats = [];
+  var secondTeamStats = [];
+
+  function addToArray(array, userid, name){
+    var u = new UserStats(userid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    array.push(u);
+  }
+
+  function addToStats(array, userid, teamId, onepoint, twopoint, missingonepoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt){
+    var u = new UserStats(userid, name,teamId, onepoint, twopoint, missingtwopoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt);
+    array.push(u);
+  }  
+
+  function addToArray(array, userid, name){
+      var u = new UserStats(userid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      array.push(u);
+    }
+
+  function findAndRemoveElementFromArray(array, userid){
+      for (i = 0; i < array.length; i++){
+          if(array[i].userid == userid){
+              array.splice(i, 1);
+          }
+      }
+  }
+
+  //toggle cell value on click
+  var tickToggle = function(e, cell, value, data){
+    alert('burada');
+    alert(value);
+    cell.trigger("editval", !value);
+  }
+
+  var table1 = new Tabulator("#first-team-players", {
+    height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts
+    pagination : "local",
+    ajaxLoader: true,
+    index: "userid",
+    ajaxLoaderLoading: "Veriler Yükleniyor..",
+    paginationSize: 15,
+    locale: true,
+    columns:[ //Define Table Columns
+      {title:"userid", field:"userid", visible:false},
+      {title:"Ad-Soyad", field:"name"},
+      {title:"Takıma Ekle", field:"haschecked", formatter:"tickCross",onClick:tickToggle},
+    ],      
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+      //alert("Row " + row.getData().id + " Clicked!!!!");
+      var userid = row.getData().userid;
+      var name = row.getData().name;
+      var hasChecked = !row.getData().haschecked;
+      table1.updateData([{userid:userid, name:name, haschecked: hasChecked}]); 
+      if(hasChecked){
+        addToArray(firstTeam, userid, name);
+      }
+      else{
+        findAndRemoveElementFromArray(firstTeam, userid);
+      }
+    },
+  });
+  table1.setData(pageUrl + "?handler=Players");
+  table1.setLocale("tr");
+
+  var table2 = new Tabulator("#second-team-players", {
+    height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts
+    pagination : "local",
+    ajaxLoader: true,
+    index: "userid",
+    ajaxLoaderLoading: "Veriler Yükleniyor..",
+    paginationSize: 15,
+    locale: true,
+    columns:[ //Define Table Columns
+      {title:"userid", field:"userid", visible:false},
+      {title:"Ad-Soyad", field:"name"},
+      {title:"Takıma Ekle", field:"haschecked", formatter:"tickCross",onClick:tickToggle},
+    ],      
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+      //alert("Row " + row.getData().id + " Clicked!!!!");
+      var userid = row.getData().userid;
+      var name = row.getData().name;
+      var hasChecked = !row.getData().haschecked;
+      table2.updateData([{userid:userid, name:name, haschecked: hasChecked}]); 
+      if(hasChecked){
+        addToArray(secondTeam, userid, name);
+      }      
+      else{
+        findAndRemoveElementFromArray(secondTeam, userid);
+      }
+    },
+  });
+  table2.setData(pageUrl + "?handler=Players");
+  table2.setLocale("tr");
+
+
+  var table3 = new Tabulator("#first-team-stats", {
+    height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts    
+    pagination : "local",
+    ajaxLoader: true,
+    ajaxLoaderLoading: "Veriler Yükleniyor..",
+    paginationSize: 6,
+    locale: true,
+    columns:[ //Define Table Columns
+      {title:"userid", field:"userid", visible:false},
+      {title:"Ad-Soyad", field:"name"},
+      {title:"1 Sayı", field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"2 Sayı", field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
+      {title:"Kaçan 1 Sayı", field:"missingonepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Kaçan 2 Sayı", field:"missingtwopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Rebound", field:"rebound", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Çalma", field:"stealball", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Kaybı", field:"looseball", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Asist", field:"assist", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Kesme", field:"interrupt", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+    ],    
+    cellEdited: function(cell) {
+        
+        var results = table3.getCalcResults();
+        var onePointTotal = results.bottom.onepoint;
+        var twoPointTotal = results.bottom.twopoint;
+        $("#firstTeamScore").text(onePointTotal + (twoPointTotal*2));
+     },        
+  });    
+
+  var table4 = new Tabulator("#second-team-stats", {
+    height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts    
+    pagination : "local",
+    ajaxLoader: true,
+    ajaxLoaderLoading: "Veriler Yükleniyor..",
+    paginationSize: 6,
+    locale: true,
+    columns:[ //Define Table Columns
+      {title:"userid", field:"userid", visible:false},
+      {title:"Ad-Soyad", field:"name"},
+      {title:"1 Sayı", field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"2 Sayı", field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
+      {title:"Kaçan 1 Sayı", field:"missingonepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Kaçan 2 Sayı", field:"missingtwopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Rebound", field:"rebound", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Çalma", field:"stealball", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Kaybı", field:"looseball", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Asist", field:"assist", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title:"Top Kesme", field:"interrupt", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+    ],      
+    cellEdited: function(cell) {
+        
+        var results = table4.getCalcResults();
+        var onePointTotal = results.bottom.onepoint;
+        var twoPointTotal = results.bottom.twopoint;
+        $("#secondTeamScore").text(onePointTotal + (twoPointTotal*2));
+     },       
+  });    
+
+  $("#btnBackToMatchDetails").click( function(e)
+  {
+      $('#divCreateTeams').hide();
+      $("#txtMatchDate").prop('disabled', false);
+      $("#txtOrder").prop('disabled', false);
+      $("#txtDurationInMinutes").prop('disabled', false);
+      $("#txtVideoLink").prop('disabled', false);
+      $("#btnEntryStats").prop('disabled', false);
+      e.preventDefault();
+  });
+
+  $("#btnEntryStats").click(function(e)
+  {                      
+    var orderValidation = $('#txtOrder').valid();
+    var durationValidation = $('#txtDurationInMinutes').valid();
+    var videoLinkValidation = $('#txtVideoLink').valid();
+    if(orderValidation && durationValidation && videoLinkValidation){
+        $('#divCreateTeams').show();
+        $("#txtMatchDate").prop('disabled', true);
+        $("#txtOrder").prop('disabled', true);
+        $("#txtDurationInMinutes").prop('disabled', true);
+        $("#txtVideoLink").prop('disabled', true);
+        $("#btnEntryStats").prop('disabled', true);
+    }
+    e.preventDefault();
+  }); 
+
+  $("#btnSetTeamPlayers").click( function(e)
+  {
+    if(firstTeam.length == 0 || secondTeam.length == 0){
+        $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+        $("#errorMessage").text("Lütfen her iki takımdan da oyuncu seçiniz.");
+        e.preventDefault();
+        return;
+    }
+    table3.setData(firstTeam);
+    table4.setData(secondTeam);
+    $("#divCreateTeams").hide();
+    $("#divTeamStats").show();
+    e.preventDefault();
+  });  
+
+  $("#btnBackToCreateTeams").click( function(e)
+  {
+      $("#divTeamStats").hide();    
+      $("#divCreateTeams").show();
+      e.preventDefault();
+  });  
+
+  $("#btnSendStats").click(function(e)
+  {                   
+    var firstTeamGridDatas = table3.getData();
+    var secondTeamGridDatas = table4.getData();   
+
+      for (i = 0; i < firstTeamGridDatas.length; i++){
+        addToStats(
+          firstTeamStats
+        , firstTeamGridDatas[i].userid
+        , 1
+        , firstTeamGridDatas[i].onepoint
+        , firstTeamGridDatas[i].twopoint
+        , firstTeamGridDatas[i].missingtwopoint
+        , firstTeamGridDatas[i].missingtwopoint
+        , firstTeamGridDatas[i].rebound
+        , firstTeamGridDatas[i].stealball
+        , firstTeamGridDatas[i].looseball
+        , firstTeamGridDatas[i].assist
+        , firstTeamGridDatas[i].interrupt
+        );
+      }      
+
+      for (i = 0; i < secondTeamGridDatas.length; i++){
+        addToStats(
+          secondTeamStats
+        , secondTeamGridDatas[i].userid
+        , 2
+        , secondTeamGridDatas[i].onepoint
+        , secondTeamGridDatas[i].twopoint
+        , secondTeamGridDatas[i].missingtwopoint
+        , secondTeamGridDatas[i].missingtwopoint
+        , secondTeamGridDatas[i].rebound
+        , secondTeamGridDatas[i].stealball
+        , secondTeamGridDatas[i].looseball
+        , secondTeamGridDatas[i].assist
+        , secondTeamGridDatas[i].interrupt
+        );
+      }        
+
+      var matchDate = $("#txtMatchDate").val();    
+
+      var order = $("#txtOrder").val();
+      var durationInMinutes = $("#txtDurationInMinutes").val();
+      var videoLink = $("#txtVideoLink").val();
+
+      var matchStats = new MatchStats(matchDate, order,durationInMinutes, videoLink, firstTeamStats, secondTeamStats);
+
+
+      $.ajax({
+          type: "POST",
+          url: pageUrl + "?handler=FromGrid",
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader("XSRF-TOKEN",
+                  $('input:hidden[name="__RequestVerificationToken"]').val());
+                  $(".overlay").show();
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({  
+              MatchDate: matchDate
+              , Order: order
+              , DurationInMinutes: durationInMinutes
+              , VideoLink: videoLink
+              , FirstTeamStats: firstTeamStats
+              , SecondTeamStats: secondTeamStats
+          }),     
+          success: function(response, textStatus, xhr){
+            if (response.startsWith("OK-")){
+              $("#btnSendStats").attr("disabled", "disabled");
+              var redirectUrl = response.slice(3);
+              window.location.href = redirectUrl;
+            }
+            else{
+              $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
+              $("#errorMessage").text(response);                  
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, error){
+            $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#errorMessage").text("Bir hata oluştu." + error);
+          },
+          complete: function(){
+            $(".overlay").hide();
+          }
+      });
+
+    e.preventDefault();
+  });   
+
+});
+
+</script>
+
+<!-- Main content -->
+<style>
+    .row {
+        display: table;
+        width: 100%;
+    }
+
+    .row [class*="col-"] {
+        float: none;
+        display: table-cell;
+        vertical-align: top;
+    }
+</style>
+<section class="content">
+ 
+  <form method="post">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Maç Bilgileri</h3>
+          </div>
+
+          <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">                  
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtMatchDate">Tarih</label>
+                      <div class="input-group date">
+                        <input id="txtMatchDate" type="text" class="form-control" asp-for="Model.MatchRequest.MatchDate" placeholder="Maç tarihini giriniz">
+                        <span class="input-group-addon">
+                          <i class="glyphicon glyphicon-th"></i>
+                        </span>
+                      </div>              
+                      <span asp-validation-for="Model.MatchRequest.MatchDate" class="text-danger"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtOrder">Sıra</label>
+                      <input id="txtOrder" asp-for="Model.MatchRequest.Order" class="form-control" placeholder="Maç sırasını giriniz"/>
+                      <span asp-validation-for="Model.MatchRequest.Order" class="text-danger"></span>                        
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtDurationInMinutes">Maç Süresi (dk)</label>
+                      <input id="txtDurationInMinutes" asp-for="Model.MatchRequest.DurationInMinutes" class="form-control" placeholder="Maç süresini giriniz"/>
+                      <span asp-validation-for="Model.MatchRequest.DurationInMinutes" class="text-danger"></span>                        
+                    </div>
+                  </div>                      
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtVideoLink">Video Bağlantısı</label>
+                      <input id="txtVideoLink" asp-for="Model.MatchRequest.VideoLink" type="text" class="form-control" placeholder="Video bağlantı adresini giriniz"/>
+                      <span asp-validation-for="Model.MatchRequest.VideoLink" class="text-danger"></span>                        
+                    </div>   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group" style="padding-top:20px">
+                        <input type="submit" id="btnEntryStats" class="btn btn-primary" value="Takımları Seç"/>                   
+                    </div>   
+                  </div>                  
+                </div>    
+                <!-- row -->
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div id="divCreateTeams" style="display:none">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-5">
+            <!-- general form elements -->
+            <div class="box box-primary">
+              <!-- /.box-header -->
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>İlk takım oyuncularını seçiniz</label>
+                    <div id="first-team-players"> </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+          </div>
+          <!--/.col (left) -->
+
+          <!-- middle column -->
+          <div class="col-md-5">
+            <!-- general form elements -->
+            <div class="box box-primary">
+              <!-- /.box-header -->
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>İkinci takım oyuncularını seçiniz</label>              
+                      <div id="second-team-players"> </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!--/.col (middle) -->
+
+          <!-- right column -->
+          <div class="col-md-2" style="vertical-align: middle;">
+              <input type="submit" id="btnBackToMatchDetails" class="btn btn-primary" value="Geri Dön" style="width:150px"/>
+              <br>
+              <br>
+              <input type="submit" id="btnSetTeamPlayers" class="btn btn-primary" value="Takımları Oluştur" style="width:150px"/>
+          </div>
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.createTeams -->
+
+    <div id="divTeamStats" style="display:none">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label>İlk takım:</label><span id="firstTeamScore"></span>
+                      <div id="first-team-stats"> </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!--/.col -->
+          </div>
+          <!--/.row -->
+
+        <div class="row">
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label>İkinci takım:</label><span id="secondTeamScore"></span>                  
+                      <div id="second-team-stats"> </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!--/.col -->
+          </div>
+          <!--/.row -->      
+        </div>
+        <div class="col-md-2" style="vertical-align: middle;">
+              <input type="submit" id="btnBackToCreateTeams" class="btn btn-primary" value="Geri Dön" style="width:150px"/>
+              <br>
+              <br>          
+            <input type="submit" id="btnSendStats" class="btn btn-primary" value="İstatistikleri Kaydet" style="width:150px"/>
+        </div>
+      </div>          
+    </div>
+    <!-- /.team-stats -->
+
+      <div class="container">
+        <div id="successDiv" class="alert alert-success" style="display:none">
+          <strong>Başarılı!</strong> <span id="successMessage">Kayıt başarı ile güncellenmiştir.</span>
+        </div>
+        <div id="warningDiv" class="alert alert-warning" style="display:none">
+          <strong>Uyarı!</strong> <span id="warningMessage">This alert box could indicate a warning that might need attention.</span>
+        </div>        
+        <div id="errorDiv" class="alert alert-danger" style="display:none">
+          <strong>Hata Oluştu!</strong> <span id="errorMessage">Kayıt güncellenirken bir hata oluştu.</span>
+        </div>
+      </div>
+
+  </form>
+
+</section>
+<!-- /.content -->

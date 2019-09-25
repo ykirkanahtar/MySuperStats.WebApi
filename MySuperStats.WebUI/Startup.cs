@@ -64,8 +64,8 @@ namespace MySuperStats.WebUI
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login/tr";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied/tr";
                 options.SlidingExpiration = true;
             });
 
@@ -98,9 +98,24 @@ namespace MySuperStats.WebUI
                 {
                     foreach (var selector in model.Selectors)
                     {
-                        selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{lang=tr}", selector.AttributeRouteModel.Template);
+                        selector.AttributeRouteModel = new AttributeRouteModel
+                        {
+                            Order = -1,
+                            Template = AttributeRouteModel.CombineTemplates(
+                                "{culture=tr}",
+                                selector.AttributeRouteModel.Template),
+                        };
                     }
                 });
+
+                // options.Conventions.AddFolderRouteModelConvention("/", model =>
+                // {
+                //     foreach (var selector in model.Selectors)
+                //     {
+                //         selector.AttributeRouteModel.Order = -1;
+                //         selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{lang=en}", selector.AttributeRouteModel.Template);
+                //     }
+                // });
             });
 
             services.Configure<RequestLocalizationOptions>(options =>
@@ -118,8 +133,8 @@ namespace MySuperStats.WebUI
 
                 options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider()
                 {
-                    RouteDataStringKey = "lang",
-                    UIRouteDataStringKey = "lang",
+                    RouteDataStringKey = "culture",
+                    UIRouteDataStringKey = "culture",
                     Options = options
                 });
             });

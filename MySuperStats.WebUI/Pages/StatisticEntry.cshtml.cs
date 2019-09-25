@@ -173,9 +173,7 @@ namespace MySuperStats.WebUI.Pages
                 if (!(PlayerId > 0)) throw new ValidationException("Oyuncu seçmediniz");
                 if (StatRequest.CheckNegativeValue().Count > 0) throw new Exception("İstatistik değerleri negatif sayı olamaz");
 
-                MatchRequest.HomeTeam = Mapper.Map<TeamRequest>(GetHomeTeam());
                 MatchRequest.HomeTeamId = GetHomeTeam().Id;
-                MatchRequest.AwayTeam = Mapper.Map<TeamRequest>(GetAwayTeam());
                 MatchRequest.AwayTeamId = GetAwayTeam().Id;
 
                 StatRequest.TeamId = TeamId;

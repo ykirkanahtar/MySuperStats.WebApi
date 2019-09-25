@@ -3,6 +3,7 @@
 @model MySuperStats.WebUI.Pages.TopStatsModel
 @{
     ViewData["Title"] = "İstatistikler";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
   $(function () {
@@ -35,7 +36,7 @@
                     @foreach (var stat in Model.StatisticTable.Points)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -55,7 +56,7 @@
                     @foreach (var stat in Model.StatisticTable.PointPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -75,7 +76,7 @@
                     @foreach (var stat in Model.StatisticTable.OnePoint)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -95,7 +96,7 @@
                     @foreach (var stat in Model.StatisticTable.TwoPoint)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -115,7 +116,7 @@
                     @foreach (var stat in Model.StatisticTable.OnePointPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -135,7 +136,7 @@
                     @foreach (var stat in Model.StatisticTable.TwoPointPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -155,7 +156,7 @@
                     @foreach (var stat in Model.StatisticTable.OnePointRatio)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>% @(Math.Round(stat.Value, 2))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -175,7 +176,7 @@
                     @foreach (var stat in Model.StatisticTable.TwoPointRatio)
                     {
                     <tr>
-                        <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                        <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                         <td>% @(Math.Round(stat.Value, 2))</td>
                         <td>@(stat.GameCount)</td>
                     </tr>
@@ -195,7 +196,7 @@
                     @foreach (var stat in Model.StatisticTable.Rebounds)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -215,7 +216,7 @@
                     @foreach (var stat in Model.StatisticTable.ReboundPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -235,7 +236,7 @@
                     @foreach (var stat in Model.StatisticTable.Steals)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -255,7 +256,7 @@
                     @foreach (var stat in Model.StatisticTable.StealsPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -275,7 +276,7 @@
                     @foreach (var stat in Model.StatisticTable.Turnovers)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -295,7 +296,7 @@
                     @foreach (var stat in Model.StatisticTable.TurnoversPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -315,7 +316,7 @@
                     @foreach (var stat in Model.StatisticTable.Assist)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -335,7 +336,7 @@
                     @foreach (var stat in Model.StatisticTable.AssistPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -355,7 +356,7 @@
                     @foreach (var stat in Model.StatisticTable.Interrupts)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -375,7 +376,7 @@
                     @foreach (var stat in Model.StatisticTable.InterruptPerMatch)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(stat.Value)</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -395,7 +396,7 @@
                     @foreach (var stat in Model.StatisticTable.Wins)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -416,7 +417,7 @@
                     @foreach (var stat in Model.StatisticTable.Looses)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>@(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -437,7 +438,7 @@
                     @foreach (var stat in Model.StatisticTable.WinRatio)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>% @(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>
@@ -458,7 +459,7 @@
                     @foreach (var stat in Model.StatisticTable.LooseRatio)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.UserNameSurname)</a></td>
                             <td>% @(Math.Round(stat.Value))</td>
                             <td>@(stat.GameCount)</td>
                         </tr>

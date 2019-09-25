@@ -5,6 +5,7 @@
 @model MySuperStats.WebUI.Pages.StatisticEntryModel
 @{
     ViewData["Title"] = "İstatistik Girişi";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
     <!-- Main content -->
     <section class="content">
@@ -306,7 +307,7 @@
                             var statForUI = playerStat.GetStatsForUI();
                             var player = playerStat.User;
                             <tr>
-                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-id="@player.Id">@(player.FirstName) @(player.Surname)</a></td>
+                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@(player.FirstName) @(player.Surname)</a></td>
                                 <td>@(statForUI.OnePoint)</td>
                                 <td>@(statForUI.TwoPoint)</td>
                                 <td>@(statForUI.TotalPoint)</td>

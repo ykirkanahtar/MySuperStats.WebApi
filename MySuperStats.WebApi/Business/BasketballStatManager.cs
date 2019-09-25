@@ -31,7 +31,8 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                var result = await CreateUniqueStatAsync(request);
+                var basketballStat = Mapper.Map<BasketballStat>(request);
+                var result = await CreateUniqueStatAsync(basketballStat);
 
                 await UpdateMatchScores(request.MatchId);
 
@@ -39,39 +40,32 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        private async Task<BasketballStat> CreateUniqueStatAsync(BasketballStatRequest request)
+        private async Task<BasketballStat> CreateUniqueStatAsync(BasketballStat basketballStat)
         {
-            var basketballStat = Mapper.Map<BasketballStat>(request);
-            await CheckValuesAsync(request);
+            await CheckValuesAsync(basketballStat);
             _uow.BasketballStats.Add(basketballStat, GetLoggedInUserId());
             await _uow.SaveChangesAsync();
             return basketballStat;
         }
 
-        private async Task CreateTeamStatsAsync(ICollection<BasketballStatRequest> teamStats, int matchId)
+        private async Task CreateTeamStatsAsync(ICollection<BasketballStatRequestForMultiEntry> teamStats, int matchId)
         {
             foreach (var homeTeamStat in teamStats)
             {
-                var basketballStatRequest = Mapper.Map<BasketballStatRequest>(homeTeamStat);
+                var basketballStatRequest = Mapper.Map<BasketballStat>(homeTeamStat);
                 basketballStatRequest.MatchId = matchId;
                 await CreateUniqueStatAsync(basketballStatRequest);
             }
         }
 
-        public Task<int> CreateMultiStats(MatchRequest request)
+        public Task<int> CreateMultiStats(CreateMatchRequestWithMultiBasketballStats request)
         {
             return CommonOperationAsync(async () =>
             {
-                var homeTeamStats = request.HomeTeam.BasketballStats;
-                var awayTeamStats = request.AwayTeam.BasketballStats;
-                
-                request.HomeTeam = null;
-                request.AwayTeam = null;
+                var match = await _matchManager.CreateAsync(request.MatchRequest);
 
-                var match = await _matchManager.CreateAsync(request);
-
-                await CreateTeamStatsAsync(homeTeamStats, match.Id);
-                await CreateTeamStatsAsync(awayTeamStats, match.Id);
+                await CreateTeamStatsAsync(request.HomeTeamStats, match.Id);
+                await CreateTeamStatsAsync(request.AwayTeamStats, match.Id);
 
                 await UpdateMatchScores(match.Id);
 
@@ -99,7 +93,7 @@ namespace MySuperStats.WebApi.Business
                 var result = await GetByIdAsync(id);
                 Mapper.Map(request, result);
 
-                await CheckValuesAsync(request, true, id);
+                await CheckValuesAsync(result, true, id);
 
                 _uow.BasketballStats.Update(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
@@ -210,10 +204,10 @@ namespace MySuperStats.WebApi.Business
             return list;
         }
 
-        private async Task CheckValuesAsync(BasketballStatRequest request, bool update = false, int? id = null)
+        private async Task CheckValuesAsync(BasketballStat basketballStat, bool update = false, int? id = null)
         {
             var matchPlayerAndTeamUniqueResult =
-                await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(request.MatchId, request.TeamId, request.UserId);
+                await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(basketballStat.MatchId, basketballStat.TeamId, basketballStat.UserId);
 
             if (update)
                 matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate((int)id, AppConstants.MatchIdAndTeamIdAndPlayerId);

@@ -44,14 +44,14 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("createwithmultistats")]
         [HttpPost]
-        public Task<IActionResult> CreateMultiStats([FromBody] MatchRequest request)
+        public Task<IActionResult> CreateMultiStats([FromBody] CreateMatchRequestWithMultiBasketballStats request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
                 var attributes = new List<PermissionAttribute> {
                     new PermissionAttribute(nameof(PermissionEnum.CreateBasketballStat), nameof(BooleanEnum.True))
                  };
-                await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
+                await _permissionChecker.HasPermissionAsync(User, request.MatchRequest.MatchGroupId, attributes);
 
                 if (!ModelState.IsValid)
                     throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));

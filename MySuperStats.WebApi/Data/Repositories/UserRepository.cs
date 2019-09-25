@@ -52,6 +52,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                                join mu in _dbContext.Set<MatchGroupUser>() on u.Id equals mu.UserId
                                where u.Status == Status.Active && mu.Status == Status.Active
                                      && mu.MatchGroupId == matchGroupId
+                               orderby u.FirstName, u.Surname
                                select u)
                         .ToListAsync();
 

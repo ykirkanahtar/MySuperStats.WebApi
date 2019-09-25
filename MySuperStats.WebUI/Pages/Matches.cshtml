@@ -2,6 +2,7 @@
 @model MySuperStats.WebUI.Pages.MatchesModel
 @{
     ViewData["Title"] = "Karşılaşmalar";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
   $(function () {
@@ -50,7 +51,7 @@
                             <td>@(match.AwayTeam.TeamName)</td>
                             <td>@($"{Convert.ToInt32(match.HomeTeamScore)} - {Convert.ToInt32(match.AwayTeamScore)}")</td>
                             <td><a href="@(match.VideoLink)" target="_blank">@(match.VideoLink)</a></td>
-                            <td><a asp-page="MatchDetail" asp-route-id="@(match.Id)">Tıklayınız</a></td>
+                            <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@(match.Id)">Tıklayınız</a></td>
                         </tr>
                     }
                 </tbody>

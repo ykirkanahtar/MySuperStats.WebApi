@@ -7,7 +7,6 @@ using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
@@ -47,9 +46,9 @@ namespace MySuperStats.WebUI.Pages
                 throw new Exception(response.Message);
         }
 
-        public IActionResult OnPostUpdateUserProfile()
+        public IActionResult OnPostUpdateUserProfile(string culture)
         {
-            return Redirect($"../UpdateUserProfile");
+            return Redirect($"../{culture}/UpdateUserProfile");
         }        
     }
 }

@@ -62,9 +62,9 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string culture, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content($"~/{culture}");
 
             if (ModelState.IsValid)
             {
