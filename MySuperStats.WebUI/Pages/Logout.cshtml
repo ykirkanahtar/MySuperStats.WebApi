@@ -1,0 +1,16 @@
+﻿@page
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@model LogoutModel
+@{
+    ViewData["Title"] = "Çıkış";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+
+<section class="content">
+      <div class="row">
+    <div class="col-md-12">
+      <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
+    <div>
+  </div>  
+</section>
+<!-- /.content -->

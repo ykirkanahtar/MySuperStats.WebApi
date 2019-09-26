@@ -107,15 +107,6 @@ namespace MySuperStats.WebUI
                         };
                     }
                 });
-
-                // options.Conventions.AddFolderRouteModelConvention("/", model =>
-                // {
-                //     foreach (var selector in model.Selectors)
-                //     {
-                //         selector.AttributeRouteModel.Order = -1;
-                //         selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{lang=en}", selector.AttributeRouteModel.Template);
-                //     }
-                // });
             });
 
             services.Configure<RequestLocalizationOptions>(options =>
@@ -198,6 +189,7 @@ namespace MySuperStats.WebUI
             app.UseSession();
 
             app.UseSessionMiddleware();
+            app.UseErrorHandlingMiddleware();
 
             app.UseMvcWithDefaultRoute();
         }

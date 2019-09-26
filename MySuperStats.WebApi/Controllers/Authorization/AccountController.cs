@@ -106,6 +106,14 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(tokenResponse));
         }
 
+        [Route("Logout")]
+        [HttpPost]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(true));
+        }
+
         [AllowAnonymous]
         [HttpGet]
         [Route("ConfirmEmail/userId/{userId:int}/code/{code}")]
