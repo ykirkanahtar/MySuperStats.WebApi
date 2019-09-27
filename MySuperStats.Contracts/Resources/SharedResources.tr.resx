@@ -197,6 +197,9 @@
   <!-- Annotation Errors -->
 
   <!--Identity -->
+  <data name="AddUser" xml:space="preserve">
+    <value>Kullanıcı Ekle</value>
+  </data>  
   <data name="ClientApplication" xml:space="preserve">
     <value>istemci uygulaması</value>
   </data>
@@ -212,6 +215,9 @@
   <data name="FirstName" xml:space="preserve">
     <value>adı</value>
   </data>
+ <data name="FirstNameSurname" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>  
   <data name="Password" xml:space="preserve">
     <value>parola</value>
   </data>
@@ -338,6 +344,9 @@
   <data name="BirthDate" xml:space="preserve">
     <value>Doğum Tarihi</value>
   </data>   
+  <data name="ChangeGroupName" xml:space="preserve">
+    <value>Grup ismini değiştir</value>
+  </data>     
   <data name="ConcedeGoal" xml:space="preserve">
     <value>Yediği gol</value>
   </data>    
@@ -377,6 +386,9 @@
   <data name="MatchGroup" xml:space="preserve">
     <value>Karşılaşma Grubu</value>
   </data>  
+  <data name="MatchGroupInfo" xml:space="preserve">
+    <value>Karşılaşma Grubu Bilgileri</value>
+  </data>    
   <data name="MatchGroupUser" xml:space="preserve">
     <value>Karşılaşma Grubu Üyesi</value>
   </data>  
@@ -388,7 +400,10 @@
   </data>   
   <data name="MissingTwoPoint" xml:space="preserve">
     <value>Kaçan iki sayı</value>
-  </data>         
+  </data>       
+  <data name="MyStats" xml:space="preserve">
+    <value>İstatistiklerim</value>
+  </data>      
   <data name="Order" xml:space="preserve">
     <value>Sıra</value>
   </data>    

@@ -1,8 +1,12 @@
 ﻿@page "{id:int}"
 @using MySuperStats.WebUI.Pages
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @model MySuperStats.WebUI.Pages.MatchGroupDetailModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Karşılaşma Grubu Bilgileri";
+    ViewData["Title"] = localizer.GetValue("MatchGroupInfo");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
@@ -31,7 +35,7 @@
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label>Grup İsmi</label>
+              <label>@(localizer.GetValue("GroupName"))</label>
               <p class="text-muted">
                 @(Model.MatchGroupResponse.GroupName)
               </p>
@@ -42,7 +46,7 @@
           @if(Model.HasPermissionForChangeGroupName)
           {
           <div class="box-footer">
-            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="Grup ismini değiştir"/>
+            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
           </div>
           }
         </form>
@@ -64,7 +68,7 @@
               <table id="basketball_players" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Ad Soyad</th>
+                  <th>@(localizer.GetValue("FirstNameSurname"))</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,7 +81,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                  <th>Ad Soyad</th>
+                  <th>@(localizer.GetValue("FirstNameSurname"))</th>
                 </tr>
                 </tfoot>
               </table>
@@ -87,7 +91,7 @@
           @if(Model.HasPermissionForAddUser)
           {
               <div class="box-footer">
-                <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
+                <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddUser"))"/>
               </div>
           }
         </form>
