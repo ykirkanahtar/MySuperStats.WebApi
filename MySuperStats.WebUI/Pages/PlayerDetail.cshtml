@@ -1,5 +1,4 @@
 ﻿@page "{id:int}"
-@using MySuperStats.WebUI.Pages
 @using CustomFramework.WebApiUtils.Contracts.Resources
 
 @model MySuperStats.WebUI.Pages.PlayerDetailModel
@@ -7,7 +6,7 @@
 @inject ILocalizationService localizer
 
 @{
-    ViewData["Title"] = $"{Model.PlayerStats.FirstName} {Model.PlayerStats.Surname}";
+    ViewData["Title"] = $"{Model.PlayerStats.User.FirstName} {Model.PlayerStats.User.Surname}";
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
@@ -30,7 +29,7 @@
     <div class="row-fluid">
         <div class="col-md-12">
             <h2>@ViewData["Title"]</h2>
-            <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.BirthDate.ToString("dd-MM-yyyy"))
+            <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.User.BirthDate.ToString("dd-MM-yyyy"))
             <br />
             <br />
         </div>
@@ -52,12 +51,12 @@
                 <thead>
                 <tr>
                     <th>@(localizer.GetValue("OnePoint"))</th>
-                    <th>2 Sayı</th>
-                    <th>Ribaunt</th>
-                    <th>Kapma</th>
-                    <th>Asist</th>
-                    <th>Kayıp</th>
-                    <th>Kesme</th>
+                    <th>@(localizer.GetValue("TwoPoint"))</th>
+                    <th>@(localizer.GetValue("Rebound"))</th>
+                    <th>@(localizer.GetValue("StealBall"))</th>
+                    <th>@(localizer.GetValue("Assist"))</th>
+                    <th>@(localizer.GetValue("LooseBall"))</th>
+                    <th>@(localizer.GetValue("Interrupt"))</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,20 +80,20 @@
         <div class="col-xs-6">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Maç Başına İstatistikler</h3>
+              <h3 class="box-title">@(localizer.GetValue("PerMatchStats"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="per_match_stats" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>1 Sayı</th>
-                    <th>2 Sayı</th>
-                    <th>Ribaunt</th>
-                    <th>Kapma</th>
-                    <th>Asist</th>
-                    <th>Kayıp</th>
-                    <th>Kesme</th>
+                    <th>@(localizer.GetValue("OnePoint"))</th>
+                    <th>@(localizer.GetValue("TwoPoint"))</th>
+                    <th>@(localizer.GetValue("Rebound"))</th>
+                    <th>@(localizer.GetValue("StealBall"))</th>
+                    <th>@(localizer.GetValue("Assist"))</th>
+                    <th>@(localizer.GetValue("LooseBall"))</th>
+                    <th>@(localizer.GetValue("Interrupt"))</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -122,15 +121,15 @@
         <div class="col-xs-4">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Ortalama İstatistikler</h3>
+              <h3 class="box-title">@(localizer.GetValue("AverageStats"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="avg_stats" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>1 Sayı %</th>
-                    <th>2 Sayı %</th>
+                    <th>@(localizer.GetValue("OnePoint")) %</th>
+                    <th>@(localizer.GetValue("TwoPoint")) %</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -149,7 +148,7 @@
         <div class="col-xs-4">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Galibiyet - Mağlubiyet Tablosu</h3>
+              <h3 class="box-title">@(localizer.GetValue("WinLooseTable"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -174,17 +173,17 @@
         <div class="col-xs-4">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Kazanma/Kaybetme Oranı</h3>
+              <h3 class="box-title">@(localizer.GetValue("WinLooseRate"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="win_loose_ratio_table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Kazanma</th>
-                    <th>Kaybetme</th>
-                    <th>Kazanma %</th>
-                    <th>Kaybetme %</th>                    
+                    <th>@(localizer.GetValue("Win"))</th>
+                    <th>@(localizer.GetValue("Loose"))</th>
+                    <th>@(localizer.GetValue("Win")) %</th>
+                    <th>@(localizer.GetValue("Loose")) %</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -209,24 +208,24 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Oynadığı Karşılaşmalar</h3>
+              <h3 class="box-title">@(localizer.GetValue("PlayedMatches"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="players_matches" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Tarih</th>
-                  <th>Sıra</th>
-                  <th>Takım</th>
-                  <th>Skor</th>
-                  <th>1 Sayı</th>
-                  <th>2 Sayı</th>
-                  <th>Ribaunt</th>
-                  <th>Kapma</th>
-                  <th>Asist</th>
-                  <th>Kayıp</th>
-                  <th>Kesme</th>
+                  <th>@(localizer.GetValue("Date"))</th>
+                  <th>@(localizer.GetValue("Order"))</th>
+                  <th>@(localizer.GetValue("Team"))</th>
+                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("OnePoint"))</th>
+                  <th>@(localizer.GetValue("TwoPoint"))</th>
+                  <th>@(localizer.GetValue("Rebound"))</th>
+                  <th>@(localizer.GetValue("StealBall"))</th>
+                  <th>@(localizer.GetValue("Assist"))</th>
+                  <th>@(localizer.GetValue("LooseBall"))</th>
+                  <th>@(localizer.GetValue("Interrupt"))</th>                  
                 </tr>
                 </thead>
                 <tbody>
@@ -251,17 +250,17 @@
                 </tbody>
                 <tfoot>
                 <tr>
-                  <th>Tarih</th>
-                  <th>Sıra</th>
-                  <th>Takım</th>
-                  <th>Skor</th>
-                  <th>1 Sayı</th>
-                  <th>2 Sayı</th>
-                  <th>Ribaunt</th>
-                  <th>Kapma</th>
-                  <th>Asist</th>
-                  <th>Kayıp</th>
-                  <th>Kesme</th>
+                  <th>@(localizer.GetValue("Date"))</th>
+                  <th>@(localizer.GetValue("Order"))</th>
+                  <th>@(localizer.GetValue("Team"))</th>
+                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("OnePoint"))</th>
+                  <th>@(localizer.GetValue("TwoPoint"))</th>
+                  <th>@(localizer.GetValue("Rebound"))</th>
+                  <th>@(localizer.GetValue("StealBall"))</th>
+                  <th>@(localizer.GetValue("Assist"))</th>
+                  <th>@(localizer.GetValue("LooseBall"))</th>
+                  <th>@(localizer.GetValue("Interrupt"))</th> 
                 </tr>
                 </tfoot>
               </table>

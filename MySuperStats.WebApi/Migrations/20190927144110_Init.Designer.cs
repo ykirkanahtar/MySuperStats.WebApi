@@ -10,80 +10,64 @@ using MySuperStats.WebApi.Data;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190914103218_AddAdminToUserRole")]
-    partial class AddAdminToUserRole
+    [Migration("20190927144110_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CustomFramework.WebApiUtils.Identity.Models.ClientApplication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClientApplicationCode")
                         .IsRequired()
-                        .HasColumnName("client_application_code")
                         .HasMaxLength(6);
 
                     b.Property<string>("ClientApplicationName")
                         .IsRequired()
-                        .HasColumnName("client_application_name")
                         .HasMaxLength(20);
 
                     b.Property<string>("ClientApplicationPassword")
                         .IsRequired()
-                        .HasColumnName("client_application_password")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<string>("SecurityStamp")
                         .IsRequired()
-                        .HasColumnName("security_stamp")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_client_applications");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ClientApplicationCode")
-                        .HasName("ix_client_applications_client_application_code");
+                    b.HasIndex("ClientApplicationCode");
 
-                    b.HasIndex("ClientApplicationName")
-                        .HasName("ix_client_applications_client_application_name");
+                    b.HasIndex("ClientApplicationName");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_client_applications_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("ClientApplicationCode", "ClientApplicationPassword")
-                        .HasName("ix_client_applications_client_application_code_client_applicati~");
+                    b.HasIndex("ClientApplicationCode", "ClientApplicationPassword");
 
-                    b.ToTable("client_applications");
+                    b.ToTable("ClientApplications");
 
                     b.HasData(
                         new
@@ -103,26 +87,21 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnName("claim_type")
                         .HasMaxLength(100);
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnName("claim_value")
                         .HasMaxLength(100);
 
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.Property<int>("RoleId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_role_claims");
+                    b.HasKey("Id");
 
-                    b.HasIndex("RoleId")
-                        .HasName("ix_role_claims_role_id");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("role_claims");
+                    b.ToTable("RoleClaims");
 
                     b.HasData(
                         new
@@ -282,69 +261,83 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 23,
-                            ClaimType = "CreateBasketballStat",
+                            ClaimType = "UpdateUser",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 24,
-                            ClaimType = "CreateFootballStat",
+                            ClaimType = "UpdateEmail",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 25,
-                            ClaimType = "CreateMatch",
+                            ClaimType = "CreateBasketballStat",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 26,
-                            ClaimType = "UpdateMatch",
+                            ClaimType = "CreateFootballStat",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 27,
-                            ClaimType = "CreateMatchGroupUser",
+                            ClaimType = "CreateMatch",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 28,
-                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimType = "UpdateMatch",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 29,
+                            ClaimType = "CreateMatchGroupUser",
+                            ClaimValue = "true",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 30,
+                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimValue = "true",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 31,
                             ClaimType = "CreateBasketballStat",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 30,
+                            Id = 32,
                             ClaimType = "CreateFootballStat",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 31,
+                            Id = 33,
                             ClaimType = "CreateMatch",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 32,
+                            Id = 34,
                             ClaimType = "UpdateMatch",
                             ClaimValue = "true",
                             RoleId = 3
@@ -355,69 +348,54 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnName("claim_type")
                         .HasMaxLength(100);
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnName("claim_value")
                         .HasMaxLength(100);
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_claims");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_user_claims_user_id");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("user_claims");
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnName("login_provider")
                         .HasMaxLength(100);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnName("provider_key")
                         .HasMaxLength(100);
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnName("provider_display_name")
                         .HasMaxLength(100);
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("LoginProvider", "ProviderKey")
-                        .HasName("pk_user_logins");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_user_logins_user_id");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("user_logins");
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.Property<int>("RoleId");
 
-                    b.HasKey("UserId", "RoleId")
-                        .HasName("pk_user_roles");
+                    b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId")
-                        .HasName("ix_user_roles_role_id");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("user_roles");
+                    b.ToTable("UserRoles");
 
                     b.HasData(
                         new
@@ -429,119 +407,88 @@ namespace MySuperStats.WebApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnName("login_provider")
                         .HasMaxLength(100);
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasMaxLength(100);
 
                     b.Property<string>("Value")
-                        .HasColumnName("value")
                         .HasMaxLength(100);
 
-                    b.HasKey("UserId", "LoginProvider", "Name")
-                        .HasName("pk_user_tokens");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("user_tokens");
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.BasketballStat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Assist")
-                        .HasColumnName("assist")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<decimal>("Interrupt")
-                        .HasColumnName("interrupt")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("LooseBall")
-                        .HasColumnName("loose_ball")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("MatchId")
-                        .HasColumnName("match_id");
+                    b.Property<int>("MatchId");
 
                     b.Property<decimal>("MissingOnePoint")
-                        .HasColumnName("missing_one_point")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("MissingTwoPoint")
-                        .HasColumnName("missing_two_point")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("OnePoint")
-                        .HasColumnName("one_point")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("Rebound")
-                        .HasColumnName("rebound")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
                     b.Property<decimal>("StealBall")
-                        .HasColumnName("steal_ball")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnName("team_id");
+                    b.Property<int>("TeamId");
 
                     b.Property<decimal>("TwoPoint")
-                        .HasColumnName("two_point")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_basketball_stats");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_basketball_stats_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_basketball_stats_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("TeamId")
-                        .HasName("ix_basketball_stats_team_id");
+                    b.HasIndex("TeamId");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_basketball_stats_user_id");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("MatchId", "UserId", "TeamId")
-                        .HasName("ix_basketball_stats_match_id_user_id_team_id");
+                    b.HasIndex("MatchId", "UserId", "TeamId");
 
-                    b.ToTable("basketball_stats");
+                    b.ToTable("BasketballStats");
 
                     b.HasData(
                         new
@@ -2317,166 +2264,120 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Assist")
-                        .HasColumnName("assist")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("ConcedeGoal")
-                        .HasColumnName("concede_goal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<decimal>("Goal")
-                        .HasColumnName("goal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("MatchId")
-                        .HasColumnName("match_id");
+                    b.Property<int>("MatchId");
 
                     b.Property<decimal>("MissedPenalty")
-                        .HasColumnName("missed_penalty")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("OwnGoal")
-                        .HasColumnName("own_goal")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("PenaltyScore")
-                        .HasColumnName("penalty_score")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("SaveGoal")
-                        .HasColumnName("save_goal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnName("team_id");
+                    b.Property<int>("TeamId");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_football_stats");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_football_stats_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_football_stats_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("TeamId")
-                        .HasName("ix_football_stats_team_id");
+                    b.HasIndex("TeamId");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_football_stats_user_id");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("MatchId", "UserId", "TeamId")
-                        .HasName("ix_football_stats_match_id_user_id_team_id");
+                    b.HasIndex("MatchId", "UserId", "TeamId");
 
-                    b.ToTable("football_stats");
+                    b.ToTable("FootballStats");
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.Match", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AwayTeamId")
-                        .HasColumnName("away_team_id");
+                    b.Property<int>("AwayTeamId");
 
                     b.Property<decimal>("AwayTeamScore")
-                        .HasColumnName("away_team_score");
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
-                    b.Property<int>("DurationInMinutes")
-                        .HasColumnName("duration_in_minutes");
+                    b.Property<int>("DurationInMinutes");
 
-                    b.Property<int>("HomeTeamId")
-                        .HasColumnName("home_team_id");
+                    b.Property<int>("HomeTeamId");
 
                     b.Property<decimal>("HomeTeamScore")
-                        .HasColumnName("home_team_score");
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("MatchDate")
-                        .HasColumnName("match_date");
+                    b.Property<DateTime>("MatchDate");
 
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
+                    b.Property<int>("MatchGroupId");
 
-                    b.Property<int>("Order")
-                        .HasColumnName("order");
+                    b.Property<int>("Order");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
                     b.Property<string>("VideoLink")
-                        .HasColumnName("video_link")
                         .HasMaxLength(100);
 
-                    b.HasKey("Id")
-                        .HasName("pk_matches");
+                    b.HasKey("Id");
 
-                    b.HasIndex("AwayTeamId")
-                        .HasName("ix_matches_away_team_id");
+                    b.HasIndex("AwayTeamId");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_matches_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("HomeTeamId")
-                        .HasName("ix_matches_home_team_id");
+                    b.HasIndex("HomeTeamId");
 
-                    b.HasIndex("MatchGroupId")
-                        .HasName("ix_matches_match_group_id");
+                    b.HasIndex("MatchGroupId");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_matches_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("MatchDate", "Order")
-                        .HasName("ix_matches_match_date_order");
+                    b.HasIndex("MatchDate", "Order");
 
-                    b.ToTable("matches");
+                    b.ToTable("Matches");
 
                     b.HasData(
                         new
@@ -2677,48 +2578,35 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<string>("GroupName")
                         .IsRequired()
-                        .HasColumnName("group_name")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_match_groups");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_match_groups_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("GroupName")
-                        .HasName("ix_match_groups_group_name");
+                    b.HasIndex("GroupName");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_match_groups_status");
+                    b.HasIndex("Status");
 
-                    b.ToTable("match_groups");
+                    b.ToTable("MatchGroups");
 
                     b.HasData(
                         new
@@ -2733,109 +2621,78 @@ namespace MySuperStats.WebApi.Migrations
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupTeam", b =>
                 {
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
+                    b.Property<int>("MatchGroupId");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnName("team_id");
+                    b.Property<int>("TeamId");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<int>("Id")
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.HasKey("MatchGroupId", "TeamId")
-                        .HasName("pk_match_group_teams");
+                    b.HasKey("MatchGroupId", "TeamId");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_match_group_teams_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_match_group_teams_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("TeamId")
-                        .HasName("ix_match_group_teams_team_id");
+                    b.HasIndex("TeamId");
 
-                    b.ToTable("match_group_teams");
+                    b.ToTable("MatchGroupTeams");
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.MatchGroupUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
-                    b.Property<int>("MatchGroupId")
-                        .HasColumnName("match_group_id");
+                    b.Property<int>("MatchGroupId");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnName("role_id");
+                    b.Property<int>("RoleId");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("Id")
-                        .HasName("pk_match_group_users");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_match_group_users_create_user_id");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("RoleId")
-                        .HasName("ix_match_group_users_role_id");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_match_group_users_status");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_match_group_users_user_id");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("MatchGroupId", "UserId", "RoleId")
-                        .IsUnique()
-                        .HasName("ix_match_group_users_match_group_id_user_id_role_id");
+                        .IsUnique();
 
-                    b.ToTable("match_group_users");
+                    b.ToTable("MatchGroupUsers");
 
                     b.HasData(
                         new
@@ -2994,38 +2851,34 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("concurrency_stamp")
                         .HasMaxLength(1000);
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasMaxLength(100);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnName("normalized_name")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
-                    b.HasKey("Id")
-                        .HasName("pk_roles");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("role_name_index");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("roles");
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "c8e7495f-e5bb-4067-b580-1aa274bef81e",
+                            ConcurrencyStamp = "aa4d37ef-991f-432e-8c21-12e5e431c4f6",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -3033,7 +2886,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2017fef0-7901-4e64-8482-94c1b090d106",
+                            ConcurrencyStamp = "3e9ee7d6-07c8-48ef-8b83-8fc3e9a1c4c2",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -3041,7 +2894,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "e40533f2-acbd-48ec-b209-dbec4754930b",
+                            ConcurrencyStamp = "173788bd-b426-46fc-8f01-ddbf874e72d0",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -3049,7 +2902,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "023b5948-3db6-4f0e-b38b-ee1eb3117213",
+                            ConcurrencyStamp = "bb4d28c5-f6c3-4537-9055-6231f74c2d41",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -3060,53 +2913,39 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnName("color")
                         .HasMaxLength(25);
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("Status");
+
+                    b.Property<string>("TeamName")
                         .IsRequired()
-                        .HasColumnName("name")
                         .HasMaxLength(25);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<int?>("UpdateUserId");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.HasKey("Id");
 
-                    b.HasKey("Id")
-                        .HasName("pk_teams");
+                    b.HasIndex("CreateUserId");
 
-                    b.HasIndex("CreateUserId")
-                        .HasName("ix_teams_create_user_id");
+                    b.HasIndex("Status");
 
-                    b.HasIndex("Name")
-                        .HasName("ix_teams_name");
+                    b.HasIndex("TeamName");
 
-                    b.HasIndex("Status")
-                        .HasName("ix_teams_status");
-
-                    b.ToTable("teams");
+                    b.ToTable("Teams");
 
                     b.HasData(
                         new
@@ -3115,8 +2954,8 @@ namespace MySuperStats.WebApi.Migrations
                             Color = "Green",
                             CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
-                            Name = "Home",
-                            Status = 1
+                            Status = 1,
+                            TeamName = "Home"
                         },
                         new
                         {
@@ -3124,8 +2963,8 @@ namespace MySuperStats.WebApi.Migrations
                             Color = "White",
                             CreateDateTime = new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
-                            Name = "Away",
-                            Status = 1
+                            Status = 1,
+                            TeamName = "Away"
                         });
                 });
 
@@ -3133,108 +2972,82 @@ namespace MySuperStats.WebApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnName("access_failed_count");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnName("birth_date");
+                    b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnName("concurrency_stamp")
                         .HasMaxLength(1000);
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnName("create_date_time");
+                    b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<int>("CreateUserId")
-                        .HasColumnName("create_user_id");
+                    b.Property<int>("CreateUserId");
 
-                    b.Property<DateTime?>("DeleteDateTime")
-                        .HasColumnName("delete_date_time");
+                    b.Property<DateTime?>("DeleteDateTime");
 
-                    b.Property<int?>("DeleteUserId")
-                        .HasColumnName("delete_user_id");
+                    b.Property<int?>("DeleteUserId");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email")
                         .HasMaxLength(100);
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnName("email_confirmed");
+                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
-                        .HasColumnName("first_name")
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("LastLogOutDate")
-                        .HasColumnName("last_log_out_date");
+                    b.Property<DateTime>("LastLogOutDate");
 
-                    b.Property<DateTime>("LastTokenDate")
-                        .HasColumnName("last_token_date");
+                    b.Property<DateTime>("LastTokenDate");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnName("lockout_enabled");
+                    b.Property<bool>("LockoutEnabled");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnName("lockout_end");
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnName("normalized_email")
                         .HasMaxLength(100);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnName("normalized_user_name")
                         .HasMaxLength(100);
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnName("password_hash")
                         .HasMaxLength(1000);
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnName("phone_number")
                         .HasMaxLength(50);
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnName("phone_number_confirmed");
+                    b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnName("security_stamp")
                         .HasMaxLength(1000);
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status");
+                    b.Property<int>("Status");
 
                     b.Property<string>("Surname")
-                        .HasColumnName("surname")
                         .HasMaxLength(100);
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnName("two_factor_enabled");
+                    b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<DateTime?>("UpdateDateTime")
-                        .HasColumnName("update_date_time");
+                    b.Property<DateTime?>("UpdateDateTime");
 
-                    b.Property<int?>("UpdateUserId")
-                        .HasColumnName("update_user_id");
+                    b.Property<int?>("UpdateUserId");
 
                     b.Property<string>("UserName")
-                        .HasColumnName("user_name")
                         .HasMaxLength(100);
 
-                    b.HasKey("Id")
-                        .HasName("pk_users");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("email_index");
+                        .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("user_name_index");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -3604,7 +3417,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_role_claims_roles_role_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3613,7 +3425,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_claims_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3622,7 +3433,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_logins_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3631,13 +3441,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_user_roles_roles_role_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_roles_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3646,7 +3454,6 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_user_tokens_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3655,19 +3462,16 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.Match", "Match")
                         .WithMany("BasketballStats")
                         .HasForeignKey("MatchId")
-                        .HasConstraintName("fk_basketball_stats_matches_match_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("BasketballStats")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("fk_basketball_stats_teams_team_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithMany("BasketballStats")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_basketball_stats_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3676,19 +3480,16 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.Match", "Match")
                         .WithMany("FootballStats")
                         .HasForeignKey("MatchId")
-                        .HasConstraintName("fk_football_stats_matches_match_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("FootballStats")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("fk_football_stats_teams_team_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithMany("FootballStats")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_football_stats_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3697,19 +3498,16 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.Team", "AwayTeam")
                         .WithMany("AwayMatches")
                         .HasForeignKey("AwayTeamId")
-                        .HasConstraintName("fk_matches_teams_away_team_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "HomeTeam")
                         .WithMany("HomeMatches")
                         .HasForeignKey("HomeTeamId")
-                        .HasConstraintName("fk_matches_teams_home_team_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
                         .WithMany("Matches")
                         .HasForeignKey("MatchGroupId")
-                        .HasConstraintName("fk_matches_match_groups_match_group_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3718,13 +3516,11 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
                         .WithMany("MatchGroupTeams")
                         .HasForeignKey("MatchGroupId")
-                        .HasConstraintName("fk_match_group_teams_match_groups_match_group_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("MatchGroupTeams")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("fk_match_group_teams_teams_team_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3733,19 +3529,16 @@ namespace MySuperStats.WebApi.Migrations
                     b.HasOne("MySuperStats.WebApi.Models.MatchGroup", "MatchGroup")
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("MatchGroupId")
-                        .HasConstraintName("fk_match_group_users_match_groups_match_group_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.Role", "Role")
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_match_group_users_roles_role_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_match_group_users_users_user_id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618

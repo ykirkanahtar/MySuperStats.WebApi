@@ -169,9 +169,8 @@ namespace MySuperStats.WebApi.Controllers.Authorization
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await _userManager.GetByIdWithBasketballStats(id);
-                var userDetailResponse = Mapper.Map<User, UserDetailResponse>(result);
-                userDetailResponse.SetFields();
+                var result = await _userManager.GetByIdWithBasketballStatsAsync(id);
+                var userDetailResponse = Mapper.Map<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>(result);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
             });
         }
@@ -188,35 +187,5 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                 Mapper.Map<IList<User>, IList<UserResponse>>(result), result.Count));
         }
-
-        // [Route("getallwithroles/matchgroupid/{matchGroupId:int}")]
-        // [HttpGet]
-        // public async Task<IActionResult> GetUserRolesByMatchGroupIdAsync(int matchGroupId)
-        // {
-        //     return await CommonOperationAsync<IActionResult>(async () =>
-        //     {
-        //         var result = await _userManager.GetUserRolesByMatchGroupIdAsync(matchGroupId);
-        //         return Ok(new ApiResponse(LocalizationService, Logger).Ok(
-        //             Mapper.Map<IList<UserRole>, IList<UserRoleResponse>>(result), result.Count));
-        //     });
-        // }
-
-        // [Route("addtorole")]
-        // [HttpPost]
-        // public Task<IActionResult> AddToRoleAsync([FromBody] UserRoleRequest request)
-        // {
-        //     return CommonOperationAsync<IActionResult>(async () =>
-        //     {
-        //         var attributes = new List<PermissionAttribute> {
-        //         new PermissionAttribute(nameof(PermissionEnum.AddUserToRole), nameof(BooleanEnum.True))
-        //         };
-        //         await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
-
-        //         var role = await _roleManager.GetByNameAsync(request.RoleName);
-        //         request.RoleId = role.Id;
-        //         var result = await _userManager.AddUserToRoleAsync(request);
-        //         return Ok(new ApiResponse(LocalizationService, Logger).Ok((result)));
-        //     });
-        // }
     }
 }

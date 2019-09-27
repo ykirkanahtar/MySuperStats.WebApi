@@ -7,7 +7,14 @@ using System.Linq;
 
 namespace MySuperStats.Contracts.Responses
 {
-    public class TeamResponse
+    public class BaseTeamResponse
+    {
+        public int Id { get; set; }
+        public string TeamName { get; set; }
+        public string Color { get; set; }
+    }
+
+    public class TeamResponse : BaseTeamResponse
     {
         public TeamResponse()
         {
@@ -16,10 +23,6 @@ namespace MySuperStats.Contracts.Responses
             BasketballStats = new Collection<BasketballStatResponse>();
             FootballStats = new Collection<FootballStatResponse>();
         }
-
-        public int Id { get; set; }
-        public string TeamName { get; set; }
-        public string Color { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<MatchResponse> HomeMatches { get; set; }

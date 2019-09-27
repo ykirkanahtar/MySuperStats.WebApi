@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using CustomFramework.WebApiUtils.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using MySuperStats.WebApi.Data.ModelBuilderExtensions;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
 
 namespace MySuperStats.WebApi.Data
 {
@@ -69,17 +67,8 @@ namespace MySuperStats.WebApi.Data
             modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration());
             modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration());
 
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var property in entityType.GetProperties())
-                {
-                    if (property.ClrType == typeof(bool))
-                    {
-                        property.SetValueConverter(new BoolToIntConverter());
-                    }
-                }
-            }
 
+            modelBuilder.ModelBuilderManager(Startup.DbProvider);
 
             modelBuilder.Seed();
 
@@ -90,22 +79,6 @@ namespace MySuperStats.WebApi.Data
 
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
-
-            modelBuilder.SetModelToSnakeCase();
         }
-    }
-
-    public class BoolToIntConverter : ValueConverter<bool, int>
-    {
-        public BoolToIntConverter(ConverterMappingHints mappingHints = null)
-            : base(
-                  v => Convert.ToInt32(v),
-                  v => Convert.ToBoolean(v),
-                  mappingHints)
-        {
-        }
-
-        public static ValueConverterInfo DefaultInfo { get; }
-            = new ValueConverterInfo(typeof(bool), typeof(int), i => new BoolToIntConverter(i.MappingHints));
     }
 }

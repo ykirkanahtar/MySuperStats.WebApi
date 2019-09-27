@@ -17,8 +17,8 @@
         public decimal? Assist { get; set; }
         public decimal? Interrupt { get; set; }
 
-        public virtual MatchResponse Match { get; set; }
-        public virtual TeamResponse Team { get; set; }
+        public virtual BaseMatchResponse Match { get; set; }
+        public virtual BaseTeamResponse Team { get; set; }
         public virtual UserResponse User { get; set; }
 
         public BasketballStatResponseForUIGrid GetStatsForUI()

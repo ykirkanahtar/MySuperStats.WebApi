@@ -2,6 +2,7 @@
 using MySuperStats.WebApi.Models;
 using CustomFramework.Data.ModelConfiguration;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {
@@ -28,9 +29,11 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.AwayTeamId)
                 .IsRequired();
 
-            builder.Property(p => p.HomeTeamScore);
+            builder.Property(p => p.HomeTeamScore)
+                .HasColumnType("decimal(10,2)");
 
-            builder.Property(p => p.AwayTeamScore);
+            builder.Property(p => p.AwayTeamScore)
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.VideoLink)
                 .HasMaxLength(100);

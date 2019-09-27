@@ -326,6 +326,9 @@
   <data name="Assist" xml:space="preserve">
     <value>Asist</value>
   </data>  
+  <data name="AverageStats" xml:space="preserve">
+    <value>Ortalama İstatistikler</value>
+  </data>      
   <data name="AwayTeam" xml:space="preserve">
     <value>Deplasman takımı</value>
   </data>      
@@ -338,6 +341,9 @@
   <data name="ConcedeGoal" xml:space="preserve">
     <value>Yediği gol</value>
   </data>    
+  <data name="Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>      
   <data name="DurationInMinutes" xml:space="preserve">
     <value>Karşılaşma süresi(dk)</value>
   </data>    
@@ -356,6 +362,9 @@
   <data name="Interrupt" xml:space="preserve">
     <value>Top kesme</value>
   </data>   
+  <data name="Loose" xml:space="preserve">
+    <value>Kaybetme</value>
+  </data>      
   <data name="LooseBall" xml:space="preserve">
     <value>Top kaybı</value>
   </data>    
@@ -392,12 +401,21 @@
   <data name="PenaltyScore" xml:space="preserve">
     <value>Penaltı golü</value>
   </data>     
+  <data name="PerMatchStats" xml:space="preserve">
+    <value>Maç Başına İstatistikler</value>
+  </data>     
+  <data name="PlayedMatches" xml:space="preserve">
+    <value>Oynadığı karşılaşmalar</value>
+  </data>    
   <data name="Rebound" xml:space="preserve">
     <value>Rebound</value>
   </data>
   <data name="SaveGoal" xml:space="preserve">
     <value>Kurtarış</value>
   </data>          
+  <data name="Score" xml:space="preserve">
+    <value>Sonuç</value>
+  </data>      
   <data name="StealBall" xml:space="preserve">
     <value>Top çalma</value>
   </data>   
@@ -409,6 +427,15 @@
   </data>    
   <data name="TwoPoint" xml:space="preserve">
     <value>İki sayı</value>
+  </data>   
+  <data name="Win" xml:space="preserve">
+    <value>Kazanma</value>
+  </data>      
+  <data name="WinLooseRate" xml:space="preserve">
+    <value>Galibiyet - Mağlubiyet Oranı</value>
+  </data>     
+  <data name="WinLooseTable" xml:space="preserve">
+    <value>Galibiyet - Mağlubiyet Tablosu</value>
   </data>   
   <data name="VideoLink" xml:space="preserve">
     <value>Video bağlantısı</value>

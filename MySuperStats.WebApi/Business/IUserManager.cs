@@ -15,7 +15,7 @@ namespace MySuperStats.WebApi.Business
         Task<IdentityResult> UpdateAsync(int id, User user);
         Task<IdentityResult> DeleteAsync(int id);
         Task<User> GetByIdAsync(int id);
-        Task<User> GetByIdWithBasketballStats(int id);
+        Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int id);
         Task<User> GetByUserNameAsync(string userName);
         Task<User> GetByEmailAddressAsync(string emailAddress);
         Task<User> GetUserAsync(ClaimsPrincipal ClaimsPrincipal);
@@ -27,9 +27,6 @@ namespace MySuperStats.WebApi.Business
         Task<IdentityResult> ResetPasswordAsync(PasswordResetRequest request);
         Task<Role> GetRoleByUserIdAsync(int userId);
         Task GenerateTokenForChangeEmailAsync(User user, string newEmail, IUrlHelper url, string requestScheme);
-
-        // Task<UserRole> AddUserToRoleAsync(UserRoleRequest request);
-        // Task<IList<UserRole>> GetUserRolesByMatchGroupIdAsync(int matchGroupId);
     }
 }
 

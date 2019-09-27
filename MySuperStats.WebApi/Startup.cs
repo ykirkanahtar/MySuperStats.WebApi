@@ -29,11 +29,13 @@ using MySuperStats.WebApi.Models;
 using Newtonsoft.Json;
 using CustomFramework.WebApiUtils.Contracts.Resources;
 using MySuperStats.Contracts.Resources;
+using CustomFramework.Data.Enums;
 
 namespace MySuperStats.WebApi
 {
     public class Startup
     {
+        public static DatabaseProvider DbProvider = DatabaseProvider.MsSql; 
         public static AppSettings AppSettings { get; private set; }
         public static string ConnectionString { get; private set; }
 
@@ -63,7 +65,7 @@ namespace MySuperStats.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMySqlServer<ApplicationContext>(ConnectionString);
+            services.AddDatabaseContext<ApplicationContext>(ConnectionString, DbProvider);
 
             IdentityModelExtension<User, Role, ApplicationContext>.AddIdentityModel(services, new IdentityModel
             {
@@ -110,8 +112,6 @@ namespace MySuperStats.WebApi
 
             services.AddTransient<IUnitOfWorkIdentity, UnitOfWorkWebApi>();
             services.AddTransient<IUnitOfWorkWebApi, UnitOfWorkWebApi>();
-            services.AddScoped<DbContext, ApplicationContext>();
-            services.AddScoped<IdentityContext<User,Role>, ApplicationContext>();
 
             /*********Repositories*********/
             services.AddTransient<IMatchRepository, MatchRepository>();

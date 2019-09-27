@@ -23,7 +23,7 @@ namespace MySuperStats.WebUI.Pages
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
-        public UserDetailResponse PlayerStats { get; set; }
+        public UserDetailWithBasketballStatResponse PlayerStats { get; set; }
         public List<BasketballStatResponse> BasketballStats { get; set; }
 
         [BindProperty]
@@ -34,7 +34,7 @@ namespace MySuperStats.WebUI.Pages
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            PlayerStats = new UserDetailResponse();
+            PlayerStats = new UserDetailWithBasketballStatResponse();
             MatchGroups = new List<SelectListItem>();
 
             InitializePage();
@@ -77,8 +77,8 @@ namespace MySuperStats.WebUI.Pages
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    PlayerStats = JsonConvert.DeserializeObject<UserDetailResponse>(response.Result.ToString());
-                    BasketballStats = PlayerStats.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
+                    PlayerStats = JsonConvert.DeserializeObject<UserDetailWithBasketballStatResponse>(response.Result.ToString());
+                    BasketballStats = PlayerStats.User.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
                 }
                 else
                     throw new Exception(response.Message);

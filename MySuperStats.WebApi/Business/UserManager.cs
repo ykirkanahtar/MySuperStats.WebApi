@@ -108,7 +108,7 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<User> GetByIdWithBasketballStats(int id)
+        public Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int id)
         {
             return CommonOperationAsync(async () => await _uow.Users.GetByIdWithBasketballStatsAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);

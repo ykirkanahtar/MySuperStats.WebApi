@@ -1,16 +1,7 @@
-using System;
-using System.Net;
-using System.Net.Mail;
 using System.Security.Authentication;
 using System.Text;
-using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using MySuperStats.Contracts.Responses;
-using MySuperStats.WebUI.ApplicationSettings;
-using MySuperStats.WebUI.Constants;
 using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Utils
