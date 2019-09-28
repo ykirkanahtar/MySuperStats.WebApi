@@ -1,8 +1,12 @@
 ﻿@page
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.UpdateUserProfileModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Kullanıcı Bilgileri";
+    ViewData["Title"] = localizer.GetValue("UpdateUserInfo");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
@@ -40,15 +44,12 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
         },
         error: function(XMLHttpRequest, textStatus, error){
           $("#errorDivForEmailUpdate").show();
-          $("#errorMessageForEmailUpdate").text("Bir hata oluştu.");
+          $("#errorMessageForEmailUpdate").text(GetLocalizedValue(pageUrl, "An error has occured"));
         },
         complete: function(){
           $(".overlay").hide();
         }
     });
-
-
-
 });
 
 } );
@@ -61,26 +62,26 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
     <div class="col-md-6">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Profilimi Güncelle</h3>
+          <h3 class="box-title">@(localizer.GetValue("UpdateUserInfo"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtFirstName">İsim</label>
-              <input type="text" class="form-control" id="txtFirstName" asp-for="UserUpdate.FirstName" placeholder="İsminizi giriniz">
+              <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
+              <input type="text" class="form-control" id="txtFirstName" asp-for="UserUpdate.FirstName" placeholder="@(localizer.GetValue("Enter the first name"))">
               <span asp-validation-for="UserUpdate.FirstName" class="text-danger"></span>                        
             </div>
             <div class="form-group">
-              <label for="txtSurname">Soyisim</label>
-              <input type="text" class="form-control" id="txtSurname" asp-for="UserUpdate.Surname" placeholder="Soyisminizi giriniz">
+              <label for="txtSurname">@(localizer.GetValue("Surname"))</label>
+              <input type="text" class="form-control" id="txtSurname" asp-for="UserUpdate.Surname" placeholder="@(localizer.GetValue("Enter the surname"))">
               <span asp-validation-for="UserUpdate.Surname" class="text-danger"></span>                        
             </div>
             <div class="form-group">
-              <label for="txtBirthDate">Doğum Tarihi</label>
+              <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
               <div class="input-group date">
-                <input type="text" class="form-control" asp-for="UserUpdate.BirthDate" placeholder="Doğum Tarihinizi giriniz">
+                <input type="text" class="form-control" asp-for="UserUpdate.BirthDate" placeholder="@(localizer.GetValue("Enter the birth date"))">
                 <span class="input-group-addon">
                   <i class="glyphicon glyphicon-th"></i>
                 </span>
@@ -91,7 +92,7 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
 
           <div class="box-footer">
             <input type="submit" id="btnUpdateProfile" class="btn btn-primary" asp-page-handler="UpdateProfile"
-            value="Profilimi Güncelle"/>
+            value="@(localizer.GetValue("UpdateUserInfo"))"/>
           </div>
         </form>
       </div>
@@ -102,15 +103,15 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
     <div class="col-md-6">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">E-Posta Adresimi Güncelle</h3>
+          <h3 class="box-title">@(localizer.GetValue("UpdateEmail"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtEmail">E-Posta Adresi</label>
-              <input type="text" class="form-control" id="txtEmail" asp-for="EmailUpdateRequest.NewEmail" placeholder="E-Posta adresinizi giriniz">
+              <label for="txtEmail">@(localizer.GetValue("EmailAddress"))</label>
+              <input type="text" class="form-control" id="txtEmail" asp-for="EmailUpdateRequest.NewEmail" placeholder="@(localizer.GetValue("Enter the e-mail address"))">
               <span asp-validation-for="EmailUpdateRequest.NewEmail" class="text-danger"></span>                        
             </div>             
           </div>
@@ -118,15 +119,15 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
 
           <div class="box-footer">
                 <input type="submit" id="btnUpdateEmailRequest" class="btn btn-primary" 
-                value="E-Posta Adresimi Güncelle"/>
+                value="@(localizer.GetValue("UpdateEmail"))"/>
           </div>
 
           <div class="container">   
             <div id="successDivForEmailUpdate" class="alert alert-success" style="display:none">
-              <strong>Başarılı!</strong> <span id="successMessageForEmailUpdate">İşlem tamamlandı, onay bağlantısı e-posta adresinize gönderildi.</span>
+              <strong>Başarılı!</strong> <span id="successMessageForEmailUpdate">@(localizer.GetValue("SuccessMessageForEmailUpdate"))</span>
             </div>    
             <div id="errorDivForEmailUpdate" class="alert alert-danger" style="display:none">
-              <strong>Hata Oluştu!</strong> <span id="errorMessageForEmailUpdate">Kayıt güncellenirken bir hata oluştu.</span>
+              <strong>Hata Oluştu!</strong> <span id="errorMessageForEmailUpdate">@(localizer.GetValue("AnErrorHasOccured"))</span>
             </div>
           </div>          
         </form>

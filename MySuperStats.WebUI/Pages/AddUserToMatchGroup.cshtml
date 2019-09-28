@@ -1,8 +1,11 @@
 ﻿@page "{id:int}"
-@using MySuperStats.WebUI.Pages
+@using CustomFramework.WebApiUtils.Contracts.Resources
 @model MySuperStats.WebUI.Pages.AddUserToMatchGroupModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Yeni Karşılaşma Grubu Oluştur";
+    ViewData["Title"] = localizer.GetValue("AddUserToMatchGroup");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
 <!-- Main content -->
@@ -12,22 +15,22 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Karşılaşma Grubuna kullanıcı ekle</h3>
+          <h3 class="box-title">@(localizer.GetValue("AddUserToMatchGroup"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtGroupName">E-posta adresi giriniz:</label>
-              <input type="text" class="form-control" id="txtEmail" asp-for="EmailAddress" placeholder="E-posta adresi giriniz">
+              <label for="txtGroupName">@(localizer.GetValue("Enter your e-mail address")):</label>
+              <input type="text" class="form-control" id="txtEmail" asp-for="EmailAddress" placeholder="@(localizer.GetValue("Enter your e-mail address"))">
               <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
           </div>
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="Kullanıcı Ekle"/>
+            <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddUser"))"/>
           </div>
         </form>
       </div>

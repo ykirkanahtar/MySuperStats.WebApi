@@ -1,7 +1,11 @@
 ﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @model MySuperStats.WebUI.Pages.PlayerPermissionsModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Oyuncu Yetkileri";
+    ViewData["Title"] = localizer.GetValue("PlayerPermissions");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
@@ -27,7 +31,8 @@ $(document).ready(function() {
     });
 
   if(loggedUserId == 0){
-    alert('Bir hata oluştu. Kullanıcı bilgileri alınamadı');
+    $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+    $("#errorMessage").text(GetLocalizedValue(pageUrl, "Failed to retrieve user list"));
     return;
   }
 
@@ -56,7 +61,6 @@ $(document).ready(function() {
     layout:"fitColumns", //fit columns to width of table (optional)
     pagination : "local",
     ajaxLoader: true,
-    ajaxLoaderLoading: "Veriler Yükleniyor..",
     paginationSize: 15,
     locale: true,
     langs: getTabulatorLocalization(), 
@@ -74,13 +78,13 @@ $(document).ready(function() {
 
         if(userid == loggedUserId){
             $("#warningDiv").hide().slideDown().delay(1000).fadeOut();
-            $("#warningMessage").text('Kendi kullanıcı rolünüzü değiştiremezsiniz.');
+            $("#warningMessage").text(GetLocalizedValue(pageUrl, "You can not change your own role"));
             return;
         }
 
         if (role == 'Admin'){
             $("#warningDiv").hide().slideDown().delay(1000).fadeOut();
-            $("#warningMessage").text('Bu rolü değiştirmeye yetkiniz yok.');
+            $("#warningMessage").text(GetLocalizedValue(pageUrl, "You are not authorized to change this role"));
             return; 
         }        
     },
@@ -115,7 +119,7 @@ $(document).ready(function() {
               },
               error: function(XMLHttpRequest, textStatus, error){
                 $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
-                $("#errorMessage").text("Bir hata oluştu.");
+                $("#errorMessage").text(GetLocalizedValue(pageUrl, "An error has occured"));
               },
               complete: function(){
                 $(".overlay").hide();
@@ -139,7 +143,7 @@ $(document).ready(function() {
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Kullanıcı rolünü tablo üzerinde ilgili role tıklayarak değiştirebilirsiniz...</h3>
+              <h3 class="box-title">@(localizer.GetValue("You can change the user role by clicking the corresponding role on the table"))...</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -155,14 +159,15 @@ $(document).ready(function() {
 
       <div class="container">
         <div id="successDiv" class="alert alert-success" style="display:none">
-          <strong>Başarılı!</strong> <span id="successMessage">Kayıt başarı ile güncellenmiştir.</span>
+          <strong>Başarılı!</strong> <span id="successMessage">@(localizer.GetValue("Success"))</span>
         </div>
         <div id="warningDiv" class="alert alert-warning" style="display:none">
-          <strong>Uyarı!</strong> <span id="warningMessage">This alert box could indicate a warning that might need attention.</span>
+          <strong>Uyarı!</strong> <span id="warningMessage"></span>
         </div>        
         <div id="errorDiv" class="alert alert-danger" style="display:none">
-          <strong>Hata Oluştu!</strong> <span id="errorMessage">Kayıt güncellenirken bir hata oluştu.</span>
+          <strong>Hata Oluştu!</strong> <span id="errorMessage">@(localizer.GetValue("AnErrorHasOccured"))</span>
         </div>
       </div>
+
     </section>
     <!-- /.content -->

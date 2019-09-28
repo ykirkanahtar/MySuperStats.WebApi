@@ -1,9 +1,13 @@
 ﻿@page
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@inject ILocalizationService localizer
+
 @model LogoutModel
 @{
-    ViewData["Title"] = "Çıkış";
-    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    ViewData["Title"] = localizer.GetValue("Logout");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;    
 }
 
 <section class="content">

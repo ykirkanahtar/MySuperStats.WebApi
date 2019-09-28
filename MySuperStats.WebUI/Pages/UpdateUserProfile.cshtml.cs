@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,6 +25,8 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
+        private readonly ILocalizationService _localizer;
+
         private readonly IMapper _mapper;
 
 
@@ -37,7 +40,7 @@ namespace MySuperStats.WebUI.Pages
         public string Token { get; set; }
 
 
-        public UpdateUserProfileModel(IMapper mapper, ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public UpdateUserProfileModel(IMapper mapper, ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
@@ -45,6 +48,7 @@ namespace MySuperStats.WebUI.Pages
             _mapper = mapper;
             UserUpdate = new UserUpdateRequest();
             EmailUpdateRequest = new UserEmailUpdateRequest();
+            _localizer = localizer;
         }
 
         public async Task OnGet()
@@ -62,6 +66,11 @@ namespace MySuperStats.WebUI.Pages
             }
             else
                 throw new Exception(response.Message);
+        }
+
+        public JsonResult OnGetLocalizedValue(string value)
+        {
+            return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
         public async Task<IActionResult> OnPostUpdateProfile()

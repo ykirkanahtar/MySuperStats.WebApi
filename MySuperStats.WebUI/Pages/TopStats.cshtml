@@ -1,8 +1,12 @@
 ﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.TopStatsModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "İstatistikler";
+    ViewData["Title"] = localizer.GetValue("Stats");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
@@ -30,7 +34,7 @@
     <div class="col-md-3">
         <div class="table-responsive">
 
-            <label>Sayı Krallığı</label>
+            <label>@(localizer.GetValue("TotalPoints"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Points)
@@ -50,7 +54,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Sayı Krallığı (Maç Başına)</label>
+            <label>@(localizer.GetValue("TotalPoints")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.PointPerMatch)
@@ -70,7 +74,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>1 Sayı</label>
+            <label>@(localizer.GetValue("OnePoint"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.OnePoint)
@@ -90,7 +94,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>2 Sayı</label>
+            <label>@(localizer.GetValue("TwoPoint"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.TwoPoint)
@@ -110,7 +114,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>1 Sayı (Maç Başına)</label>
+            <label>@(localizer.GetValue("OnePoint")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.OnePointPerMatch)
@@ -130,7 +134,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>2 Sayı (Maç Başına)</label>
+            <label>@(localizer.GetValue("TwoPoint")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.TwoPointPerMatch)
@@ -150,7 +154,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>1 Sayı İsabet Yüzdesi</label>
+            <label>@(localizer.GetValue("OnePoint")) %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.OnePointRatio)
@@ -170,7 +174,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>2 Sayı İsabet Yüzdesi</label>
+            <label>@(localizer.GetValue("TwoPoint")) %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.TwoPointRatio)
@@ -190,7 +194,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Rebound</label>
+            <label>@(localizer.GetValue("Rebound"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Rebounds)
@@ -210,7 +214,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Rebound (Maç Başına)</label>
+            <label>@(localizer.GetValue("Rebound")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.ReboundPerMatch)
@@ -230,7 +234,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Çalma</label>
+            <label>@(localizer.GetValue("StealBall"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Steals)
@@ -250,7 +254,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Çalma (Maç Başına)</label>
+            <label>@(localizer.GetValue("StealBall")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.StealsPerMatch)
@@ -270,7 +274,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kaybı</label>
+            <label>@(localizer.GetValue("LooseBall"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Turnovers)
@@ -290,7 +294,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kaybı (Maç Başına)</label>
+            <label>@(localizer.GetValue("LooseBall")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.TurnoversPerMatch)
@@ -310,7 +314,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Asist</label>
+            <label>@(localizer.GetValue("Assist"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Assist)
@@ -330,7 +334,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Asist (Maç Başına)</label>
+            <label>@(localizer.GetValue("Assist")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.AssistPerMatch)
@@ -350,7 +354,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kesme</label>
+            <label>@(localizer.GetValue("Interrupt"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Interrupts)
@@ -370,7 +374,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Top Kesme (Maç Başına)</label>
+            <label>@(localizer.GetValue("Interrupt")) (@(localizer.GetValue("PerMatch")))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.InterruptPerMatch)
@@ -390,7 +394,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Kazanma</label>
+            <label>@(localizer.GetValue("Win"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Wins)
@@ -411,7 +415,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Kaybetme</label>
+            <label>@(localizer.GetValue("Loose"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.Looses)
@@ -432,7 +436,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Kazanma %</label>
+            <label>@(localizer.GetValue("Win")) %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.WinRatio)
@@ -453,7 +457,7 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
-            <label>Kaybetme %</label>
+            <label>@(localizer.GetValue("Loose")) %</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>
                     @foreach (var stat in Model.StatisticTable.LooseRatio)

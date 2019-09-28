@@ -1,5 +1,4 @@
 ﻿using CustomFramework.Data.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -23,7 +22,6 @@ namespace MySuperStats.WebApi.Models
         public decimal HomeTeamScore { get; set; }
         public decimal AwayTeamScore { get; set; }
         public string VideoLink { get; set; }
-
 
         public virtual MatchGroup MatchGroup { get; set; }
         public virtual Team HomeTeam { get; set; }

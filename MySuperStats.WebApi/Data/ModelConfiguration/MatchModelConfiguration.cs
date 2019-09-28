@@ -38,6 +38,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.VideoLink)
                 .HasMaxLength(100);
 
+
             builder
                 .HasOne(r => r.HomeTeam)
                 .WithMany(c => c.HomeMatches)

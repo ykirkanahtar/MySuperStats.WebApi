@@ -1,7 +1,11 @@
 ﻿@page
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @model MySuperStats.WebUI.Pages.UserProfileModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Kullanıcı Bilgileri";
+    ViewData["Title"] = localizer.GetValue("UserInfo");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
@@ -12,32 +16,32 @@
     <div class="col-md-6">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Profilim</h3>
+          <h3 class="box-title">@(localizer.GetValue("UserInfo"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtFirstName">İsim</label>
+              <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
               <p class="text-muted">
                 @(Model.UserInfo.FirstName)
               </p>              
             </div>
             <div class="form-group">
-              <label for="txtSurname">Soyisim</label>
+              <label for="txtSurname">@(localizer.GetValue("Surname"))</label>
               <p class="text-muted">
                 @(Model.UserInfo.Surname)
               </p> 
             </div>
             <div class="form-group">
-              <label for="txtSurname">E-Posta</label>
+              <label for="txtSurname">@(localizer.GetValue("EmailAddress"))</label>
               <p class="text-muted">
                 @(Model.UserInfo.Email)
               </p> 
             </div>            
             <div class="form-group">
-              <label for="txtBirthDate">Doğum Tarihi</label>
+              <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
               <div class="input-group date">
                 <p class="text-muted">
                   @(Model.UserInfo.BirthDate.ToShortDateString())
@@ -48,7 +52,7 @@
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <input type="submit" id="btnUpdateProfile" asp-page-handler="UpdateUserProfile"  class="btn btn-primary" value="Profilimi Güncelle"/>            
+            <input type="submit" id="btnUpdateProfile" asp-page-handler="UpdateUserProfile"  class="btn btn-primary" value="@(localizer.GetValue("UpdateUserInfo"))"/>            
           </div>
         </form>
       </div>

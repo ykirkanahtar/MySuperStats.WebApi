@@ -1,8 +1,12 @@
 ﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @model MySuperStats.WebUI.Pages.MatchesModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Karşılaşmalar";
-    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    ViewData["Title"] = localizer.GetValue("Match");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;    
 }
 <script>
   $(function () {
@@ -23,21 +27,21 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Karşılaşmalar</h3>
+              <h3 class="box-title">@(localizer.GetValue("Matches"))</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="basketball_mainpage" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Tarih</th>
-                  <th>Sıra</th>
-                  <th>Süre</th>
-                  <th>Ev Sahibi</th>
-                  <th>Misafir</th>
-                  <th>Sonuç</th>
-                  <th>Video Bağlantısı</th>
-                  <th>Detaylar</th>
+                  <th>@(localizer.GetValue("Date"))</th>
+                  <th>@(localizer.GetValue("Order"))</th>
+                  <th>@(localizer.GetValue("Duration"))</th>
+                  <th>@(localizer.GetValue("FirstTeam"))</th>
+                  <th>@(localizer.GetValue("SecondTeam"))</th>
+                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("VideoLink"))</th>
+                  <th>@(localizer.GetValue("Details"))</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,20 +55,20 @@
                             <td>@(match.AwayTeam.TeamName)</td>
                             <td>@($"{Convert.ToInt32(match.HomeTeamScore)} - {Convert.ToInt32(match.AwayTeamScore)}")</td>
                             <td><a href="@(match.VideoLink)" target="_blank">@(match.VideoLink)</a></td>
-                            <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@(match.Id)">Tıklayınız</a></td>
+                            <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@(match.Id)">@(localizer.GetValue("Click"))</a></td>
                         </tr>
                     }
                 </tbody>
                 <tfoot>
                 <tr>
-                  <th>Tarih</th>
-                  <th>Sıra</th>
-                  <th>Süre</th>
-                  <th>Ev Sahibi</th>
-                  <th>Misaifr</th>
-                  <th>Sonuç</th>
-                  <th>Video Bağlantısı</th>
-                  <th>Detaylar</th>
+                  <th>@(localizer.GetValue("Date"))</th>
+                  <th>@(localizer.GetValue("Order"))</th>
+                  <th>@(localizer.GetValue("Duration"))</th>
+                  <th>@(localizer.GetValue("FirstTeam"))</th>
+                  <th>@(localizer.GetValue("SecondTeam"))</th>
+                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("VideoLink"))</th>
+                  <th>@(localizer.GetValue("Details"))</th>
                 </tr>
                 </tfoot>
               </table>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,6 +25,8 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         private readonly ISession _session;
+        private readonly ILocalizationService _localizer;
+
         private readonly IPermissionChecker _permissionChecker;
         public List<MatchGroupUserResponse> MatchGroupUsers { get; set; }
 
@@ -37,7 +40,7 @@ namespace MySuperStats.WebUI.Pages
             public string role { get; set; }
         }
 
-        public PlayerPermissionsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
+        public PlayerPermissionsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
@@ -45,6 +48,7 @@ namespace MySuperStats.WebUI.Pages
             _permissionChecker = permissionChecker;
 
             MatchGroupUsers = new List<MatchGroupUserResponse>();
+            _localizer = localizer;
         }
 
         public async Task OnGetAsync(int id)
@@ -55,6 +59,11 @@ namespace MySuperStats.WebUI.Pages
             {
                 throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
             }
+        }
+
+        public JsonResult OnGetLocalizedValue(string value)
+        {
+            return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
         public JsonResult OnGetLoggedUserId()

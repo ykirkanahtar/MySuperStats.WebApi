@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MySuperStats.WebApi.Data;
 
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190928193738_AddRefreeFieldToMatchTable")]
+    partial class AddRefreeFieldToMatchTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2359,6 +2361,9 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int>("Order");
 
+                    b.Property<string>("Refree")
+                        .HasMaxLength(100);
+
                     b.Property<int>("Status");
 
                     b.Property<DateTime?>("UpdateDateTime");
@@ -2883,7 +2888,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "204a437b-5227-4376-afef-6ed3e6d6a11f",
+                            ConcurrencyStamp = "8109c5a3-c18b-40d3-a26a-e19cde6c96df",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -2891,7 +2896,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ce26b171-c71c-4eb2-9b7a-fc000e8133cb",
+                            ConcurrencyStamp = "0cf55638-acdc-4297-853c-06e481f0c978",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -2899,7 +2904,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "5b8f9c0b-7ebc-45ae-a748-52261eba8789",
+                            ConcurrencyStamp = "c717921b-8097-4c7d-a224-106f893aa097",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -2907,7 +2912,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "6307d1cd-9d93-41ce-8205-fee60cf3f72f",
+                            ConcurrencyStamp = "98bf9833-3f15-41ce-a9b4-df2fb057da07",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1

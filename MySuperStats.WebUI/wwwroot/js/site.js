@@ -8,11 +8,31 @@ function getIdFromURL() {
     return id;
 }
 
- function getCultureFromURL() {
+function getCultureFromURL() {
     var urlArray = window.location.href.split('/');
     var culture = urlArray[urlArray.length - 3];
     return culture;
 }  
+
+function GetLocalizedValue(pageUrl, value){
+    var retValue = '';
+    $.ajax({
+        url: pageUrl + "?handler=LocalizedValue",
+        dataType: "json", 
+        type: "GET",
+        async: false,
+        data: {
+            value: value
+        },
+        success: function (data) {
+            retValue =  data;
+        },
+        error: function (x, y, z) {
+            retValue =  value;
+        }
+    });
+    return retValue;
+}
 
 function getTabulatorLocalization(){
     return {

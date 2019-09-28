@@ -1,8 +1,13 @@
 ﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.ChangeMatchGroupNameModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Yeni Karşılaşma Grubu Oluştur";
+    ViewData["Title"] = localizer.GetValue("CreateNewMatchGroup");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;    
 }
 
 <!-- Main content -->
@@ -13,22 +18,22 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Karşılaşma Grubunun ismini değiştir</h3>
+          <h3 class="box-title">@(localizer.GetValue("ChangeGroupName"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <label for="txtGroupName">Grup İsmi</label>
-              <input type="text" class="form-control" id="txtGroupName" asp-for="MatchGroupRequest.GroupName" placeholder="Grup ismi giriniz">
+              <label for="txtGroupName">@(localizer.GetValue("GroupName"))</label>
+              <input type="text" class="form-control" id="txtGroupName" asp-for="MatchGroupRequest.GroupName" placeholder="@(localizer.GetValue("Select the name of the match group"))">
               <span asp-validation-for="MatchGroupRequest.GroupName" class="text-danger"></span>
             </div>
           </div>
           <!-- /.box-body -->
 
           <div class="box-footer">
-            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="Grup ismini değiştir"/>
+            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
           </div>
         </form>
       </div>

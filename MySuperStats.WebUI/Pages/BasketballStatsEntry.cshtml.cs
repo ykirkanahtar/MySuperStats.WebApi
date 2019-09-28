@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -26,6 +27,7 @@ namespace MySuperStats.WebUI.Pages
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
         private readonly IMapper _mapper;
+        private readonly ILocalizationService _localizer;
 
         public List<UserResponse> Players { get; set; }
 
@@ -49,7 +51,7 @@ namespace MySuperStats.WebUI.Pages
             public List<BasketballStatRequestForMultiEntry> SecondTeamStats { get; set; }
         }
 
-        public BasketballStatsEntryModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper)
+        public BasketballStatsEntryModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
@@ -61,6 +63,12 @@ namespace MySuperStats.WebUI.Pages
             Model = new CreateMatchRequestWithMultiBasketballStats();
             Model.MatchRequest.Order = 1;
             Model.MatchRequest.MatchDate = DateTime.Now.AddDays(-1).Date;
+            _localizer = localizer;
+        }
+
+        public JsonResult OnGetLocalizedValue(string value)
+        {
+            return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
         public async Task<JsonResult> OnGetPlayers(int id)

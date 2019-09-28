@@ -142,7 +142,10 @@
   </data>     
   <data name="AuthenticationError" xml:space="preserve">
     <value>Kullanıcı adı/E-posta ya da parola hatalı</value>
-  </data>  
+  </data> 
+  <data name="Click" xml:space="preserve">
+    <value>Tıklayınız</value>
+  </data>   
   <data name="ClientApplicationLoginError" xml:space="preserve">
     <value>Uygulama kimlik doğrulama hatası</value>
   </data>
@@ -152,6 +155,9 @@
   <data name="DuplicateRecordForUniqueValueError" xml:space="preserve">
     <value>Tekil olan alan için çoklu kayıt hatası</value>
   </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Geri dön</value>
+  </data>    
   <data name="LoginError" xml:space="preserve">
     <value>Kimlik doğrulama hatası</value>
   </data>  
@@ -167,6 +173,9 @@
   <data name="RecordExistsError" xml:space="preserve">
     <value>Bu değere ait bir kayıt daha önceden kayıt edilmiştir</value>
   </data>  
+  <data name="Save" xml:space="preserve">
+    <value>Kaydet</value>
+  </data>   
   <data name="Success" xml:space="preserve">
     <value>İşlem başarıyla tamamlandı</value>
   </data>  
@@ -197,8 +206,20 @@
   <!-- Annotation Errors -->
 
   <!--Identity -->
+  <data name="A user with this login already exists." xml:space="preserve">
+    <value>Bu kullanıcı girişine ait bir kullanıcı bulunmakta.</value>
+  </data>  
   <data name="AddUser" xml:space="preserve">
     <value>Kullanıcı Ekle</value>
+  </data>    
+  <data name="AnErrorHasOccuredWhileChangingPassword" xml:space="preserve">
+    <value>Parole yenileme sırasında bir hata oluştu</value>
+  </data>  
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Bilinmeyen bir hata oluştu.</value>
+  </data>      
+  <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
+    <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
   </data>  
   <data name="ClientApplication" xml:space="preserve">
     <value>istemci uygulaması</value>
@@ -212,90 +233,54 @@
   <data name="ClientApplicationPassword" xml:space="preserve">
     <value>istemci uygulama parolası</value>
   </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>adı</value>
-  </data>
- <data name="FirstNameSurname" xml:space="preserve">
-    <value>Ad Soyad</value>
-  </data>  
-  <data name="Password" xml:space="preserve">
-    <value>parola</value>
-  </data>
-  <data name="Role" xml:space="preserve">
-    <value>rol</value>
-  </data>
-  <data name="Surname" xml:space="preserve">
-    <value>soyadı</value>
-  </data>
-  <data name="Token" xml:space="preserve">
-    <value>token</value>
-  </data>
-  <data name="User" xml:space="preserve">
-    <value>kullanıcı</value>
-  </data>
-  <data name="UserLoginLog" xml:space="preserve">
-    <value>kullanıcı giriş logları</value>
-  </data>
-  <data name="UserName" xml:space="preserve">
-    <value>kullanıcı adı</value>
-  </data>
-  <data name="AnErrorHasOccuredWhileChangingPassword" xml:space="preserve">
-    <value>Parole yenileme sırasında bir hata oluştu</value>
-  </data>
-  <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
-    <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
-  </data>
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Parola yenilemek için kod gerekmektedir</value>
-  </data>
-  <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
-    <value>Yeni parola ile eski aynı olamaz</value>
-  </data>
-  <data name="OrEnterTheCodeToTheForm" xml:space="preserve">
-    <value>Ya da kodu ilgili forma giriniz.</value>
-  </data>
-  <data name="PasswordAndConfirmPasswordDoesntMatch" xml:space="preserve">
-    <value>Yeni parola ile onay parolası uyumlu değil</value>
-  </data>
-  <data name="PleaseConfirmYourRegistration" xml:space="preserve">
-    <value>Lütfen kaydınızı onaylayınız</value>
-  </data>
-  <data name="ThePasswordCreatedBySystem" xml:space="preserve">
-    <value>Sistem tarafından üretilen parola</value>
-  </data>
-  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
-    <value>Aynı anda veriye erişim hatası oluştu. Nesne değiştirilmiş.</value>
   </data>  
-  <data name="An unknown failure has occurred." xml:space="preserve">
-    <value>Bilinmeyen bir hata oluştu.</value>
-  </data>    
+  <data name="EmailAddress" xml:space="preserve">
+    <value>E-posta adresi</value>
+  </data>   
   <data name="Email {0} is already taken." xml:space="preserve">
     <value>{0} e-posta adresi daha önceden alınmış.</value>
   </data>    
-  <data name="Role name {0} is already taken." xml:space="preserve">
-    <value>{0} rol adı daha önceden alınmış.</value>
-  </data>  
-  <data name="User Name {0} is already taken." xml:space="preserve">
-    <value>{0} kullanıcı adı daha önceden alınmış.</value>
-  </data>    
   <data name="Email {0} is invalid." xml:space="preserve">
     <value>{0} e-posta adresi geçersiz.</value>
-  </data>     
-  <data name="Role name {0} is invalid." xml:space="preserve">
-    <value>{0} rol adı geçersiz.</value>
-  </data>    
-  <data name="Invalid token." xml:space="preserve">
-    <value>Geçersiz token</value>
-  </data>   
-  <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
-    <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
+  </data>  
+  <data name="Enter the e-mail address" xml:space="preserve">
+    <value>E-posta adresi giriniz</value>
   </data>      
-  <data name="A user with this login already exists." xml:space="preserve">
-    <value>Bu kullanıcı girişine ait bir kullanıcı bulunmakta.</value>
+  <data name="Enter your e-mail address" xml:space="preserve">
+    <value>E-posta adresinizi giriniz</value>
+  </data>    
+  <data name="FirstName" xml:space="preserve">
+    <value>Adı</value>
   </data>
+  <data name="FirstNameSurname" xml:space="preserve">
+    <value>Ad Soyad</value>
+  </data>  
   <data name="Incorrect password." xml:space="preserve">
     <value>Hatalı parola</value>
+  </data>     
+  <data name="Invalid token." xml:space="preserve">
+    <value>Geçersiz token</value>
+  </data>  
+  <data name="Lockout is not enabled for this user." xml:space="preserve">
+    <value>Kullanıcı kilitleme özelliği bu kullanıcı için aktif değil.</value>
   </data>   
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>    
+  <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
+    <value>Yeni parola ile eski aynı olamaz</value>
+  </data>  
+  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
+    <value>Aynı anda veriye erişim hatası oluştu. Nesne değiştirilmiş.</value>
+  </data>    
+  <data name="OrEnterTheCodeToTheForm" xml:space="preserve">
+    <value>Ya da kodu ilgili forma giriniz.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>parola</value>
+  </data>
   <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
     <value>Parola en az 1 rakam içermelidir ('0'-'9').</value>
   </data>     
@@ -310,31 +295,79 @@
   </data>     
   <data name="Passwords must be at least {0} characters." xml:space="preserve">
     <value>Parola en az {0} uzunluğunda olmalıdır.</value>
+  </data>      
+  <data name="PasswordAndConfirmPasswordDoesntMatch" xml:space="preserve">
+    <value>Yeni parola ile onay parolası uyumlu değil</value>
+  </data>
+  <data name="PleaseConfirmYourRegistration" xml:space="preserve">
+    <value>Lütfen kaydınızı onaylayınız</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>rol</value>
+  </data>
+  <data name="Role name {0} is already taken." xml:space="preserve">
+    <value>{0} rol adı daha önceden alınmış.</value>
+  </data>    
+  <data name="Role name {0} is invalid." xml:space="preserve">
+    <value>{0} rol adı geçersiz.</value>
+  </data>   
+  <data name="SuccessMessageForEmailUpdate" xml:space="preserve">
+    <value>İşlem tamamlandı, onay bağlantısı e-posta adresinize gönderildi</value>
   </data>  
+  <data name="Surname" xml:space="preserve">
+    <value>Soyadı</value>
+  </data>
+  <data name="ThePasswordCreatedBySystem" xml:space="preserve">
+    <value>Sistem tarafından üretilen parola</value>
+  </data> 
+  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
+    <value>Yeni parolanız en az 6, en fazla 20 karakter uzunluğunda olabilir.</value>
+  </data>     
+  <data name="Token" xml:space="preserve">
+    <value>token</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>kullanıcı</value>
+  </data>
+  <data name="UserLoginLog" xml:space="preserve">
+    <value>kullanıcı giriş logları</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>kullanıcı adı</value>
+  </data>
   <data name="User already has a password set." xml:space="preserve">
     <value>Bu kullanıcıya daha önceden parola atanmış.</value>
   </data>     
   <data name="User already in role {0}." xml:space="preserve">
     <value>Kullanıcı daha önce {0} rolüne atanmış.</value>
   </data>     
-  <data name="Lockout is not enabled for this user." xml:space="preserve">
-    <value>Kullanıcı kilitleme özelliği bu kullanıcı için aktif değil.</value>
-  </data>       
   <data name="User is not in role {0}." xml:space="preserve">
     <value>Kullanıcı {0} rolüne ait değil.</value>
   </data>    
-  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
-    <value>Yeni parolanız en az 6, en fazla 20 karakter uzunluğunda olabilir.</value>
-  </data>  
+  <data name="User Name {0} is already taken." xml:space="preserve">
+    <value>{0} kullanıcı adı daha önceden alınmış.</value>
+  </data>           
+  <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
+  </data>      
   <!--Identity -->
 
   <!-- Classes and fields-->
+  <data name="AddUserToMatchGroup" xml:space="preserve">
+    <value>Karşılaşma grubuna kullanıcı ekle</value>
+  </data>  
+  <data name="AddToTeam" xml:space="preserve">
+    <value>Takıma ekle</value>
+  </data>    
   <data name="Assist" xml:space="preserve">
     <value>Asist</value>
   </data>  
   <data name="AverageStats" xml:space="preserve">
     <value>Ortalama İstatistikler</value>
   </data>      
+  <data name="AverageOfTheAges" xml:space="preserve">
+    <value>Yaş ortalaması</value>
+  </data>    
   <data name="AwayTeam" xml:space="preserve">
     <value>Deplasman takımı</value>
   </data>      
@@ -346,16 +379,67 @@
   </data>   
   <data name="ChangeGroupName" xml:space="preserve">
     <value>Grup ismini değiştir</value>
-  </data>     
+  </data>    
+  <data name="Color" xml:space="preserve">
+    <value>Takım rengi</value>
+  </data>   
   <data name="ConcedeGoal" xml:space="preserve">
     <value>Yediği gol</value>
+  </data>   
+  <data name="CountOfThePlayers" xml:space="preserve">
+    <value>Oyuncu sayısı</value>
   </data>    
+  <data name="CreateNewMatchGroup" xml:space="preserve">
+    <value>Yeni karşılaşma grubu oluştur</value>
+  </data>      
+  <data name="CreateTeams" xml:space="preserve">
+    <value>Takımları oluştur</value>
+  </data>   
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
+  </data>   
+  <data name="Details" xml:space="preserve">
+    <value>Detaylar</value>
   </data>      
+  <data name="Duration" xml:space="preserve">
+    <value>Süre</value>
+  </data>    
+  <data name="DurationOfTheMatch" xml:space="preserve">
+    <value>Maç süresi (dk)</value>
+  </data>       
   <data name="DurationInMinutes" xml:space="preserve">
     <value>Karşılaşma süresi(dk)</value>
   </data>    
+  <data name="Enter the birth date" xml:space="preserve">
+    <value>Doğrum tarihini giriniz</value>
+  </data>       
+  <data name="Enter the date of the match" xml:space="preserve">
+    <value>Maç tarihini giriniz</value>
+  </data>    
+  <data name="Enter the duration of the match" xml:space="preserve">
+    <value>Maç süresini giriniz</value>
+  </data>     
+  <data name="Enter the first name" xml:space="preserve">
+    <value>İsim giriniz</value>
+  </data>     
+  <data name="Enter the name of the group" xml:space="preserve">
+    <value>Grup ismini giriniz</value>
+  </data>    
+  <data name="Enter the order of the match" xml:space="preserve">
+    <value>Maç sırasını giriniz</value>
+  </data>      
+  <data name="Enter the surname" xml:space="preserve">
+    <value>Soyisim giriniz</value>
+  </data>   
+  <data name="Enter the url of the video" xml:space="preserve">
+    <value>Video bağlantısını giriniz</value>
+  </data>   
+  <data name="Failed to retrieve user list" xml:space="preserve">
+    <value>Kullanıcı bilgileri çekilirken hata oluştu</value>
+  </data>   
+  <data name="FirstTeam" xml:space="preserve">
+    <value>İlk takım</value>
+  </data>      
   <data name="FootballStat" xml:space="preserve">
     <value>Futbol İstatistikleri</value>
   </data>  
@@ -380,8 +464,17 @@
   <data name="Match" xml:space="preserve">
     <value>Karşılaşma</value>
   </data>  
+  <data name="Matches" xml:space="preserve">
+    <value>Karşılaşmalar</value>
+  </data>    
+  <data name="MatchInfo" xml:space="preserve">
+    <value>Karşılaşma Bilgileri</value>
+  </data>   
   <data name="MatchDate" xml:space="preserve">
     <value>Karşılaşma Tarihi</value>
+  </data>    
+  <data name="MatchDetail" xml:space="preserve">
+    <value>Karşılaşma Detayı</value>
   </data>    
   <data name="MatchGroup" xml:space="preserve">
     <value>Karşılaşma Grubu</value>
@@ -400,7 +493,7 @@
   </data>   
   <data name="MissingTwoPoint" xml:space="preserve">
     <value>Kaçan iki sayı</value>
-  </data>       
+  </data>            
   <data name="MyStats" xml:space="preserve">
     <value>İstatistiklerim</value>
   </data>      
@@ -415,34 +508,91 @@
   </data>   
   <data name="PenaltyScore" xml:space="preserve">
     <value>Penaltı golü</value>
-  </data>     
+  </data>    
+  <data name="PerMatch" xml:space="preserve">
+    <value>Maç Başına</value>
+  </data>       
   <data name="PerMatchStats" xml:space="preserve">
     <value>Maç Başına İstatistikler</value>
-  </data>     
+  </data>   
+  <data name="Player" xml:space="preserve">
+    <value>Oyuncu</value>
+  </data>      
   <data name="PlayedMatches" xml:space="preserve">
     <value>Oynadığı karşılaşmalar</value>
-  </data>    
+  </data>     
+  <data name="PlayerPermissions" xml:space="preserve">
+    <value>Oyuncu Yetkileri</value>
+  </data>     
+  <data name="Please select players from both teams" xml:space="preserve">
+    <value>Lütfen her iki takımdan da oyuncu seçiniz</value>
+  </data>   
+  <data name="Players" xml:space="preserve">
+    <value>Oyuncular</value>
+  </data>      
+  <data name="TotalPoints" xml:space="preserve">
+    <value>Sayı Krallığı</value>
+  </data>   
   <data name="Rebound" xml:space="preserve">
     <value>Rebound</value>
   </data>
   <data name="SaveGoal" xml:space="preserve">
     <value>Kurtarış</value>
-  </data>          
+  </data>    
+  <data name="SaveStats" xml:space="preserve">
+    <value>İstatistikleri Kaydet</value>
+  </data>         
+  <data name="SecondTeam" xml:space="preserve">
+    <value>İkinci takım</value>
+  </data>    
+  <data name="Select the name of the match group" xml:space="preserve">
+    <value>Karşılaşma grubu ismini giriniz</value>
+  </data>     
+  <data name="Select the teams" xml:space="preserve">
+    <value>Takımları Seç</value>
+  </data>         
+  <data name="Select players of the first team" xml:space="preserve">
+    <value>İlk takım için oyuncu seçiniz</value>
+  </data>    
+  <data name="Select players of the second team" xml:space="preserve">
+    <value>İkinci takım için oyuncu seçiniz</value>
+  </data>      
   <data name="Score" xml:space="preserve">
     <value>Sonuç</value>
   </data>      
+  <data name="StatisticEntry" xml:space="preserve">
+    <value>İstatistik Girişi</value>
+  </data>    
+  <data name="Stats" xml:space="preserve">
+    <value>İstatistikler</value>
+  </data> 
   <data name="StealBall" xml:space="preserve">
     <value>Top çalma</value>
-  </data>   
+  </data>      
   <data name="Team" xml:space="preserve">
     <value>Takım</value>
   </data>  
   <data name="TeamName" xml:space="preserve">
     <value>Takım adı</value>
-  </data>    
+  </data>   
+  <data name="Total" xml:space="preserve">
+    <value>Toplam</value>
+  </data>     
+  <data name="TotalPoint" xml:space="preserve">
+    <value>Toplam sayı</value>
+  </data>   
   <data name="TwoPoint" xml:space="preserve">
     <value>İki sayı</value>
+  </data>
+  <data name="UpdateEmail" xml:space="preserve">
+    <value>E-posta adresini güncelle</value>
+  </data>         
+  <data name="UpdateUserInfo" xml:space="preserve">
+    <value>Kullanıcı bilgilerini güncelle</value>
   </data>   
+  <data name="UserInfo" xml:space="preserve">
+    <value>Kullanıcı bilgileri</value>
+  </data>    
   <data name="Win" xml:space="preserve">
     <value>Kazanma</value>
   </data>      
@@ -455,6 +605,15 @@
   <data name="VideoLink" xml:space="preserve">
     <value>Video bağlantısı</value>
   </data>   
+  <data name="You are not authorized to change this role" xml:space="preserve">
+    <value>Bu rolü değiştiremeye yetkiniz yok</value>
+  </data>    
+  <data name="You can change the user role by clicking the corresponding role on the table" xml:space="preserve">
+    <value>Kullanıcı rolünü tablo üzerinde ilgili role tıklayarak değiştirebilirsiniz</value>
+  </data>      
+  <data name="You can not change your own role" xml:space="preserve">
+    <value>Kendi kullanıcı rolünüzü değiştiremezsiniz</value>
+  </data>    
   <data name="{0} field is required" xml:space="preserve">
     <value>{0} zorunludur</value>
   </data>     

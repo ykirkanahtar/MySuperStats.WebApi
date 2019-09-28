@@ -1,13 +1,17 @@
 ﻿@page
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+@inject ILocalizationService localizer
 @model ErrorModel
+
 @{
-    ViewData["Title"] = "Hata oluştu";
-    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+    ViewData["Title"] = localizer.GetValue("AnErrorHasOccured");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;    
 }
 
 <div style="margin-left: 20px;">
-    <h1 class="text-danger">İşlem sırasında bir hata oluştu.</h2>
+    <h1 class="text-danger">@(localizer.GetValue("AnErrorHasOccured"))</h2>
     <h2 class="text-danger">@(Model.ExceptionMessage)</h2>
 
 @{

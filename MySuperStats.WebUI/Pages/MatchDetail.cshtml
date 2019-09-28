@@ -1,8 +1,12 @@
 ﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
 @using MySuperStats.Contracts.Responses
 @model MySuperStats.WebUI.Pages.MatchDetailModel
+@inject ILocalizationService localizer
+
 @{
-    ViewData["Title"] = "Karşılaşma detayı";
+    ViewData["Title"] = localizer.GetValue("MatchDetail");
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
     <!-- Main content -->
@@ -10,9 +14,9 @@
 
       <div class="row">
           <div class="col-xs-12">
-              <label>Tarih:</label> @(Model.MatchResponse.MatchDate.ToString("dd-MM-yyyy"))<br />
-              <label>Sıra:</label> @(Model.MatchResponse.Order)<br />
-              <label>Video Link: </label><a href="@Model.MatchResponse.VideoLink" target="_blank">@(Model.MatchResponse.VideoLink)</a>
+              <label>@(localizer.GetValue("Date")):</label> @(Model.MatchResponse.MatchDate.ToString("dd-MM-yyyy"))<br />
+              <label>@(localizer.GetValue("Order")):</label> @(Model.MatchResponse.Order)<br />
+              <label>@(localizer.GetValue("VideoLink")): </label><a href="@Model.MatchResponse.VideoLink" target="_blank">@(Model.MatchResponse.VideoLink)</a>
           </div>
       </div>
 
@@ -29,22 +33,21 @@
             <div class="box">
               <!-- /.box-header -->
               <div class="box-body">
-                <label>Takım Adı: </label>@(team.TeamName)<br />
-                <label>Rengi: </label>@(team.Color)<br />
-                <label>Yaş Ort.: </label>@(team.GetAgeRatioForBasketball())<br />
-                <label>Oyuncu Sayısı: </label>@(team.BasketballStats.Count)                
+                <label>@(localizer.GetValue("TeamName")): </label>@(team.TeamName)<br />
+                <label>@(localizer.GetValue("AverageOfTheAges")): </label>@(team.GetAgeRatioForBasketball())<br />
+                <label>@(localizer.GetValue("CountOfThePlayers")): </label>@(team.BasketballStats.Count)                
                 <table id="match_detail" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Oyuncu</th>
-                    <th>1 Sayı</th>
-                    <th>2 Sayı</th>
-                    <th>Top. Sayı</th>
-                    <th>Ribaunt</th>
-                    <th>Kapma</th>
-                    <th>Asist</th>
-                    <th>Kayıp</th>
-                    <th>Kesme</th>
+                    <th>@(localizer.GetValue("Player"))</th>
+                    <th>@(localizer.GetValue("OnePoint"))</th>
+                    <th>@(localizer.GetValue("TwoPoint"))</th>
+                    <th>@(localizer.GetValue("TotalPoint"))</th>
+                    <th>@(localizer.GetValue("Rebound"))</th>
+                    <th>@(localizer.GetValue("StealBall"))</th>
+                    <th>@(localizer.GetValue("Assist"))</th>
+                    <th>@(localizer.GetValue("LooseBall"))</th>
+                    <th>@(localizer.GetValue("Interrupt"))</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -66,7 +69,7 @@
                       @{
                         var totalStatsForUI = team.GetTeamTotalForBasketball().GetStatsForUI();
                       <tr>
-                          <td><b>Toplam</b></td>
+                          <td><b>@(localizer.GetValue("Total"))</b></td>
                               <td><b>@(totalStatsForUI.OnePoint)</b></td>
                               <td><b>@(totalStatsForUI.TwoPoint)</b></td>
                               <td><b>@(totalStatsForUI.TotalPoint)</b></td>
