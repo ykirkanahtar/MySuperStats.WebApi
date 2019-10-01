@@ -122,14 +122,15 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
                 value="@(localizer.GetValue("UpdateEmail"))"/>
           </div>
 
-          <div class="container">   
+          <div class="container">
             <div id="successDivForEmailUpdate" class="alert alert-success" style="display:none">
-              <strong>Başarılı!</strong> <span id="successMessageForEmailUpdate">@(localizer.GetValue("SuccessMessageForEmailUpdate"))</span>
-            </div>    
+              <strong>@(localizer.GetValue("Successful"))!</strong> <span id="successMessageForEmailUpdate">@(localizer.GetValue("SuccessMessageForEmailUpdate"))</span>
+            </div>     
             <div id="errorDivForEmailUpdate" class="alert alert-danger" style="display:none">
-              <strong>Hata Oluştu!</strong> <span id="errorMessageForEmailUpdate">@(localizer.GetValue("AnErrorHasOccured"))</span>
+              <strong>@(localizer.GetValue("Error"))!</strong> <span id="errorMessageForEmailUpdate">@(localizer.GetValue("AnErrorHasOccured"))</span>
             </div>
-          </div>          
+          </div>
+         
         </form>
       </div>
       <!-- /.box -->

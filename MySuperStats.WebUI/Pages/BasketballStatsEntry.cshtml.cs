@@ -98,12 +98,12 @@ namespace MySuperStats.WebUI.Pages
 
         private TeamResponse GetHomeTeam()
         {
-            return new TeamResponse { Id = 1, TeamName = "1.Takım" };
+            return new TeamResponse { Id = 1, TeamName = _localizer.GetValue("FirstTeam") };
         }
 
         private TeamResponse GetAwayTeam()
         {
-            return new TeamResponse { Id = 2, TeamName = "2.Takım" };
+            return new TeamResponse { Id = 2, TeamName = _localizer.GetValue("SecondTeam") };
         }
 
         public async Task<IActionResult> OnPostFromGridAsync(int id, string culture)
@@ -125,7 +125,7 @@ namespace MySuperStats.WebUI.Pages
                             if (request != null)
                             {
                                 Model.MatchRequest.MatchGroupId = id;
-                                var matchDate = DateTime.ParseExact(request.MatchDate, "dd.MM.yyyy", CultureInfo.CurrentCulture);
+                                var matchDate = Convert.ToDateTime(request.MatchDate);
                                 Model.MatchRequest.MatchDate = matchDate;
                                 Model.MatchRequest.Order = request.Order;
                                 Model.MatchRequest.DurationInMinutes = request.DurationInMinutes;
@@ -176,7 +176,7 @@ namespace MySuperStats.WebUI.Pages
             {
                 return new JsonResult(response.Message);
             }
-            else return new JsonResult("Bir hata oluştu");
+            else return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
         }
     }
 }

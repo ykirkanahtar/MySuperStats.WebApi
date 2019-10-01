@@ -155,6 +155,9 @@
   <data name="DuplicateRecordForUniqueValueError" xml:space="preserve">
     <value>Tekil olan alan için çoklu kayıt hatası</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Hata</value>
+  </data>    
   <data name="GoBack" xml:space="preserve">
     <value>Geri dön</value>
   </data>    
@@ -179,8 +182,14 @@
   <data name="Success" xml:space="preserve">
     <value>İşlem başarıyla tamamlandı</value>
   </data>  
+  <data name="Successful" xml:space="preserve">
+    <value>Başarılı</value>
+  </data>    
   <data name="The operation has timed out." xml:space="preserve">
     <value>Sunucudan yanıt alınamadı.</value>
+  </data>    
+  <data name="Warning" xml:space="preserve">
+    <value>Uyarı</value>
   </data>    
   <data name="UnauthorizedAccessError" xml:space="preserve">
     <value>Bu erişim için yetki bulunmamakta</value>

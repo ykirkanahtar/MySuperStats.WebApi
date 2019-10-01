@@ -57,7 +57,7 @@ namespace MySuperStats.WebUI.Pages
 
             if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.AddUserToRole) == false)
             {
-                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+                throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
         }
 
@@ -120,7 +120,7 @@ namespace MySuperStats.WebUI.Pages
             {
                 return new JsonResult(response.Message);
             }
-            else return new JsonResult("Bir hata oluştu");
+            else return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
         }
 
         public async Task<JsonResult> OnGetRoles(int id)

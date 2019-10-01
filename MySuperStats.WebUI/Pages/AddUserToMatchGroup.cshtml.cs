@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,6 +25,7 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         private readonly ISession _session;
+        private readonly ILocalizationService _localizer;
         private readonly IPermissionChecker _permissionChecker;
 
         [BindProperty]
@@ -31,12 +33,13 @@ namespace MySuperStats.WebUI.Pages
         [EmailAddress]
         public string EmailAddress { get; set; }
 
-        public AddUserToMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
+        public AddUserToMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
             _permissionChecker = permissionChecker;
+            _localizer = localizer;
         }
 
         public async Task OnGet(int id)
@@ -45,7 +48,7 @@ namespace MySuperStats.WebUI.Pages
 
             if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup) == false)
             {
-                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+                throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
         }
 

@@ -433,13 +433,13 @@ $(document).ready(function() {
 
     <div class="container">
       <div id="successDiv" class="alert alert-success" style="display:none">
-        <strong>Başarılı!</strong> <span id="successMessage">@(localizer.GetValue("Success"))</span>
+        <strong>@(localizer.GetValue("Successful"))!</strong> <span id="successMessage">@(localizer.GetValue("Success"))</span>
       </div>
       <div id="warningDiv" class="alert alert-warning" style="display:none">
-        <strong>Uyarı!</strong> <span id="warningMessage"></span>
+        <strong>@(localizer.GetValue("Warning"))!</strong> <span id="warningMessage"></span>
       </div>        
       <div id="errorDiv" class="alert alert-danger" style="display:none">
-        <strong>Hata Oluştu!</strong> <span id="errorMessage">@(localizer.GetValue("AnErrorHasOccured"))</span>
+        <strong>@(localizer.GetValue("Error"))!</strong> <span id="errorMessage">@(localizer.GetValue("AnErrorHasOccured"))</span>
       </div>
     </div>
 

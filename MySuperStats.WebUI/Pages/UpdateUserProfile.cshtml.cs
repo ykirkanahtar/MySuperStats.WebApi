@@ -129,7 +129,7 @@ namespace MySuperStats.WebUI.Pages
             {
                 return new JsonResult(response.Message);
             }
-            else return new JsonResult("Bir hata oluştu");
+            else return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
         }
     }
 }
