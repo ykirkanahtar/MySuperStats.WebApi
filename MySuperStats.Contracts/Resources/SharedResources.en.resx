@@ -209,6 +209,30 @@
   <data name="MinValueError" xml:space="preserve">
     <value>the length of this field must be at least</value>
   </data>    
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>The {0} field is required.</value>
+  </data>     
+  <data name="The field {0} cannot be greater than {1}" xml:space="preserve">
+    <value>The field {0} cannot be greater than {1}</value>
+  </data>    
+  <data name="The field {0} cannot be less than {1}" xml:space="preserve">
+    <value>The field {0} cannot be less than {1}</value>
+  </data>      
+  <data name="The field {0} must be greater than or equal to {1}." xml:space="preserve">
+    <value>The field {0} must be greater than or equal to {1}.</value>
+  </data>     
+  <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
+    <value>The field {0} must be between {1} and {2}.</value>
+  </data>   
+  <data name="The field {0} must be a string with a minimum length of {1} and a maximum length of {2}." xml:space="preserve">
+    <value>The field {0} must be a string with a minimum length of {1} and a maximum length of {2}.</value>
+  </data>  
+. <data name="{0} and {1} do not match." xml:space="preserve">
+    <value>{0} and {1} do not match.</value>
+  </data>  
+. <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
+    <value>The {0} field is not a valid e-mail address.</value>
+  </data>   
   <!-- Annotation Errors -->
 
   <!--Identity -->
@@ -242,6 +266,12 @@
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Code required to complete registration</value>
   </data>  
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Doğrulama e-mail address</value>
+  </data>    
+  <data name="Email" xml:space="preserve">
+    <value>E-mail address</value>
+  </data>     
   <data name="EmailAddress" xml:space="preserve">
     <value>E-mail address</value>
   </data>   
@@ -274,6 +304,9 @@
   </data>   
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
+  </data>    
+  <data name="NewEmail" xml:space="preserve">
+    <value>New e-mail address</value>
   </data>    
   <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
     <value>Old password and new password can not be same</value>
@@ -325,10 +358,7 @@
   </data>
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>The password created by system</value>
-  </data> 
-  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
-    <value>The NewPassword must be at least 6 and at max 100 characters long.</value>
-  </data>     
+  </data>  
   <data name="Token" xml:space="preserve">
     <value>Token</value>
   </data>
@@ -619,9 +649,6 @@
   </data>      
   <data name="You can not change your own role" xml:space="preserve">
     <value>You can not change your own role</value>
-  </data>    
-  <data name="{0} field is required" xml:space="preserve">
-    <value>{0} field is required</value>
   </data>     
   <!-- Classes and fields-->
 

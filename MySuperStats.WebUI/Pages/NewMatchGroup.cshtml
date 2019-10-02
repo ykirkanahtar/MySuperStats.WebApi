@@ -26,6 +26,7 @@
             <div class="form-group">
               <label for="txtGroupName">@(localizer.GetValue("GroupName"))</label>
               <input type="text" asp-for="MatchGroup.GroupName" class="form-control" id="txtGroupName" placeholder="@(localizer.GetValue("Enter the name of the group"))">
+              <span asp-validation-for="MatchGroup.GroupName" class="text-danger"></span>                        
             </div>
           </div>
           <!-- /.box-body -->

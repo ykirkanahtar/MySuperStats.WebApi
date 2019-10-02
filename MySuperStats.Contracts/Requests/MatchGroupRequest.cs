@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CustomFramework.WebApiUtils.Contracts;
 using MySuperStats.Contracts.Utils;
 
 namespace MySuperStats.Contracts.Requests
@@ -6,9 +7,10 @@ namespace MySuperStats.Contracts.Requests
     public class MatchGroupRequest
     {
 
-        [Required(ErrorMessage = "{0} field is required")]
-        [StringLength(FieldLengths.MATCHGROUP_GROUPNAME_MAX, ErrorMessage = "<field>{0}</field> <message>FieldLengthError</message> <const>{2} - {1}</const>", MinimumLength = FieldLengths.MATCHGROUP_GROUPNAME_MIN)]
-        [Display(Name = "GroupName")]
+        [Required(ErrorMessage = ErrorMessages.Required)]
+        [StringLength(FieldLengths.MATCHGROUP_GROUPNAME_MAX, MinimumLength = FieldLengths.MATCHGROUP_GROUPNAME_MIN
+          , ErrorMessage = ErrorMessages.StringLength)]
+        [Display(Name = nameof(GroupName))]
         public string GroupName { get; set; }
     }
 }

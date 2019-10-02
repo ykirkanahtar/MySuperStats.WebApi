@@ -212,6 +212,30 @@
   <data name="MinValueError" xml:space="preserve">
     <value>alanının en düşük alabileceği değer</value>
   </data>    
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>{0} alanı zorunludur</value>
+  </data>     
+  <data name="The field {0} cannot be greater than {1}" xml:space="preserve">
+    <value>{0} alanı, en fazla {1} karakter olmalıdır</value>
+  </data>    
+  <data name="The field {0} cannot be less than {1}" xml:space="preserve">
+    <value>{0} alanı, en az {1} karakter olmalıdır</value>
+  </data>      
+  <data name="The field {0} must be greater than or equal to {1}." xml:space="preserve">
+    <value>{0} alanı, {1} değerine eşit ya da fazla olmalıdır</value>
+  </data>     
+  <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
+    <value>{0} alanı, {1} değeri ile {2} değeri arasında olmalıdır.</value>
+  </data>   
+  <data name="The field {0} must be a string with a minimum length of {1} and a maximum length of {2}." xml:space="preserve">
+    <value>{0} alanı, en az {2}, en fazla {1} karakter uzunluğunda olmalıdır.</value>
+  </data>  
+. <data name="{0} and {1} do not match." xml:space="preserve">
+    <value>{0} alanı ile {1} alanı uyuşmuyor.</value>
+  </data>  
+. <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
+    <value>{0} alanı geçerli bir e-posta formatına sahip değil.</value>
+  </data>   
   <!-- Annotation Errors -->
 
   <!--Identity -->
@@ -245,6 +269,12 @@
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Parola yenilemek için kod gerekmektedir</value>
   </data>  
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Doğrulama e-posta adresi</value>
+  </data>      
+  <data name="Email" xml:space="preserve">
+    <value>E-posta adresi</value>
+  </data>    
   <data name="EmailAddress" xml:space="preserve">
     <value>E-posta adresi</value>
   </data>   
@@ -278,6 +308,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Çıkış</value>
   </data>    
+  <data name="NewEmail" xml:space="preserve">
+    <value>Yeni e-posta adresi</value>
+  </data>      
   <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
     <value>Yeni parola ile eski aynı olamaz</value>
   </data>  
@@ -328,9 +361,6 @@
   </data>
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>Sistem tarafından üretilen parola</value>
-  </data> 
-  <data name="The NewPassword must be at least 6 and at max 100 characters long." xml:space="preserve">
-    <value>Yeni parolanız en az 6, en fazla 20 karakter uzunluğunda olabilir.</value>
   </data>     
   <data name="Token" xml:space="preserve">
     <value>token</value>
@@ -622,10 +652,7 @@
   </data>      
   <data name="You can not change your own role" xml:space="preserve">
     <value>Kendi kullanıcı rolünüzü değiştiremezsiniz</value>
-  </data>    
-  <data name="{0} field is required" xml:space="preserve">
-    <value>{0} zorunludur</value>
-  </data>     
+  </data>      
   <!-- Classes and fields-->
 
 
