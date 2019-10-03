@@ -27,7 +27,7 @@ namespace MySuperStats.WebUI.Utils
         public const string InvalidLoginAttempt = "Hatalı Giriş İsteği";
         public const string UserAccountLockedOut = "Kullanıcı hesabı kilitlendi";
         public const string FirstName = "İsim";
-        public const string Surname = "Soyad";
+        public const string LastName = "Soyad";
         public const string BirthDate = "Doğum Tarihi";
         public const string PleaseCheckYourEmail = "Lütfen e-postanızı kontrol ediniz."; //Please check your email to reset your password.
         public const string PleaseCheckYourEmailForCompletingRegistration = "Kaydınızı tamamlayabilmek için lütfen e-postanıza gönderilen doğrulama bağlantısına tıklayınız";

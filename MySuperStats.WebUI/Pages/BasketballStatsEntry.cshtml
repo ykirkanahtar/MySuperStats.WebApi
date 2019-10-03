@@ -94,7 +94,7 @@ $(document).ready(function() {
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
-      {title: GetLocalizedValue(pageUrl, "FirstNameSurname"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
     ],      
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
@@ -126,7 +126,7 @@ $(document).ready(function() {
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
-      {title: GetLocalizedValue(pageUrl, "FirstNameSurname"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
     ],      
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
@@ -158,7 +158,7 @@ $(document).ready(function() {
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
-      {title: GetLocalizedValue(pageUrl, "FirstNameSurname"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
       {title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
       {title: GetLocalizedValue(pageUrl, "MissingOnePoint"), field:"missingonepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
@@ -190,7 +190,7 @@ $(document).ready(function() {
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},
-      {title: GetLocalizedValue(pageUrl, "FirstNameSurname"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
       {title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
       {title: GetLocalizedValue(pageUrl, "MissingOnePoint"), field:"missingonepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},

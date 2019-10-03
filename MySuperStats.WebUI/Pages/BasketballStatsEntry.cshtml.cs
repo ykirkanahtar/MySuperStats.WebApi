@@ -86,7 +86,7 @@ namespace MySuperStats.WebUI.Pages
                     gridData.Add(new GridForTeamSelect
                     {
                         userid = player.Id,
-                        name = $"{player.FirstName} {player.Surname}",
+                        name = $"{player.FirstName} {player.LastName}",
                         haschecked = null
                     });
                 }

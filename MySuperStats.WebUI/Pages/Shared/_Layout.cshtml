@@ -144,14 +144,14 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">             -->
-              <span class="hidden-xs">@($"{loggedUser.FirstName} {loggedUser.Surname}")</span>
+              <span class="hidden-xs">@($"{loggedUser.FirstName} {loggedUser.LastName}")</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
                 <p>
-                  @($"{loggedUser.FirstName} {loggedUser.Surname}")
+                  @($"{loggedUser.FirstName} {loggedUser.LastName}")
                   <small>@($"{loggedUser.CreateDateTime.ToShortDateString()}") tarihinde kayıt oldu</small>
                 </p>
               </li>
@@ -189,7 +189,7 @@
             </div> -->
             <!-- <div class="pull-center info">
               <p>@($"{loggedUser.FirstName}")</p>
-              <p>@($"{loggedUser.Surname}")</p>
+              <p>@($"{loggedUser.LastName}")</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div> -->
         <!-- </div> -->

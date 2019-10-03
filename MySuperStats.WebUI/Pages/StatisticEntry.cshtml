@@ -307,7 +307,7 @@
                             var statForUI = playerStat.GetStatsForUI();
                             var player = playerStat.User;
                             <tr>
-                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@(player.FirstName) @(player.Surname)</a></td>
+                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@(player.FirstName) @(player.LastName)</a></td>
                                 <td>@(statForUI.OnePoint)</td>
                                 <td>@(statForUI.TwoPoint)</td>
                                 <td>@(statForUI.TotalPoint)</td>

@@ -6,7 +6,7 @@
 @inject ILocalizationService localizer
 
 @{
-    ViewData["Title"] = $"{Model.PlayerStats.User.FirstName} {Model.PlayerStats.User.Surname}";
+    ViewData["Title"] = $"{Model.PlayerStats.User.FirstName} {Model.PlayerStats.User.LastName}";
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 

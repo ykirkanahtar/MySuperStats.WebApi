@@ -308,7 +308,7 @@
   <data name="FirstName" xml:space="preserve">
     <value>Adı</value>
   </data>
-  <data name="FirstNameSurname" xml:space="preserve">
+  <data name="FirstNameLastName" xml:space="preserve">
     <value>Ad Soyad</value>
   </data>     
   <data name="For renew your password, please click on the link" xml:space="preserve">
@@ -383,7 +383,7 @@
   <data name="SuccessMessageForEmailUpdate" xml:space="preserve">
     <value>İşlem tamamlandı, onay bağlantısı e-posta adresinize gönderildi</value>
   </data>  
-  <data name="Surname" xml:space="preserve">
+  <data name="LastName" xml:space="preserve">
     <value>Soyadı</value>
   </data>  
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
@@ -506,7 +506,7 @@
   <data name="Enter the order of the match" xml:space="preserve">
     <value>Maç sırasını giriniz</value>
   </data>      
-  <data name="Enter the surname" xml:space="preserve">
+  <data name="Enter the lastname" xml:space="preserve">
     <value>Soyisim giriniz</value>
   </data>   
   <data name="Enter the url of the video" xml:space="preserve">

@@ -67,20 +67,20 @@
               <table id="basketball_players" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>@(localizer.GetValue("FirstNameSurname"))</th>
+                  <th>@(localizer.GetValue("FirstNameLastName"))</th>
                 </tr>
                 </thead>
                 <tbody>
                    @foreach (var player in Model.Players)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.Surname}")</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.LastName}")</a></td>
                         </tr>
                     }
                 </tbody>
                 <tfoot>
                 <tr>
-                  <th>@(localizer.GetValue("FirstNameSurname"))</th>
+                  <th>@(localizer.GetValue("FirstNameLastName"))</th>
                 </tr>
                 </tfoot>
               </table>

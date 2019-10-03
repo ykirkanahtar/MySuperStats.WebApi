@@ -137,7 +137,7 @@ namespace MySuperStats.WebUI.Pages
                                         new SelectListItem
                                         {
                                             Value = a.Id.ToString(),
-                                            Text = $"{a.FirstName} {a.Surname}"
+                                            Text = $"{a.FirstName} {a.LastName}"
                                         }).OrderBy(a => a.Text).ToList();
             }
             else

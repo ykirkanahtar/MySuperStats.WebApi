@@ -17,8 +17,8 @@ namespace MySuperStats.Contracts.Utils
         public const int USER_FIRSTNAME_MIN = 1;
         public const int USER_FIRSTNAME_MAX = 30;
 
-        public const int USER_SURNAME_MIN = 1;
-        public const int USER_SURNAME_MAX = 30;       
+        public const int USER_LASTNAME_MIN = 1;
+        public const int USER_LASTNAME_MAX = 30;       
 
         public const int USER_USERNAME_MIN = 1;
         public const int USER_USERNAME_MAX = 30;           

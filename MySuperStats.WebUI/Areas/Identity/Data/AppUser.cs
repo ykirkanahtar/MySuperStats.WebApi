@@ -9,7 +9,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Data
         public string FirstName { get; set; }
 
         [PersonalData]
-        public string Surname { get; set; }
+        public string LastName { get; set; }
 
         [PersonalData]
         public DateTime BirthDate { get; set; }

@@ -31,7 +31,7 @@ namespace MySuperStats.WebApi.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().Property(p => p.FirstName).HasMaxLength(100);
-            modelBuilder.Entity<User>().Property(p => p.Surname).HasMaxLength(100);
+            modelBuilder.Entity<User>().Property(p => p.LastName).HasMaxLength(100);
             modelBuilder.Entity<User>().Property(p => p.PhoneNumber).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(p => p.ConcurrencyStamp).HasMaxLength(1000);
             modelBuilder.Entity<User>().Property(p => p.SecurityStamp).HasMaxLength(1000);

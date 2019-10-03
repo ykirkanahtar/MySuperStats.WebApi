@@ -74,9 +74,9 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
               <span asp-validation-for="UserUpdate.FirstName" class="text-danger"></span>                        
             </div>
             <div class="form-group">
-              <label for="txtSurname">@(localizer.GetValue("Surname"))</label>
-              <input type="text" class="form-control" id="txtSurname" asp-for="UserUpdate.Surname" placeholder="@(localizer.GetValue("Enter the surname"))">
-              <span asp-validation-for="UserUpdate.Surname" class="text-danger"></span>                        
+              <label for="txtLastName">@(localizer.GetValue("LastName"))</label>
+              <input type="text" class="form-control" id="txtLastName" asp-for="UserUpdate.LastName" placeholder="@(localizer.GetValue("Enter the lastname"))">
+              <span asp-validation-for="UserUpdate.LastName" class="text-danger"></span>                        
             </div>
             <div class="form-group">
               <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>

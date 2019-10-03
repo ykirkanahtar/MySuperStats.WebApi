@@ -76,7 +76,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -100,7 +100,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -125,7 +125,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round(a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -149,7 +149,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round(a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -173,7 +173,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -198,7 +198,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -223,7 +223,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -248,7 +248,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -272,7 +272,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -296,7 +296,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -320,7 +320,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -344,7 +344,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -368,7 +368,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -392,7 +392,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -416,7 +416,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -440,7 +440,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -464,7 +464,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -488,7 +488,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = Math.Round((decimal)a.Value, 2),
                         GameCount = a.MatchCount
                     }).ToList();
@@ -512,7 +512,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = a.Value,
                         GameCount = a.MatchCount
                     }).ToList();
@@ -536,7 +536,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = a.Value,
                         GameCount = a.MatchCount
                     }).ToList();
@@ -560,7 +560,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = a.Value,
                         GameCount = a.MatchCount
                     }).ToList();
@@ -584,7 +584,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
-                        UserNameSurname = $"{pl.FirstName} {pl.Surname}",
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
                         Value = a.Value,
                         GameCount = a.MatchCount
                     }).ToList();

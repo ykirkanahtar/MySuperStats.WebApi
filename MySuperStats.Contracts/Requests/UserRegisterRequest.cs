@@ -39,10 +39,10 @@ namespace MySuperStats.Contracts.Requests
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.Required)]
-        [StringLength(FieldLengths.USER_SURNAME_MAX, MinimumLength = FieldLengths.USER_SURNAME_MIN
+        [StringLength(FieldLengths.USER_LASTNAME_MAX, MinimumLength = FieldLengths.USER_LASTNAME_MIN
         , ErrorMessage = ErrorMessages.StringLength)]
-        [Display(Name = nameof(Surname))]
-        public string Surname { get; set; }
+        [Display(Name = nameof(LastName))]
+        public string LastName { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = nameof(BirthDate))]
