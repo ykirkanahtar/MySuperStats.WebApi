@@ -8,6 +8,7 @@ using AutoMapper;
 using CS.Common.EmailProvider;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using CustomFramework.WebApiUtils.Enums;
 using CustomFramework.WebApiUtils.Identity.Business;
 using CustomFramework.WebApiUtils.Utils;
@@ -31,8 +32,9 @@ namespace MySuperStats.WebApi.Business
         private readonly IUserRepository _userRepository;
         private readonly IEmailSender _emailSender;
         private readonly IAppSettings _appSettings;
+        private readonly ILocalizationService _localizer;
 
-        public UserManager(ICustomUserManager<User> userManager, IUserRepository userRepository, IEmailSender emailSender, IAppSettings appSettings, IUnitOfWorkWebApi uow, ILogger<UserManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+        public UserManager(ICustomUserManager<User> userManager, IUserRepository userRepository, IEmailSender emailSender, IAppSettings appSettings, IUnitOfWorkWebApi uow, ILogger<UserManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor, ILocalizationService localizer)
         : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
@@ -40,6 +42,7 @@ namespace MySuperStats.WebApi.Business
             _userRepository = userRepository;
             _appSettings = appSettings;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         public Task<IdentityResult> CreateAsync(User user, string password, IUrlHelper url, string requestScheme, string callBackUrl, List<string> roles)
@@ -81,7 +84,7 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () =>
             {
                 if (user.Email == newEmail)
-                    throw new ArgumentException("Yeni E-posta adresiniz kayıtlı e-posta adresinizden farklı olmalıdır");
+                    throw new ArgumentException(_localizer.GetValue("Your new e-mail address must be different from your registered e-mail address"));
 
                 var token = await _userManager.GenerateTokenForChangeEmailAsync(user, newEmail);
 
@@ -158,7 +161,7 @@ namespace MySuperStats.WebApi.Business
             {
                 if (userId < 1 || code == null)
                 {
-                    throw new ArgumentException($"Hatalı bağlantı"); //Invalid link
+                    throw new ArgumentException(_localizer.GetValue("Invalid link")); //Invalid link
                 }
 
                 return await _userManager.ConfirmEmailAsync(userId, code);
@@ -171,7 +174,7 @@ namespace MySuperStats.WebApi.Business
             {
                 if (userId < 1 || token == null)
                 {
-                    throw new ArgumentException($"Hatalı bağlantı"); //Invalid link
+                    throw new ArgumentException(_localizer.GetValue("Invalid link")); //Invalid link
                 }
 
                 var codeDecodedBytes = WebEncoders.Base64UrlDecode(token);
@@ -185,7 +188,7 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                await _userManager.ForgotPasswordAsync(request.EmailAddress, "Parola Yenileme", "Parolanızı yenilemek için lütfen bağlantıya tıklayınız", url, requestScheme, callBackUrl);
+                await _userManager.ForgotPasswordAsync(request.EmailAddress, _localizer.GetValue("Renew Password"), _localizer.GetValue("For renew your password, please click on the link"), url, requestScheme, callBackUrl);
 
                 return true;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
@@ -195,7 +198,9 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword, $"MySuperStats - Parolanız değiştirildi", $"Parolanız değiştirildi.Eğer bu işlemi siz yapmadıysanız lütfen site yöneticisi ile iletişim geçiniz.");
+                return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword
+                , $"MySuperStats - {_localizer.GetValue("Your password has been changed")}"
+                , $"{_localizer.GetValue("Your password has been changed email text")}");
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
@@ -204,48 +209,11 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () =>
             {
                 var roles = await _userRepository.GetRolesByUserIdAsync(userId);
-                if (roles.Count > 1) throw new Exception("Sistem hatası, bir kullanıcı birden fazla role sahip olamaz.");
+                if (roles.Count > 1) throw new Exception($"{_localizer.GetValue("SystemError")}, {_localizer.GetValue("A user cannot have more than one role.")}");
 
                 var role = roles.Count == 1 ? roles[0] : new Role();
                 return role;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
-
-        // public Task<UserRole> AddUserToRoleAsync(UserRoleRequest request)
-        // {
-        //     return CommonOperationAsync(async () =>
-        //     {
-        //         /* Kullanıcının karşılaşma grubuna ait tüm rolleri siliniyor */
-        //         var existingRole = await GetRoleByUserIdAndMatchGroupIdAsync(request.UserId, request.MatchGroupId);
-        //         if (existingRole.Name == RoleEnum.Admin.ToString() || request.UserId == GetLoggedInUserId())
-        //         {
-        //             throw new ArgumentException("Bu işlemi yapmaya yetkiniz yok.");
-        //         }
-
-        //         var existingUserRole = new UserRole
-        //         {
-        //             MatchGroupId = request.MatchGroupId,
-        //             RoleId = existingRole.Id,
-        //             UserId = request.UserId,
-        //         };
-        //         _uow.Users.RemoveUserFromRole(existingUserRole);
-        //         /* ******************************************************* */
-
-        //         var userRole = Mapper.Map<UserRole>(request);
-
-        //         _uow.Users.AddUserToRole(userRole);
-        //         await _uow.SaveChangesAsync();
-
-        //         return userRole;
-        //     }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
-        // }
-
-        // public Task<IList<UserRole>> GetUserRolesByMatchGroupIdAsync(int matchGroupId)
-        // {
-        //     return CommonOperationAsync(async () =>
-        //     {
-        //         return await _userRepository.GetUserRolesByMatchGroupIdAsync(matchGroupId);
-        //     }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
-        // }
     }
 }

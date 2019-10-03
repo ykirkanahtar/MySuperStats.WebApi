@@ -126,7 +126,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
-                throw new ArgumentException($"E-posta doğrulaması sırasında hata oluştu : {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
+                throw new ArgumentException($"{LocalizationService.GetValue("Email confirmation error")}: {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
             }
 
             return Ok("Yeni E-Posta adresiniz onaylanmıştır");

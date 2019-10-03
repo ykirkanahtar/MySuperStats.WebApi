@@ -185,6 +185,9 @@
   <data name="Successful" xml:space="preserve">
     <value>Başarılı</value>
   </data>    
+  <data name="SystemError" xml:space="preserve">
+    <value>Sistem hatası</value>
+  </data>  
   <data name="The operation has timed out." xml:space="preserve">
     <value>Sunucudan yanıt alınamadı.</value>
   </data>    
@@ -239,6 +242,9 @@
   <!-- Annotation Errors -->
 
   <!--Identity -->
+  <data name="A user cannot have more than one role." xml:space="preserve">
+    <value>Bir kullanıcı birden fazla role sahip olamaz.</value>
+  </data>   
   <data name="A user with this login already exists." xml:space="preserve">
     <value>Bu kullanıcı girişine ait bir kullanıcı bulunmakta.</value>
   </data>  
@@ -266,6 +272,9 @@
   <data name="ClientApplicationPassword" xml:space="preserve">
     <value>istemci uygulama parolası</value>
   </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kod</value>
+  </data>    
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Parola yenilemek için kod gerekmektedir</value>
   </data>  
@@ -284,6 +293,12 @@
   <data name="Email {0} is invalid." xml:space="preserve">
     <value>{0} e-posta adresi geçersiz.</value>
   </data>  
+  <data name="Email confirmation error" xml:space="preserve">
+    <value>E-posta doğrulaması</value>
+  </data>     
+  <data name="Email is approved" xml:space="preserve">
+    <value>E-posta adresiniz onaylanmıştır</value>
+  </data>      
   <data name="Enter the e-mail address" xml:space="preserve">
     <value>E-posta adresi giriniz</value>
   </data>      
@@ -295,10 +310,16 @@
   </data>
   <data name="FirstNameSurname" xml:space="preserve">
     <value>Ad Soyad</value>
-  </data>  
+  </data>     
+  <data name="For renew your password, please click on the link" xml:space="preserve">
+    <value>Parolanızı yenilemek için lütfen bağlantıya tıklayınız</value>
+  </data>   
   <data name="Incorrect password." xml:space="preserve">
     <value>Hatalı parola</value>
-  </data>     
+  </data>  
+  <data name="Invalid link" xml:space="preserve">
+    <value>Hatalı bağlantı</value>
+  </data>      
   <data name="Invalid token." xml:space="preserve">
     <value>Geçersiz token</value>
   </data>  
@@ -308,9 +329,12 @@
   <data name="Logout" xml:space="preserve">
     <value>Çıkış</value>
   </data>    
+  <data name="Name" xml:space="preserve">
+    <value>Ad</value>
+  </data>    
   <data name="NewEmail" xml:space="preserve">
     <value>Yeni e-posta adresi</value>
-  </data>      
+  </data>        
   <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
     <value>Yeni parola ile eski aynı olamaz</value>
   </data>  
@@ -344,6 +368,9 @@
   <data name="PleaseConfirmYourRegistration" xml:space="preserve">
     <value>Lütfen kaydınızı onaylayınız</value>
   </data>
+  <data name="Renew Password" xml:space="preserve">
+    <value>Parola yenileme</value>
+  </data>  
   <data name="Role" xml:space="preserve">
     <value>rol</value>
   </data>
@@ -358,10 +385,10 @@
   </data>  
   <data name="Surname" xml:space="preserve">
     <value>Soyadı</value>
-  </data>
+  </data>  
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>Sistem tarafından üretilen parola</value>
-  </data>     
+  </data>      
   <data name="Token" xml:space="preserve">
     <value>token</value>
   </data>
@@ -388,7 +415,19 @@
   </data>           
   <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
     <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
-  </data>      
+  </data>    
+  <data name="Your account is approved" xml:space="preserve">
+    <value>Hesabınız onaylanmıştır</value>
+  </data>    
+  <data name="Your new e-mail address must be different from your registered e-mail address" xml:space="preserve">
+    <value>Yeni e-posta adresiniz kayıtlı e-posta adresinizden farklı olmalıdır</value>
+  </data>    
+  <data name="Your password has been changed" xml:space="preserve">
+    <value>Parolanız değiştirildi</value>
+  </data>     
+  <data name="Your password has been changed email text" xml:space="preserve">
+    <value>Parolanız değiştirildi. Eğer bu işlemi siz yapmadıysanız lütfen site yöneticisi ile iletişime geçiniz.</value>
+  </data>    
   <!--Identity -->
 
   <!-- Classes and fields-->

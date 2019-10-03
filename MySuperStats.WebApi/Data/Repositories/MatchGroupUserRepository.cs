@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using CustomFramework.Data;
-using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
-using CustomFramework.Data.Utils;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;

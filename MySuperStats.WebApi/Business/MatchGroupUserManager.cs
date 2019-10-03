@@ -7,6 +7,7 @@ using AutoMapper;
 using CustomFramework.Data.Contracts;
 using CustomFramework.WebApiUtils.Business;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Enums;
@@ -19,11 +20,13 @@ namespace MySuperStats.WebApi.Business
     public class MatchGroupUserManager : BaseBusinessManagerWithApiRequest<ApiRequest>, IMatchGroupUserManager
     {
         private readonly IUnitOfWorkWebApi _uow;
+        private readonly ILocalizationService _localizer;
 
-        public MatchGroupUserManager(IUnitOfWorkWebApi uow, ILogger<MatchGroupUserManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor)
+        public MatchGroupUserManager(IUnitOfWorkWebApi uow, ILogger<MatchGroupUserManager> logger, IMapper mapper, IApiRequestAccessor apiRequestAccessor, ILocalizationService localizer)
         : base(logger, mapper, apiRequestAccessor)
         {
             _uow = uow;
+            _localizer = localizer;
         }
 
         public Task<MatchGroupUser> CreateAsync(MatchGroupUserRequest request)
@@ -59,7 +62,7 @@ namespace MySuperStats.WebApi.Business
 
                 if (existingRole.Name == RoleEnum.Admin.ToString() || request.UserId == GetLoggedInUserId() || newRole == RoleEnum.Admin)
                 {
-                    throw new ArgumentException("Bu işlemi yapmaya yetkiniz yok.");
+                    throw new ArgumentException(_localizer.GetValue("UnauthorizedAccessError"));
                 }
 
                 matchGroupUser.RoleId = request.RoleId;

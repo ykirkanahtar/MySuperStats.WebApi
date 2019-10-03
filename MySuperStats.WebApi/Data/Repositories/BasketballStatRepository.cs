@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
-using CustomFramework.Data.Utils;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using MySuperStats.Contracts;
 using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
-using Remotion.Linq.Clauses;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace MySuperStats.WebApi.Data.Repositories

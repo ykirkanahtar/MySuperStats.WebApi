@@ -12,7 +12,6 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
-using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Enums;
 

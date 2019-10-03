@@ -13,7 +13,6 @@ using CustomFramework.Authorization.Attributes;
 using MySuperStats.WebApi.Enums;
 using CustomFramework.Authorization.Enums;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MySuperStats.WebApi.Controllers.Authorization

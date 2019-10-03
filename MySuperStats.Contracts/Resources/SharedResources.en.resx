@@ -185,6 +185,9 @@
   <data name="Successful" xml:space="preserve">
     <value>Successful</value>
   </data>     
+  <data name="SystemError" xml:space="preserve">
+    <value>System error</value>
+  </data>  
   <data name="The operation has timed out." xml:space="preserve">
     <value>The operation has timed out</value>
   </data>    
@@ -236,6 +239,9 @@
   <!-- Annotation Errors -->
 
   <!--Identity -->
+  <data name="A user cannot have more than one role." xml:space="preserve">
+    <value>A user cannot have more than one role.</value>
+  </data>   
   <data name="A user with this login already exists." xml:space="preserve">
     <value>A user with this login already exists.</value>
   </data>  
@@ -263,6 +269,9 @@
   <data name="ClientApplicationPassword" xml:space="preserve">
     <value>Client application password</value>
   </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>     
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Code required to complete registration</value>
   </data>  
@@ -281,6 +290,12 @@
   <data name="Email {0} is invalid." xml:space="preserve">
     <value>Email {0} is invalid.</value>
   </data>  
+  <data name="Email confirmation error" xml:space="preserve">
+    <value>An error has occured on confirmation of the e-mail</value>
+  </data>     
+  <data name="Email is approved" xml:space="preserve">
+    <value>E-mail is approved</value>
+  </data>     
   <data name="Enter the e-mail address" xml:space="preserve">
     <value>Enter the e-mail address</value>
   </data>      
@@ -292,9 +307,15 @@
   </data>
   <data name="FirstNameSurname" xml:space="preserve">
     <value>Firstname - surname</value>
-  </data>  
+  </data>    
+  <data name="For renew your password, please click on the link" xml:space="preserve">
+    <value>Parolanızı yenilemek için lütfen bağlantıya tıklayınız</value>
+  </data>   
   <data name="Incorrect password." xml:space="preserve">
     <value>Incorrect password.</value>
+  </data>  
+  <data name="Invalid link" xml:space="preserve">
+    <value>Hatalı bağlantı</value>
   </data>     
   <data name="Invalid token." xml:space="preserve">
     <value>Invalid token</value>
@@ -305,6 +326,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>    
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>      
   <data name="NewEmail" xml:space="preserve">
     <value>New e-mail address</value>
   </data>    
@@ -341,6 +365,9 @@
   <data name="PleaseConfirmYourRegistration" xml:space="preserve">
     <value>Please confirm your registration.</value>
   </data>
+  <data name="Renew Password" xml:space="preserve">
+    <value>Parola yenileme</value>
+  </data>  
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
@@ -386,6 +413,18 @@
   <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
     <value>User name {0} is invalid, can only contain letters or digits.</value>
   </data>      
+  <data name="Your account is approved" xml:space="preserve">
+    <value>Your account is approved</value>
+  </data>    
+  <data name="Your new e-mail address must be different from your registered e-mail address" xml:space="preserve">
+    <value>Your new e-mail address must be different from your registered e-mail address</value>
+  </data>    
+  <data name="Your password has been changed" xml:space="preserve">
+    <value>Parolanız değiştirildi</value>
+  </data>   
+  <data name="Your password has been changed email text" xml:space="preserve">
+    <value>Your password has been changed. If you have not done this, please contact the site administrator.</value>
+  </data>     
   <!--Identity -->
 
   <!-- Classes and fields-->
