@@ -11,6 +11,7 @@ namespace MySuperStats.Contracts.Responses
         public UserDetailWithBasketballStatResponse()
         {
             User = new UserResponse();
+            Player = new PlayerResponse();
             PerMatchStats = new BasketballStatResponse();
             TotalStats = new BasketballStatResponse();
             RatioTable = new BasketballRatioTable(0, 0);
@@ -20,6 +21,7 @@ namespace MySuperStats.Contracts.Responses
         }
 
         public UserResponse User { get; set; }
+        public PlayerResponse Player { get; set; }
         public BasketballStatResponse PerMatchStats { get; set; }
         public BasketballStatResponse TotalStats { get; set; }
         public BasketballRatioTable RatioTable { get; set; }

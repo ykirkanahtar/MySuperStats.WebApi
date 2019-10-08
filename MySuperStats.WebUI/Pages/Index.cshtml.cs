@@ -71,14 +71,15 @@ namespace MySuperStats.WebUI.Pages
         {
             try
             {
-                var loggedUser = SessionUtil.GetLoggedUser(_session);
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserWithBasketballStats}{loggedUser.Id}";
+                var loggedPlayer = SessionUtil.GetLoggedUser(_session).Player;
+
+                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerWithBasketballStats}{loggedPlayer.Id}";
                 var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     PlayerStats = JsonConvert.DeserializeObject<UserDetailWithBasketballStatResponse>(response.Result.ToString());
-                    BasketballStats = PlayerStats.User.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
+                    BasketballStats = PlayerStats.Player.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
                 }
                 else
                     throw new Exception(response.Message);
@@ -87,7 +88,6 @@ namespace MySuperStats.WebUI.Pages
             {
                 throw new Exception(ex.Message);
             }
-        }
-
+        }     
     }
 }

@@ -12,7 +12,7 @@ namespace MySuperStats.WebApi.Business
     {
         Task<int> CreateMultiStats(CreateMatchRequestWithMultiBasketballStats request);
         Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId);
+        Task<IList<BasketballStat>> GetAllByMatchGroupIdAndPlayerIdAsync(int matchGroupId, int playerId);
         Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId);
         Task<BasketballStatisticTable> GetTopStats(int matchGroupId);
     }

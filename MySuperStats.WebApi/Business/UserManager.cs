@@ -107,14 +107,16 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                return await _userManager.GetByIdAsync(id);
+                return await _uow.Users.GetByIdAsync(id);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int id)
+        public Task<Player> GetPlayerByIdAsync(int id)
         {
-            return CommonOperationAsync(async () => await _uow.Users.GetByIdWithBasketballStatsAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
-                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+            return CommonOperationAsync(async () =>
+            {
+                return await _uow.Users.GetPlayerByIdAsync(id);
+            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
         public Task<User> GetByUserNameAsync(string userName)

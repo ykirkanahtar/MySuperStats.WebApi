@@ -29,14 +29,14 @@ namespace MySuperStats.WebUI.Pages
         private readonly IMapper _mapper;
         private readonly ILocalizationService _localizer;
 
-        public List<UserResponse> Players { get; set; }
+        public List<PlayerResponse> Players { get; set; }
 
         [BindProperty]
         public CreateMatchRequestWithMultiBasketballStats Model { get; set; }
 
         public class GridForTeamSelect
         {
-            public int userid { get; set; }
+            public int playerid { get; set; }
             public string name { get; set; }
             public bool? haschecked { get; set; }
         }
@@ -58,7 +58,7 @@ namespace MySuperStats.WebUI.Pages
             _appSettings = appSettings;
             _mapper = mapper;
 
-            Players = new List<UserResponse>();
+            Players = new List<PlayerResponse>();
 
             Model = new CreateMatchRequestWithMultiBasketballStats();
             Model.MatchRequest.Order = 1;
@@ -73,19 +73,19 @@ namespace MySuperStats.WebUI.Pages
 
         public async Task<JsonResult> OnGetPlayers(int id)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Players = JsonConvert.DeserializeObject<List<UserResponse>>(response.Result.ToString());
+                Players = JsonConvert.DeserializeObject<List<PlayerResponse>>(response.Result.ToString());
                 var gridData = new List<GridForTeamSelect>();
 
                 foreach (var player in Players)
                 {
                     gridData.Add(new GridForTeamSelect
                     {
-                        userid = player.Id,
+                        playerid = player.Id,
                         name = $"{player.FirstName} {player.LastName}",
                         haschecked = null
                     });
@@ -159,7 +159,7 @@ namespace MySuperStats.WebUI.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostSaveMatchAsync(int id, string culture)
+        public async Task<JsonResult> OnPostSaveMatchAsync(int id, string culture)
         {
             var jsonContent = JsonConvert.SerializeObject(Model);
 
@@ -176,7 +176,10 @@ namespace MySuperStats.WebUI.Pages
             {
                 return new JsonResult(response.Message);
             }
-            else return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
+            else
+            {
+                return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
+            }
         }
     }
 }

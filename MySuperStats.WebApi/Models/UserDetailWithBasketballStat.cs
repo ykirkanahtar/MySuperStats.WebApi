@@ -8,13 +8,13 @@ namespace MySuperStats.WebApi.Models
     {
         public UserDetailWithBasketballStat()
         {
-            User = new User();
+            Player = new Player();
             PerMatchStats = new BasketballStat();
             TotalStats = new BasketballStat();
             MatchForms = new List<MatchResult>();
             Matches = new List<Match>();
         }
-        public User User { get; set; }
+        public Player Player { get; set; }
         public BasketballStat PerMatchStats { get; set; }
         public BasketballStat TotalStats { get; set; }
         public BasketballRatioTable RatioTable { get; set; }

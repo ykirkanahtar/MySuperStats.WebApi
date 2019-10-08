@@ -5,6 +5,7 @@ namespace MySuperStats.Contracts.Enums
         Admin = 1,
         GroupAdmin = 2,
         Editor = 3,
-        Player = 4
+        Player = 4,
+        Guest = 5,
     }
 }

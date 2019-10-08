@@ -48,8 +48,14 @@ namespace MySuperStats.WebApi.Data.Repositories
                                    p
             ).Include(p => p.HomeTeam).Include(p => p.AwayTeam).FirstOrDefaultAsync();
 
-            var homeTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking() where p.MatchId == matchId && p.TeamId == match.HomeTeamId && p.Status == Status.Active select p).Include(p => p.User).ToListAsync();
-            var awayTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking() where p.MatchId == matchId && p.TeamId == match.AwayTeamId && p.Status == Status.Active select p).Include(p => p.User).ToListAsync();
+            var homeTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking()
+                                       where p.MatchId == matchId && p.TeamId == match.HomeTeamId && p.Status == Status.Active
+                                       select p)
+                        .Include(p => p.Player).ThenInclude(p => p.User).ToListAsync();
+            var awayTeamStats = await (from p in DbContext.Set<BasketballStat>().AsNoTracking()
+                                       where p.MatchId == matchId && p.TeamId == match.AwayTeamId && p.Status == Status.Active
+                                       select p)
+                        .Include(p => p.Player).ThenInclude(p => p.User).ToListAsync();
 
             match.HomeTeam.BasketballStats = homeTeamStats;
             match.AwayTeam.BasketballStats = awayTeamStats;

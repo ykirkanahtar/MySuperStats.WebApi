@@ -304,7 +304,7 @@
   </data>      
   <data name="Enter your e-mail address" xml:space="preserve">
     <value>E-posta adresinizi giriniz</value>
-  </data>    
+  </data>             
   <data name="FirstName" xml:space="preserve">
     <value>Adı</value>
   </data>
@@ -431,6 +431,12 @@
   <!--Identity -->
 
   <!-- Classes and fields-->
+  <data name="AddGuest" xml:space="preserve">
+    <value>Misafir oyuncu ekle</value>
+  </data>      
+  <data name="AddGuestToMatchGroup" xml:space="preserve">
+    <value>Karşılaşma grubuna misafir oyuncu ekle</value>
+  </data>    
   <data name="AddUserToMatchGroup" xml:space="preserve">
     <value>Karşılaşma grubuna kullanıcı ekle</value>
   </data>  
@@ -468,7 +474,7 @@
     <value>Oyuncu sayısı</value>
   </data>    
   <data name="CreateNewMatchGroup" xml:space="preserve">
-    <value>Yeni karşılaşma grubu oluştur</value>
+    <value>Yeni Karşılaşma Grubu Oluştur</value>
   </data>      
   <data name="CreateTeams" xml:space="preserve">
     <value>Takımları oluştur</value>
@@ -497,7 +503,7 @@
   <data name="Enter the duration of the match" xml:space="preserve">
     <value>Maç süresini giriniz</value>
   </data>     
-  <data name="Enter the first name" xml:space="preserve">
+  <data name="Enter the firstname" xml:space="preserve">
     <value>İsim giriniz</value>
   </data>     
   <data name="Enter the name of the group" xml:space="preserve">
@@ -571,7 +577,10 @@
   </data>   
   <data name="MissingTwoPoint" xml:space="preserve">
     <value>Kaçan iki sayı</value>
-  </data>            
+  </data>  
+  <data name="MyProfile" xml:space="preserve">
+    <value>Profilim</value>
+  </data>              
   <data name="MyStats" xml:space="preserve">
     <value>İstatistiklerim</value>
   </data>      
@@ -608,12 +617,12 @@
   <data name="Players" xml:space="preserve">
     <value>Oyuncular</value>
   </data>      
-  <data name="TotalPoints" xml:space="preserve">
-    <value>Sayı Krallığı</value>
-  </data>   
   <data name="Rebound" xml:space="preserve">
     <value>Rebound</value>
   </data>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value>Kayıt Tarihi :</value>
+  </data>    
   <data name="SaveGoal" xml:space="preserve">
     <value>Kurtarış</value>
   </data>    
@@ -637,7 +646,10 @@
   </data>      
   <data name="Score" xml:space="preserve">
     <value>Sonuç</value>
-  </data>      
+  </data>     
+  <data name="Settings" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>    
   <data name="StatisticEntry" xml:space="preserve">
     <value>İstatistik Girişi</value>
   </data>    
@@ -653,12 +665,18 @@
   <data name="TeamName" xml:space="preserve">
     <value>Takım adı</value>
   </data>   
+  <data name="TopStats" xml:space="preserve">
+    <value>Genel İstatistikler</value>
+  </data>    
   <data name="Total" xml:space="preserve">
     <value>Toplam</value>
   </data>     
   <data name="TotalPoint" xml:space="preserve">
     <value>Toplam sayı</value>
   </data>   
+  <data name="TotalPoints" xml:space="preserve">
+    <value>Sayı Krallığı</value>
+  </data>     
   <data name="TwoPoint" xml:space="preserve">
     <value>İki sayı</value>
   </data>
@@ -689,6 +707,9 @@
   <data name="You can change the user role by clicking the corresponding role on the table" xml:space="preserve">
     <value>Kullanıcı rolünü tablo üzerinde ilgili role tıklayarak değiştirebilirsiniz</value>
   </data>      
+  <data name="You can delete only guest player" xml:space="preserve">
+    <value>Sadece misafir oyuncuyu silebilirsiniz.</value>
+  </data>  
   <data name="You can not change your own role" xml:space="preserve">
     <value>Kendi kullanıcı rolünüzü değiştiremezsiniz</value>
   </data>      

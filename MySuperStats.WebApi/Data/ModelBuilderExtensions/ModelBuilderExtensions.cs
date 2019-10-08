@@ -27,8 +27,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "YUNUS EMRE",
-                    LastName = "KIRKANAHTAR",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 1,
+                    UserId = 1,
+                    FirstName = "Yunus Emre",
+                    LastName = "Kırkanahtar",
                     BirthDate = new DateTime(1982, 2, 14),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -49,8 +60,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "ALİ",
-                    LastName = "YUNUSLAR",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 2,
+                    UserId = 2,
+                    FirstName = "Ali",
+                    LastName = "Yunuslar",
                     BirthDate = new DateTime(1975, 9, 16),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -71,8 +93,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "ARBAK",
-                    LastName = "DEMİRDAĞ",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 3,
+                    UserId = 3,
+                    FirstName = "Arbak",
+                    LastName = "Demirdağ",
                     BirthDate = new DateTime(1975, 2, 4),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -93,8 +126,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "FAHRİ",
-                    LastName = "SÖYLEMEZGİLLER",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 4,
+                    UserId = 4,
+                    FirstName = "Fahri",
+                    LastName = "Söylemezgiller",
                     BirthDate = new DateTime(1970, 1, 27),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -115,8 +159,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "MAHMUT",
-                    LastName = "BALCİ",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 5,
+                    UserId = 5,
+                    FirstName = "Mahmut",
+                    LastName = "Balci",
                     BirthDate = new DateTime(1982, 7, 20),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -137,8 +192,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "İLKER",
-                    LastName = "OYMAN",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 6,
+                    UserId = 6,
+                    FirstName = "İlker",
+                    LastName = "Oyman",
                     BirthDate = new DateTime(1971, 1, 21),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -159,8 +225,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "GÜRCAN",
-                    LastName = "ATEŞ",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 7,
+                    UserId = 7,
+                    FirstName = "Gürcan",
+                    LastName = "Ateş",
                     BirthDate = new DateTime(1984, 10, 17),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -181,8 +258,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "CEYHAN",
-                    LastName = "GÖNEN",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 8,
+                    UserId = 8,
+                    FirstName = "Ceyhan",
+                    LastName = "Gönen",
                     BirthDate = new DateTime(1988, 1, 16),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -203,8 +291,19 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "AHMET",
-                    LastName = "OKÇULAR",
+                    CreateDateTime = new DateTime(2019, 1, 1),
+                    CreateUserId = 1,
+                    Status = Status.Active
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(
+                new Player
+                {
+                    Id = 9,
+                    UserId = 9,
+                    FirstName = "Ahmet",
+                    LastName = "Okçular",
                     BirthDate = new DateTime(1970, 3, 10),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -225,14 +324,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "MEHMET",
-                    LastName = "AYGÜN",
-                    BirthDate = new DateTime(1973, 7, 21),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 10,
+                     UserId = 10,
+                     FirstName = "Mehmet",
+                     LastName = "Aygün",
+                     BirthDate = new DateTime(1973, 7, 21),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -247,14 +357,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "FIRAT",
-                    LastName = "TİMUR",
-                    BirthDate = new DateTime(1987, 4, 2),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 11,
+                     UserId = 11,
+                     FirstName = "Fırat",
+                     LastName = "Timur",
+                     BirthDate = new DateTime(1987, 4, 2),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -269,14 +390,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "GÖKAY",
-                    LastName = "PATAR",
-                    BirthDate = new DateTime(1992, 9, 5),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 12,
+                     UserId = 12,
+                     FirstName = "Gökay",
+                     LastName = "Patar",
+                     BirthDate = new DateTime(1992, 9, 5),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -291,14 +423,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "ALTUĞ",
-                    LastName = "DEMİRSEL",
-                    BirthDate = new DateTime(1989, 9, 12),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 13,
+                     UserId = 13,
+                     FirstName = "Altuğ",
+                     LastName = "Demirsel",
+                     BirthDate = new DateTime(1989, 9, 12),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -313,14 +456,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "ÖMER",
-                    LastName = "SEFER",
-                    BirthDate = new DateTime(2000, 7, 31),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 14,
+                     UserId = 14,
+                     FirstName = "Ömer",
+                     LastName = "Sefer",
+                     BirthDate = new DateTime(2000, 7, 31),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -335,14 +489,25 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                     ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                     LockoutEnabled = true,
-                    FirstName = "CANER",
-                    LastName = "PAZAR",
-                    BirthDate = new DateTime(1987, 10, 25),
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active
                 }
             );
+
+            modelBuilder.Entity<Player>().HasData(
+                 new Player
+                 {
+                     Id = 15,
+                     UserId = 15,
+                     FirstName = "Caner",
+                     LastName = "Pazar",
+                     BirthDate = new DateTime(1987, 10, 25),
+                     CreateDateTime = new DateTime(2019, 1, 1),
+                     CreateUserId = 1,
+                     Status = Status.Active
+                 }
+             );
 
             modelBuilder.Entity<ClientApplication>().HasData(
                 new ClientApplication
@@ -474,6 +639,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                 {
                     Id = i,
                     UserId = i,
+                    PlayerId = i,
                     MatchGroupId = 1,
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
@@ -509,7 +675,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     CreateUserId = 1,
                     Status = Status.Active
                 }
-            );            
+            );
 
             modelBuilder = MatchData.SeedMatchData(modelBuilder);
             modelBuilder = BasketballStatData.SeedBasketballData(modelBuilder);
@@ -518,4 +684,4 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
             return modelBuilder;
         }
     }
-}  
+}

@@ -24,12 +24,12 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         }
 
-        public async Task<BasketballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId)
+        public async Task<BasketballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
         {
             var predicate = PredicateBuilder.New<BasketballStat>();
             predicate = predicate.And(p => p.MatchId == matchId);
             predicate = predicate.And(p => p.TeamId == teamId);
-            predicate = predicate.And(p => p.UserId == userId);
+            predicate = predicate.And(p => p.PlayerId == playerId);
 
             return await GetAll(predicate: predicate)
                 .FirstOrDefaultAsync();
@@ -48,9 +48,9 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: p => p.MatchId == matchId).ToListAsync();
         }
 
-        public async Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId)
+        public async Task<IList<BasketballStat>> GetAllByMatchGroupIdAndPlayerIdAsync(int matchGroupId, int playerId)
         {
-            return await GetAll(predicate: p => p.UserId == userId && p.Match.MatchGroupId == matchGroupId).ToListAsync();
+            return await GetAll(predicate: p => p.PlayerId == playerId && p.Match.MatchGroupId == matchGroupId).ToListAsync();
         }
 
         public async Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId)
@@ -58,21 +58,21 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: p => p.Match.MatchGroupId == matchGroupId).ToListAsync();
         }
 
-        public List<StatisticDetail> GetTopPointsStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTopPointsStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                      ((from p in stats
-                       where users.Contains(p.User)
-                       group p by p.UserId into g
-                       let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                       where players.Contains(p.Player)
+                       group p by p.PlayerId into g
+                       let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                        select new
                        {
-                           UserId = g.Key,
+                           PlayerId = g.Key,
                            Value = g.Sum(s => s.OnePoint + s.TwoPoint * 2),
                            MatchCount = matchCount
                        }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount).ThenBy(p => p.MatchCount)
                          .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -82,21 +82,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTopPointsPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTopPointsPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.OnePoint + s.TwoPoint * 2)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.OnePoint + s.TwoPoint * 2)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                     .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -107,21 +107,21 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         }
 
-        public List<StatisticDetail> GetTopOnePointStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTopOnePointStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.OnePoint),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -131,21 +131,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTopOnePointPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTopOnePointPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.OnePoint)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.OnePoint)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -155,21 +155,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetOnePointRatioStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetOnePointRatioStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.OnePoint) * 100) / g.Sum(s => s.OnePoint + s.MissingOnePoint),
+                          PlayerId = g.Key,
+                          Value = g.Sum(s => s.OnePoint + s.MissingOnePoint) > 0 ? (g.Sum(s => s.OnePoint) * 100) / g.Sum(s => s.OnePoint + s.MissingOnePoint) : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -179,22 +179,22 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTwoPointStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
+                      where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.TwoPoint),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -204,22 +204,22 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTwoPointPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
+                      where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.TwoPoint)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.TwoPoint)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -229,22 +229,22 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTwoPointRatioStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTwoPointRatioStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
+                      where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.TwoPoint) * 100) / g.Sum(s => s.TwoPoint + s.MissingOnePoint),
+                          PlayerId = g.Key,
+                          Value = g.Sum(s => s.TwoPoint + s.MissingOnePoint) > 0 ? (g.Sum(s => s.TwoPoint) * 100) / g.Sum(s => s.TwoPoint + s.MissingOnePoint) : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -254,21 +254,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetReboundStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetReboundStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.Rebound),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -278,21 +278,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetReboundPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetReboundPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.Rebound)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.Rebound)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -302,21 +302,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetStealStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetStealStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.StealBall),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -326,21 +326,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetStealPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetStealPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.StealBall)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.StealBall)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -350,21 +350,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTurnoverStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTurnoverStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.LooseBall),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -374,21 +374,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetTurnoverPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetTurnoverPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.LooseBall)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.LooseBall)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -398,21 +398,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetAssistStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetAssistStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.Assist),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -422,21 +422,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetAssistPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetAssistPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.Assist)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.Assist)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -446,21 +446,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetInterruptStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetInterruptStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Sum(s => s.Interrupt),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -470,21 +470,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetInterruptPerMatchStat(IList<User> users, IList<BasketballStat> stats)
+        public List<StatisticDetail> GetInterruptPerMatchStat(IList<Player> players, IList<BasketballStat> stats)
         {
             return (from a in
                     ((from p in stats
-                      where users.Contains(p.User)
-                      group p by p.UserId into g
-                      let matchCount = (from a in stats where a.UserId == g.Key select a.MatchId).Distinct().Count()
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Sum(s => s.Interrupt)) / matchCount,
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.Interrupt)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -494,21 +494,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetWinsStat(IList<User> users, List<MatchResultByUser> matchResultByUsers)
+        public List<StatisticDetail> GetWinsStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers)
         {
             return (from a in
-                     ((from p in matchResultByUsers
-                       where users.Contains(p.User) && p.MatchResult != MatchResult.BothOfTeam
-                       group p by p.User.Id into g
-                       let matchCount = (from a in matchResultByUsers where a.User.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
+                     ((from p in matchResultByPlayers
+                       where players.Contains(p.Player) && p.MatchResult != MatchResult.BothOfTeam
+                       group p by p.Player.Id into g
+                       let matchCount = (from a in matchResultByPlayers where a.Player.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
                        select new
                        {
-                           UserId = g.Key,
+                           PlayerId = g.Key,
                            Value = g.Count(s => s.MatchResult == MatchResult.Win),
                            MatchCount = matchCount
                        }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                          .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -518,21 +518,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetWinRatioStat(IList<User> users, List<MatchResultByUser> matchResultByUsers)
+        public List<StatisticDetail> GetWinRatioStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers)
         {
             return (from a in
-                    ((from p in matchResultByUsers
-                      where users.Contains(p.User) && p.MatchResult != MatchResult.BothOfTeam
-                      group p by p.User.Id into g
-                      let matchCount = (from a in matchResultByUsers where a.User.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
+                    ((from p in matchResultByPlayers
+                      where players.Contains(p.Player) && p.MatchResult != MatchResult.BothOfTeam
+                      group p by p.Player.Id into g
+                      let matchCount = (from a in matchResultByPlayers where a.Player.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Count(s => s.MatchResult == MatchResult.Win) * 100) / g.Count(),
+                          PlayerId = g.Key,
+                          Value = g.Count() > 0 ? (g.Count(s => s.MatchResult == MatchResult.Win) * 100) / g.Count() : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -542,21 +542,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetLoosesStat(IList<User> users, List<MatchResultByUser> matchResultByUsers)
+        public List<StatisticDetail> GetLoosesStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers)
         {
             return (from a in
-                    ((from p in matchResultByUsers
-                      where users.Contains(p.User) && p.MatchResult != MatchResult.BothOfTeam
-                      group p by p.User.Id into g
-                      let matchCount = (from a in matchResultByUsers where a.User.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
+                    ((from p in matchResultByPlayers
+                      where players.Contains(p.Player) && p.MatchResult != MatchResult.BothOfTeam
+                      group p by p.Player.Id into g
+                      let matchCount = (from a in matchResultByPlayers where a.Player.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
                       select new
                       {
-                          UserId = g.Key,
+                          PlayerId = g.Key,
                           Value = g.Count(s => s.MatchResult == MatchResult.Loose),
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,
@@ -566,21 +566,21 @@ namespace MySuperStats.WebApi.Data.Repositories
                     }).ToList();
         }
 
-        public List<StatisticDetail> GetLooseRatioStat(IList<User> users, List<MatchResultByUser> matchResultByUsers)
+        public List<StatisticDetail> GetLooseRatioStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers)
         {
             return (from a in
-                    ((from p in matchResultByUsers
-                      where users.Contains(p.User) && p.MatchResult != MatchResult.BothOfTeam
-                      group p by p.User.Id into g
-                      let matchCount = (from a in matchResultByUsers where a.User.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
+                    ((from p in matchResultByPlayers
+                      where players.Contains(p.Player) && p.MatchResult != MatchResult.BothOfTeam
+                      group p by p.Player.Id into g
+                      let matchCount = (from a in matchResultByPlayers where a.Player.Id == g.Key && a.MatchResult != MatchResult.BothOfTeam select a.MatchResult).Count()
                       select new
                       {
-                          UserId = g.Key,
-                          Value = (g.Count(s => s.MatchResult == MatchResult.Loose) * 100) / g.Count(),
+                          PlayerId = g.Key,
+                          Value = g.Count() > 0 ? (g.Count(s => s.MatchResult == MatchResult.Loose) * 100) / g.Count() : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))
-                    join pl in users on a.UserId equals pl.Id
+                    join pl in players on a.PlayerId equals pl.Id
                     select new StatisticDetail
                     {
                         UserId = pl.Id,

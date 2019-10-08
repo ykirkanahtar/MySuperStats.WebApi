@@ -7,7 +7,7 @@ namespace MySuperStats.WebApi.Models
     {
         public int MatchId { get; set; }
         public int TeamId { get; set; }
-        public int UserId { get; set; }
+        public int PlayerId { get; set; }
 
         public decimal OnePoint { get; set; }
         public decimal? TwoPoint { get; set; }
@@ -21,7 +21,7 @@ namespace MySuperStats.WebApi.Models
 
         public virtual Match Match { get; set; }
         public virtual Team Team { get; set; }
-        public virtual User User { get; set; }
+        public virtual Player Player { get; set; }
 
     }
 }

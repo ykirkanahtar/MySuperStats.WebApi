@@ -5,7 +5,7 @@ namespace MySuperStats.Contracts.Responses
         public int Id { get; set; }
         public int MatchId { get; set; }
         public int TeamId { get; set; }
-        public int UserId { get; set; }
+        public int PlayerId { get; set; }
 
         public decimal Goal { get; set; }
         public decimal OwnGoal { get; set; }

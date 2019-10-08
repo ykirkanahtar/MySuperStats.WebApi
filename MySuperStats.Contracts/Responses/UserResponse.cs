@@ -13,8 +13,7 @@ namespace MySuperStats.Contracts.Responses
         public DateTime BirthDate { get; set; }
         public DateTime CreateDateTime { get; set; }
 
-        public virtual ICollection<BasketballStatResponse> BasketballStats { get; set; }
-        public virtual ICollection<FootballStatResponse> FootballStats { get; set; }
+        public virtual PlayerResponse Player { get; set; }
         public virtual ICollection<MatchGroupUserResponse> MatchGroupUsers { get; set; }
 
     }

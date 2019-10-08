@@ -24,8 +24,8 @@ $(document).ready(function() {
   var pageUrl = "/" + culture + "/BasketballStatsEntry/" + g_id;
 
 
-  function UserStats(userid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt){
-      this.userid = userid;
+  function UserStats(playerid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt){
+      this.playerid = playerid;
       this.name = name;
       this.teamId = teamid;
       this.onepoint = onepoint;
@@ -54,24 +54,24 @@ $(document).ready(function() {
   var firstTeamStats = [];
   var secondTeamStats = [];
 
-  function addToArray(array, userid, name){
-    var u = new UserStats(userid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  function addToArray(array, playerid, name){
+    var u = new UserStats(playerid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     array.push(u);
   }
 
-  function addToStats(array, userid, teamId, onepoint, twopoint, missingonepoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt){
-    var u = new UserStats(userid, name,teamId, onepoint, twopoint, missingtwopoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt);
+  function addToStats(array, playerid, teamId, onepoint, twopoint, missingonepoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt){
+    var u = new UserStats(playerid, name,teamId, onepoint, twopoint, missingtwopoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt);
     array.push(u);
   }  
 
-  function addToArray(array, userid, name){
-      var u = new UserStats(userid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  function addToArray(array, playerid, name){
+      var u = new UserStats(playerid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
       array.push(u);
     }
 
-  function findAndRemoveElementFromArray(array, userid){
+  function findAndRemoveElementFromArray(array, playerid){
       for (i = 0; i < array.length; i++){
-          if(array[i].userid == userid){
+          if(array[i].playerid == playerid){
               array.splice(i, 1);
           }
       }
@@ -88,26 +88,26 @@ $(document).ready(function() {
     responsiveLayout:true, // enable responsive layouts
     pagination : "local",
     ajaxLoader: true,
-    index: "userid",
+    index: "playerid",
     paginationSize: 15,
     locale: true,
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
-      {title:"userid", field:"userid", visible:false},
+      {title:"playerid", field:"playerid", visible:false},
       {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
     ],      
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
       //alert("Row " + row.getData().id + " Clicked!!!!");
-      var userid = row.getData().userid;
+      var playerid = row.getData().playerid;
       var name = row.getData().name;
       var hasChecked = !row.getData().haschecked;
-      table1.updateData([{userid:userid, name:name, haschecked: hasChecked}]); 
+      table1.updateData([{playerid:playerid, name:name, haschecked: hasChecked}]); 
       if(hasChecked){
-        addToArray(firstTeam, userid, name);
+        addToArray(firstTeam, playerid, name);
       }
       else{
-        findAndRemoveElementFromArray(firstTeam, userid);
+        findAndRemoveElementFromArray(firstTeam, playerid);
       }
     },
   });
@@ -120,26 +120,26 @@ $(document).ready(function() {
     responsiveLayout:true, // enable responsive layouts
     pagination : "local",
     ajaxLoader: true,
-    index: "userid",
+    index: "playerid",
     paginationSize: 15,
     locale: true,
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
-      {title:"userid", field:"userid", visible:false},
+      {title:"playerid", field:"playerid", visible:false},
       {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
     ],      
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
       //alert("Row " + row.getData().id + " Clicked!!!!");
-      var userid = row.getData().userid;
+      var playerid = row.getData().playerid;
       var name = row.getData().name;
       var hasChecked = !row.getData().haschecked;
-      table2.updateData([{userid:userid, name:name, haschecked: hasChecked}]); 
+      table2.updateData([{playerid:playerid, name:name, haschecked: hasChecked}]); 
       if(hasChecked){
-        addToArray(secondTeam, userid, name);
+        addToArray(secondTeam, playerid, name);
       }      
       else{
-        findAndRemoveElementFromArray(secondTeam, userid);
+        findAndRemoveElementFromArray(secondTeam, playerid);
       }
     },
   });
@@ -157,7 +157,7 @@ $(document).ready(function() {
     locale: true,
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
-      {title:"userid", field:"userid", visible:false},
+      {title:"playerid", field:"playerid", visible:false},
       {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
       {title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
@@ -189,7 +189,7 @@ $(document).ready(function() {
     locale: true,
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
-      {title:"userid", field:"userid", visible:false},
+      {title:"playerid", field:"playerid", visible:false},
       {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
       {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
       {title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
@@ -268,7 +268,7 @@ $(document).ready(function() {
       for (i = 0; i < firstTeamGridDatas.length; i++){
         addToStats(
           firstTeamStats
-        , firstTeamGridDatas[i].userid
+        , firstTeamGridDatas[i].playerid
         , 1
         , firstTeamGridDatas[i].onepoint
         , firstTeamGridDatas[i].twopoint
@@ -285,7 +285,7 @@ $(document).ready(function() {
       for (i = 0; i < secondTeamGridDatas.length; i++){
         addToStats(
           secondTeamStats
-        , secondTeamGridDatas[i].userid
+        , secondTeamGridDatas[i].playerid
         , 2
         , secondTeamGridDatas[i].onepoint
         , secondTeamGridDatas[i].twopoint

@@ -140,7 +140,7 @@ namespace MySuperStats.WebUI.Pages
                         id = matchGroupUser.Id,
                         userid = matchGroupUser.User.Id,
                         roleid = matchGroupUser.Role.Id,
-                        name = $"{matchGroupUser.User.FirstName} {matchGroupUser.User.LastName}",
+                        name = $"{matchGroupUser.Player.FirstName} {matchGroupUser.Player.LastName}",
                         role = matchGroupUser.Role.Name
                     });
                 }

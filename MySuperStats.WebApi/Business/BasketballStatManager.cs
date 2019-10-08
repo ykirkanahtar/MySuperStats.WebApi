@@ -129,9 +129,9 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () => await _uow.BasketballStats.GetAllByMatchIdAsync(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
-        public Task<IList<BasketballStat>> GetAllByMatchGroupIdAndUserIdAsync(int matchGroupId, int userId)
+        public Task<IList<BasketballStat>> GetAllByMatchGroupIdAndPlayerIdAsync(int matchGroupId, int playerId)
         {
-            return CommonOperationAsync(async () => await _uow.BasketballStats.GetAllByMatchGroupIdAndUserIdAsync(matchGroupId, userId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+            return CommonOperationAsync(async () => await _uow.BasketballStats.GetAllByMatchGroupIdAndPlayerIdAsync(matchGroupId, playerId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
         public Task<IList<BasketballStat>> GetAllByMatchGroupIdAsync(int matchGroupId)
@@ -144,60 +144,59 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperation(async () =>
             {
-                var users = await _uow.Users.GetAllAsync();
+                var players = await _uow.Players.GetAllByMatchGroupIdAsync(matchGroupId);
 
                 var statsResult = await _uow.BasketballStats.GetAllByMatchGroupIdAsync(matchGroupId);
                 var stats = statsResult;
 
-                var basketballStatisticTable = new BasketballStatisticTable
-                {
-                    Points = _uow.BasketballStats.GetTopPointsStat(users, stats),
-                    PointPerMatch = _uow.BasketballStats.GetTopPointsPerMatchStat(users, stats),
-                    OnePoint = _uow.BasketballStats.GetTopOnePointStat(users, stats),
-                    OnePointPerMatch = _uow.BasketballStats.GetTopOnePointPerMatchStat(users, stats),
-                    OnePointRatio = _uow.BasketballStats.GetOnePointRatioStat(users, stats),
-                    TwoPoint = _uow.BasketballStats.GetTwoPointStat(users, stats),
-                    TwoPointPerMatch = _uow.BasketballStats.GetTwoPointPerMatchStat(users, stats),
-                    TwoPointRatio = _uow.BasketballStats.GetTwoPointRatioStat(users, stats),
-                    Rebounds = _uow.BasketballStats.GetReboundStat(users, stats),
-                    ReboundPerMatch = _uow.BasketballStats.GetReboundPerMatchStat(users, stats),
-                    Steals = _uow.BasketballStats.GetStealStat(users, stats),
-                    StealsPerMatch = _uow.BasketballStats.GetStealPerMatchStat(users, stats),
-                    Turnovers = _uow.BasketballStats.GetTurnoverStat(users, stats),
-                    TurnoversPerMatch = _uow.BasketballStats.GetTurnoverPerMatchStat(users, stats),
-                    Assist = _uow.BasketballStats.GetAssistStat(users, stats),
-                    AssistPerMatch = _uow.BasketballStats.GetAssistPerMatchStat(users, stats),
-                    Interrupts = _uow.BasketballStats.GetInterruptStat(users, stats),
-                    InterruptPerMatch = _uow.BasketballStats.GetInterruptPerMatchStat(users, stats)
-                };
+                var basketballStatisticTable = new BasketballStatisticTable();
 
-                var allUsersMatchForms = await GetUsersMatchFormsAsync(matchGroupId, users);
+                basketballStatisticTable.Points = _uow.BasketballStats.GetTopPointsStat(players, stats);
+                basketballStatisticTable.PointPerMatch = _uow.BasketballStats.GetTopPointsPerMatchStat(players, stats);
+                basketballStatisticTable.OnePoint = _uow.BasketballStats.GetTopOnePointStat(players, stats);
+                basketballStatisticTable.OnePointPerMatch = _uow.BasketballStats.GetTopOnePointPerMatchStat(players, stats);
+                basketballStatisticTable.OnePointRatio = _uow.BasketballStats.GetOnePointRatioStat(players, stats);
+                basketballStatisticTable.TwoPoint = _uow.BasketballStats.GetTwoPointStat(players, stats);
+                basketballStatisticTable.TwoPointPerMatch = _uow.BasketballStats.GetTwoPointPerMatchStat(players, stats);
+                basketballStatisticTable.TwoPointRatio = _uow.BasketballStats.GetTwoPointRatioStat(players, stats);
+                basketballStatisticTable.Rebounds = _uow.BasketballStats.GetReboundStat(players, stats);
+                basketballStatisticTable.ReboundPerMatch = _uow.BasketballStats.GetReboundPerMatchStat(players, stats);
+                basketballStatisticTable.Steals = _uow.BasketballStats.GetStealStat(players, stats);
+                basketballStatisticTable.StealsPerMatch = _uow.BasketballStats.GetStealPerMatchStat(players, stats);
+                basketballStatisticTable.Turnovers = _uow.BasketballStats.GetTurnoverStat(players, stats);
+                basketballStatisticTable.TurnoversPerMatch = _uow.BasketballStats.GetTurnoverPerMatchStat(players, stats);
+                basketballStatisticTable.Assist = _uow.BasketballStats.GetAssistStat(players, stats);
+                basketballStatisticTable.AssistPerMatch = _uow.BasketballStats.GetAssistPerMatchStat(players, stats);
+                basketballStatisticTable.Interrupts = _uow.BasketballStats.GetInterruptStat(players, stats);
+                basketballStatisticTable.InterruptPerMatch = _uow.BasketballStats.GetInterruptPerMatchStat(players, stats);
 
-                basketballStatisticTable.Wins = _uow.BasketballStats.GetWinsStat(users, allUsersMatchForms);
-                basketballStatisticTable.WinRatio = _uow.BasketballStats.GetWinRatioStat(users, allUsersMatchForms);
-                basketballStatisticTable.Looses = _uow.BasketballStats.GetLoosesStat(users, allUsersMatchForms);
-                basketballStatisticTable.LooseRatio = _uow.BasketballStats.GetLooseRatioStat(users, allUsersMatchForms);
+                var allPlayersMatchForms = await GetPlayersMatchFormsAsync(matchGroupId, players);
+
+                basketballStatisticTable.Wins = _uow.BasketballStats.GetWinsStat(players, allPlayersMatchForms);
+                basketballStatisticTable.WinRatio = _uow.BasketballStats.GetWinRatioStat(players, allPlayersMatchForms);
+                basketballStatisticTable.Looses = _uow.BasketballStats.GetLoosesStat(players, allPlayersMatchForms);
+                basketballStatisticTable.LooseRatio = _uow.BasketballStats.GetLooseRatioStat(players, allPlayersMatchForms);
 
                 return basketballStatisticTable;
             }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
 
         }
 
-        private async Task<List<MatchResultByUser>> GetUsersMatchFormsAsync(int matchGroupId, IEnumerable<User> users)
+        private async Task<List<MatchResultByPlayer>> GetPlayersMatchFormsAsync(int matchGroupId, IEnumerable<Player> players)
         {
-            var list = new List<MatchResultByUser>();
+            var list = new List<MatchResultByPlayer>();
 
-            foreach (var user in users)
+            foreach (var player in players)
             {
-                var userStatsResult = await _uow.BasketballStats.GetAllByMatchGroupIdAndUserIdAsync(matchGroupId, user.Id);
-                var userStats = userStatsResult;
-                var userStatResponse = Mapper.Map<IList<BasketballStatResponse>>(userStats);
-                var matchResults = userStatResponse.GetMatchResultByMatchAndUserId();
+                var playerStatsResult = await _uow.BasketballStats.GetAllByMatchGroupIdAndPlayerIdAsync(matchGroupId, player.Id);
+                var playerStats = playerStatsResult;
+                var playerStatResponse = Mapper.Map<IList<BasketballStatResponse>>(playerStats);
+                var matchResults = playerStatResponse.GetMatchResultByMatchAndPlayerId();
                 var matchResutsStrings = new List<string>();
                 foreach (var matchResult in matchResults)
                 {
                     matchResutsStrings.Add(matchResult.ToString().Substring(0, 1));
-                    list.Add(new MatchResultByUser(user, matchResult));
+                    list.Add(new MatchResultByPlayer(player, matchResult));
                 }
             }
 
@@ -207,7 +206,7 @@ namespace MySuperStats.WebApi.Business
         private async Task CheckValuesAsync(BasketballStat basketballStat, bool update = false, int? id = null)
         {
             var matchPlayerAndTeamUniqueResult =
-                await _uow.BasketballStats.GetByMatchIdTeamIdAndUserId(basketballStat.MatchId, basketballStat.TeamId, basketballStat.UserId);
+                await _uow.BasketballStats.GetByMatchIdTeamIdAndPlayerId(basketballStat.MatchId, basketballStat.TeamId, basketballStat.PlayerId);
 
             if (update)
                 matchPlayerAndTeamUniqueResult.CheckUniqueValueForUpdate((int)id, AppConstants.MatchIdAndTeamIdAndPlayerId);

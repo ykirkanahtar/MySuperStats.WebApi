@@ -20,24 +20,24 @@ namespace MySuperStats.WebUI.Pages
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
-        public List<UserResponse> Players { get; set; }
+        public List<PlayerResponse> Players { get; set; }
 
         public PlayersModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            Players = new List<UserResponse>();
+            Players = new List<PlayerResponse>();
         }
 
         public async Task OnGet(int id)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Players = JsonConvert.DeserializeObject<List<UserResponse>>(response.Result.ToString());
+                Players = JsonConvert.DeserializeObject<List<PlayerResponse>>(response.Result.ToString());
             }
             else
                 throw new Exception(response.Message);

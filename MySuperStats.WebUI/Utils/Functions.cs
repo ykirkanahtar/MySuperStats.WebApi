@@ -12,7 +12,7 @@ namespace MySuperStats.WebUI.Utils
         {
             var returnValue = matchScores.Aggregate(string.Empty, (current, form) => current + $"{form.ToString().Substring(0, 1)}-");
 
-            return returnValue.Remove(returnValue.Length - 1);
+            return returnValue.Length > 0 ? returnValue.Remove(returnValue.Length - 1) : string.Empty;
         }
 
         public static void Put<T>(this ITempDataDictionary tempData, string key, T value) where T : class

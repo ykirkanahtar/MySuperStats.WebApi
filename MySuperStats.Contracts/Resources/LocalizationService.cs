@@ -15,9 +15,9 @@ namespace MySuperStats.Contracts.Resources
             _localizer = factory.Create("SharedResources", assemblyName.Name);
         }
 
-        public LocalizedString GetValue(string key)
+        public string GetValue(string key)
         {
-            return _localizer[key];
+            return _localizer[key].Value;
         }
     }
 }

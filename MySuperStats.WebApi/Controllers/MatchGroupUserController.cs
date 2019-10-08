@@ -20,7 +20,7 @@ using CustomFramework.WebApiUtils.Utils.Exceptions;
 namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "MatchGroupUser")]
-    public class MatchGroupUserController : BaseControllerWithCrdAuthorization<MatchGroupUser, MatchGroupUserRequest, MatchGroupUserResponse, IMatchGroupUserManager, int>
+    public class MatchGroupUserController : BaseControllerWithCrdAuthorization<MatchGroupUser, MatchGroupPlayerRequest, MatchGroupUserResponse, IMatchGroupUserManager, int>
     {
         private readonly IPermissionChecker _permissionChecker;
         public MatchGroupUserController(IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IMatchGroupUserManager manager)
@@ -31,16 +31,16 @@ namespace MySuperStats.WebApi.Controllers
 
         [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]MatchGroupUserCreateRequest request)
+        public async Task<IActionResult> Create([FromBody]MatchGroupPlayerCreateRequest request)
         {
             var attributes = new List<PermissionAttribute> {
                     new PermissionAttribute(nameof(PermissionEnum.CreateMatchGroupUser), nameof(BooleanEnum.True))
                  };
             await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
 
-            var matchGroupUserRequest = Mapper.Map<MatchGroupUserRequest>(request);
-            matchGroupUserRequest.RoleId = (int)RoleEnum.Player;
-            return await BaseCreateAsync(matchGroupUserRequest);
+            var matchGroupPlayerRequest = Mapper.Map<MatchGroupPlayerRequest>(request);
+            matchGroupPlayerRequest.RoleId = (int)RoleEnum.Player;
+            return await BaseCreateAsync(matchGroupPlayerRequest);
         }
 
         [Route("updaterole")]
@@ -83,13 +83,13 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseGetByIdAsync(id);
         }
 
-        [Route("getall/matchgroup/{matchGroupId:int}")]
+        [Route("getallusers/matchgroup/{matchGroupId:int}")]
         [HttpGet]
-        public Task<IActionResult> GetAllByMatchGroupId(int matchGroupId)
+        public Task<IActionResult> GetAllUsersByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllByMatchGroupIdAsync(matchGroupId);
+                var result = await Manager.GetAllUsersByMatchGroupIdAsync(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<MatchGroupUser>, IList<MatchGroupUserResponse>>(result)));

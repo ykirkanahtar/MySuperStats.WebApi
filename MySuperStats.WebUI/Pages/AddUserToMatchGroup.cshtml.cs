@@ -59,8 +59,9 @@ namespace MySuperStats.WebUI.Pages
             try
             {
                 var user = await GetUserByEmailAddressAsync(EmailAddress, token);
+                var player = await GetPlayerByUserIdAsync(user.Id, token);
 
-                await AddUserToMatchGroupAsync(id, user.Id, token);
+                await AddUserToMatchGroupAsync(id, player.Id, token);
                 return Redirect($"../MatchGroupDetail/{id}");
             }
             catch (Exception ex)
@@ -70,9 +71,9 @@ namespace MySuperStats.WebUI.Pages
             return Page();
         }
 
-        private async Task AddUserToMatchGroupAsync(int matchGroupId, int userId, string token)
+        private async Task AddUserToMatchGroupAsync(int matchGroupId, int playerId, string token)
         {
-            var matchGroupUserRequest = new MatchGroupUserCreateRequest { MatchGroupId = matchGroupId, UserId = userId };
+            var matchGroupUserRequest = new MatchGroupPlayerCreateRequest { MatchGroupId = matchGroupId, PlayerId = playerId };
 
             var jsonContent = JsonConvert.SerializeObject(matchGroupUserRequest);
 
@@ -93,5 +94,15 @@ namespace MySuperStats.WebUI.Pages
 
             return JsonConvert.DeserializeObject<UserResponse>(response.Result.ToString());
         }
+
+        private async Task<PlayerResponse> GetPlayerByUserIdAsync(int userId, string token)
+        {
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerByUserId}{userId}";
+            var response = await _webApiConnector.GetAsync(getUrl, token);
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception(response.Message);
+
+            return JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
+        }        
     }
 }

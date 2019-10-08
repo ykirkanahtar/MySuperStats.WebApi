@@ -24,14 +24,39 @@ namespace MySuperStats.WebApi.Data
         public virtual DbSet<MatchGroupUser> MatchGroupUsers { get; set; }
         public virtual DbSet<MatchGroupTeam> MatchGroupTeams { get; set; }
         public virtual DbSet<FootballStat> FootballStats { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>().Property(p => p.FirstName).HasMaxLength(100);
-            modelBuilder.Entity<User>().Property(p => p.LastName).HasMaxLength(100);
+            IdentityModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new MatchModelConfiguration());
+            modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupUserModelConfiguration());
+            modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration());
+            modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration());
+
+
+            modelBuilder.ModelBuilderManager(Startup.DbProvider);
+
+            modelBuilder.Seed();
+
+            //https://stackoverflow.com/questions/46526230/disable-cascade-delete-on-ef-core-2-globally
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+        }
+
+        private void IdentityModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<User>().Property(p => p.PhoneNumber).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(p => p.ConcurrencyStamp).HasMaxLength(1000);
             modelBuilder.Entity<User>().Property(p => p.SecurityStamp).HasMaxLength(1000);
@@ -57,28 +82,7 @@ namespace MySuperStats.WebApi.Data
 
             modelBuilder.Entity<IdentityUserToken<int>>().Property(p => p.LoginProvider).HasMaxLength(100);
             modelBuilder.Entity<IdentityUserToken<int>>().Property(p => p.Name).HasMaxLength(100);
-            modelBuilder.Entity<IdentityUserToken<int>>().Property(p => p.Value).HasMaxLength(100);
-
-            modelBuilder.ApplyConfiguration(new MatchModelConfiguration());
-            modelBuilder.ApplyConfiguration(new BasketballStatModelConfiguration());
-            modelBuilder.ApplyConfiguration(new TeamModelConfiguration());
-            modelBuilder.ApplyConfiguration(new MatchGroupModelConfiguration());
-            modelBuilder.ApplyConfiguration(new MatchGroupUserModelConfiguration());
-            modelBuilder.ApplyConfiguration(new MatchGroupTeamModelConfiguration());
-            modelBuilder.ApplyConfiguration(new FootballStatModelConfiguration());
-
-
-            modelBuilder.ModelBuilderManager(Startup.DbProvider);
-
-            modelBuilder.Seed();
-
-            //https://stackoverflow.com/questions/46526230/disable-cascade-delete-on-ef-core-2-globally
-            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
-                .SelectMany(t => t.GetForeignKeys())
-                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
-
-            foreach (var fk in cascadeFKs)
-                fk.DeleteBehavior = DeleteBehavior.Restrict;
+            modelBuilder.Entity<IdentityUserToken<int>>().Property(p => p.Value).HasMaxLength(100);            
         }
     }
 }

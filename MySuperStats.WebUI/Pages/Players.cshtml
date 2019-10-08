@@ -39,10 +39,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                   @foreach (var player in Model.Players)
+                   @foreach (var user in Model.Players)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.LastName}")</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@user.Id">@($"{user.FirstName} {user.LastName}")</a></td>
                         </tr>
                     }
                 </tbody>

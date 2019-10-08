@@ -2,15 +2,15 @@
 
 namespace MySuperStats.WebApi.Models
 {
-    public class MatchResultByUser
+    public class MatchResultByPlayer
     {
-        public MatchResultByUser(User user, MatchResult matchResult)
+        public MatchResultByPlayer(Player player, MatchResult matchResult)
         {
-            User = user;
+            Player = player;
             MatchResult = matchResult;
         }
 
-        public User User { get; set; }
+        public Player Player { get; set; }
         public MatchResult MatchResult { get; set; }  //Enum
     }
 }

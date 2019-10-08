@@ -37,7 +37,7 @@ namespace MySuperStats.Contracts.Responses
         public decimal GetAgeRatioForBasketball()
         {
             var teamTotalAge = (from p in BasketballStats
-                                select p.User).Sum(x => x.BirthDate.GetAge());
+                                select p.Player).Sum(x => x.BirthDate.GetAge());
 
             return BasketballStats.Count > 0
                 ? (Convert.ToDecimal(teamTotalAge) / Convert.ToDecimal(BasketballStats.Count)).RoundValue()

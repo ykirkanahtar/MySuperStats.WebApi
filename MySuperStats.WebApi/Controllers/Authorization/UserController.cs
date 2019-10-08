@@ -31,15 +31,17 @@ namespace MySuperStats.WebApi.Controllers.Authorization
     public class UserController : BaseController
     {
         private readonly IUserManager _userManager;
+        private readonly IPlayerManager _playerManager;
         private readonly IPermissionChecker _permissionChecker;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserController(IHttpContextAccessor httpContextAccessor, IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender)
+        public UserController(IHttpContextAccessor httpContextAccessor, IPermissionChecker permissionChecker, ILocalizationService localizationService, ILogger<Controller> logger, IMapper mapper, IUserManager userManager, IEmailSender emailSender, IPlayerManager playerManager)
             : base(localizationService, logger, mapper)
         {
             _userManager = userManager;
             _permissionChecker = permissionChecker;
             _httpContextAccessor = httpContextAccessor;
+            _playerManager = playerManager;
         }
 
         [Route("{id:int}/update")]
@@ -137,7 +139,11 @@ namespace MySuperStats.WebApi.Controllers.Authorization
         [Permission(nameof(SpecialEnums.OnlyAdmin), nameof(BooleanEnum.True))]
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            var player = await _userManager.GetPlayerByIdAsync(id);
+            
             await _userManager.DeleteAsync(id);
+            await _playerManager.DeleteAsync(player.Id);
+
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(true));
         }
 
@@ -152,6 +158,17 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
         }
 
+        [Route("getplayer/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetPlayerByIdAsync(int id)
+        {
+            var result = await CommonOperationAsync<Player>(async () =>
+            {
+                return await _userManager.GetPlayerByIdAsync(id);
+            });
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Player, PlayerResponse>(result)));
+        }        
+
         [Route("get/email/{emailAddress}")]
         [HttpGet]
         public async Task<IActionResult> GetByEmailAddressAsync(string emailAddress)
@@ -161,18 +178,6 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 return await _userManager.GetByEmailAddressAsync(emailAddress);
             });
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
-        }
-
-        [Route("getwithbasketballstats/id/{id:int}")]
-        [HttpGet]
-        public Task<IActionResult> GetWithBasketballStatsById(int id)
-        {
-            return CommonOperationAsync<IActionResult>(async () =>
-            {
-                var result = await _userManager.GetByIdWithBasketballStatsAsync(id);
-                var userDetailResponse = Mapper.Map<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>(result);
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
-            });
         }
 
         [Route("getall/matchgroupid/{matchGroupId:int}")]

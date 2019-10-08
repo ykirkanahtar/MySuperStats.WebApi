@@ -9,10 +9,12 @@
 @using MySuperStats.WebUI.Constants
 @using MySuperStats.Contracts.Enums
 @using System.Net
+@using CustomFramework.WebApiUtils.Contracts.Resources
 
 @inject IWebApiConnector<ApiResponse> webApiConnector
 @inject ISession session
 @inject AppSettings appSettings
+@inject ILocalizationService localizer
 
 @{ 
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
@@ -118,7 +120,9 @@
 <!-- Site wrapper -->
 <div class="wrapper">
 
-  @{var loggedUser = SessionUtil.GetLoggedUser(session);}
+  @{var loggedUser = SessionUtil.GetLoggedUser(session);
+    var loggedPlayer = loggedUser.Player;
+  }
 
   <header class="main-header" style="position: fixed; width: 100%; ">
     <!-- Logo -->
@@ -144,24 +148,24 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">             -->
-              <span class="hidden-xs">@($"{loggedUser.FirstName} {loggedUser.LastName}")</span>
+              <span class="hidden-xs">@($"{loggedPlayer.FirstName} {loggedPlayer.LastName}")</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
                 <p>
-                  @($"{loggedUser.FirstName} {loggedUser.LastName}")
-                  <small>@($"{loggedUser.CreateDateTime.ToShortDateString()}") tarihinde kayıt oldu</small>
+                  @($"{loggedPlayer.FirstName} {loggedPlayer.LastName}")
+                  <small>@($"{localizer.GetValue("RegistrationDate")} {loggedUser.CreateDateTime.ToShortDateString()}")</small>
                 </p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a asp-page="/UserProfile" asp-route-culture="@culture" class="btn btn-default btn-flat">Profilim</a>
+                  <a asp-page="/UserProfile" asp-route-culture="@culture" class="btn btn-default btn-flat">@(localizer.GetValue("MyProfile"))</a>
                 </div>
                 <div class="pull-right">
-                  <a asp-page="/Logout" asp-route-culture="@culture" class="btn btn-default btn-flat">Çıkış</a>
+                  <a asp-page="/Logout" asp-route-culture="@culture" class="btn btn-default btn-flat">@(localizer.GetValue("Logout"))</a>
                 </div>
               </li>
             </ul>
@@ -188,8 +192,8 @@
               <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div> -->
             <!-- <div class="pull-center info">
-              <p>@($"{loggedUser.FirstName}")</p>
-              <p>@($"{loggedUser.LastName}")</p>
+              <p>@($"{loggedPlayer.FirstName}")</p>
+              <p>@($"{loggedPlayer.LastName}")</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div> -->
         <!-- </div> -->
@@ -230,22 +234,22 @@
                       <li>
                           <a id="@group.Id" asp-page="/MatchGroupDetail" asp-route-culture="@culture" asp-route-id="@group.Id">
                               <i class="fa fa-group"></i>
-                              Grup Bilgileri
+                              @(localizer.GetValue("MatchGroupInfo"))
                           </a>
                       </li>   
                       <li>
                         <a id="@group.Id" class="a-match-group" asp-page="/Matches" asp-route-culture="@culture" asp-route-id="@group.Id">
-                          <i class="fa fa-trophy"></i> <span>Karşılaşmalar</span>
+                          <i class="fa fa-trophy"></i> <span>@(localizer.GetValue("Matches"))</span>
                         </a>
                       </li>
                       <li>
                         <a id="@group.Id" class="a-match-group" asp-page="/Players" asp-route-culture="@culture" asp-route-id="@group.Id">
-                          <i class="fa fa-male"></i> <span>Oyuncular</span>
+                          <i class="fa fa-male"></i> <span>@(localizer.GetValue("Players"))</span>
                         </a>
                       </li> 
                       <li>
                         <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-culture="@culture" asp-route-id="@group.Id">
-                          <i class="fa fa-table"></i> <span>Genel İstatistikler</span>
+                          <i class="fa fa-table"></i> <span>@(localizer.GetValue("TopStats"))</span>
                         </a>
                       </li>   
                       @{
@@ -253,7 +257,7 @@
                         { 
                           <li>
                             <a id="@group.Id" class="a-match-group" asp-page="/BasketballStatsEntry" asp-route-culture="@culture" asp-route-id="@group.Id">
-                              <i class="fa fa-edit"></i> <span>İstatistik Girişi</span>
+                              <i class="fa fa-edit"></i> <span>@(localizer.GetValue("StatisticEntry"))</span>
                             </a>
                           </li>                               
                         }
@@ -261,7 +265,7 @@
                         {
                           <li>
                             <a id="@group.Id" class="a-match-group" asp-page="/PlayerPermissions" asp-route-culture="@culture" asp-route-id="@group.Id">
-                              <i class="fa fa-check-circle"></i> <span>Kullanıcı Yetkileri</span>
+                              <i class="fa fa-check-circle"></i> <span>@(localizer.GetValue("PlayerPermissions"))</span>
                             </a>
                           </li>     
                         }                        
@@ -273,7 +277,7 @@
         <li class="treeview" id="-1">
             <a href="#">
                 <i class="fa fa-gear"></i>
-                <span>Ayarlar</span>
+                <span>@(localizer.GetValue("Settings"))</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -282,13 +286,13 @@
                 <li>
                     <a id="-1" asp-route-culture="@culture" asp-page="/NewMatchGroup">
                         <i class="fa fa-plus"></i>
-                        Yeni Grup Oluştur
+                        @(localizer.GetValue("CreateNewMatchGroup"))
                     </a>
                 </li>
                 <li>
                     <a id="-1" asp-route-culture="@culture" asp-page="/UserProfile">
                         <i class="fa fa-user"></i>
-                        Profilim
+                        @(localizer.GetValue("MyProfile"))
                     </a>
                 </li>                
             </ul>

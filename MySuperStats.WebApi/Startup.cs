@@ -35,7 +35,7 @@ namespace MySuperStats.WebApi
 {
     public class Startup
     {
-        public static DatabaseProvider DbProvider = DatabaseProvider.MsSql; 
+        public static DatabaseProvider DbProvider = DatabaseProvider.MsSql;
         public static AppSettings AppSettings { get; private set; }
         public static string ConnectionString { get; private set; }
 
@@ -122,6 +122,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IMatchGroupTeamRepository, MatchGroupTeamRepository>();
             services.AddTransient<IFootballStatRepository, FootballStatRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
             /*********Repositories*********/
 
 
@@ -135,6 +136,7 @@ namespace MySuperStats.WebApi
             services.AddTransient<IFootballStatManager, FootballStatManager>();
             services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<IPermissionChecker, PermissionChecker>();
+            services.AddTransient<IPlayerManager, PlayerManager>();
             /*********Managers*********/
 
             var policy = new AuthorizationPolicyBuilder()

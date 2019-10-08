@@ -19,12 +19,12 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         }
 
-        public async Task<FootballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId)
+        public async Task<FootballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId)
         {
             var predicate = PredicateBuilder.New<FootballStat>();
             predicate = predicate.And(p => p.MatchId == matchId);
             predicate = predicate.And(p => p.TeamId == teamId);
-            predicate = predicate.And(p => p.UserId == userId);
+            predicate = predicate.And(p => p.PlayerId == playerId);
 
             return await GetAll(predicate: predicate)
                 .FirstOrDefaultAsync();
@@ -43,9 +43,9 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: p => p.MatchId == matchId).ToListAsync();
         }
 
-        public async Task<IList<FootballStat>> GetAllByUserIdAsync(int userId)
+        public async Task<IList<FootballStat>> GetAllByPlayerIdAsync(int playerId)
         {
-            return await GetAll(predicate: p => p.UserId == userId).ToListAsync();
+            return await GetAll(predicate: p => p.PlayerId == playerId).ToListAsync();
         }
 
         public async Task<IList<FootballStat>> GetAllAsync()

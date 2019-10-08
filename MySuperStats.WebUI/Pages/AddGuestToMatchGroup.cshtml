@@ -1,0 +1,62 @@
+﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+@model MySuperStats.WebUI.Pages.AddGuestToMatchGroupModel
+@inject ILocalizationService localizer
+
+@{
+    ViewData["Title"] = localizer.GetValue("AddGuestToMatchGroup");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">@(localizer.GetValue("AddGuestToMatchGroup"))</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form method="post">
+          <div class="box-body">
+            <div class="form-group">
+              <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
+              <input type="text" class="form-control" id="txtFirstName" asp-for="PlayerRequest.FirstName" placeholder="@(localizer.GetValue("Enter the firstname"))">
+              <span asp-validation-for="PlayerRequest.FirstName" class="text-danger"></span>                        
+            </div>
+            <div class="form-group">
+              <label for="txtLastName">@(localizer.GetValue("LastName"))</label>
+              <input type="text" class="form-control" id="txtLastName" asp-for="PlayerRequest.LastName" placeholder="@(localizer.GetValue("Enter the lastname"))">
+              <span asp-validation-for="PlayerRequest.LastName" class="text-danger"></span>                        
+            </div>
+            <div class="form-group">
+              <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
+              <div class="input-group date">
+                <input type="text" class="form-control" asp-for="PlayerRequest.BirthDate" placeholder="@(localizer.GetValue("Enter the birth date"))">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-th"></i>
+                </span>
+              </div>              
+            </div>            
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <input type="submit" id="btnAddGuest" class="btn btn-primary" asp-page-handler="AddGuest"
+            value="@(localizer.GetValue("AddGuest"))"/>
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+    </div>
+    <!--/.col (left) -->  </div>
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-md-12">
+      <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
+    <div>
+  </div>  
+</section>
+<!-- /.content -->

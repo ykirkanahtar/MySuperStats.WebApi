@@ -112,13 +112,13 @@ namespace MySuperStats.WebApi.Controllers
             });
         }
 
-        [Route("getall/matchgroupid/{matchGroupId:int}/userid/{userId:int}")]
+        [Route("getall/matchgroupid/{matchGroupId:int}/playerId/{playerId:int}")]
         [HttpGet]
-        public Task<IActionResult> GetAllByUserId(int matchGroupId, int userId)
+        public Task<IActionResult> GetAllByPlayerId(int matchGroupId, int playerId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllByMatchGroupIdAndUserIdAsync(matchGroupId, userId);
+                var result = await Manager.GetAllByMatchGroupIdAndPlayerIdAsync(matchGroupId, playerId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<BasketballStat>, IList<BasketballStatResponse>>(result)));

@@ -428,6 +428,12 @@
   <!--Identity -->
 
   <!-- Classes and fields-->
+  <data name="AddGuest" xml:space="preserve">
+    <value>Add guest</value>
+  </data>     
+  <data name="AddGuestToMatchGroup" xml:space="preserve">
+    <value>Add guest player to match group</value>
+  </data>    
   <data name="AddUserToMatchGroup" xml:space="preserve">
     <value>Add user to match group</value>
   </data>  
@@ -465,7 +471,7 @@
     <value>Count of the players</value>
   </data>    
   <data name="CreateNewMatchGroup" xml:space="preserve">
-    <value>Create new match group</value>
+    <value>Create New Match Group</value>
   </data>      
   <data name="CreateTeams" xml:space="preserve">
     <value>Create teams</value>
@@ -555,7 +561,7 @@
     <value>Match group</value>
   </data>  
   <data name="MatchGroupInfo" xml:space="preserve">
-    <value>Match group info</value>
+    <value>Match Group Info</value>
   </data>    
   <data name="MatchGroupUser" xml:space="preserve">
     <value>Match group user</value>
@@ -569,6 +575,9 @@
   <data name="MissingTwoPoint" xml:space="preserve">
     <value>Missing two point</value>
   </data>            
+  <data name="MyProfile" xml:space="preserve">
+    <value>My Profile</value>
+  </data>   
   <data name="MyStats" xml:space="preserve">
     <value>My stats</value>
   </data>      
@@ -597,20 +606,20 @@
     <value>Played matches</value>
   </data>     
   <data name="PlayerPermissions" xml:space="preserve">
-    <value>Player permissions</value>
+    <value>Player Permissions</value>
   </data>     
   <data name="Please select players from both teams" xml:space="preserve">
     <value>Please select players from both teams</value>
   </data>   
   <data name="Players" xml:space="preserve">
     <value>Players</value>
-  </data>      
-  <data name="TotalPoints" xml:space="preserve">
-    <value>Total points</value>
-  </data>   
+  </data>        
   <data name="Rebound" xml:space="preserve">
     <value>Rebound</value>
   </data>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value>Registration Date :</value>
+  </data>  
   <data name="SaveGoal" xml:space="preserve">
     <value>Save goal</value>
   </data>    
@@ -635,8 +644,11 @@
   <data name="Score" xml:space="preserve">
     <value>Score</value>
   </data>      
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>    
   <data name="StatisticEntry" xml:space="preserve">
-    <value>Statistic entry</value>
+    <value>Statistic Entry</value>
   </data>    
   <data name="Stats" xml:space="preserve">
     <value>Stats</value>
@@ -650,11 +662,17 @@
   <data name="TeamName" xml:space="preserve">
     <value>Team name</value>
   </data>   
+  <data name="TopStats" xml:space="preserve">
+    <value>Top Stats</value>
+  </data>   
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>     
   <data name="TotalPoint" xml:space="preserve">
     <value>Total point</value>
+  </data>   
+ <data name="TotalPoints" xml:space="preserve">
+    <value>Total points</value>
   </data>   
   <data name="TwoPoint" xml:space="preserve">
     <value>Two point</value>
@@ -686,6 +704,9 @@
   <data name="You can change the user role by clicking the corresponding role on the table" xml:space="preserve">
     <value>You can change the user role by clicking the corresponding role on the table</value>
   </data>      
+  <data name="You can delete only guest player" xml:space="preserve">
+    <value>You can delete only guest player</value>
+  </data>    
   <data name="You can not change your own role" xml:space="preserve">
     <value>You can not change your own role</value>
   </data>     

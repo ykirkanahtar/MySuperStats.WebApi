@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MySuperStats.WebApi.Models;
+﻿using MySuperStats.WebApi.Models;
 using CustomFramework.Data.ModelConfiguration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,7 +17,7 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.TeamId)
                 .IsRequired();
 
-            builder.Property(p => p.UserId)
+            builder.Property(p => p.PlayerId)
                 .IsRequired();
 
             builder.Property(p => p.OnePoint)
@@ -71,14 +70,14 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .IsRequired();
 
             builder
-                .HasOne(r => r.User)
+                .HasOne(r => r.Player)
                 .WithMany(c => c.BasketballStats)
-                .HasForeignKey(r => r.UserId)
+                .HasForeignKey(r => r.PlayerId)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
 
-            builder.HasIndex(p => new { p.MatchId, p.UserId, p.TeamId });
+            builder.HasIndex(p => new { p.MatchId, p.PlayerId, p.TeamId });
         }
     }
 }

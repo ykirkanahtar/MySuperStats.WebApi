@@ -11,7 +11,7 @@ namespace MySuperStats.Contracts.Requests
 
         [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.Required)]
         [Display(Name = "User")]
-        public int UserId { get; set; }
+        public int UserId { get; set; }        
 
         [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.Required)]
         [Display(Name = "Role")]

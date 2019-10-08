@@ -29,7 +29,7 @@ namespace MySuperStats.WebApi.Business
             _localizer = localizer;
         }
 
-        public Task<MatchGroupUser> CreateAsync(MatchGroupUserRequest request)
+        public Task<MatchGroupUser> CreateAsync(MatchGroupPlayerRequest request)
         {
             return CommonOperationAsync(async () =>
             {
@@ -37,13 +37,27 @@ namespace MySuperStats.WebApi.Business
 
                 /******************References Table Check Values****************/
                 /***************************************************************/
-                (await _uow.MatchGroups.GetByIdAsync(result.MatchGroupId)).CheckRecordIsExist(typeof(MatchGroup).Name);
-                (await _uow.Users.GetByIdAsync(result.UserId)).CheckRecordIsExist(typeof(User).Name);
+                (await _uow.MatchGroups.GetByIdAsync(result.MatchGroupId)).CheckRecordIsExist(nameof(MatchGroup));
+                (await _uow.Players.GetByIdAsync(result.PlayerId)).CheckRecordIsExist(nameof(Player));
                 /***************************************************************/
                 /***************************************************************/
 
-                var userInMatchGroupUser = await _uow.MatchGroupUsers.UserIsInMatchGroupAsync(request.MatchGroupId, request.UserId);
-                if (userInMatchGroupUser) throw new DuplicateNameException(nameof(User));
+                /******************Check other controls****************/
+                /******************************************************/
+                var user = await _uow.Players.GetUserByIdAsync(result.PlayerId);
+
+                var playerInMatchGroupUser = await _uow.MatchGroupUsers.PlayerIsInMatchGroupAsync(request.MatchGroupId, result.PlayerId);
+                if (playerInMatchGroupUser) throw new DuplicateNameException(nameof(Player));
+
+                if (user != null)
+                {
+                    result.UserId = user.Id;
+                    var userInMatchGroupUser = await _uow.MatchGroupUsers.UserIsInMatchGroupAsync(request.MatchGroupId, (int)result.UserId);
+                    if (userInMatchGroupUser) throw new DuplicateNameException(nameof(User));
+                }
+                /******************************************************/
+                /******************************************************/
+
 
                 _uow.MatchGroupUsers.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
@@ -114,10 +128,10 @@ namespace MySuperStats.WebApi.Business
             );
         }
 
-        public Task<IList<MatchGroupUser>> GetAllByMatchGroupIdAsync(int matchGroupId)
+        public Task<IList<MatchGroupUser>> GetAllUsersByMatchGroupIdAsync(int matchGroupId)
         {
             return CommonOperationAsync(async () =>
-                await _uow.MatchGroupUsers.GetAllByMatchGroupIdAsync(matchGroupId)
+                await _uow.MatchGroupUsers.GetAllUsersByMatchGroupIdAsync(matchGroupId)
                 , new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }
             );
         }

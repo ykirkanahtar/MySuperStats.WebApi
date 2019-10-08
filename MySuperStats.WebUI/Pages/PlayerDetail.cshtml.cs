@@ -37,13 +37,13 @@ namespace MySuperStats.WebUI.Pages
         {
             try
             {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserWithBasketballStats}{id}";
+                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerWithBasketballStats}{id}";
                 var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     PlayerStats = JsonConvert.DeserializeObject<UserDetailWithBasketballStatResponse>(response.Result.ToString());
-                    BasketballStats = PlayerStats.User.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
+                    BasketballStats = PlayerStats.Player.BasketballStats.OrderBy(p => p.Match.MatchDate).ThenBy(p => p.Match.Order).ToList();
                 }
                 else
                     throw new Exception(response.Message);

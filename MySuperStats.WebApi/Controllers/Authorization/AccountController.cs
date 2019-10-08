@@ -30,7 +30,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
         private readonly SignInManager<User> _signInManager;
         private readonly IClientApplicationManager _clientApplicationManager;
         private readonly IUserManager _userManager;
-
+        private readonly IPlayerManager _playerManager;
         public AccountController(
             SignInManager<User> signInManager
             , IClientApplicationManager clientApplicationManager
@@ -38,12 +38,13 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             , ILogger<Controller> logger
             , IMapper mapper
             , IUserManager userManager
-            )
+            , IPlayerManager playerManager)
         : base(localizationService, logger, mapper)
         {
             _signInManager = signInManager;
             _clientApplicationManager = clientApplicationManager;
             _userManager = userManager;
+            _playerManager = playerManager;
         }
 
         [AllowAnonymous]
@@ -59,6 +60,13 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 var user = Mapper.Map<User>(request);
                 var roles = new List<string>();
 
+                var createPlayerRequest = new CreatePlayerRequest
+                {
+                    BirthDate = request.BirthDate,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                };
+
                 var result = await _userManager.CreateAsync(user, request.Password, Url, Request.Scheme, request.CallBackUrl, roles);
 
                 if (!result.Succeeded)
@@ -69,6 +77,8 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                     }
                     throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
                 }
+
+                var playerResult = await _playerManager.CreateAsync(createPlayerRequest, user.Id);
 
                 return user;
             });

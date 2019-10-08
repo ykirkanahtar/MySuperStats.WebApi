@@ -8,10 +8,10 @@ namespace MySuperStats.WebApi.Data.Repositories
 {
     public interface IFootballStatRepository : IRepository<FootballStat, int>
     {
-        Task<FootballStat> GetByMatchIdTeamIdAndUserId(int matchId, int teamId, int userId);
+        Task<FootballStat> GetByMatchIdTeamIdAndPlayerId(int matchId, int teamId, int playerId);
         Task<decimal> GetTeamScoreByMatchIdAndTeamId(int matchId, int teamId);
         Task<IList<FootballStat>> GetAllByMatchIdAsync(int matchId);
-        Task<IList<FootballStat>> GetAllByUserIdAsync(int userId);
+        Task<IList<FootballStat>> GetAllByPlayerIdAsync(int playerId);
         Task<IList<FootballStat>> GetAllAsync();
 
     }

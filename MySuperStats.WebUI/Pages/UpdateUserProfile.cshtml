@@ -70,7 +70,7 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
           <div class="box-body">
             <div class="form-group">
               <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
-              <input type="text" class="form-control" id="txtFirstName" asp-for="UserUpdate.FirstName" placeholder="@(localizer.GetValue("Enter the first name"))">
+              <input type="text" class="form-control" id="txtFirstName" asp-for="UserUpdate.FirstName" placeholder="@(localizer.GetValue("Enter the firstname"))">
               <span asp-validation-for="UserUpdate.FirstName" class="text-danger"></span>                        
             </div>
             <div class="form-group">

@@ -6,7 +6,7 @@
 @inject ILocalizationService localizer
 
 @{
-    ViewData["Title"] = $"{Model.PlayerStats.User.FirstName} {Model.PlayerStats.User.LastName}";
+    ViewData["Title"] = $"{Model.PlayerStats.Player.FirstName} {Model.PlayerStats.Player.LastName}";
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
@@ -29,16 +29,15 @@
     <div class="row-fluid">
         <div class="col-md-12">
             <h2>@ViewData["Title"]</h2>
-            <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.User.BirthDate.ToString("dd-MM-yyyy"))
+            <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.PlayerStats.Player.BirthDate.ToString("dd-MM-yyyy"))
             <br />
             <br />
         </div>
     </div>
-@if (Model.PlayerStats.Matches.Count > 0)
-{
+@{
   var totalStatForUI = Model.PlayerStats.TotalStats.GetStatsForUI();
   var perMatchStatForUI = Model.PlayerStats.PerMatchStats.GetStatsForUI();  
-
+}
       <div class="row">
         <div class="col-xs-6">
           <div class="box">
@@ -272,6 +271,6 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-}
+
     </section>
     <!-- /.content -->

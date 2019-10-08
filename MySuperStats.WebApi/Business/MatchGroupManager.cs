@@ -42,12 +42,15 @@ namespace MySuperStats.WebApi.Business
 
                 _uow.MatchGroups.Add(result, GetLoggedInUserId());
                 await _uow.SaveChangesAsync();
+                
+                var userId = GetLoggedInUserId();
+                var userPlayer = await _uow.Users.GetPlayerByIdAsync(userId);
 
-                var matchGroupUserRequest = new MatchGroupUserRequest
+                var matchGroupUserRequest = new MatchGroupPlayerRequest
                 {
                     MatchGroupId = result.Id,
                     RoleId = (int)RoleEnum.GroupAdmin,
-                    UserId = GetLoggedInUserId(),
+                    PlayerId = userPlayer.Id
                 };
                 await _matchGroupUserManager.CreateAsync(matchGroupUserRequest);
 

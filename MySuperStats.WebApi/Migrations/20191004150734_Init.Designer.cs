@@ -10,7 +10,7 @@ using MySuperStats.WebApi.Data;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190927144110_Init")]
+    [Migration("20191004150734_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,69 +275,83 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 25,
-                            ClaimType = "CreateBasketballStat",
+                            ClaimType = "CreateGuestPlayer",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 26,
-                            ClaimType = "CreateFootballStat",
+                            ClaimType = "UpdateGuestPlayer",
                             ClaimValue = "true",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 27,
-                            ClaimType = "CreateMatch",
+                            ClaimType = "CreateBasketballStat",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 28,
-                            ClaimType = "UpdateMatch",
+                            ClaimType = "CreateFootballStat",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 29,
-                            ClaimType = "CreateMatchGroupUser",
+                            ClaimType = "CreateMatch",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 30,
-                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimType = "UpdateMatch",
                             ClaimValue = "true",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 31,
+                            ClaimType = "CreateMatchGroupUser",
+                            ClaimValue = "true",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 32,
+                            ClaimType = "DeleteMatchGroupUser",
+                            ClaimValue = "true",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 33,
                             ClaimType = "CreateBasketballStat",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 32,
+                            Id = 34,
                             ClaimType = "CreateFootballStat",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 33,
+                            Id = 35,
                             ClaimType = "CreateMatch",
                             ClaimValue = "true",
                             RoleId = 3
                         },
                         new
                         {
-                            Id = 34,
+                            Id = 36,
                             ClaimType = "UpdateMatch",
                             ClaimValue = "true",
                             RoleId = 3
@@ -429,7 +443,8 @@ namespace MySuperStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Assist")
+                    b.Property<decimal?>("Assist")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("CreateDateTime");
@@ -440,53 +455,59 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int?>("DeleteUserId");
 
-                    b.Property<decimal>("Interrupt")
+                    b.Property<decimal?>("Interrupt")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("LooseBall")
+                    b.Property<decimal?>("LooseBall")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("MatchId");
 
-                    b.Property<decimal>("MissingOnePoint")
+                    b.Property<decimal?>("MissingOnePoint")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("MissingTwoPoint")
+                    b.Property<decimal?>("MissingTwoPoint")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("OnePoint")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("Rebound")
+                    b.Property<int>("PlayerId");
+
+                    b.Property<decimal?>("Rebound")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Status");
 
-                    b.Property<decimal>("StealBall")
+                    b.Property<decimal?>("StealBall")
+                        .IsRequired()
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("TeamId");
 
-                    b.Property<decimal>("TwoPoint")
+                    b.Property<decimal?>("TwoPoint")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
                     b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreateUserId");
+
+                    b.HasIndex("PlayerId");
 
                     b.HasIndex("Status");
 
                     b.HasIndex("TeamId");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("MatchId", "UserId", "TeamId");
+                    b.HasIndex("MatchId", "PlayerId", "TeamId");
 
                     b.ToTable("BasketballStats");
 
@@ -503,12 +524,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 23.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 17.00m,
+                            PlayerId = 4,
                             Rebound = 27.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 4
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -522,12 +543,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 13.00m,
+                            PlayerId = 6,
                             Rebound = 20.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -541,12 +562,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 20.00m,
                             MissingTwoPoint = 6.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 11,
                             Rebound = 21.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 4.00m,
-                            UserId = 11
+                            TwoPoint = 4.00m
                         },
                         new
                         {
@@ -560,12 +581,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 6.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 5,
                             Rebound = 20.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 1,
-                            TwoPoint = 1.00m,
-                            UserId = 5
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -579,12 +600,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 20.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 15.00m,
+                            PlayerId = 3,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 1.00m,
-                            UserId = 3
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -598,12 +619,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 16.00m,
                             MissingTwoPoint = 4.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 7,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -617,12 +638,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 18.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 15.00m,
+                            PlayerId = 1,
                             Rebound = 14.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -636,12 +657,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 9.00m,
+                            PlayerId = 4,
                             Rebound = 19.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -655,12 +676,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 12.00m,
+                            PlayerId = 9,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -674,12 +695,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 25.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 17.00m,
+                            PlayerId = 1,
                             Rebound = 24.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -693,12 +714,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 10,
                             Rebound = 10.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -712,12 +733,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 12.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 5,
                             Rebound = 17.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 5
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -731,12 +752,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 22.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 7,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -750,12 +771,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 20.00m,
+                            PlayerId = 3,
                             Rebound = 11.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -769,12 +790,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 12.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 12.00m,
+                            PlayerId = 4,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -788,12 +809,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 13.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 9,
                             Rebound = 15.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -807,12 +828,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 8.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 6,
                             Rebound = 10.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -826,12 +847,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 12.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 14.00m,
+                            PlayerId = 8,
                             Rebound = 10.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -845,12 +866,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 18.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 9.00m,
+                            PlayerId = 7,
                             Rebound = 11.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -864,12 +885,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 18.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 14.00m,
+                            PlayerId = 1,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -883,12 +904,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 20.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 3,
                             Rebound = 12.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -902,12 +923,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 6.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 1.00m,
+                            PlayerId = 10,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -921,12 +942,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 22.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 13.00m,
+                            PlayerId = 4,
                             Rebound = 23.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -940,12 +961,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 7.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 12.00m,
+                            PlayerId = 3,
                             Rebound = 3.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -959,12 +980,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 21.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 7,
                             Rebound = 14.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -978,12 +999,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 14.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 11,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 11
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -997,12 +1018,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 18.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 13.00m,
+                            PlayerId = 5,
                             Rebound = 18.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 5
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1016,12 +1037,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 10.00m,
+                            PlayerId = 1,
                             Rebound = 15.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1035,12 +1056,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 7.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 10,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1054,12 +1075,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 4.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 3,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1073,12 +1094,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 1.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 1.00m,
+                            PlayerId = 10,
                             Rebound = 0.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1092,12 +1113,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 13.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 16.00m,
+                            PlayerId = 4,
                             Rebound = 22.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1111,12 +1132,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 8.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 6,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1130,12 +1151,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 17.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 5,
                             Rebound = 16.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 5
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1149,12 +1170,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 24.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 11,
                             Rebound = 12.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 11
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1168,12 +1189,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 21.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 7,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1187,12 +1208,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 12.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 3,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1206,12 +1227,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 9.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 1,
                             Rebound = 15.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1225,12 +1246,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 8,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1244,12 +1265,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 6.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 1.00m,
+                            PlayerId = 10,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1263,12 +1284,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 14.00m,
+                            PlayerId = 4,
                             Rebound = 28.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1282,12 +1303,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 5.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 6,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1301,12 +1322,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 3,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1320,12 +1341,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 16.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 9,
                             Rebound = 4.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1339,12 +1360,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 11,
                             Rebound = 19.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 11
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1358,12 +1379,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 21.00m,
                             MissingTwoPoint = 6.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 7,
                             Rebound = 20.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 7
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -1377,12 +1398,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 1,
                             Rebound = 14.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1396,12 +1417,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 9.00m,
                             MissingTwoPoint = 9.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 5,
                             Rebound = 17.00m,
                             Status = 1,
                             StealBall = 8.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 5
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -1415,12 +1436,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 20.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 3.00m,
+                            PlayerId = 8,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1434,12 +1455,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 10,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1453,12 +1474,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 17.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 11.00m,
+                            PlayerId = 4,
                             Rebound = 40.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1472,12 +1493,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 23.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 14.00m,
+                            PlayerId = 8,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1491,12 +1512,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 16.00m,
                             MissingTwoPoint = 15.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 11,
                             Rebound = 17.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 1,
-                            TwoPoint = 3.00m,
-                            UserId = 11
+                            TwoPoint = 3.00m
                         },
                         new
                         {
@@ -1510,12 +1531,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 2.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 10,
                             Rebound = 12.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1529,12 +1550,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 36.00m,
                             MissingTwoPoint = 9.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 7,
                             Rebound = 12.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 2,
-                            TwoPoint = 3.00m,
-                            UserId = 7
+                            TwoPoint = 3.00m
                         },
                         new
                         {
@@ -1548,12 +1569,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 21.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 1,
                             Rebound = 18.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1567,12 +1588,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 16.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 19.00m,
+                            PlayerId = 5,
                             Rebound = 34.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 5
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1586,12 +1607,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 9,
                             Rebound = 10.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1605,12 +1626,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 31.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 12.00m,
+                            PlayerId = 8,
                             Rebound = 14.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1624,12 +1645,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 19.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 15.00m,
+                            PlayerId = 1,
                             Rebound = 15.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1643,12 +1664,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 8.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 6,
                             Rebound = 18.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1662,12 +1683,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 9.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 10,
                             Rebound = 13.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1681,12 +1702,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 24.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 14.00m,
+                            PlayerId = 4,
                             Rebound = 27.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1700,12 +1721,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 19.00m,
                             MissingTwoPoint = 4.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 3,
                             Rebound = 22.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 3
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -1719,12 +1740,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 25.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 13.00m,
+                            PlayerId = 7,
                             Rebound = 23.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 7
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1738,12 +1759,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 3,
                             Rebound = 17.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1757,12 +1778,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 6.00m,
                             MissingTwoPoint = 5.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 5,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 10.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 5
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1776,12 +1797,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 16.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 8,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1795,12 +1816,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 10,
                             Rebound = 3.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1814,12 +1835,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 7.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 9.00m,
+                            PlayerId = 4,
                             Rebound = 23.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1833,12 +1854,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 13.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 3.00m,
+                            PlayerId = 9,
                             Rebound = 11.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1852,12 +1873,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 7.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 3.00m,
+                            PlayerId = 6,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1871,12 +1892,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 17.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 10.00m,
+                            PlayerId = 1,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 4.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 1
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1890,12 +1911,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 4.00m,
                             MissingTwoPoint = 14.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 5,
                             Rebound = 15.00m,
                             Status = 1,
                             StealBall = 6.00m,
                             TeamId = 1,
-                            TwoPoint = 8.00m,
-                            UserId = 5
+                            TwoPoint = 8.00m
                         },
                         new
                         {
@@ -1909,12 +1930,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 4.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 3,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 3
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1928,12 +1949,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 15.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 8,
                             Rebound = 14.00m,
                             Status = 1,
                             StealBall = 3.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 8
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1947,12 +1968,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 4.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 10,
                             Rebound = 9.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -1966,12 +1987,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 15.00m,
+                            PlayerId = 4,
                             Rebound = 19.00m,
                             Status = 1,
                             StealBall = 2.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 4
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -1985,12 +2006,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 14.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 9.00m,
+                            PlayerId = 9,
                             Rebound = 8.00m,
                             Status = 1,
                             StealBall = 1.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 9
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2004,12 +2025,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 14.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 8.00m,
+                            PlayerId = 6,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 5.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2023,12 +2044,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 8.00m,
                             OnePoint = 10.00m,
+                            PlayerId = 12,
                             Rebound = 12.00m,
                             Status = 1,
                             StealBall = 7.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 12
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2042,12 +2063,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 7.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 6.00m,
+                            PlayerId = 6,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 6
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2061,12 +2082,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 8.00m,
                             MissingTwoPoint = 2.00m,
                             OnePoint = 5.00m,
+                            PlayerId = 3,
                             Rebound = 4.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 1.00m,
-                            UserId = 3
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -2080,12 +2101,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 10.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 3.00m,
+                            PlayerId = 2,
                             Rebound = 4.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 2
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2099,12 +2120,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 6.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 7.00m,
+                            PlayerId = 4,
                             Rebound = 11.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 1.00m,
-                            UserId = 4
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -2118,12 +2139,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 5.00m,
                             MissingTwoPoint = 6.00m,
                             OnePoint = 4.00m,
+                            PlayerId = 13,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 5.00m,
-                            UserId = 13
+                            TwoPoint = 5.00m
                         },
                         new
                         {
@@ -2137,12 +2158,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 3.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 10,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2156,12 +2177,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 2.00m,
                             MissingTwoPoint = 4.00m,
                             OnePoint = 3.00m,
+                            PlayerId = 5,
                             Rebound = 7.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 1.00m,
-                            UserId = 5
+                            TwoPoint = 1.00m
                         },
                         new
                         {
@@ -2175,12 +2196,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 3.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 15,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 15
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2194,12 +2215,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 11.00m,
                             MissingTwoPoint = 1.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 14,
                             Rebound = 5.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 1,
-                            TwoPoint = 0.00m,
-                            UserId = 14
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2213,12 +2234,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 5.00m,
                             MissingTwoPoint = 0.00m,
                             OnePoint = 1.00m,
+                            PlayerId = 4,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 4
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2232,12 +2253,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 5.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 1.00m,
+                            PlayerId = 13,
                             Rebound = 6.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 13
+                            TwoPoint = 0.00m
                         },
                         new
                         {
@@ -2251,12 +2272,12 @@ namespace MySuperStats.WebApi.Migrations
                             MissingOnePoint = 5.00m,
                             MissingTwoPoint = 3.00m,
                             OnePoint = 2.00m,
+                            PlayerId = 10,
                             Rebound = 3.00m,
                             Status = 1,
                             StealBall = 0.00m,
                             TeamId = 2,
-                            TwoPoint = 0.00m,
-                            UserId = 10
+                            TwoPoint = 0.00m
                         });
                 });
 
@@ -2294,6 +2315,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<decimal>("PenaltyScore")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int>("PlayerId");
+
                     b.Property<decimal>("SaveGoal")
                         .HasColumnType("decimal(10,2)");
 
@@ -2305,19 +2328,17 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreateUserId");
+
+                    b.HasIndex("PlayerId");
 
                     b.HasIndex("Status");
 
                     b.HasIndex("TeamId");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("MatchId", "UserId", "TeamId");
+                    b.HasIndex("MatchId", "PlayerId", "TeamId");
 
                     b.ToTable("FootballStats");
                 });
@@ -2669,6 +2690,8 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int>("MatchGroupId");
 
+                    b.Property<int>("PlayerId");
+
                     b.Property<int>("RoleId");
 
                     b.Property<int>("Status");
@@ -2677,11 +2700,14 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int?>("UpdateUserId");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreateUserId");
+
+                    b.HasIndex("PlayerId");
 
                     b.HasIndex("RoleId");
 
@@ -2701,6 +2727,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 1,
                             RoleId = 1,
                             Status = 1,
                             UserId = 1
@@ -2711,6 +2738,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 2,
                             RoleId = 4,
                             Status = 1,
                             UserId = 2
@@ -2721,6 +2749,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 3,
                             RoleId = 4,
                             Status = 1,
                             UserId = 3
@@ -2731,6 +2760,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 4,
                             RoleId = 2,
                             Status = 1,
                             UserId = 4
@@ -2741,6 +2771,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 5,
                             RoleId = 2,
                             Status = 1,
                             UserId = 5
@@ -2751,6 +2782,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 6,
                             RoleId = 4,
                             Status = 1,
                             UserId = 6
@@ -2761,6 +2793,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 7,
                             RoleId = 4,
                             Status = 1,
                             UserId = 7
@@ -2771,6 +2804,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 8,
                             RoleId = 4,
                             Status = 1,
                             UserId = 8
@@ -2781,6 +2815,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 9,
                             RoleId = 4,
                             Status = 1,
                             UserId = 9
@@ -2791,6 +2826,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 10,
                             RoleId = 4,
                             Status = 1,
                             UserId = 10
@@ -2801,6 +2837,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 11,
                             RoleId = 4,
                             Status = 1,
                             UserId = 11
@@ -2811,6 +2848,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 12,
                             RoleId = 4,
                             Status = 1,
                             UserId = 12
@@ -2821,6 +2859,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 13,
                             RoleId = 4,
                             Status = 1,
                             UserId = 13
@@ -2831,6 +2870,7 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 14,
                             RoleId = 4,
                             Status = 1,
                             UserId = 14
@@ -2841,7 +2881,212 @@ namespace MySuperStats.WebApi.Migrations
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             MatchGroupId = 1,
+                            PlayerId = 15,
                             RoleId = 4,
+                            Status = 1,
+                            UserId = 15
+                        });
+                });
+
+            modelBuilder.Entity("MySuperStats.WebApi.Models.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<DateTime>("CreateDateTime");
+
+                    b.Property<int>("CreateUserId");
+
+                    b.Property<DateTime?>("DeleteDateTime");
+
+                    b.Property<int?>("DeleteUserId");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime?>("UpdateDateTime");
+
+                    b.Property<int?>("UpdateUserId");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Players");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = new DateTime(1982, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Yunus Emre",
+                            LastName = "Kırkanahtar",
+                            Status = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = new DateTime(1975, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Ali",
+                            LastName = "Yunuslar",
+                            Status = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BirthDate = new DateTime(1975, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Arbak",
+                            LastName = "Demirdağ",
+                            Status = 1,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BirthDate = new DateTime(1970, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Fahri",
+                            LastName = "Söylemezgiller",
+                            Status = 1,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BirthDate = new DateTime(1982, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Mahmut",
+                            LastName = "Balci",
+                            Status = 1,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BirthDate = new DateTime(1971, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "İlker",
+                            LastName = "Oyman",
+                            Status = 1,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BirthDate = new DateTime(1984, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Gürcan",
+                            LastName = "Ateş",
+                            Status = 1,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BirthDate = new DateTime(1988, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Ceyhan",
+                            LastName = "Gönen",
+                            Status = 1,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BirthDate = new DateTime(1970, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Ahmet",
+                            LastName = "Okçular",
+                            Status = 1,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            BirthDate = new DateTime(1973, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Mehmet",
+                            LastName = "Aygün",
+                            Status = 1,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            BirthDate = new DateTime(1987, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Fırat",
+                            LastName = "Timur",
+                            Status = 1,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            BirthDate = new DateTime(1992, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Gökay",
+                            LastName = "Patar",
+                            Status = 1,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            BirthDate = new DateTime(1989, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Altuğ",
+                            LastName = "Demirsel",
+                            Status = 1,
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            BirthDate = new DateTime(2000, 7, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Ömer",
+                            LastName = "Sefer",
+                            Status = 1,
+                            UserId = 14
+                        },
+                        new
+                        {
+                            Id = 15,
+                            BirthDate = new DateTime(1987, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateUserId = 1,
+                            FirstName = "Caner",
+                            LastName = "Pazar",
                             Status = 1,
                             UserId = 15
                         });
@@ -2878,7 +3123,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "aa4d37ef-991f-432e-8c21-12e5e431c4f6",
+                            ConcurrencyStamp = "1ba72279-c88f-455d-b698-5fba6d321e33",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -2886,7 +3131,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3e9ee7d6-07c8-48ef-8b83-8fc3e9a1c4c2",
+                            ConcurrencyStamp = "25694035-1475-41f7-a524-6e6d342c5990",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -2894,7 +3139,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "173788bd-b426-46fc-8f01-ddbf874e72d0",
+                            ConcurrencyStamp = "50afaa96-3b33-4647-85ee-f9a534739b43",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -2902,9 +3147,17 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "bb4d28c5-f6c3-4537-9055-6231f74c2d41",
+                            ConcurrencyStamp = "f1de6559-7ad2-44ef-890f-d754962c84fa",
                             Name = "Player",
                             NormalizedName = "PLAYER",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ConcurrencyStamp = "6f6543f6-889d-45e6-a758-275aeba9fc0e",
+                            Name = "Guest",
+                            NormalizedName = "GUEST",
                             Status = 1
                         });
                 });
@@ -3000,6 +3253,9 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<DateTime>("LastLogOutDate");
 
+                    b.Property<string>("LastName")
+                        .HasMaxLength(100);
+
                     b.Property<DateTime>("LastTokenDate");
 
                     b.Property<bool>("LockoutEnabled");
@@ -3024,9 +3280,6 @@ namespace MySuperStats.WebApi.Migrations
                         .HasMaxLength(1000);
 
                     b.Property<int>("Status");
-
-                    b.Property<string>("Surname")
-                        .HasMaxLength(100);
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -3054,13 +3307,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1982, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yunusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "YUNUS EMRE",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3070,7 +3322,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "KIRKANAHTAR",
                             TwoFactorEnabled = false,
                             UserName = "yunusemre@gmail.com"
                         },
@@ -3078,13 +3329,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1975, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "y.unusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "ALİ",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3094,7 +3344,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "YUNUSLAR",
                             TwoFactorEnabled = false,
                             UserName = "y.unusemre@gmail.com"
                         },
@@ -3102,13 +3351,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1975, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "y..unusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "ARBAK",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3118,7 +3366,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "DEMİRDAĞ",
                             TwoFactorEnabled = false,
                             UserName = "y..unusemre@gmail.com"
                         },
@@ -3126,13 +3373,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1970, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "y...unusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "FAHRİ",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3142,7 +3388,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "SÖYLEMEZGİLLER",
                             TwoFactorEnabled = false,
                             UserName = "y...unusemre@gmail.com"
                         },
@@ -3150,13 +3395,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1982, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yu.nusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "MAHMUT",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3166,7 +3410,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "BALCİ",
                             TwoFactorEnabled = false,
                             UserName = "yu.nusemre@gmail.com"
                         },
@@ -3174,13 +3417,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1971, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yu..nusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "İLKER",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3190,7 +3432,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "OYMAN",
                             TwoFactorEnabled = false,
                             UserName = "yu..nusemre@gmail.com"
                         },
@@ -3198,13 +3439,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1984, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yu...nusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "GÜRCAN",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3214,7 +3454,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "ATEŞ",
                             TwoFactorEnabled = false,
                             UserName = "yu...nusemre@gmail.com"
                         },
@@ -3222,13 +3461,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1988, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yun.usemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "CEYHAN",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3238,7 +3476,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "GÖNEN",
                             TwoFactorEnabled = false,
                             UserName = "yun.usemre@gmail.com"
                         },
@@ -3246,13 +3483,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 9,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1970, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yun..usemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "AHMET",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3262,7 +3498,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "OKÇULAR",
                             TwoFactorEnabled = false,
                             UserName = "yun..usemre@gmail.com"
                         },
@@ -3270,13 +3505,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 10,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1973, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yun...usemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "MEHMET",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3286,7 +3520,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "AYGÜN",
                             TwoFactorEnabled = false,
                             UserName = "yun...usemre@gmail.com"
                         },
@@ -3294,13 +3527,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 11,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1987, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yunu.semre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "FIRAT",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3310,7 +3542,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "TİMUR",
                             TwoFactorEnabled = false,
                             UserName = "yunu.semre@gmail.com"
                         },
@@ -3318,13 +3549,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 12,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1992, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yunus.emre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "GÖKAY",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3334,7 +3564,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "PATAR",
                             TwoFactorEnabled = false,
                             UserName = "yunus.emre@gmail.com"
                         },
@@ -3342,13 +3571,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 13,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1989, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "yunusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "ALTUĞ",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3358,7 +3586,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "DEMİRSEL",
                             TwoFactorEnabled = false,
                             UserName = "yunuse.mre@gmail.com"
                         },
@@ -3366,13 +3593,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 14,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(2000, 7, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "y.u.nusemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "ÖMER",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3382,7 +3608,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "SEFER",
                             TwoFactorEnabled = false,
                             UserName = "y.u.nusemre@gmail.com"
                         },
@@ -3390,13 +3615,12 @@ namespace MySuperStats.WebApi.Migrations
                         {
                             Id = 15,
                             AccessFailedCount = 0,
-                            BirthDate = new DateTime(1987, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ConcurrencyStamp = "ca40583b-394d-48a0-879e-c11a21da1aeb",
                             CreateDateTime = new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreateUserId = 1,
                             Email = "y.u.n.usemre@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "CANER",
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
@@ -3406,7 +3630,6 @@ namespace MySuperStats.WebApi.Migrations
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW",
                             Status = 1,
-                            Surname = "PAZAR",
                             TwoFactorEnabled = false,
                             UserName = "y.u.n.usemre@gmail.com"
                         });
@@ -3464,14 +3687,14 @@ namespace MySuperStats.WebApi.Migrations
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
+                        .WithMany("BasketballStats")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("BasketballStats")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
-                        .WithMany("BasketballStats")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3482,14 +3705,14 @@ namespace MySuperStats.WebApi.Migrations
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
+                        .WithMany("FootballStats")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("MySuperStats.WebApi.Models.Team", "Team")
                         .WithMany("FootballStats")
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
-                        .WithMany("FootballStats")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -3531,6 +3754,11 @@ namespace MySuperStats.WebApi.Migrations
                         .HasForeignKey("MatchGroupId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("MySuperStats.WebApi.Models.Player", "Player")
+                        .WithMany("MatchGroupUsers")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("MySuperStats.WebApi.Models.Role", "Role")
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("RoleId")
@@ -3540,6 +3768,13 @@ namespace MySuperStats.WebApi.Migrations
                         .WithMany("MatchGroupUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("MySuperStats.WebApi.Models.Player", b =>
+                {
+                    b.HasOne("MySuperStats.WebApi.Models.User", "User")
+                        .WithOne("Player")
+                        .HasForeignKey("MySuperStats.WebApi.Models.Player", "UserId");
                 });
 #pragma warning restore 612, 618
         }

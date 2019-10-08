@@ -1,4 +1,5 @@
 using System;
+using CustomFramework.Utils;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -7,13 +8,15 @@ namespace MySuperStats.WebUI.Middlewares
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        //private readonly ISession _session;
 
         public ErrorHandlingMiddleware(RequestDelegate next)
         {
             _next = next;
+            //_session = session;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ISession session)
         {
             try
             {
@@ -21,11 +24,11 @@ namespace MySuperStats.WebUI.Middlewares
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                HandleException(context, ex, session);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private void HandleException(HttpContext context, Exception ex, ISession session)
         {
             var connectionTypeString = context.Request.IsHttps == true ? "https" : "http";
             var cultureInfo = System.Globalization.CultureInfo.CurrentCulture.Name;
@@ -36,7 +39,11 @@ namespace MySuperStats.WebUI.Middlewares
                 context.Response.Redirect($"{redirectUrl}");
             }
             else
-                await _next(context);
+            {
+                session.Set("LastException", ex.ObjectToByteArray());
+                var redirectUrl = $"{connectionTypeString}://{context.Request.Host}/{cultureInfo}/Error";
+                context.Response.Redirect($"{redirectUrl}");
+            }
         }
     }
 }

@@ -10,9 +10,11 @@ namespace MySuperStats.WebUI.Constants
         public const string GetAllMacthesForMainScreen = "match/getallformainscreen/matchgroupid/";
         public const string GetMatchDetail = "match/getmatchdetailbasketballstats/id/";
         public const string GetAllUsersByMatchGroupId = "User/getall/matchgroupid/";
-        public const string GetUserWithBasketballStats = "user/getwithbasketballstats/id/";
+        public const string GetAllPlayersByMatchGroupId = "Player/getall/matchgroupid/";
+        public const string GetPlayerWithBasketballStats = "player/getwithbasketballstats/id/";
         public const string GetTopBasketballStats = "basketballstat/gettopstats/matchgroupid/";
         public const string GetUserById = "User/get/";
+        public const string GetPlayerByUserId = "User/getplayer/";
         public const string CreateMultiBasketballStats = "basketballstat/createwithmultistats";
         public const string GetAllMatchGroupsByUserId = "MatchGroupUser/getallmatchgroup/user/";
         public const string CreateMatchGroupUser = "MatchGroupUser/create";
@@ -20,10 +22,11 @@ namespace MySuperStats.WebUI.Constants
         public const string CreateMatchGroup = "MatchGroup/create";
         public const string GetUserByEmailAddress = "User/get/email/";
         public const string GetPermissions = "PermissionChecker/haspermission/";
-        public const string GetAllMatchGroupUsersByMatchGroupId = "MatchGroupUser/getall/matchgroup/"; //"User/getallwithroles/matchgroupid/";
+        public const string GetAllMatchGroupUsersByMatchGroupId = "MatchGroupUser/getallusers/matchgroup/"; //"User/getallwithroles/matchgroupid/";
         public const string MatchGroupUserUpdateRole = "MatchGroupUser/updaterole";
         public const string UserEmailUpdateRequest = "User/get/email/";
         public const string Logout = "Account/logout";
+        public const string CreateGuestPlayer = "Player/createguestplayer";
 
 
 

@@ -24,7 +24,7 @@ namespace MySuperStats.WebUI.Pages
         private readonly ISession _session;
         private readonly IPermissionChecker _permissionChecker;
         public MatchGroupResponse MatchGroupResponse { get; set; }
-        public List<UserResponse> Players { get; set; }
+        public List<PlayerResponse> Players { get; set; }
 
         [BindProperty]
         public bool HasPermissionForChangeGroupName { get; set; }
@@ -71,12 +71,12 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task GetPlayersOnMatchGroupAsync(int id)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllUsersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
             var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Players = JsonConvert.DeserializeObject<List<UserResponse>>(response.Result.ToString());
+                Players = JsonConvert.DeserializeObject<List<PlayerResponse>>(response.Result.ToString());
             }
             else
                 throw new Exception(response.Message);
@@ -91,5 +91,10 @@ namespace MySuperStats.WebUI.Pages
         {
             return Redirect($"../AddUserToMatchGroup/{id}");
         }
+
+        public IActionResult OnPostAddGuestToMatchGroup(int id)
+        {
+            return Redirect($"../AddGuestToMatchGroup/{id}");
+        }        
     }
 }

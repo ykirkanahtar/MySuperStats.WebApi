@@ -1,4 +1,5 @@
-﻿using CustomFramework.Data;
+﻿using AutoMapper;
+using CustomFramework.Data;
 using CustomFramework.WebApiUtils.Identity.Data.Repositories;
 using MySuperStats.WebApi.Data.Repositories;
 
@@ -6,8 +7,11 @@ namespace MySuperStats.WebApi.Data
 {
     public class UnitOfWorkWebApi : UnitOfWork<ApplicationContext>, IUnitOfWorkWebApi
     {
-        public UnitOfWorkWebApi(ApplicationContext context) : base(context)
+        private readonly IMapper _mapper;
+        public UnitOfWorkWebApi(ApplicationContext context, IMapper mapper) : base(context)
         {
+            _mapper = mapper;
+
             /*************Authorization************/
             ClientApplications = new ClientApplicationRepository(context);
             Users = new UserRepository(context);
@@ -21,6 +25,7 @@ namespace MySuperStats.WebApi.Data
             MatchGroupUsers = new MatchGroupUserRepository(context);
             MatchGroupTeams = new MatchGroupTeamRepository(context);
             FootballStats = new FootballStatRepository(context);
+            Players = new PlayerRepository(context, _mapper);
             /*********End of Instances*********/
         }
 
@@ -37,6 +42,7 @@ namespace MySuperStats.WebApi.Data
         public IMatchGroupUserRepository MatchGroupUsers { get; }
         public IMatchGroupTeamRepository MatchGroupTeams { get; }
         public IFootballStatRepository FootballStats { get; }
+        public IPlayerRepository Players { get; }
         /*********End of Repositories*********/
     }
 }
