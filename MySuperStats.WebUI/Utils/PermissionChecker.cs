@@ -26,11 +26,11 @@ namespace MySuperStats.WebUI.Utils
             _session = session;
         }
 
-        public async Task<bool> HasPermissionAsync(int matchGroupId, int userId, PermissionEnum permissionEnum)
+        public async Task<bool> HasPermissionAsync(int matchGroupId, int userId, PermissionEnum permissionEnum, string culture)
         {
             var permissionArray = $"permissions={permissionEnum.ToString()}";
             var permissionGetUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{userId}/matchGroupId/{matchGroupId}?{permissionArray}";
-            var permissionResponse = await _webApiConnector.GetAsync(permissionGetUrl, SessionUtil.GetToken(_session));
+            var permissionResponse = await _webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(_session));
             if (permissionResponse.StatusCode != HttpStatusCode.OK)
             {
                 throw new Exception(permissionResponse.Message);

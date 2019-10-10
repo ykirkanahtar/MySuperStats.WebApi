@@ -202,7 +202,7 @@
       <ul class="sidebar-menu" data-widget="tree">              
         @{
             var getUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
-            var response = webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(session)).Result;
+            var response = webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(session)).Result;
             
             if(response.StatusCode != HttpStatusCode.OK)
             {
@@ -215,7 +215,7 @@
               
               var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}&permissions={PermissionEnum.AddUserToRole}";
               var permissionGetUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{loggedUser.Id}/matchGroupId/{group.Id}?{permissionArray}";
-              var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, SessionUtil.GetToken(session)).Result;
+              var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(session)).Result;
               if(permissionResponse.StatusCode != HttpStatusCode.OK)
               {
                 throw new Exception(permissionResponse.Message);

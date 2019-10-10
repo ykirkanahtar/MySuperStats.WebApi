@@ -5,6 +5,6 @@ namespace MySuperStats.WebUI.Utils
 {
     public interface IPermissionChecker
     {
-        Task<bool> HasPermissionAsync(int matchGroupId, int userId, PermissionEnum permissionEnum);
+        Task<bool> HasPermissionAsync(int matchGroupId, int userId, PermissionEnum permissionEnum, string culture);
     }
 }

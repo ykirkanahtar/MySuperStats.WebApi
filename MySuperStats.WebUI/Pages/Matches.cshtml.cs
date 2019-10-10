@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
@@ -31,10 +30,10 @@ namespace MySuperStats.WebUI.Pages
             MatchList = new List<MatchResponse>();
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string culture)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMacthesForMainScreen}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

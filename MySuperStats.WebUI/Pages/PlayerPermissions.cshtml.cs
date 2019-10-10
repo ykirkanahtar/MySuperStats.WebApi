@@ -51,11 +51,11 @@ namespace MySuperStats.WebUI.Pages
             _localizer = localizer;
         }
 
-        public async Task OnGetAsync(int id)
+        public async Task OnGetAsync(int id, string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
 
-            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.AddUserToRole) == false)
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.AddUserToRole, culture) == false)
             {
                 throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
@@ -72,7 +72,7 @@ namespace MySuperStats.WebUI.Pages
             return new JsonResult(user.Id);
         }
 
-        public async Task<JsonResult> OnPostFromGridAsync(int id)
+        public async Task<JsonResult> OnPostFromGridAsync(int id, string culture)
         {
             var retValue = false;
             {
@@ -96,7 +96,7 @@ namespace MySuperStats.WebUI.Pages
                                 RoleId = (int)newRoleEnum,
                             };
 
-                            return await UpdateUserRoleAsync(matchGroupUserRequest);
+                            return await UpdateUserRoleAsync(culture, matchGroupUserRequest);
                         }
                     }
                 }
@@ -104,13 +104,13 @@ namespace MySuperStats.WebUI.Pages
             return new JsonResult(retValue);
         }
 
-        private async Task<JsonResult> UpdateUserRoleAsync(MatchGroupUserRequest request)
+        private async Task<JsonResult> UpdateUserRoleAsync(string culture, MatchGroupUserRequest request)
         {
 
             var jsonContent = JsonConvert.SerializeObject(request);
 
             var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.MatchGroupUserUpdateRole}";
-            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -123,10 +123,10 @@ namespace MySuperStats.WebUI.Pages
             else return new JsonResult(_localizer.GetValue("AnErrorHasOccured"));
         }
 
-        public async Task<JsonResult> OnGetRoles(int id)
+        public async Task<JsonResult> OnGetRoles(int id, string culture)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupUsersByMatchGroupId}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

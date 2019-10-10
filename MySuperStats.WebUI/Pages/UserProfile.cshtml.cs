@@ -32,11 +32,11 @@ namespace MySuperStats.WebUI.Pages
         }
 
 
-        public async Task OnGet()
+        public async Task OnGet(string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{user.Id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -49,6 +49,6 @@ namespace MySuperStats.WebUI.Pages
         public IActionResult OnPostUpdateUserProfile(string culture)
         {
             return Redirect($"../{culture}/UpdateUserProfile");
-        }        
+        }
     }
 }

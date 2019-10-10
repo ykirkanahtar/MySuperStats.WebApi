@@ -39,17 +39,17 @@ namespace MySuperStats.WebUI.Pages
         }
 
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
 
-            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup) == false)
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup, culture) == false)
             {
                 throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
             }
 
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
@@ -57,11 +57,11 @@ namespace MySuperStats.WebUI.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostChangeGroupNameAsync(int id)
+        public async Task<IActionResult> OnPostChangeGroupNameAsync(int id, string culture)
         {
             var jsonContent = JsonConvert.SerializeObject(MatchGroupRequest);
             var putUrl = $"{_appSettings.WebApiUrl}MatchGroup/{id}/update";
-            var response = await _webApiConnector.PutAsync(putUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PutAsync(putUrl, jsonContent, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
                 return Redirect($"../MatchGroupDetail/{id}");
             else

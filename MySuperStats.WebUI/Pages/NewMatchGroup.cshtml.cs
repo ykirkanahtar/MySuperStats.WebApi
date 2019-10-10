@@ -34,7 +34,7 @@ namespace MySuperStats.WebUI.Pages
             MatchGroup = new MatchGroupRequest();
         }
 
-        public async Task<IActionResult> OnPostCreateMatchGroupNameAsync()
+        public async Task<IActionResult> OnPostCreateMatchGroupNameAsync(string culture)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace MySuperStats.WebUI.Pages
                 var jsonContent = JsonConvert.SerializeObject(MatchGroup);
 
                 var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMatchGroup}";
-                var response = await _webApiConnector.PostAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+                var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var matchGroupId = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString()).Id;

@@ -30,12 +30,12 @@ namespace MySuperStats.WebUI.Pages
             StatisticTable = new BasketballStatisticTable();
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string culture)
         {
             try
             {
                 var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}{id}";
-                var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+                var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

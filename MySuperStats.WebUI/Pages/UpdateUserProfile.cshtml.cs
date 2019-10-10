@@ -51,11 +51,11 @@ namespace MySuperStats.WebUI.Pages
             _localizer = localizer;
         }
 
-        public async Task OnGet()
+        public async Task OnGet(string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{user.Id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -73,12 +73,12 @@ namespace MySuperStats.WebUI.Pages
             return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
-        public async Task<IActionResult> OnPostUpdateProfile()
+        public async Task<IActionResult> OnPostUpdateProfile(string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
             var jsonContent = JsonConvert.SerializeObject(UserUpdate);
             var postUrl = $"{_appSettings.WebApiUrl}User/{user.Id}/update";
-            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 _session.Set("User", Encoding.UTF8.GetBytes(response.Result.ToString()));
@@ -90,7 +90,7 @@ namespace MySuperStats.WebUI.Pages
             return Page();
         }
 
-        public async Task<JsonResult> OnPostUpdateEmail()
+        public async Task<JsonResult> OnPostUpdateEmail(string culture)
         {
             var retValue = false;
             {
@@ -106,20 +106,20 @@ namespace MySuperStats.WebUI.Pages
                         {
                             NewEmail = requestBody,
                         };
-                        return await OnEmailUpdateRequestAsync(emailUpdateRequest);
+                        return await OnEmailUpdateRequestAsync(culture, emailUpdateRequest);
                     }
                 }
             }
             return new JsonResult(retValue);
         }
 
-        private async Task<JsonResult> OnEmailUpdateRequestAsync(UserEmailUpdateRequest request)
+        private async Task<JsonResult> OnEmailUpdateRequestAsync(string culture, UserEmailUpdateRequest request)
         {
             var user = SessionUtil.GetLoggedUser(_session);
             var jsonContent = JsonConvert.SerializeObject(request);
 
             var postUrl = $"{_appSettings.WebApiUrl}User/{user.Id}/update/email/request";
-            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PutAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

@@ -38,7 +38,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
             try
             {
-                var apiResponse = await _webApiConnector.GetAsync($"{_appSettings.WebApiUrl}{ApiUrls.ConfirmEmail}/userId/{Convert.ToInt32(userId)}/code/{code}/culture/{culture}", string.Empty);
+                var apiResponse = await _webApiConnector.GetAsync($"{_appSettings.WebApiUrl}{ApiUrls.ConfirmEmail}/userId/{Convert.ToInt32(userId)}/code/{code}/culture/{culture}", culture);
                 if (apiResponse.StatusCode != HttpStatusCode.OK)
                 {
                     throw new InvalidOperationException(_localizer.GetValue(String.Format("Error confirming email for user with ID {0}", userId)));

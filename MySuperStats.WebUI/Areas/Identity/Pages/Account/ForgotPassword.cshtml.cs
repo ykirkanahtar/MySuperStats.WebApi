@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
-using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
@@ -20,10 +19,10 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-            private readonly ILogger<ForgotPasswordModel> _logger;
-            private readonly AppSettings _appSettings;
-            private readonly IWebApiConnector<ApiResponse> _webApiConnector;
-            private readonly ILocalizationService _localizer;
+        private readonly ILogger<ForgotPasswordModel> _logger;
+        private readonly AppSettings _appSettings;
+        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly ILocalizationService _localizer;
 
         public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
         {
@@ -51,14 +50,14 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                 {
                     var callbackUrl = Url.Page(
                         $"/Account/ResetPassword/{culture}",
-                        pageHandler : null,
-                        values : new { code = "ReplaceCodeValue" },
-                        protocol : Request.Scheme);
+                        pageHandler: null,
+                        values: new { code = "ReplaceCodeValue" },
+                        protocol: Request.Scheme);
 
                     Input.CallBackUrl = callbackUrl;
                     var jsonContent = JsonConvert.SerializeObject(Input);
 
-                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.ForgotPassword}", jsonContent, string.Empty);
+                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.ForgotPassword}", jsonContent, culture);
 
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {

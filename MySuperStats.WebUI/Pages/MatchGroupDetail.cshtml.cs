@@ -43,24 +43,24 @@ namespace MySuperStats.WebUI.Pages
         }
 
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
 
             HasPermissionForChangeGroupName =
-                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup);
+                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup, culture);
 
             HasPermissionForAddUser =
-                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.CreateMatchGroupUser);
+                 await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.CreateMatchGroupUser, culture);
 
-            await GetMatchGroupDetailAsync(id);
-            await GetPlayersOnMatchGroupAsync(id);
+            await GetMatchGroupDetailAsync(id, culture);
+            await GetPlayersOnMatchGroupAsync(id, culture);
         }
 
-        private async Task GetMatchGroupDetailAsync(int id)
+        private async Task GetMatchGroupDetailAsync(int id, string culture)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 MatchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
@@ -69,10 +69,10 @@ namespace MySuperStats.WebUI.Pages
                 throw new Exception(response.Message);
         }
 
-        private async Task GetPlayersOnMatchGroupAsync(int id)
+        private async Task GetPlayersOnMatchGroupAsync(int id, string culture)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -95,6 +95,6 @@ namespace MySuperStats.WebUI.Pages
         public IActionResult OnPostAddGuestToMatchGroup(int id)
         {
             return Redirect($"../AddGuestToMatchGroup/{id}");
-        }        
+        }
     }
 }

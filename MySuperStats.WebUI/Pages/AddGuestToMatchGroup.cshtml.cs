@@ -42,7 +42,7 @@ namespace MySuperStats.WebUI.Pages
             PlayerRequest.BirthDate = DateTime.Now.AddYears(-25);
         }
 
-        public async Task<IActionResult> OnPostAddGuest(int id)
+        public async Task<IActionResult> OnPostAddGuest(int id, string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
 
@@ -52,7 +52,7 @@ namespace MySuperStats.WebUI.Pages
 
             var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateGuestPlayer}";
 
-            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

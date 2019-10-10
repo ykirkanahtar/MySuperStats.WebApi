@@ -1,10 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -32,7 +30,7 @@ namespace MySuperStats.WebUI.Pages
             try
             {
                 var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.Logout}";
-                var response = await _webApiConnector.PostAsync(postUrl, string.Empty, SessionUtil.GetToken(_session));
+                var response = await _webApiConnector.PostAsync(postUrl, string.Empty, culture, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

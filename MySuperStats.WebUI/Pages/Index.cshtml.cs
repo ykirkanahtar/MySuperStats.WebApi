@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
@@ -46,7 +47,8 @@ namespace MySuperStats.WebUI.Pages
             {
                 var loggedUser = SessionUtil.GetLoggedUser(_session);
                 var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
-                var response = _webApiConnector.Get(getUrl, SessionUtil.GetToken(_session));
+                var cultureName = Thread.CurrentThread.CurrentCulture.Name;
+                var response = _webApiConnector.Get(getUrl, cultureName, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -67,14 +69,14 @@ namespace MySuperStats.WebUI.Pages
             }
         }
 
-        public async Task OnGet()
+        public async Task OnGet(string culture)
         {
             try
             {
                 var loggedPlayer = SessionUtil.GetLoggedUser(_session).Player;
 
                 var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerWithBasketballStats}{loggedPlayer.Id}";
-                var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+                var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -88,6 +90,6 @@ namespace MySuperStats.WebUI.Pages
             {
                 throw new Exception(ex.Message);
             }
-        }     
+        }
     }
 }

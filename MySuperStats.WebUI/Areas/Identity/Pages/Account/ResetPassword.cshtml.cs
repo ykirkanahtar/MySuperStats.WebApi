@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
-using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
@@ -62,7 +61,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
             {
                 var jsonContent = JsonConvert.SerializeObject(Input);
 
-                var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.ResetPassword}/{culture}", jsonContent, string.Empty);
+                var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.ResetPassword}/{culture}", jsonContent, culture);
 
                 if (apiResponse.StatusCode == HttpStatusCode.OK)
                 {

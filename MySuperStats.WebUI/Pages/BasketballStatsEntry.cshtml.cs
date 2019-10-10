@@ -71,10 +71,10 @@ namespace MySuperStats.WebUI.Pages
             return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
-        public async Task<JsonResult> OnGetPlayers(int id)
+        public async Task<JsonResult> OnGetPlayers(int id, string culture)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
-            var response = await _webApiConnector.GetAsync(getUrl, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -164,7 +164,7 @@ namespace MySuperStats.WebUI.Pages
             var jsonContent = JsonConvert.SerializeObject(Model);
 
             var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMultiBasketballStats}";
-            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, SessionUtil.GetToken(_session));
+            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

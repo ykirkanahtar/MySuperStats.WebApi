@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
@@ -13,7 +12,6 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
-using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
@@ -61,7 +59,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                     Input.CallBackUrl = callbackUrl;
                     var jsonContent = JsonConvert.SerializeObject(Input);
 
-                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Register}", jsonContent, string.Empty);
+                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Register}", jsonContent, culture);
 
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {

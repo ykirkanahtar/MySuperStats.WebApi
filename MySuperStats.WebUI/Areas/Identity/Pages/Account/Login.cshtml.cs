@@ -75,7 +75,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                 {
                     var jsonContent = JsonConvert.SerializeObject(Input.Login);
 
-                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Login}", jsonContent, string.Empty);
+                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Login}", jsonContent, culture);
 
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {
@@ -86,7 +86,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                         _session.Set("UserId", BitConverter.GetBytes(tokenResponse.UserId));
 
                         var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{tokenResponse.UserId}";
-                        var response = await _webApiConnector.GetAsync(getUrl, tokenResponse.Token);
+                        var response = await _webApiConnector.GetAsync(getUrl, culture, tokenResponse.Token);
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
                             _session.Set("User", Encoding.UTF8.GetBytes(response.Result.ToString()));

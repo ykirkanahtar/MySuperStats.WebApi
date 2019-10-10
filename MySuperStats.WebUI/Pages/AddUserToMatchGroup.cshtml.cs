@@ -42,26 +42,26 @@ namespace MySuperStats.WebUI.Pages
             _localizer = localizer;
         }
 
-        public async Task OnGet(int id)
+        public async Task OnGet(int id, string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
 
-            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup) == false)
+            if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup, culture) == false)
             {
                 throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
         }
 
-        public async Task<IActionResult> OnPostAddUserToMatchGroup(int id)
+        public async Task<IActionResult> OnPostAddUserToMatchGroup(int id, string culture)
         {
             var token = SessionUtil.GetToken(_session);
 
             try
             {
-                var user = await GetUserByEmailAddressAsync(EmailAddress, token);
-                var player = await GetPlayerByUserIdAsync(user.Id, token);
+                var user = await GetUserByEmailAddressAsync(culture, EmailAddress, token);
+                var player = await GetPlayerByUserIdAsync(culture, user.Id, token);
 
-                await AddUserToMatchGroupAsync(id, player.Id, token);
+                await AddUserToMatchGroupAsync(id, culture, player.Id, token);
                 return Redirect($"../MatchGroupDetail/{id}");
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace MySuperStats.WebUI.Pages
             return Page();
         }
 
-        private async Task AddUserToMatchGroupAsync(int matchGroupId, int playerId, string token)
+        private async Task AddUserToMatchGroupAsync(int matchGroupId, string culture, int playerId, string token)
         {
             var matchGroupUserRequest = new MatchGroupPlayerCreateRequest { MatchGroupId = matchGroupId, PlayerId = playerId };
 
@@ -79,30 +79,30 @@ namespace MySuperStats.WebUI.Pages
 
             var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMatchGroupUser}";
 
-            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, token);
+            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, token);
 
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Message);
         }
 
-        private async Task<UserResponse> GetUserByEmailAddressAsync(string emailAddress, string token)
+        private async Task<UserResponse> GetUserByEmailAddressAsync(string culture, string emailAddress, string token)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserByEmailAddress}{emailAddress}";
-            var response = await _webApiConnector.GetAsync(getUrl, token);
+            var response = await _webApiConnector.GetAsync(getUrl, culture, token);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Message);
 
             return JsonConvert.DeserializeObject<UserResponse>(response.Result.ToString());
         }
 
-        private async Task<PlayerResponse> GetPlayerByUserIdAsync(int userId, string token)
+        private async Task<PlayerResponse> GetPlayerByUserIdAsync(string culture, int userId, string token)
         {
             var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerByUserId}{userId}";
-            var response = await _webApiConnector.GetAsync(getUrl, token);
+            var response = await _webApiConnector.GetAsync(getUrl, culture, token);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Message);
 
             return JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
-        }        
+        }
     }
 }
