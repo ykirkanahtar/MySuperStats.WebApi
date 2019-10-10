@@ -1,9 +1,13 @@
-﻿@page
+﻿@page "{culture}"
 @model ConfirmEmailModel
 @using MySuperStats.WebUI.Utils
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@inject ILocalizationService localizer
 @{
-    ViewData["Title"] = @AppConstants.ConfirmEmail;
+    ViewData["Title"] = localizer.GetValue("Confirmation of e-mail");
     Layout = "_LoginLayout";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
 <div class="register-box">
@@ -12,7 +16,7 @@
     </div>
     <div class="register-box-body">
         <p>
-            @AppConstants.ThankYouForConfirmingEmail <a asp-page="./Login">@AppConstants.PleaseClickHereToLogIn</a>.
+            @(localizer.GetValue("Thank you for confirming e-mail")) <a asp-page="./Login" asp-route-culture="@culture">@(localizer.GetValue("Please click here to login"))</a>.
         </p>
     </div>
 </div>

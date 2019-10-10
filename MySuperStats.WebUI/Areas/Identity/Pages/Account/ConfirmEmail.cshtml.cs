@@ -1,20 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MySuperStats.WebUI.ApplicationSettings;
-using MySuperStats.WebUI.Areas.Identity.Data;
 using MySuperStats.WebUI.Constants;
-using MySuperStats.WebUI.Utils;
-using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 {
@@ -24,27 +19,29 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
         private readonly ILogger<ConfirmEmailModel> _logger;
         private readonly AppSettings _appSettings;
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly ILocalizationService _localizer;
 
-        public ConfirmEmailModel(ILogger<ConfirmEmailModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector)
+        public ConfirmEmailModel(ILogger<ConfirmEmailModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _logger = logger;
             _appSettings = appSettings;
             _webApiConnector = webApiConnector;
+            _localizer = localizer;
         }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string culture, string userId, string code)
         {
             if (userId == null || code == null)
             {
-                return NotFound($"Invalid parameters");
+                return NotFound(_localizer.GetValue("Invalid parameter"));
             }
 
             try
             {
-                var apiResponse = await _webApiConnector.GetAsync($"{_appSettings.WebApiUrl}{ApiUrls.ConfirmEmail}/userId/{Convert.ToInt32(userId)}/code/{code}", string.Empty);
+                var apiResponse = await _webApiConnector.GetAsync($"{_appSettings.WebApiUrl}{ApiUrls.ConfirmEmail}/userId/{Convert.ToInt32(userId)}/code/{code}/culture/{culture}", string.Empty);
                 if (apiResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
+                    throw new InvalidOperationException(_localizer.GetValue(String.Format("Error confirming email for user with ID {0}", userId)));
                 }
 
             }

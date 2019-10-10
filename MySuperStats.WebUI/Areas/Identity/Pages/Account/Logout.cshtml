@@ -1,10 +1,14 @@
-﻿@page
+﻿@page "{culture}"
 @model LogoutModel
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@inject ILocalizationService localizer
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = localizer.GetValue("Logout");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;  
 }
 
 <header>
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
+    <p>@(localizer.GetValue("You have successfully logged out of the application"))</p>
 </header>

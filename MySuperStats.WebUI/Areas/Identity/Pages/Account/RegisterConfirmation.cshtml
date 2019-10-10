@@ -1,9 +1,13 @@
-﻿@page
+﻿@page "{culture}"
 @model RegisterConfirmationModel
 @using MySuperStats.WebUI.Utils
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@inject ILocalizationService localizer
 @{
-    ViewData["Title"] = @AppConstants.RegisterConfirmation;
+    ViewData["Title"] = localizer.GetValue("Confirmation of registration");
     Layout = "_LoginLayout";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;  
 }
 
 <div class="register-box">
@@ -12,7 +16,7 @@
     </div>
     <div class="register-box-body">
         <p>
-            @AppConstants.PleaseCheckYourEmailForCompletingRegistration.
+            @(localizer.GetValue("Please check your e-mail for completing registration"))
         </p>
     </div>
 </div>

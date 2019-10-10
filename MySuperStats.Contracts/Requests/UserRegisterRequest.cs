@@ -45,6 +45,7 @@ namespace MySuperStats.Contracts.Requests
         public string LastName { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = nameof(BirthDate))]
         public DateTime BirthDate { get; set; }
 

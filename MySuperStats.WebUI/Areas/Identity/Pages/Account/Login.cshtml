@@ -1,9 +1,13 @@
 ﻿@page "{culture}"
 @model LoginModel
 @using MySuperStats.WebUI.Utils
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@inject ILocalizationService localizer
 @{
-    ViewData["Title"] = @AppConstants.Login;
+    ViewData["Title"] = localizer.GetValue("Login");
     Layout = "_LoginLayout";
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 
 <div class="login-box">
@@ -12,33 +16,33 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">@AppConstants.PleaseLogin</p>
+    <p class="login-box-msg">@(localizer.GetValue("PleaseLogin"))</p>
 
     <form id="account" method="post">
       <div asp-validation-summary="All" class="text-danger"></div>
 
       <div class="form-group has-feedback">
-        <input asp-for="Input.Login.UserName" class="form-control" placeholder="@AppConstants.UserName" value="yunusemre@gmail.com">
+        <input asp-for="Input.Login.UserName" class="form-control" placeholder="@(localizer.GetValue("Enter your e-mail address"))" value="yunusemre@gmail.com">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         <span asp-validation-for="Input.Login.UserName" class="text-danger"></span>
       </div>
       <div class="form-group has-feedback">
-        <input asp-for="Input.Login.Password" class="form-control" placeholder="@AppConstants.Password" value="Test.1234">
+        <input asp-for="Input.Login.Password" class="form-control" placeholder="@(localizer.GetValue("Enter your password"))" value="Test.1234">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         <span asp-validation-for="Input.Login.Password" class="text-danger"></span> 
       </div>
       <div class="row">
-        <div class="col-xs-8">
+        <!-- <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
                 <input asp-for="Input.RememberMe" />
-                            @AppConstants.RememberMe
+                            @(localizer.GetValue("Remember me"))
             </label>
           </div>
-        </div>
+        </div> -->
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">@AppConstants.SignIn</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">@(localizer.GetValue("Sign in"))</button>
         </div>
         <!-- /.col -->
       </div>
@@ -56,11 +60,23 @@
     </div>
     -->
     <!-- /.social-auth-links -->
-
-
-    <a asp-page="./ForgotPassword">@AppConstants.ForgotMyPassword</a><br>
-    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-center">@AppConstants.NewMembership</a>
-
+    <br>
+    <div class="row">
+        <div class="col-xs-8">
+          <a asp-page="./ForgotPassword" asp-route-culture="@culture" >@(localizer.GetValue("Forgot password"))</a><br>
+        </div>      
+    </div>
+    <div class="row">
+        <div class="col-xs-8">      
+          <a asp-page="./Register" asp-route-culture="@culture" asp-route-returnUrl="@Model.ReturnUrl" class="text-center">@(localizer.GetValue("New membership"))</a>
+        </div>  
+    </div>
+    <br>
+    <div class="row">    
+        <div class="col-xs-8">
+          <partial name="_LanguagePartial"/>
+        </div>                
+    </div>
   </div>
   <!-- /.login-box-body -->
 </div>

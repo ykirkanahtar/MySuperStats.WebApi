@@ -239,6 +239,9 @@
   <!-- Annotation Errors -->
 
   <!--Identity -->
+  <data name="A code must be supplied for password reset" xml:space="preserve">
+    <value>A code must be supplied for password reset</value>
+  </data>      
   <data name="A user cannot have more than one role." xml:space="preserve">
     <value>A user cannot have more than one role.</value>
   </data>   
@@ -275,6 +278,12 @@
   <data name="CodeIsNeededForCompleteRegistration" xml:space="preserve">
     <value>Code required to complete registration</value>
   </data>  
+  <data name="Confirmation of e-mail" xml:space="preserve">
+    <value>Confirmation of e-mail</value>
+  </data>     
+  <data name="Confirmation of reset password" xml:space="preserve">
+    <value>Confirmation of reset password</value>
+  </data>    
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Doğrulama e-mail address</value>
   </data>    
@@ -301,7 +310,13 @@
   </data>      
   <data name="Enter your e-mail address" xml:space="preserve">
     <value>Enter your e-mail address</value>
-  </data>    
+  </data>
+  <data name="Enter your password" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>        
+  <data name="Error confirming email for user with ID {0}" xml:space="preserve">
+    <value>Error confirming email for user with ID {0}</value>
+  </data>  
   <data name="FirstName" xml:space="preserve">
     <value>Firstname</value>
   </data>
@@ -311,18 +326,45 @@
   <data name="For renew your password, please click on the link" xml:space="preserve">
     <value>Parolanızı yenilemek için lütfen bağlantıya tıklayınız</value>
   </data>   
+  <data name="Forgot password" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>       
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>Forgot password confirmation</value>
+  </data>     
+  <data name="I agree the terms" xml:space="preserve">
+    <value>I agree the terms</value>
+  </data>    
+  <data name="I have already membership" xml:space="preserve">
+    <value>I have already membership</value>
+  </data>     
   <data name="Incorrect password." xml:space="preserve">
     <value>Incorrect password.</value>
   </data>  
   <data name="Invalid link" xml:space="preserve">
     <value>Hatalı bağlantı</value>
   </data>     
+  <data name="Invalid login attempt" xml:space="preserve">
+    <value>Invalid login attempt</value>
+  </data>     
+  <data name="Invalid parameter" xml:space="preserve">
+    <value>Invalid parameter</value>
+  </data>    
   <data name="Invalid token." xml:space="preserve">
     <value>Invalid token</value>
+  </data>  
+  <data name="LastName" xml:space="preserve">
+    <value>Lastname</value>
   </data>  
   <data name="Lockout is not enabled for this user." xml:space="preserve">
     <value>Lockout is not enabled for this user.</value>
   </data>   
+  <data name="Locked out" xml:space="preserve">
+    <value>Locked out</value>
+  </data>     
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>    
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>    
@@ -332,6 +374,9 @@
   <data name="NewEmail" xml:space="preserve">
     <value>New e-mail address</value>
   </data>    
+  <data name="New membership" xml:space="preserve">
+    <value>New membership</value>
+  </data>        
   <data name="OldPasswordAndNewPasswordCanNotBeSame" xml:space="preserve">
     <value>Old password and new password can not be same</value>
   </data>  
@@ -362,12 +407,42 @@
   <data name="PasswordAndConfirmPasswordDoesntMatch" xml:space="preserve">
     <value>Password and confirmation password do not match.</value>
   </data>
+  <data name="Please check your e-mail" xml:space="preserve">
+    <value>Lütfen e-postanızı kontrol ediniz</value>
+  </data>   
+  <data name="Please check your e-mail for completing registration" xml:space="preserve">
+    <value>Please check your e-mail for completing registration</value>
+  </data>      
+  <data name="Please click here to login" xml:space="preserve">
+    <value>Please click here to login</value>
+  </data>    
   <data name="PleaseConfirmYourRegistration" xml:space="preserve">
     <value>Please confirm your registration.</value>
   </data>
+  <data name="PleaseLogin" xml:space="preserve">
+    <value>Please login...</value>
+  </data>    
+  <data name="Please re-type your password" xml:space="preserve">
+    <value>Please re-type your password</value>
+  </data>    
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>   
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>    
+  <data name="Remember me" xml:space="preserve">
+    <value>Remember me</value>
+  </data>      
   <data name="Renew Password" xml:space="preserve">
     <value>Parola yenileme</value>
   </data>  
+  <data name="Reset Password" xml:space="preserve">
+    <value>Reset password</value>
+  </data>    
+  <data name="Retype password" xml:space="preserve">
+    <value>Retype password</value>
+  </data>     
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
@@ -377,14 +452,23 @@
   <data name="Role name {0} is invalid." xml:space="preserve">
     <value>Role name {0} is invalid.</value>
   </data>   
+  <data name="Sign in" xml:space="preserve">
+    <value>Sign in</value>
+  </data>    
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>    
   <data name="SuccessMessageForEmailUpdate" xml:space="preserve">
     <value>Done, confirmation link sent to your email address.</value>
   </data>  
-  <data name="LastName" xml:space="preserve">
-    <value>Lastname</value>
-  </data>
+  <data name="Thank you for confirming e-mail" xml:space="preserve">
+    <value>Thank you for confirming e-mail</value>
+  </data>    
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>The password created by system</value>
+  </data>  
+  <data name="This account has been locked out, please try again later" xml:space="preserve">
+    <value>This account has been locked out, please try again later</value>
   </data>  
   <data name="Token" xml:space="preserve">
     <value>Token</value>
@@ -416,6 +500,9 @@
   <data name="Your account is approved" xml:space="preserve">
     <value>Your account is approved</value>
   </data>    
+  <data name="You have successfully logged out of the application" xml:space="preserve">
+    <value>You have successfully logged out of the application</value>
+  </data>        
   <data name="Your new e-mail address must be different from your registered e-mail address" xml:space="preserve">
     <value>Your new e-mail address must be different from your registered e-mail address</value>
   </data>    
@@ -425,6 +512,9 @@
   <data name="Your password has been changed email text" xml:space="preserve">
     <value>Your password has been changed. If you have not done this, please contact the site administrator.</value>
   </data>     
+  <data name="Your password has been resetted" xml:space="preserve">
+    <value>Your password has been resetted</value>
+  </data>      
   <!--Identity -->
 
   <!-- Classes and fields-->

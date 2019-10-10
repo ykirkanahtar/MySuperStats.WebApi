@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using CustomFramework.WebApiUtils.Identity.Contracts.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -28,13 +29,15 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
         private readonly AppSettings _appSettings;
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly ISession _session;
+        private readonly ILocalizationService _localizer;
 
-        public LoginModel(ISession session, ILogger<LoginModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector)
+        public LoginModel(ISession session, ILogger<LoginModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _session = session;
             _logger = logger;
             _appSettings = appSettings;
             _webApiConnector = webApiConnector;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -58,7 +61,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
             public Login Login { get; set; }
 
-            [Display(Name = AppConstants.RememberMe)]
+            [Display(Name = nameof(RememberMe))]
             public bool RememberMe { get; set; }
         }
 
@@ -102,13 +105,13 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                     // }
                     else
                     {
-                        ModelState.AddModelError(apiResponse.Message, AppConstants.InvalidLoginAttempt);
+                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
                         return Page();
                     }
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(ex.Message, AppConstants.InvalidLoginAttempt);
+                    ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
                     return Page();
                 }
             }

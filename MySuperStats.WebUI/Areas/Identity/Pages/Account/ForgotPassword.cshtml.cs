@@ -1,20 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebUI.ApplicationSettings;
-using MySuperStats.WebUI.Areas.Identity.Data;
 using MySuperStats.WebUI.Constants;
 using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
@@ -27,12 +23,14 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
             private readonly ILogger<ForgotPasswordModel> _logger;
             private readonly AppSettings _appSettings;
             private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+            private readonly ILocalizationService _localizer;
 
-        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector)
+        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _logger = logger;
             _appSettings = appSettings;
             _webApiConnector = webApiConnector;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -45,14 +43,14 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string culture)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     var callbackUrl = Url.Page(
-                        "/Account/ResetPassword",
+                        $"/Account/ResetPassword/{culture}",
                         pageHandler : null,
                         values : new { code = "ReplaceCodeValue" },
                         protocol : Request.Scheme);
@@ -64,17 +62,17 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        return RedirectToPage("./ForgotPasswordConfirmation");
+                        return RedirectToPage($"./ForgotPasswordConfirmation/{culture}");
                     }
                     else
                     {
-                        ModelState.AddModelError(apiResponse.Message, AppConstants.InvalidLoginAttempt);
+                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
                         return Page();
                     }
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(ex.Message, AppConstants.InvalidLoginAttempt);
+                    ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
                     return Page();
                 }
             }
