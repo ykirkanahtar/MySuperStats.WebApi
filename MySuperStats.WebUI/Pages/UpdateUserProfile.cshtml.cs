@@ -83,7 +83,7 @@ namespace MySuperStats.WebUI.Pages
             {
                 var playerResponse = JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
                 user.Player = playerResponse;
-                _session.Set("User", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(user)));
+                _session.SetString("User", JsonConvert.SerializeObject(user));
                 return Redirect($"../{culture}/UserProfile");
             }
             else

@@ -80,15 +80,15 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                     {
                         var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(apiResponse.Result.ToString());
 
-                        _session.Set("UserToken", Encoding.UTF8.GetBytes(tokenResponse.Token));
-                        _session.Set("TokenExpireDate", Encoding.UTF8.GetBytes(tokenResponse.ExpireUtcDateTime.ToLongDateString()));
-                        _session.Set("UserId", BitConverter.GetBytes(tokenResponse.UserId));
+                        _session.SetString("UserToken", tokenResponse.Token);
+                        _session.SetString("TokenExpireDate",tokenResponse.ExpireUtcDateTime.ToLongDateString());
+                        _session.SetInt32("UserId", tokenResponse.UserId);
 
                         var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserById, tokenResponse.UserId)}";
                         var response = await _webApiConnector.GetAsync(getUrl, culture, tokenResponse.Token);
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
-                            _session.Set("User", Encoding.UTF8.GetBytes(response.Result.ToString()));
+                            _session.SetString("User", response.Result.ToString());
                         }
                         else
                             throw new Exception(response.Message);
