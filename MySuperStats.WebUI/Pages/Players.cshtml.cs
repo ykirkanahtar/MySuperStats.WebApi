@@ -32,7 +32,7 @@ namespace MySuperStats.WebUI.Pages
 
         public async Task OnGet(int id, string culture)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetAllPlayersByMatchGroupId, id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

@@ -39,6 +39,12 @@
                 @(Model.MatchGroupResponse.GroupName)
               </p>
             </div>
+            <div class="form-group">
+              <label>@(localizer.GetValue("MatchGroupType"))</label>
+              <p class="text-muted">
+                @(localizer.GetValue(Model.MatchGroupResponse.MatchGroupType.ToString()))
+              </p>
+            </div>            
           </div>
           <!-- /.box-body -->
 

@@ -195,7 +195,7 @@
     <value>Uyarı</value>
   </data>    
   <data name="UnauthorizedAccessError" xml:space="preserve">
-    <value>Bu erişim için yetki bulunmamakta</value>
+    <value>Bu erişim için yetkiniz bulunmamaktadır</value>
   </data>
   <!-- Errors and Success-->
 
@@ -259,7 +259,10 @@
   </data>  
   <data name="An unknown failure has occurred." xml:space="preserve">
     <value>Bilinmeyen bir hata oluştu.</value>
-  </data>      
+  </data>   
+  <data name="Authority" xml:space="preserve">
+    <value>Yetki</value>
+  </data>       
   <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
     <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
   </data>  
@@ -422,6 +425,9 @@
   <data name="Please click here to login" xml:space="preserve">
     <value>Giriş sayfası için tıklayınız</value>
   </data>    
+  <data name="PleaseClickTheLinkForConfirmationYourAccount" xml:space="preserve">
+    <value>Hesabınızın onaylanması için lütfen bağlantıya tıklayınız</value>
+  </data>       
   <data name="PleaseConfirmYourRegistration" xml:space="preserve">
     <value>Lütfen kaydınızı onaylayınız</value>
   </data>  
@@ -431,6 +437,9 @@
   <data name="Please re-type your password" xml:space="preserve">
     <value>Lütfen parolanızı tekrar giriniz</value>
   </data>      
+  <data name="Please select" xml:space="preserve">
+    <value>Lütfen seçiniz</value>
+  </data>    
   <data name="Register" xml:space="preserve">
     <value>Kayıt ol</value>
   </data>      
@@ -503,6 +512,9 @@
   <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
     <value>{0} kullanıcı adı geçersiz. Sadece rakam ve harf kullanılmalıdır.</value>
   </data>    
+  <data name="YourAccountConfirmCode" xml:space="preserve">
+    <value>Hesap onay kodunuz</value>
+  </data>     
   <data name="Your account is approved" xml:space="preserve">
     <value>Hesabınız onaylanmıştır</value>
   </data>    
@@ -548,6 +560,9 @@
   <data name="AwayTeam" xml:space="preserve">
     <value>Deplasman takımı</value>
   </data>      
+  <data name="Basketball" xml:space="preserve">
+    <value>Basketbol</value>
+  </data>  
   <data name="BasketballStat" xml:space="preserve">
     <value>Basketbol İstatistikleri</value>
   </data>
@@ -617,6 +632,9 @@
   <data name="FirstTeam" xml:space="preserve">
     <value>İlk takım</value>
   </data>      
+  <data name="Football" xml:space="preserve">
+    <value>Futbol</value>
+  </data>    
   <data name="FootballStat" xml:space="preserve">
     <value>Futbol İstatistikleri</value>
   </data>  
@@ -658,6 +676,9 @@
   </data>  
   <data name="MatchGroupInfo" xml:space="preserve">
     <value>Karşılaşma Grubu Bilgileri</value>
+  </data>    
+  <data name="MatchGroupType" xml:space="preserve">
+    <value>Karşılaşma Grubu Tipi</value>
   </data>    
   <data name="MatchGroupUser" xml:space="preserve">
     <value>Karşılaşma Grubu Üyesi</value>
@@ -758,12 +779,21 @@
   <data name="TeamName" xml:space="preserve">
     <value>Takım adı</value>
   </data>   
+  <data name="This group is just for basketball stats" xml:space="preserve">
+    <value>Bu grup sadece basketbol istatistikleri içindir</value>
+  </data>    
+  <data name="This group is just for football stats" xml:space="preserve">
+    <value>Bu grup sadece futbol istatistikleri içindir</value>
+  </data>      
   <data name="TopStats" xml:space="preserve">
     <value>Genel İstatistikler</value>
   </data>    
   <data name="Total" xml:space="preserve">
     <value>Toplam</value>
   </data>     
+  <data name="Total Goals" xml:space="preserve">
+    <value>Gol Krallığı</value>
+  </data>       
   <data name="TotalPoint" xml:space="preserve">
     <value>Toplam sayı</value>
   </data>   

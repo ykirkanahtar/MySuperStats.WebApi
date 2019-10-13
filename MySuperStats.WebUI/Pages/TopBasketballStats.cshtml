@@ -1,0 +1,479 @@
+﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@using MySuperStats.WebUI.Pages
+@model MySuperStats.WebUI.Pages.TopBasketballStatsModel
+@inject ILocalizationService localizer
+
+@{
+    ViewData["Title"] = localizer.GetValue("Stats");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<script>
+  $(function () {
+    $('#players_matches').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+
+    <!-- Main content -->
+    <section class="content">
+
+    <div class="row-fluid">
+        <div class="col-md-12">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+
+            <label>@(localizer.GetValue("TotalPoints"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Points)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("TotalPoints")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.PointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("OnePoint"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePoint)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("TwoPoint"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPoint)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("OnePoint")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("TwoPoint")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPointPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("OnePoint")) %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.OnePointRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>% @(Math.Round(stat.Value, 2))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("TwoPoint")) %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TwoPointRatio)
+                    {
+                    <tr>
+                        <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                        <td>% @(Math.Round(stat.Value, 2))</td>
+                        <td>@(stat.GameCount)</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Rebound"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Rebounds)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Rebound")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.ReboundPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("StealBall"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Steals)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("StealBall")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.StealsPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("LooseBall"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Turnovers)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("LooseBall")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.TurnoversPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Assist"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Assist)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Assist")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.AssistPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Interrupt"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Interrupts)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Interrupt")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.InterruptPerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Win"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Wins)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Loose"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Looses)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Win")) %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.WinRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>% @(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Loose")) %</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.LooseRatio)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>% @(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</section>
+<!-- /.content -->

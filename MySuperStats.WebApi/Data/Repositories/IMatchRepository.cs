@@ -12,5 +12,6 @@ namespace MySuperStats.WebApi.Data.Repositories
         Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId);
         Task<IList<Match>> GetMatchForMainScreen(int matchGroupId);
         Task<Match> GetMatchDetailBasketballStats(int matchId);
+        Task<Match> GetMatchDetailFootballStats(int matchId);
     }
 }

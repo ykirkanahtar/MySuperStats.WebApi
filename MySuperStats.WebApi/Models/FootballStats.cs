@@ -9,12 +9,12 @@ namespace MySuperStats.WebApi.Models
         public int PlayerId { get; set; }
 
         public decimal Goal { get; set; }
-        public decimal OwnGoal { get; set; }
-        public decimal PenaltyScore { get; set; }
-        public decimal MissedPenalty { get; set; }
-        public decimal Assist { get; set; }
-        public decimal SaveGoal { get; set; }
-        public decimal ConcedeGoal { get; set; }
+        public decimal? OwnGoal { get; set; }
+        public decimal? PenaltyScore { get; set; }
+        public decimal? MissedPenalty { get; set; }
+        public decimal? Assist { get; set; }
+        public decimal? SaveGoal { get; set; }
+        public decimal? ConcedeGoal { get; set; }
 
         public virtual Match Match { get; set; }
         public virtual Team Team { get; set; }

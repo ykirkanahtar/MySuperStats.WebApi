@@ -14,32 +14,32 @@ using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Pages
 {
-    public class TopStatsModel : PageModel
+    public class TopFootballStatsModel : PageModel
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
-        public BasketballStatisticTable StatisticTable { get; set; }
+        public FootballStatisticTable StatisticTable { get; set; }
 
-        public TopStatsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public TopFootballStatsModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
-            StatisticTable = new BasketballStatisticTable();
+            StatisticTable = new FootballStatisticTable();
         }
 
         public async Task OnGet(int id, string culture)
         {
             try
             {
-                var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetTopBasketballStats}{id}";
+                var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetTopFootballStats, id)}";
                 var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    StatisticTable = JsonConvert.DeserializeObject<BasketballStatisticTable>(response.Result.ToString());
+                    StatisticTable = JsonConvert.DeserializeObject<FootballStatisticTable>(response.Result.ToString());
                 }
                 else
                     throw new Exception(response.Message);

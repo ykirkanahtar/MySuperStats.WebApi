@@ -59,7 +59,7 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task GetMatchGroupDetailAsync(int id, string culture)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetMatchGroupById, id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -71,7 +71,7 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task GetPlayersOnMatchGroupAsync(int id, string culture)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllPlayersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetAllPlayersByMatchGroupId, id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

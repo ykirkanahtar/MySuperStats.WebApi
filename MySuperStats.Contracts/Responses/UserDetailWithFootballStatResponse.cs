@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.Contracts.Responses
 {
-
-    public class UserDetailWithBasketballStatResponse
+    public class UserDetailWithFootballStatResponse
     {
-        public UserDetailWithBasketballStatResponse()
+        public UserDetailWithFootballStatResponse()
         {
             User = new UserResponse();
             Player = new PlayerResponse();
-            PerMatchStats = new BasketballStatResponse();
-            TotalStats = new BasketballStatResponse();
-            RatioTable = new BasketballRatioTable(0, 0);
+            PerMatchStats = new FootballStatResponse();
+            TotalStats = new FootballStatResponse();
             MatchForms = new List<MatchResult>();
             WinLooseTable = new WinLooseTable(0, 0, 0, 0);
             Matches = new List<BaseMatchResponse>();
@@ -20,9 +18,8 @@ namespace MySuperStats.Contracts.Responses
 
         public UserResponse User { get; set; }
         public PlayerResponse Player { get; set; }
-        public BasketballStatResponse PerMatchStats { get; set; }
-        public BasketballStatResponse TotalStats { get; set; }
-        public BasketballRatioTable RatioTable { get; set; }
+        public FootballStatResponse PerMatchStats { get; set; }
+        public FootballStatResponse TotalStats { get; set; }
         public List<MatchResult> MatchForms { get; set; }
         public WinLooseTable WinLooseTable { get; set; }
         public List<BaseMatchResponse> Matches { get; set; }

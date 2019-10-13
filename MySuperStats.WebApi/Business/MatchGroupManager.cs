@@ -97,6 +97,12 @@ namespace MySuperStats.WebApi.Business
             BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
+        public Task<MatchGroup> GetByMatchIdAsync(int matchId)
+        {
+            return CommonOperationAsync(async () => await _uow.MatchGroups.GetByMatchIdAsync(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+            BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+        }        
+
         public Task<MatchGroup> GetByGroupNameAsync(string groupName)
         {
             return CommonOperationAsync(async () => await _uow.MatchGroups.GetByGroupNameAsync(groupName), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },

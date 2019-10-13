@@ -1,4 +1,5 @@
 ﻿@page
+@using MySuperStats.Contracts.Enums
 @using CustomFramework.WebApiUtils.Contracts.Resources
 
 @model MySuperStats.WebUI.Pages.NewMatchGroupModel
@@ -27,6 +28,13 @@
               <label for="txtGroupName">@(localizer.GetValue("GroupName"))</label>
               <input type="text" asp-for="MatchGroup.GroupName" class="form-control" id="txtGroupName" placeholder="@(localizer.GetValue("Enter the name of the group"))">
               <span asp-validation-for="MatchGroup.GroupName" class="text-danger"></span>                        
+            </div>
+            <div class="form-group">          
+              <label for="txtGroupName">@(localizer.GetValue("MatchGroupType"))</label>
+              <select asp-for="MatchGroup.MatchGroupType" class="form-control" asp-items="Html.GetEnumSelectList<MatchGroupType>()">
+                <option selected="selected" value="">@(localizer.GetValue("Please select"))</option>
+              </select>
+              <span asp-validation-for="MatchGroup.MatchGroupType" class="text-danger"></span> 
             </div>
           </div>
           <!-- /.box-body -->

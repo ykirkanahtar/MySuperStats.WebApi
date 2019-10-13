@@ -44,6 +44,16 @@ namespace MySuperStats.Contracts.Responses
                 : 0;
         }
 
+        public decimal GetAgeRatioForFootball()
+        {
+            var teamTotalAge = (from p in FootballStats
+                                select p.Player).Sum(x => x.BirthDate.GetAge());
+
+            return FootballStats.Count > 0
+                ? (Convert.ToDecimal(teamTotalAge) / Convert.ToDecimal(FootballStats.Count)).RoundValue()
+                : 0;
+        }        
+
         public BasketballStatResponse GetTeamTotalForBasketball()
         {
             return new BasketballStatResponse
@@ -59,5 +69,19 @@ namespace MySuperStats.Contracts.Responses
                 TwoPoint = BasketballStats.Sum(x => x.TwoPoint),
             };
         }
+
+        public FootballStatResponse GetTeamTotalForFootball()
+        {
+            return new FootballStatResponse
+            {
+                Goal = FootballStats.Sum(x => x.Goal),
+                OwnGoal = FootballStats.Sum(x => x.OwnGoal),
+                PenaltyScore = FootballStats.Sum(x => x.PenaltyScore),
+                MissedPenalty = FootballStats.Sum(x => x.MissedPenalty),
+                Assist = FootballStats.Sum(x => x.Assist),
+                SaveGoal = FootballStats.Sum(x => x.SaveGoal),
+                ConcedeGoal = FootballStats.Sum(x => x.ConcedeGoal),
+            };
+        }        
     }
 }

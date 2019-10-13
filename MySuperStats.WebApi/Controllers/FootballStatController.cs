@@ -11,14 +11,15 @@ using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Business;
-using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Enums;
 using System;
 using CustomFramework.WebApiUtils.Utils.Exceptions;
+using MySuperStats.WebApi.ApplicationSettings;
 
 namespace MySuperStats.WebApi.Controllers
 {
+    [Route(ApiConstants.DefaultRoute + "footballstat")]
     public class FootballStatController : BaseControllerWithCrudAuthorization<FootballStat, FootballStatRequest, FootballStatRequest, FootballStatResponse, IFootballStatManager, int>
     {
         private readonly IPermissionChecker _permissionChecker;
@@ -41,9 +42,28 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseCreateAsync(request);
         }
 
+        [Route("createwithmultistats")]
+        [HttpPost]
+        public Task<IActionResult> CreateMultiStats([FromBody] CreateMatchRequestWithMultiFootballStats request)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var attributes = new List<PermissionAttribute> {
+                    new PermissionAttribute(nameof(PermissionEnum.CreateFootballStat), nameof(BooleanEnum.True))
+                 };
+                await _permissionChecker.HasPermissionAsync(User, request.MatchRequest.MatchGroupId, attributes);
+
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
+                var result = await Manager.CreateMultiStats(request);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+            });
+        }        
+
         [Route("{id:int}/update")]
         [HttpPut]
-        public Task<IActionResult> UpdateName(int id, [FromBody] FootballStatRequest request)
+        public Task<IActionResult> Update(int id, [FromBody] FootballStatRequest request)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
@@ -92,31 +112,43 @@ namespace MySuperStats.WebApi.Controllers
             });
         }
 
-        [Route("getall/playerid/{playerId:int}")]
+        [Route("getall/matchgroupid/{matchGroupId:int}/playerId/{playerId:int}")]
         [HttpGet]
-        public Task<IActionResult> GetAllByPlayerId(int playerId)
+        public Task<IActionResult> GetAllByPlayerId(int matchGroupId, int playerId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllByPlayerIdAsync(playerId);
+                var result = await Manager.GetAllByMatchGroupIdAndPlayerIdAsync(matchGroupId, playerId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<FootballStat>, IList<FootballStatResponse>>(result)));
             });
         }
 
-        [Route("getall")]
+        [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
-        public Task<IActionResult> GetAll()
+        public Task<IActionResult> GetAllByMatchGroupId(int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetAllAsync();
+                var result = await Manager.GetAllByMatchGroupIdAsync(matchGroupId);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<IList<FootballStat>, IList<FootballStatResponse>>(result)));
             });
         }
+
+        [Route("gettopstats/matchgroupid/{matchGroupId:int}")]
+        [HttpGet]
+        public Task<IActionResult> GetTopStats(int matchGroupId)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetTopStats(matchGroupId);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+            });
+        }        
 
     }
 }

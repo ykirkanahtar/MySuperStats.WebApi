@@ -34,19 +34,34 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await GetAll(predicate: predicate).Select(p => p.User).FirstOrDefaultAsync();
         }
 
-        public async Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int playerId)
+        public async Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int playerId, int matchGroupId)
         {
             var player = await (from p in DbContext.Set<Player>()
-                                where p.Id == playerId && p.Status == Status.Active
+                                join mu in DbContext.Set<MatchGroupUser>() on p.Id equals mu.PlayerId
+                                join mg in DbContext.Set<MatchGroup>() on mu.MatchGroupId equals mg.Id
+                                where p.Id == playerId && p.Status == Status.Active && mu.Status == Status.Active
+                                     && mg.Status == Status.Active
                                 select p)
-                        .Include(p => p.BasketballStats)
-                            .ThenInclude(p => p.Match)
-                        .Include(p => p.User)
-                        .Include(p => p.BasketballStats)
-                            .ThenInclude(p => p.Team)
+                                .Include(p => p.User)
                         .FirstOrDefaultAsync();
 
-            var basketballStats = player.BasketballStats;
+            var basketballStats = await (from m in DbContext.Set<Match>()
+                                         join bs in DbContext.Set<BasketballStat>() on m.Id equals bs.MatchId
+                                         join mg in DbContext.Set<MatchGroup>() on m.MatchGroupId equals mg.Id
+                                         join p in DbContext.Set<Player>() on bs.PlayerId equals p.Id
+                                         join mu in DbContext.Set<MatchGroupUser>() on mg.Id equals mu.MatchGroupId
+                                         where m.MatchGroupId == matchGroupId
+                                            && bs.PlayerId == playerId
+                                            && mu.PlayerId == p.Id
+                                            && m.Status == Status.Active
+                                            && bs.Status == Status.Active
+                                            && mg.Status == Status.Active
+                                            && p.Status == Status.Active
+                                         select bs
+                                        )
+                                        .Include(p => p.Match)
+                                        .Include(p => p.Team)
+                                        .ToListAsync();
 
             var matches = (from p in basketballStats select p.Match).ToList();
             var matchCount = ((from p in matches select p.Id).Distinct()).Count();
@@ -106,6 +121,89 @@ namespace MySuperStats.WebApi.Data.Repositories
                 Matches = matches,
                 TotalStats = totalStats,
                 RatioTable = basketballRatioTable,
+                PerMatchStats = perMatchStats,
+                MatchForms = matchForms,
+                WinLooseTable = winLooseTable,
+            };
+            return userDetailWithBasketballStat;
+        }
+
+        public async Task<UserDetailWithFootballStat> GetByIdWithFootballStatsAsync(int playerId, int matchGroupId)
+        {
+            var player = await (from p in DbContext.Set<Player>()
+                                join mu in DbContext.Set<MatchGroupUser>() on p.Id equals mu.PlayerId
+                                join mg in DbContext.Set<MatchGroup>() on mu.MatchGroupId equals mg.Id
+                                where p.Id == playerId && p.Status == Status.Active && mu.Status == Status.Active
+                                     && mg.Status == Status.Active
+                                select p)
+                                .Include(p => p.User)
+                        .FirstOrDefaultAsync();
+
+            var footballStats = await (from m in DbContext.Set<Match>()
+                                         join fs in DbContext.Set<FootballStat>() on m.Id equals fs.MatchId
+                                         join mg in DbContext.Set<MatchGroup>() on m.MatchGroupId equals mg.Id
+                                         join p in DbContext.Set<Player>() on fs.PlayerId equals p.Id
+                                         join mu in DbContext.Set<MatchGroupUser>() on mg.Id equals mu.MatchGroupId
+                                         where m.MatchGroupId == matchGroupId
+                                            && fs.PlayerId == playerId
+                                            && mu.PlayerId == p.Id
+                                            && m.Status == Status.Active
+                                            && fs.Status == Status.Active
+                                            && mg.Status == Status.Active
+                                            && p.Status == Status.Active
+                                         select fs
+                                        )
+                                        .Include(p => p.Match)
+                                        .Include(p => p.Team)
+                                        .ToListAsync();
+
+            var matches = (from p in footballStats select p.Match).ToList();
+            var matchCount = ((from p in matches select p.Id).Distinct()).Count();
+
+            var ownGoalMatchCount = (from p in footballStats where p.OwnGoal != null select p.MatchId).Distinct().Count();
+            var penaltyScoreMatchCount = (from p in footballStats where p.PenaltyScore != null select p.MatchId).Distinct().Count();
+            var missedPenaltyMatchCount = (from p in footballStats where p.MissedPenalty != null select p.MatchId).Distinct().Count();
+            var assistMatchCount = (from p in footballStats where p.Assist != null select p.MatchId).Distinct().Count();
+            var saveGoalMatchCount = (from p in footballStats where p.SaveGoal != null select p.MatchId).Distinct().Count();
+            var concedeGoalMatchCount = (from p in footballStats where p.ConcedeGoal != null select p.MatchId).Distinct().Count();
+
+            var totalStats = new FootballStat
+            {
+                Assist = footballStats.Where(x => x.Assist != null).Sum(x => x.Assist),
+                SaveGoal = footballStats.Where(x => x.SaveGoal != null).Sum(x => x.SaveGoal),
+                OwnGoal = footballStats.Where(x => x.OwnGoal != null).Sum(x => x.OwnGoal),
+                PenaltyScore = footballStats.Where(x => x.PenaltyScore != null).Sum(x => x.PenaltyScore),
+                MissedPenalty = footballStats.Where(x => x.MissedPenalty != null).Sum(x => x.MissedPenalty),
+                Goal = footballStats.Sum(x => x.Goal),
+                ConcedeGoal = footballStats.Where(x => x.ConcedeGoal != null).Sum(x => x.ConcedeGoal),
+            };
+
+            var perMatchStats = new FootballStat
+            {
+                Assist = assistMatchCount > 0 ? Math.Round(footballStats.Where(x => x.Assist != null).Sum(x => x.Assist) ?? 0 / assistMatchCount, 2) : 0,
+                SaveGoal = saveGoalMatchCount > 0 ? Math.Round(footballStats.Where(x => x.SaveGoal != null).Sum(x => x.SaveGoal) ?? 0 / saveGoalMatchCount, 2) : 0,
+                OwnGoal = ownGoalMatchCount > 0 ? Math.Round(footballStats.Where(x => x.OwnGoal != null).Sum(x => x.OwnGoal) ?? 0 / ownGoalMatchCount, 2) : 0,
+                PenaltyScore = penaltyScoreMatchCount > 0 ? Math.Round(footballStats.Where(x => x.PenaltyScore != null).Sum(x => x.PenaltyScore) ?? 0 / penaltyScoreMatchCount, 2) : 0,
+
+                MissedPenalty = missedPenaltyMatchCount > 0 ? Math.Round(footballStats.Where(x => x.MissedPenalty != null).Sum(x => x.MissedPenalty) ?? 0 / missedPenaltyMatchCount, 2) : 0,
+                Goal = matchCount > 0 ? Math.Round(footballStats.Sum(x => x.Goal) / matchCount, 2) : 0,
+                ConcedeGoal = concedeGoalMatchCount > 0 ? Math.Round(footballStats.Where(x => x.ConcedeGoal != null).Sum(x => x.ConcedeGoal) ?? 0 / concedeGoalMatchCount, 2) : 0,
+            };
+
+            var footballStatsResponse = _mapper.Map<ICollection<FootballStatResponse>>(footballStats);
+            var matchForms = footballStatsResponse.GetMatchResultByMatchAndPlayerId();
+
+            decimal win = matchForms.Count(p => p == MatchResult.Win);
+            decimal loose = matchForms.Count(p => p == MatchResult.Loose);
+            var winRatio = matchCount > 0 ? Math.Round(((win * 100) / matchCount), 2) : 0;
+            var looseRatio = matchCount > 0 ? Math.Round(((loose * 100) / matchCount), 2) : 0;
+            var winLooseTable = new WinLooseTable(win, loose, winRatio, looseRatio);
+
+            var userDetailWithBasketballStat = new UserDetailWithFootballStat
+            {
+                Player = player,
+                Matches = matches,
+                TotalStats = totalStats,
                 PerMatchStats = perMatchStats,
                 MatchForms = matchForms,
                 WinLooseTable = winLooseTable,

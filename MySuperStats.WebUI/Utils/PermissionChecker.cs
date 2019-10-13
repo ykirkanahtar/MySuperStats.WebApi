@@ -29,7 +29,7 @@ namespace MySuperStats.WebUI.Utils
         public async Task<bool> HasPermissionAsync(int matchGroupId, int userId, PermissionEnum permissionEnum, string culture)
         {
             var permissionArray = $"permissions={permissionEnum.ToString()}";
-            var permissionGetUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{userId}/matchGroupId/{matchGroupId}?{permissionArray}";
+            var permissionGetUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetPermissions, userId, matchGroupId, permissionArray)}";
             var permissionResponse = await _webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(_session));
             if (permissionResponse.StatusCode != HttpStatusCode.OK)
             {

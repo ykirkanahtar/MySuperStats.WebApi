@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CustomFramework.Data.Contracts;
 using CustomFramework.Data.Repositories;
-using CustomFramework.Data.Utils;
-using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;
+using System.Linq;
+using CustomFramework.Data.Enums;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
@@ -19,6 +18,15 @@ namespace MySuperStats.WebApi.Data.Repositories
         public async Task<IList<MatchGroup>> GetAllAsync()
         {
             return await GetAll().ToListAsync();
+        }
+
+        public async Task<MatchGroup> GetByMatchIdAsync(int matchId)
+        {
+            return await (from m in DbContext.Set<Match>()
+                          where m.Id == matchId && m.Status == Status.Active
+                               && m.Status == Status.Active
+                          select m.MatchGroup)
+                        .FirstOrDefaultAsync();
         }
 
         public async Task<MatchGroup> GetByGroupNameAsync(string groupName)

@@ -619,6 +619,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                 {
                     Id = 1,
                     GroupName = "Provus Basketbol",
+                    MatchGroupType = MatchGroupType.Basketball,
                     CreateDateTime = new DateTime(2019, 1, 1),
                     CreateUserId = 1,
                     Status = Status.Active

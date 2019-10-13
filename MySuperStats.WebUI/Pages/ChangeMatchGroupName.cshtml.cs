@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,12 +24,13 @@ namespace MySuperStats.WebUI.Pages
         private readonly AppSettings _appSettings;
         private readonly ISession _session;
         private readonly IPermissionChecker _permissionChecker;
+        private readonly ILocalizationService _localizer;
 
 
         [BindProperty]
         public MatchGroupRequest MatchGroupRequest { get; set; }
 
-        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
+        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
@@ -36,6 +38,7 @@ namespace MySuperStats.WebUI.Pages
             _permissionChecker = permissionChecker;
 
             MatchGroupRequest = new MatchGroupRequest();
+            _localizer = localizer;
         }
 
 
@@ -45,10 +48,10 @@ namespace MySuperStats.WebUI.Pages
 
             if (await _permissionChecker.HasPermissionAsync(id, user.Id, PermissionEnum.UpdateMatchGroup, culture) == false)
             {
-                throw new UnauthorizedAccessException("Bu sayfayı görüntülemeye yetkiniz yok");
+                throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
 
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetMatchGroupById}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetMatchGroupById, id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {

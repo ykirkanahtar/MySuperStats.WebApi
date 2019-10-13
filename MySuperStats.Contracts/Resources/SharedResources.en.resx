@@ -257,6 +257,9 @@
   <data name="An unknown failure has occurred." xml:space="preserve">
     <value>An unknown failure has occurred.</value>
   </data>      
+  <data name="Authority" xml:space="preserve">
+    <value>Yetki</value>
+  </data>      
   <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
     <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
   </data>  
@@ -413,6 +416,9 @@
   <data name="Please check your e-mail for completing registration" xml:space="preserve">
     <value>Please check your e-mail for completing registration</value>
   </data>      
+  <data name="PleaseClickTheLinkForConfirmationYourAccount" xml:space="preserve">
+    <value>Please click the link for confirmation of your account</value>
+  </data>  
   <data name="Please click here to login" xml:space="preserve">
     <value>Please click here to login</value>
   </data>    
@@ -424,7 +430,10 @@
   </data>    
   <data name="Please re-type your password" xml:space="preserve">
     <value>Please re-type your password</value>
-  </data>    
+  </data> 
+  <data name="Please select" xml:space="preserve">
+    <value>Please select</value>
+  </data>        
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>   
@@ -497,6 +506,9 @@
   <data name="User name {0} is invalid, can only contain letters or digits." xml:space="preserve">
     <value>User name {0} is invalid, can only contain letters or digits.</value>
   </data>      
+  <data name="YourAccountConfirmCode" xml:space="preserve">
+    <value>Your account confirm code</value>
+  </data>    
   <data name="Your account is approved" xml:space="preserve">
     <value>Your account is approved</value>
   </data>    
@@ -542,6 +554,9 @@
   <data name="AwayTeam" xml:space="preserve">
     <value>Away team</value>
   </data>      
+  <data name="Basketball" xml:space="preserve">
+    <value>Basketball</value>
+  </data>  
   <data name="BasketballStat" xml:space="preserve">
     <value>Basketbol stats</value>
   </data>
@@ -610,7 +625,10 @@
   </data>   
   <data name="FirstTeam" xml:space="preserve">
     <value>First team</value>
-  </data>      
+  </data>
+  <data name="Football" xml:space="preserve">
+    <value>Football</value>
+  </data>   
   <data name="FootballStat" xml:space="preserve">
     <value>Football stat</value>
   </data>  
@@ -653,6 +671,9 @@
   <data name="MatchGroupInfo" xml:space="preserve">
     <value>Match Group Info</value>
   </data>    
+  <data name="MatchGroupType" xml:space="preserve">
+    <value>Match Group Type</value>
+  </data>      
   <data name="MatchGroupUser" xml:space="preserve">
     <value>Match group user</value>
   </data>  
@@ -752,12 +773,21 @@
   <data name="TeamName" xml:space="preserve">
     <value>Team name</value>
   </data>   
+  <data name="This group is just for basketball stats" xml:space="preserve">
+    <value>This group is just for basketball stats</value>
+  </data>   
+  <data name="This group is just for football stats" xml:space="preserve">
+    <value>This group is just for football stats</value>
+  </data>    
   <data name="TopStats" xml:space="preserve">
     <value>Top Stats</value>
   </data>   
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>     
+  <data name="Total Goals" xml:space="preserve">
+    <value>Total Goals</value>
+  </data>   
   <data name="TotalPoint" xml:space="preserve">
     <value>Total point</value>
   </data>   

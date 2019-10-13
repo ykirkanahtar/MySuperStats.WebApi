@@ -124,5 +124,18 @@ namespace MySuperStats.WebApi.Controllers
             });
         }
 
+        [Route("getmatchdetailfootballstats/id/{id:int}")]
+        [HttpGet]
+        public Task<IActionResult> GetMatchDetailFootballStats(int id)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetMatchDetailBasketballStats(id);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<Match, MatchResponse>(result)));
+            });
+        }        
+
     }
 }

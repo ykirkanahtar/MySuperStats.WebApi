@@ -63,5 +63,28 @@ namespace MySuperStats.WebApi.Data.Repositories
             return match;
         }
 
+        public async Task<Match> GetMatchDetailFootballStats(int matchId)
+        {
+            var match = await (from p in GetAll()
+                               where p.Id == matchId
+                               select
+                                   p
+            ).Include(p => p.HomeTeam).Include(p => p.AwayTeam).FirstOrDefaultAsync();
+
+            var homeTeamStats = await (from p in DbContext.Set<FootballStat>().AsNoTracking()
+                                       where p.MatchId == matchId && p.TeamId == match.HomeTeamId && p.Status == Status.Active
+                                       select p)
+                        .Include(p => p.Player).ThenInclude(p => p.User).ToListAsync();
+            var awayTeamStats = await (from p in DbContext.Set<FootballStat>().AsNoTracking()
+                                       where p.MatchId == matchId && p.TeamId == match.AwayTeamId && p.Status == Status.Active
+                                       select p)
+                        .Include(p => p.Player).ThenInclude(p => p.User).ToListAsync();
+
+            match.HomeTeam.FootballStats = homeTeamStats;
+            match.AwayTeam.FootballStats = awayTeamStats;
+
+            return match;
+        }        
+
     }
 }

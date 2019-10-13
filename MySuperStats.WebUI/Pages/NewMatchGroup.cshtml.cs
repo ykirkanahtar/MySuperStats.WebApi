@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,17 +22,19 @@ namespace MySuperStats.WebUI.Pages
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
-        public readonly ISession _session;
+        private readonly ISession _session;
+        private readonly ILocalizationService _localizer;
 
         [BindProperty]
         public MatchGroupRequest MatchGroup { get; set; }
 
-        public NewMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public NewMatchGroupModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
             MatchGroup = new MatchGroupRequest();
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> OnPostCreateMatchGroupNameAsync(string culture)

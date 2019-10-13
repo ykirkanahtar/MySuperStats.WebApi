@@ -67,7 +67,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string culture, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content($"~/{culture}");
+            returnUrl = returnUrl ?? Url.Content($"~/{culture}/Index/");
 
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                         _session.Set("TokenExpireDate", Encoding.UTF8.GetBytes(tokenResponse.ExpireUtcDateTime.ToLongDateString()));
                         _session.Set("UserId", BitConverter.GetBytes(tokenResponse.UserId));
 
-                        var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{tokenResponse.UserId}";
+                        var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserById, tokenResponse.UserId)}";
                         var response = await _webApiConnector.GetAsync(getUrl, culture, tokenResponse.Token);
                         if (response.StatusCode == HttpStatusCode.OK)
                         {

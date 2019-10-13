@@ -87,7 +87,7 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task<UserResponse> GetUserByEmailAddressAsync(string culture, string emailAddress, string token)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserByEmailAddress}{emailAddress}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserByEmailAddress, emailAddress)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, token);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Message);
@@ -97,7 +97,7 @@ namespace MySuperStats.WebUI.Pages
 
         private async Task<PlayerResponse> GetPlayerByUserIdAsync(string culture, int userId, string token)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetPlayerByUserId}{userId}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetPlayerByUserId, userId)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, token);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Message);

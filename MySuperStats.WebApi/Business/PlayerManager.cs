@@ -93,9 +93,15 @@ namespace MySuperStats.WebApi.Business
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 
-        public Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int id)
+        public Task<UserDetailWithFootballStat> GetByIdWithFootballStatsAsync(int id, int matchGroupId)
         {
-            return CommonOperationAsync(async () => await _uow.Players.GetByIdWithBasketballStatsAsync(id), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+            return CommonOperationAsync(async () => await _uow.Players.GetByIdWithFootballStatsAsync(id, matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
+                BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
+        }
+
+        public Task<UserDetailWithBasketballStat> GetByIdWithBasketballStatsAsync(int id, int matchGroupId)
+        {
+            return CommonOperationAsync(async () => await _uow.Players.GetByIdWithBasketballStatsAsync(id, matchGroupId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() },
                 BusinessUtilMethod.CheckRecordIsExist, GetType().Name);
         }
 

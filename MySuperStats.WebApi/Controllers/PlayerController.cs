@@ -20,7 +20,7 @@ using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Enums;
 using MySuperStats.WebApi.Models;
 
-namespace MySuperStats.WebApi.Controllers.Authorization
+namespace MySuperStats.WebApi.Controllers
 {
     [Route(ApiConstants.DefaultRoute + "player")]
     public class PlayerController : BaseController
@@ -142,16 +142,28 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 Mapper.Map<IList<Player>, IList<PlayerResponse>>(result), result.Count));
         }        
 
-        [Route("getwithbasketballstats/id/{id:int}")]
+        [Route("getwithbasketballstats/id/{id:int}/matchGroupId/{matchGroupId:int}")]
         [HttpGet]
-        public Task<IActionResult> GetWithBasketballStatsById(int id)
+        public Task<IActionResult> GetWithBasketballStatsById(int id, int matchGroupId)
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await _playerManager.GetByIdWithBasketballStatsAsync(id);
+                var result = await _playerManager.GetByIdWithBasketballStatsAsync(id, matchGroupId);
                 var userDetailResponse = Mapper.Map<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>(result);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
             });
-        }        
+        }      
+
+        [Route("getwithfootballstats/id/{id:int}/matchGroupId/{matchGroupId:int}")]
+        [HttpGet]
+        public Task<IActionResult> GetWithFootballStatsById(int id, int matchGroupId)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await _playerManager.GetByIdWithFootballStatsAsync(id, matchGroupId);
+                var userDetailResponse = Mapper.Map<UserDetailWithFootballStat, UserDetailWithFootballStatResponse>(result);
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
+            });
+        }           
     }
 }

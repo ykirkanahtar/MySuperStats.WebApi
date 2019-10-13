@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Pages
 {
-    public class BasketballStatsEntryModel : PageModel
+    public class FootballStatsEntryModel : PageModel
     {
         private readonly IWebApiConnector<ApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
@@ -32,7 +33,7 @@ namespace MySuperStats.WebUI.Pages
         public List<PlayerResponse> Players { get; set; }
 
         [BindProperty]
-        public CreateMatchRequestWithMultiBasketballStats Model { get; set; }
+        public CreateMatchRequestWithMultiFootballStats Model { get; set; }
 
         public class GridForTeamSelect
         {
@@ -47,11 +48,11 @@ namespace MySuperStats.WebUI.Pages
             public int Order { get; set; }
             public int DurationInMinutes { get; set; }
             public string VideoLink { get; set; }
-            public List<BasketballStatRequestForMultiEntry> FirstTeamStats { get; set; }
-            public List<BasketballStatRequestForMultiEntry> SecondTeamStats { get; set; }
+            public List<FootballStatRequestForMultiEntry> FirstTeamStats { get; set; }
+            public List<FootballStatRequestForMultiEntry> SecondTeamStats { get; set; }
         }
 
-        public BasketballStatsEntryModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, ILocalizationService localizer)
+        public FootballStatsEntryModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;
@@ -60,15 +61,10 @@ namespace MySuperStats.WebUI.Pages
 
             Players = new List<PlayerResponse>();
 
-            Model = new CreateMatchRequestWithMultiBasketballStats();
+            Model = new CreateMatchRequestWithMultiFootballStats();
             Model.MatchRequest.Order = 1;
             Model.MatchRequest.MatchDate = DateTime.Now.AddDays(-1).Date;
             _localizer = localizer;
-        }
-
-        public JsonResult OnGetLocalizedValue(string value)
-        {
-            return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
         public async Task OnGetAsync(int id, string culture)
@@ -78,13 +74,18 @@ namespace MySuperStats.WebUI.Pages
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
-                if(matchGroupResponse.MatchGroupType != MatchGroupType.Basketball)
+                if(matchGroupResponse.MatchGroupType != MatchGroupType.Football)
                 {
-                    throw new ArgumentException(_localizer.GetValue("This group is just for basketball stats"));
+                    throw new ArgumentException(_localizer.GetValue("This group is just for football stats"));
                 }
             }
             else
                 throw new Exception(response.Message);            
+        }
+
+        public JsonResult OnGetLocalizedValue(string value)
+        {
+            return new JsonResult($"{_localizer.GetValue(value)}");
         }
 
         public async Task<JsonResult> OnGetPlayers(int id, string culture)
@@ -179,7 +180,7 @@ namespace MySuperStats.WebUI.Pages
         {
             var jsonContent = JsonConvert.SerializeObject(Model);
 
-            var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMultiBasketballStats}";
+            var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.CreateMultiFootballStats}";
             var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

@@ -75,6 +75,19 @@ namespace MySuperStats.WebApi.Controllers
             return await BaseGetByIdAsync(id);
         }
 
+        [Route("get/matchId/{matchId:int}")]
+        [HttpGet]
+        public Task<IActionResult> GetByGroupName(int matchId)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                var result = await Manager.GetByMatchIdAsync(matchId);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(
+                    Mapper.Map<MatchGroup, MatchGroupResponse>(result)));
+            });
+        }        
+
         [Route("get/groupname/{groupName}")]
         [HttpGet]
         public Task<IActionResult> GetByGroupName(string groupName)

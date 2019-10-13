@@ -201,7 +201,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">              
         @{
-            var getUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupsByUserId}{loggedUser.Id}";
+            var getUrl = $"{appSettings.WebApiUrl}{String.Format(ApiUrls.GetAllMatchGroupsByUserId, loggedUser.Id)}";
             var response = webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(session)).Result;
             
             if(response.StatusCode != HttpStatusCode.OK)
@@ -213,8 +213,8 @@
             foreach(var group in mygroups)
             {
               
-              var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}&permissions={PermissionEnum.AddUserToRole}";
-              var permissionGetUrl = $"{appSettings.WebApiUrl}{ApiUrls.GetPermissions}userId/{loggedUser.Id}/matchGroupId/{group.Id}?{permissionArray}";
+              var permissionArray = $"permissions={PermissionEnum.CreateBasketballStat}&permissions={PermissionEnum.CreateFootballStat}&permissions={PermissionEnum.AddUserToRole}";
+              var permissionGetUrl = $"{appSettings.WebApiUrl}{String.Format(ApiUrls.GetPermissions, loggedUser.Id, group.Id, permissionArray)}";
               var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(session)).Result;
               if(permissionResponse.StatusCode != HttpStatusCode.OK)
               {
@@ -248,19 +248,44 @@
                         </a>
                       </li> 
                       <li>
-                        <a id="@group.Id" class="a-match-group" asp-page="/TopStats" asp-route-culture="@culture" asp-route-id="@group.Id">
-                          <i class="fa fa-table"></i> <span>@(localizer.GetValue("TopStats"))</span>
-                        </a>
+                        @{
+                          if(group.MatchGroupType == MatchGroupType.Basketball)
+                          {
+                            <a id="@group.Id" class="a-match-group" asp-page="/TopBasketballStats" asp-route-culture="@culture" asp-route-id="@group.Id">
+                              <i class="fa fa-table"></i> <span>@(localizer.GetValue("TopStats"))</span>
+                            </a>
+                          }
+                          else if(group.MatchGroupType == MatchGroupType.Football)
+                          {
+                            <a id="@group.Id" class="a-match-group" asp-page="/TopFootballStats" asp-route-culture="@culture" asp-route-id="@group.Id">
+                              <i class="fa fa-table"></i> <span>@(localizer.GetValue("TopStats"))</span>
+                            </a>
+                          }   
+                        }
                       </li>   
                       @{
-                        if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateBasketballStat.ToString()) == true) 
-                        { 
-                          <li>
-                            <a id="@group.Id" class="a-match-group" asp-page="/BasketballStatsEntry" asp-route-culture="@culture" asp-route-id="@group.Id">
-                              <i class="fa fa-edit"></i> <span>@(localizer.GetValue("StatisticEntry"))</span>
-                            </a>
-                          </li>                               
+                        if(group.MatchGroupType == MatchGroupType.Basketball)
+                        {
+                          if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateBasketballStat.ToString()) == true) 
+                          { 
+                            <li>
+                              <a id="@group.Id" class="a-match-group" asp-page="/BasketballStatsEntry" asp-route-culture="@culture" asp-route-id="@group.Id">
+                                <i class="fa fa-edit"></i> <span>@(localizer.GetValue("StatisticEntry"))</span>
+                              </a>
+                            </li>                               
+                          }
                         }
+                        else if(group.MatchGroupType == MatchGroupType.Football)
+                        {
+                          if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateFootballStat.ToString()) == true) 
+                          { 
+                            <li>
+                              <a id="@group.Id" class="a-match-group" asp-page="/FootballStatsEntry" asp-route-culture="@culture" asp-route-id="@group.Id">
+                                <i class="fa fa-edit"></i> <span>@(localizer.GetValue("StatisticEntry"))</span>
+                              </a>
+                            </li>                               
+                          }
+                        }                        
                         if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.AddUserToRole.ToString()) == true) 
                         {
                           <li>

@@ -54,7 +54,7 @@ namespace MySuperStats.WebUI.Pages
         public async Task OnGet(string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetUserById}{user.Id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserById, user.Id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

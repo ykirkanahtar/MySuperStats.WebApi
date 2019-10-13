@@ -1,0 +1,540 @@
+﻿@page "{id:int}"
+@using CustomFramework.WebApiUtils.Contracts.Resources
+
+@model MySuperStats.WebUI.Pages.FootballStatsEntryModel
+@inject ILocalizationService localizer
+
+@{
+    ViewData["Title"] = localizer.GetValue("StatisticEntry");
+    var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+<script>
+$(document).ready(function() {
+
+  $('.input-group.date').datepicker({
+      todayBtn: "linked",
+      language: "tr",
+      orientation: "bottom auto"
+  });
+
+  var culture = getCultureFromURL();
+
+  var g_id = getIdFromURL();
+  var loggedUserId = 0;
+  var pageUrl = "/" + culture + "/FootballStatsEntry/" + g_id;
+
+
+  function UserStats(playerid, name, teamid, goal, owngoal, penaltyscore, missedpenalty, assist, savegoal, concedegoal){
+      this.playerid = playerid;
+      this.name = name;
+      this.teamId = teamid;
+      this.goal = goal;
+      this.owngoal = owngoal;
+      this.penaltyscore = penaltyscore;
+      this.missedpenalty = missedpenalty;
+      this.assist = assist;
+      this.savegoal = savegoal;
+      this.concedegoal = concedegoal;
+  }
+
+  function MatchStats(matchdate, order,durationinminutes, videolink, firstteamstats, secondteamstats){
+      this.matchdate = matchdate;
+      this.order = order;
+      this.durationinminutes = durationinminutes;
+      this.videolink = videolink;
+      this.firstteamstats = firstteamstats;
+      this.secondteamstats = secondteamstats;
+  }  
+
+  var firstTeam = [];
+  var secondTeam = [];
+
+  var firstTeamStats = [];
+  var secondTeamStats = [];
+
+  function addToArray(array, playerid, name){
+    var u = new UserStats(playerid, name, 0, 0, 0, 0, 0, 0, 0, 0);
+    array.push(u);
+  }
+
+  function addToStats(array, playerid, teamId, goal, owngoal, penaltyscore, missedpenalty, assist, savegoal, concedegoal){
+    var u = new UserStats(playerid, name, teamId, goal, owngoal, penaltyscore, missedpenalty, assist, savegoal, concedegoal);
+    array.push(u);
+  }  
+
+  function addToArray(array, playerid, name){
+      var u = new UserStats(playerid, name, 0, 0, 0, 0, 0, 0, 0, 0);
+      array.push(u);
+    }
+
+  function findAndRemoveElementFromArray(array, playerid){
+      for (i = 0; i < array.length; i++){
+          if(array[i].playerid == playerid){
+              array.splice(i, 1);
+          }
+      }
+  }
+
+  //toggle cell value on click
+  var tickToggle = function(e, cell, value, data){
+    cell.trigger("editval", !value);
+  }
+
+  var table1 = new Tabulator("#first-team-players", {
+    height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts
+    pagination : "local",
+    ajaxLoader: true,
+    index: "playerid",
+    paginationSize: 15,
+    locale: true,
+    langs: getTabulatorLocalization(), 
+    columns:[ //Define Table Columns
+      {title:"playerid", field:"playerid", visible:false},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
+      {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
+    ],      
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+      //alert("Row " + row.getData().id + " Clicked!!!!");
+      var playerid = row.getData().playerid;
+      var name = row.getData().name;
+      var hasChecked = !row.getData().haschecked;
+      table1.updateData([{playerid:playerid, name:name, haschecked: hasChecked}]); 
+      if(hasChecked){
+        addToArray(firstTeam, playerid, name);
+      }
+      else{
+        findAndRemoveElementFromArray(firstTeam, playerid);
+      }
+    },
+  });
+  table1.setData(pageUrl + "?handler=Players");
+  table1.setLocale(culture);
+
+  var table2 = new Tabulator("#second-team-players", {
+    height:500, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts
+    pagination : "local",
+    ajaxLoader: true,
+    index: "playerid",
+    paginationSize: 15,
+    locale: true,
+    langs: getTabulatorLocalization(), 
+    columns:[ //Define Table Columns
+      {title:"playerid", field:"playerid", visible:false},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
+      {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
+    ],      
+    rowClick:function(e, row){ //trigger an alert message when the row is clicked
+      //alert("Row " + row.getData().id + " Clicked!!!!");
+      var playerid = row.getData().playerid;
+      var name = row.getData().name;
+      var hasChecked = !row.getData().haschecked;
+      table2.updateData([{playerid:playerid, name:name, haschecked: hasChecked}]); 
+      if(hasChecked){
+        addToArray(secondTeam, playerid, name);
+      }      
+      else{
+        findAndRemoveElementFromArray(secondTeam, playerid);
+      }
+    },
+  });
+  table2.setData(pageUrl + "?handler=Players");
+  table2.setLocale(culture);
+
+
+  var table3 = new Tabulator("#first-team-stats", {
+    height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts    
+    pagination : "local",
+    ajaxLoader: true,
+    paginationSize: 6,
+    locale: true,
+    langs: getTabulatorLocalization(), 
+    columns:[ //Define Table Columns
+      {title:"playerid", field:"playerid", visible:false},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "Goal"), field:"goal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "OwnGoal"), field:"owngoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
+      {title: GetLocalizedValue(pageUrl, "PenaltyScore"), field:"penaltyscore", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "MissedPenalty"), field:"missedpenalty", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "Assist"), field:"assist", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "SaveGoal"), field:"savegoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "ConcedeGoal"), field:"concedegoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+    ],    
+    cellEdited: function(cell) {
+        
+        var results = table3.getCalcResults();
+        var onePointTotal = results.bottom.onepoint;
+        var twoPointTotal = results.bottom.twopoint;
+        $("#firstTeamScore").text(onePointTotal + (twoPointTotal*2));
+     },        
+  });    
+ table3.setLocale(culture);
+
+  var table4 = new Tabulator("#second-team-stats", {
+    height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+    layout:"fitColumns", //fit columns to width of table (optional)
+    responsiveLayout:true, // enable responsive layouts    
+    pagination : "local",
+    ajaxLoader: true,
+    paginationSize: 6,
+    locale: true,
+    langs: getTabulatorLocalization(), 
+    columns:[ //Define Table Columns
+      {title:"playerid", field:"playerid", visible:false},
+      {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
+      {title: GetLocalizedValue(pageUrl, "Goal"), field:"goal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "OwnGoal"), field:"owngoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]}, 
+      {title: GetLocalizedValue(pageUrl, "PenaltyScore"), field:"penaltyscore", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "MissedPenalty"), field:"missedpenalty", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "Assist"), field:"assist", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "SaveGoal"), field:"savegoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "ConcedeGoal"), field:"concedegoal", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+    ],      
+    cellEdited: function(cell) {
+        
+        var results = table4.getCalcResults();
+        var onePointTotal = results.bottom.onepoint;
+        var twoPointTotal = results.bottom.twopoint;
+        $("#secondTeamScore").text(onePointTotal + (twoPointTotal*2));
+     },       
+  });    
+  table4.setLocale(culture);
+
+  $("#btnBackToMatchDetails").click( function(e)
+  {
+      $('#divCreateTeams').hide();
+      $("#txtMatchDate").prop('disabled', false);
+      $("#txtOrder").prop('disabled', false);
+      $("#txtDurationInMinutes").prop('disabled', false);
+      $("#txtVideoLink").prop('disabled', false);
+      $("#btnEntryStats").prop('disabled', false);
+      e.preventDefault();
+  });
+
+  $("#btnEntryStats").click(function(e)
+  {                      
+    var orderValidation = $('#txtOrder').valid();
+    var durationValidation = $('#txtDurationInMinutes').valid();
+    var videoLinkValidation = $('#txtVideoLink').valid();
+    if(orderValidation && durationValidation && videoLinkValidation){
+        $('#divCreateTeams').show();
+        $("#txtMatchDate").prop('disabled', true);
+        $("#txtOrder").prop('disabled', true);
+        $("#txtDurationInMinutes").prop('disabled', true);
+        $("#txtVideoLink").prop('disabled', true);
+        $("#btnEntryStats").prop('disabled', true);
+    }
+    e.preventDefault();
+  }); 
+
+  $("#btnSetTeamPlayers").click( function(e)
+  {
+    if(firstTeam.length == 0 || secondTeam.length == 0){
+        $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+        $("#errorMessage").text(GetLocalizedValue(pageUrl, "Please select players from both teams"));
+        e.preventDefault();
+        return;
+    }
+    table3.setData(firstTeam);
+    table4.setData(secondTeam);
+    $("#divCreateTeams").hide();
+    $("#divTeamStats").show();
+    e.preventDefault();
+  });  
+
+  $("#btnBackToCreateTeams").click( function(e)
+  {
+      $("#divTeamStats").hide();    
+      $("#divCreateTeams").show();
+      e.preventDefault();
+  });  
+
+  $("#btnSendStats").click(function(e)
+  {                   
+    var firstTeamGridDatas = table3.getData();
+    var secondTeamGridDatas = table4.getData();   
+
+      for (i = 0; i < firstTeamGridDatas.length; i++){
+        addToStats(
+          firstTeamStats
+        , firstTeamGridDatas[i].playerid
+        , 1
+        , firstTeamGridDatas[i].goal
+        , firstTeamGridDatas[i].owngoal
+        , firstTeamGridDatas[i].penaltyscore
+        , firstTeamGridDatas[i].missedpenalty
+        , firstTeamGridDatas[i].assist
+        , firstTeamGridDatas[i].savegoal
+        , firstTeamGridDatas[i].concedegoal
+        );
+      }      
+
+      for (i = 0; i < secondTeamGridDatas.length; i++){
+        addToStats(
+          secondTeamStats
+        , secondTeamGridDatas[i].playerid
+        , 2
+        , firstTeamGridDatas[i].goal
+        , firstTeamGridDatas[i].owngoal
+        , firstTeamGridDatas[i].penaltyscore
+        , firstTeamGridDatas[i].missedpenalty
+        , firstTeamGridDatas[i].assist
+        , firstTeamGridDatas[i].savegoal
+        , firstTeamGridDatas[i].concedegoal
+        );
+      }        
+
+      var matchDate = $("#txtMatchDate").val();    
+
+      var order = $("#txtOrder").val();
+      var durationInMinutes = $("#txtDurationInMinutes").val();
+      var videoLink = $("#txtVideoLink").val();
+
+      var matchStats = new MatchStats(matchDate, order,durationInMinutes, videoLink, firstTeamStats, secondTeamStats);
+
+
+      $.ajax({
+          type: "POST",
+          url: pageUrl + "?handler=FromGrid",
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader("XSRF-TOKEN",
+                  $('input:hidden[name="__RequestVerificationToken"]').val());
+                  $(".overlay").show();
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({  
+              MatchDate: matchDate
+              , Order: order
+              , DurationInMinutes: durationInMinutes
+              , VideoLink: videoLink
+              , FirstTeamStats: firstTeamStats
+              , SecondTeamStats: secondTeamStats
+          }),     
+          success: function(response, textStatus, xhr){
+            if (response.startsWith("OK-")){
+              $("#btnSendStats").attr("disabled", "disabled");
+              var redirectUrl = response.slice(3);
+              window.location.href = redirectUrl;
+            }
+            else{
+              $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
+              $("#errorMessage").text(response);                  
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, error){
+            $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#errorMessage").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured") + error);
+          },
+          complete: function(){
+            $(".overlay").hide();
+          }
+      });
+
+    e.preventDefault();
+  });   
+
+});
+
+</script>
+
+<!-- Main content -->
+<style>
+    .row {
+        display: table;
+        width: 100%;
+    }
+
+    .row [class*="col-"] {
+        float: none;
+        display: table-cell;
+        vertical-align: top;
+    }
+</style>
+<section class="content">
+ 
+  <form method="post">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">@(localizer.GetValue("MatchInfo"))</h3>
+          </div>
+
+          <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">                  
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtMatchDate">@(localizer.GetValue("Date"))</label>
+                      <div class="input-group date">
+                        <input id="txtMatchDate" type="text" class="form-control" asp-for="Model.MatchRequest.MatchDate" placeholder="@localizer.GetValue("Enter the date of the match")">
+                        <span class="input-group-addon">
+                          <i class="glyphicon glyphicon-th"></i>
+                        </span>
+                      </div>              
+                      <span asp-validation-for="Model.MatchRequest.MatchDate" class="text-danger"></span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtOrder">@(localizer.GetValue("Order"))</label>
+                      <input id="txtOrder" asp-for="Model.MatchRequest.Order" class="form-control" placeholder="@localizer.GetValue("Enter the order of the match")">
+                      <span asp-validation-for="Model.MatchRequest.Order" class="text-danger"></span>                        
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtDurationInMinutes">@(localizer.GetValue("DurationOfTheMatch"))</label>
+                      <input id="txtDurationInMinutes" asp-for="Model.MatchRequest.DurationInMinutes" class="form-control" placeholder="@localizer.GetValue("Enter the duration of the match")">
+                      <span asp-validation-for="Model.MatchRequest.DurationInMinutes" class="text-danger"></span>                        
+                    </div>
+                  </div>                      
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="txtVideoLink">@(localizer.GetValue("VideoLink"))</label>
+                      <input id="txtVideoLink" asp-for="Model.MatchRequest.VideoLink" type="text" class="form-control" placeholder="@localizer.GetValue("Enter the url of the video")">
+                      <span asp-validation-for="Model.MatchRequest.VideoLink" class="text-danger"></span>                        
+                    </div>   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group" style="padding-top:20px">
+                        <input type="submit" id="btnEntryStats" class="btn btn-primary" value="@localizer.GetValue("Select the teams")"/>                   
+                    </div>   
+                  </div>                  
+                </div>    
+                <!-- row -->
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="container">
+      <div id="successDiv" class="alert alert-success" style="display:none">
+        <strong>@(localizer.GetValue("Successful"))!</strong> <span id="successMessage">@(localizer.GetValue("Success"))</span>
+      </div>
+      <div id="warningDiv" class="alert alert-warning" style="display:none">
+        <strong>@(localizer.GetValue("Warning"))!</strong> <span id="warningMessage"></span>
+      </div>        
+      <div id="errorDiv" class="alert alert-danger" style="display:none">
+        <strong>@(localizer.GetValue("Error"))!</strong> <span id="errorMessage">@(localizer.GetValue("AnErrorHasOccured"))</span>
+      </div>
+    </div>
+
+    <div id="divCreateTeams" style="display:none">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-5">
+            <!-- general form elements -->
+            <div class="box box-primary">
+              <!-- /.box-header -->
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>@(localizer.GetValue("Select players of the first team"))</label>
+                    <div id="first-team-players"> </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+          </div>
+          <!--/.col (left) -->
+
+          <!-- middle column -->
+          <div class="col-md-5">
+            <!-- general form elements -->
+            <div class="box box-primary">
+              <!-- /.box-header -->
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>@(localizer.GetValue("Select players of the second team"))</label>
+                      <div id="second-team-players"> </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!--/.col (middle) -->
+
+          <!-- right column -->
+          <div class="col-md-2" style="vertical-align: middle;">
+              <input type="submit" id="btnBackToMatchDetails" class="btn btn-primary" value="@(localizer.GetValue("GoBack"))" style="width:150px"/>
+              <br>
+              <br>
+              <input type="submit" id="btnSetTeamPlayers" class="btn btn-primary" value="@(localizer.GetValue("CreateTeams"))" style="width:150px"/>
+          </div>
+          <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.createTeams -->
+
+    <div id="divTeamStats" style="display:none">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label>@(localizer.GetValue("FirstTeam")):</label><span id="firstTeamScore"></span>
+                      <div id="first-team-stats"> </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!--/.col -->
+          </div>
+          <!--/.row -->
+
+        <div class="row">
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label>@(localizer.GetValue("SecondTeam")):</label><span id="secondTeamScore"></span>                  
+                      <div id="second-team-stats"> </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!--/.col -->
+          </div>
+          <!--/.row -->      
+        </div>
+        <div class="col-md-2" style="vertical-align: middle;">
+              <input type="submit" id="btnBackToCreateTeams" class="btn btn-primary" value="@(localizer.GetValue("GoBack"))" style="width:150px"/>
+              <br>
+              <br>          
+            <input type="submit" id="btnSendStats" class="btn btn-primary" value="@(localizer.GetValue("SaveStats"))" style="width:150px"/>
+        </div>
+      </div>          
+    </div>
+    <!-- /.team-stats -->
+
+  </form>
+
+</section>
+<!-- /.content -->

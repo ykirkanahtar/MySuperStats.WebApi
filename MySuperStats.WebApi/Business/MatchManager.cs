@@ -87,6 +87,11 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailBasketballStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
         }
 
+        public Task<Match> GetMatchDetailFootballStats(int matchId)
+        {
+            return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailFootballStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
+        }        
+
         private async Task CheckValuesAsync(MatchRequest request, bool update = false, int? id = null)
         {
             (await _uow.MatchGroups.GetByIdAsync(request.MatchGroupId)).CheckRecordIsExist(nameof(MatchGroup));

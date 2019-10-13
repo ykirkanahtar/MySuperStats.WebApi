@@ -3,18 +3,15 @@ using CustomFramework.WebApiUtils.Contracts;
 
 namespace MySuperStats.Contracts.Requests
 {
-    public class FootballStatRequest
+    public class FootballStatRequestForMultiEntry : BaseFootballStatRequest
     {
-        [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.Required)]
-        [Display(Name = "Match")]
-        public int MatchId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.Required)]
         [Display(Name = "Team")]
         public int TeamId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.Required)]
-        [Display(Name = "User")]
-        public int UserId { get; set; }
+        [Display(Name = "Player")]
+        public int PlayerId { get; set; }
     }
 }

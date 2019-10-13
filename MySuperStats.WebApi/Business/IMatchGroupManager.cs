@@ -10,5 +10,6 @@ namespace MySuperStats.WebApi.Business
                                             IBusinessManagerUpdate<MatchGroup, MatchGroupRequest, int>
     {
         Task<MatchGroup> GetByGroupNameAsync(string groupName);
+        Task<MatchGroup> GetByMatchIdAsync(int matchId);
     }
 }

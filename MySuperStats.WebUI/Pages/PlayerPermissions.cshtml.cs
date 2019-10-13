@@ -125,7 +125,7 @@ namespace MySuperStats.WebUI.Pages
 
         public async Task<JsonResult> OnGetRoles(int id, string culture)
         {
-            var getUrl = $"{_appSettings.WebApiUrl}{ApiUrls.GetAllMatchGroupUsersByMatchGroupId}{id}";
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetAllMatchGroupUsersByMatchGroupId, id)}";
             var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)
