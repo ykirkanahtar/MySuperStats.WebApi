@@ -31,7 +31,7 @@ namespace MySuperStats.WebUI.Pages
 
 
         [BindProperty]
-        public UserUpdateRequest UserUpdate { get; set; }
+        public UpdatePlayerRequest PlayerUpdate { get; set; }
 
         [BindProperty]
         public UserEmailUpdateRequest EmailUpdateRequest { get; set; }
@@ -46,7 +46,7 @@ namespace MySuperStats.WebUI.Pages
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;
             _mapper = mapper;
-            UserUpdate = new UserUpdateRequest();
+            PlayerUpdate = new UpdatePlayerRequest();
             EmailUpdateRequest = new UserEmailUpdateRequest();
             _localizer = localizer;
         }
@@ -60,8 +60,8 @@ namespace MySuperStats.WebUI.Pages
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var userResponse = JsonConvert.DeserializeObject<UserResponse>(response.Result.ToString());
-                UserUpdate = _mapper.Map<UserUpdateRequest>(userResponse);
-                UserUpdate.BirthDate = UserUpdate.BirthDate.Date;
+                PlayerUpdate = _mapper.Map<UpdatePlayerRequest>(userResponse.Player);
+                PlayerUpdate.BirthDate = PlayerUpdate.BirthDate.Date;
                 EmailUpdateRequest.NewEmail = userResponse.Email;
             }
             else
@@ -76,13 +76,15 @@ namespace MySuperStats.WebUI.Pages
         public async Task<IActionResult> OnPostUpdateProfile(string culture)
         {
             var user = SessionUtil.GetLoggedUser(_session);
-            var jsonContent = JsonConvert.SerializeObject(UserUpdate);
-            var postUrl = $"{_appSettings.WebApiUrl}User/{user.Id}/update";
+            var jsonContent = JsonConvert.SerializeObject(PlayerUpdate);
+            var postUrl = $"{_appSettings.WebApiUrl}{String.Format(Constants.ApiUrls.UpdatePlayer, user.Player.Id)}";
             var response = await _webApiConnector.PutAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                _session.Set("User", Encoding.UTF8.GetBytes(response.Result.ToString()));
-                return Redirect($"../UserProfile");
+                var playerResponse = JsonConvert.DeserializeObject<PlayerResponse>(response.Result.ToString());
+                user.Player = playerResponse;
+                _session.Set("User", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(user)));
+                return Redirect($"../{culture}/UserProfile");
             }
             else
                 ViewData.ModelState.AddModelError("ModelErrors", response.Message);
@@ -118,7 +120,7 @@ namespace MySuperStats.WebUI.Pages
             var user = SessionUtil.GetLoggedUser(_session);
             var jsonContent = JsonConvert.SerializeObject(request);
 
-            var postUrl = $"{_appSettings.WebApiUrl}User/{user.Id}/update/email/request";
+            var postUrl = $"{_appSettings.WebApiUrl}{String.Format(Constants.ApiUrls.UpdateEmailRequest, user.Id)}";
             var response = await _webApiConnector.PutAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
 
             if (response.StatusCode == HttpStatusCode.OK)

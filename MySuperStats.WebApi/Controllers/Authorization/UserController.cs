@@ -44,47 +44,6 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             _playerManager = playerManager;
         }
 
-        [Route("{id:int}/update")]
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UserUpdateRequest request)
-        {
-            var loggedUserId = Convert.ToInt32(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            if (loggedUserId != id) //Eğer giriş yapan kullanıcı, farklı kullanıcıya ait bilgileri güncellemek istiyorsa yetkisi kontrol ediliyor
-            {
-                var attributes = new List<PermissionAttribute> {
-                    new PermissionAttribute(nameof(PermissionEnum.UpdateUser), nameof(BooleanEnum.True))
-                 };
-                await _permissionChecker.HasPermissionAsync(User, 0, attributes);
-            }
-
-            if (!ModelState.IsValid)
-                throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
-
-            var result = await CommonOperationAsync<User>(async () =>
-            {
-                var user = await _userManager.GetByIdAsync(id);
-                if (user == null)
-                    throw new KeyNotFoundException(IdentityStringMessages.User);
-
-                Mapper.Map(request, user);
-
-                var response = await _userManager.UpdateAsync(id, user);
-                if (!response.Succeeded)
-                {
-                    foreach (var error in response.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
-                }
-
-                return user;
-            });
-
-            return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
-        }
-
         [Route("{id:int}/update/email/request")]
         [HttpPut]
         public async Task<IActionResult> UpdateEmailAsync(int id, [FromBody] UserEmailUpdateRequest request)
@@ -140,7 +99,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var player = await _userManager.GetPlayerByIdAsync(id);
-            
+
             await _userManager.DeleteAsync(id);
             await _playerManager.DeleteAsync(player.Id);
 
@@ -167,7 +126,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 return await _userManager.GetPlayerByIdAsync(id);
             });
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Player, PlayerResponse>(result)));
-        }        
+        }
 
         [Route("get/email/{emailAddress}")]
         [HttpGet]

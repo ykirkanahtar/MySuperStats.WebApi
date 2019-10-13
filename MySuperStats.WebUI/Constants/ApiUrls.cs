@@ -30,8 +30,8 @@ namespace MySuperStats.WebUI.Constants
         public const string MatchGroupUserUpdateRole = "MatchGroupUser/updaterole";
         public const string Logout = "Account/logout";
         public const string CreateGuestPlayer = "Player/createguestplayer";
-
-
+        public const string UpdatePlayer = "Player/{0}/update";
+        public const string UpdateEmailRequest = "user/{0}/update/email/request";
 
     }
 }

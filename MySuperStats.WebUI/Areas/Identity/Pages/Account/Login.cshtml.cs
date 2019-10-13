@@ -17,7 +17,6 @@ using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebUI.ApplicationSettings;
 using MySuperStats.WebUI.Constants;
-using MySuperStats.WebUI.Utils;
 using Newtonsoft.Json;
 
 namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
