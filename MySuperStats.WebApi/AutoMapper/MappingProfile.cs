@@ -36,11 +36,11 @@ namespace MySuperStats.WebApi.AutoMapper
                 .ForMember(src => src.Player, act => act.Ignore())
                 .ForMember(src => src.Team, act => act.Ignore());
 
+            CreateMap<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>();
+
             CreateMap<Team, TeamResponse>();
             CreateMap<Team, BaseTeamResponse>();
             CreateMap<TeamRequest, Team>();
-
-            CreateMap<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>();
 
             CreateMap<MatchGroup, MatchGroupResponse>();
             CreateMap<MatchGroupRequest, MatchGroup>();
@@ -54,8 +54,16 @@ namespace MySuperStats.WebApi.AutoMapper
             CreateMap<MatchGroupTeamRequest, MatchGroupTeam>();
 
             CreateMap<FootballStat, FootballStatResponse>();
-            CreateMap<FootballStatRequest, FootballStat>();
+            CreateMap<FootballStatRequestForMultiEntry, FootballStat>()
+                .ForMember(src => src.Player, act => act.Ignore())
+                .ForMember(src => src.Team, act => act.Ignore())
+                .ForMember(src => src.MatchId, act => act.Ignore());
 
+            CreateMap<FootballStatRequest, FootballStat>()
+                .ForMember(src => src.Player, act => act.Ignore())
+                .ForMember(src => src.Team, act => act.Ignore());      
+
+            CreateMap<UserDetailWithFootballStat, UserDetailWithFootballStatResponse>();
         }
     }
 }

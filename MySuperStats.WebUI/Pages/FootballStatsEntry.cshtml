@@ -323,12 +323,12 @@ $(document).ready(function() {
               window.location.href = redirectUrl;
             }
             else{
-              $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
+              $("#errorDiv").hide().slideDown().delay(3000).fadeOut();
               $("#errorMessage").text(response);                  
             }
           },
           error: function(XMLHttpRequest, textStatus, error){
-            $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#errorDiv").hide().slideDown().delay(3000).fadeOut();
             $("#errorMessage").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured") + error);
           },
           complete: function(){

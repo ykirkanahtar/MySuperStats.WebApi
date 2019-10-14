@@ -329,7 +329,6 @@
 
   <script>
 
-    $(document).ready(function(){
         $('a').click(function() {
           var id = this.id;
           if(id > 0 || id == -1){
@@ -339,19 +338,14 @@
             sessionStorage.clear();
           }
         });
-    });  
 
-    $(document).ready(function(){
         $('.sidebar-menu li').each(function() {
             $('.treeview li').each(function() {
                 $('li#' + sessionStorage['last-id']).addClass("menu-open");
             });
         });   
-    });  
 
-    $(document).ready(function(){ 
-        $('#' + sessionStorage['last-id'] + ' ul').css("display", "block");
-    });         
+        $('#' + sessionStorage['last-id'] + ' ul').css("display", "block");     
     
   </script>
   <!-- =============================================== -->

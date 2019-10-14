@@ -24,7 +24,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             predicate = predicate.And(p => p.MatchDate == matchDate.Date);
             predicate = predicate.And(p => p.Order == order);
 
-            return await GetAll(predicate: predicate).IncludeMultiple(p => p.HomeTeam, p => p.AwayTeam, p => p.BasketballStats)
+            return await GetAll(predicate: predicate).IncludeMultiple(p => p.HomeTeam, p => p.AwayTeam, p => p.BasketballStats, p => p.FootballStats)
                 .FirstOrDefaultAsync();
         }
 
@@ -84,7 +84,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             match.AwayTeam.FootballStats = awayTeamStats;
 
             return match;
-        }        
+        }
 
     }
 }

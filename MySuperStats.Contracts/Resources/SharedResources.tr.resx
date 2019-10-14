@@ -667,7 +667,10 @@
   </data>   
   <data name="MatchDate" xml:space="preserve">
     <value>Karşılaşma Tarihi</value>
-  </data>    
+  </data>  
+  <data name="MatchDateAndOrder" xml:space="preserve">
+    <value>Karşılaşma Tarihi ve karşılaşma sırası</value>
+  </data>     
   <data name="MatchDetail" xml:space="preserve">
     <value>Karşılaşma Detayı</value>
   </data>    

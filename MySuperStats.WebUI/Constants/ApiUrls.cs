@@ -19,7 +19,7 @@ namespace MySuperStats.WebUI.Constants
         public const string GetUserById = "User/get/{0}";
         public const string GetPlayerByUserId = "User/getplayer/{0}";
         public const string CreateMultiBasketballStats = "basketballstat/createwithmultistats";
-        public const string CreateMultiFootballStats = "football/createwithmultistats";
+        public const string CreateMultiFootballStats = "footballstat/createwithmultistats";
         public const string GetAllMatchGroupsByUserId = "MatchGroupUser/getallmatchgroup/user/{0}";
         public const string CreateMatchGroupUser = "MatchGroupUser/create";
         public const string GetMatchGroupById = "MatchGroup/get/id/{0}";

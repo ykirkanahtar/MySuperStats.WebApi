@@ -662,6 +662,9 @@
   <data name="MatchDate" xml:space="preserve">
     <value>Match date</value>
   </data>    
+  <data name="MatchDateAndOrder" xml:space="preserve">
+    <value>Match date and order</value>
+  </data>       
   <data name="MatchDetail" xml:space="preserve">
     <value>Match detail</value>
   </data>    

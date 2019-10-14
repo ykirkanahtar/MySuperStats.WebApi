@@ -130,7 +130,7 @@ namespace MySuperStats.WebApi.Controllers
         {
             return CommonOperationAsync<IActionResult>(async () =>
             {
-                var result = await Manager.GetMatchDetailBasketballStats(id);
+                var result = await Manager.GetMatchDetailFootballStats(id);
 
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<Match, MatchResponse>(result)));
