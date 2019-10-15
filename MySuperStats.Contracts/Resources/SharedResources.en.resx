@@ -227,8 +227,8 @@
   <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
     <value>The field {0} must be between {1} and {2}.</value>
   </data>   
-  <data name="The field {0} must be a string with a minimum length of {1} and a maximum length of {2}." xml:space="preserve">
-    <value>The field {0} must be a string with a minimum length of {1} and a maximum length of {2}.</value>
+  <data name="The field {0} must be a string with a minimum length of {2} and a maximum length of {1}." xml:space="preserve">
+    <value>The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.</value>
   </data>  
 . <data name="{0} and {1} do not match." xml:space="preserve">
     <value>{0} and {1} do not match.</value>
@@ -288,7 +288,7 @@
     <value>Confirmation of reset password</value>
   </data>    
   <data name="ConfirmPassword" xml:space="preserve">
-    <value>Doğrulama e-mail address</value>
+    <value>Confirmation e-mail address</value>
   </data>    
   <data name="Email" xml:space="preserve">
     <value>E-mail address</value>
@@ -519,7 +519,7 @@
     <value>Your new e-mail address must be different from your registered e-mail address</value>
   </data>    
   <data name="Your password has been changed" xml:space="preserve">
-    <value>Parolanız değiştirildi</value>
+    <value>Your password has been changed</value>
   </data>   
   <data name="Your password has been changed email text" xml:space="preserve">
     <value>Your password has been changed. If you have not done this, please contact the site administrator.</value>

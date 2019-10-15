@@ -61,11 +61,12 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
             {
                 var jsonContent = JsonConvert.SerializeObject(Input);
 
-                var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.ResetPassword}/{culture}", jsonContent, culture);
+                var apiUrl = $"{_appSettings.WebApiUrl}{ApiUrls.ResetPassword}";
+                var apiResponse = await _webApiConnector.PostAsync(apiUrl, jsonContent, culture);
 
                 if (apiResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    return RedirectToPage("./ResetPasswordConfirmation/{culture}");
+                    return Redirect($"../ResetPasswordConfirmation/{culture}");
                 }
                 else
                 {

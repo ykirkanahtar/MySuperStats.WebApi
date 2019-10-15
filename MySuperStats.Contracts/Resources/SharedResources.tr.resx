@@ -230,7 +230,7 @@
   <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
     <value>{0} alanı, {1} değeri ile {2} değeri arasında olmalıdır.</value>
   </data>   
-  <data name="The field {0} must be a string with a minimum length of {1} and a maximum length of {2}." xml:space="preserve">
+  <data name="The field {0} must be a string with a minimum length of {2} and a maximum length of {1}." xml:space="preserve">
     <value>{0} alanı, en az {2}, en fazla {1} karakter uzunluğunda olmalıdır.</value>
   </data>  
 . <data name="{0} and {1} do not match." xml:space="preserve">

@@ -232,9 +232,14 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
+                var emailTitle = $"{_appSettings.AppName} - {_localizer.GetValue("Your password has been changed")}";
+                var emailBody = $"{_localizer.GetValue("Your password has been changed email text")}";
+                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+
                 return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword
-                , $"MySuperStats - {_localizer.GetValue("Your password has been changed")}"
-                , $"{_localizer.GetValue("Your password has been changed email text")}", true);
+                , emailTitle
+                , htmlBody 
+                , true);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
