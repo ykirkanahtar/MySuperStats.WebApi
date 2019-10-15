@@ -49,9 +49,9 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                 try
                 {
                     var callbackUrl = Url.Page(
-                        $"/Account/ResetPassword/{culture}",
+                        "/Account/ResetPassword",
                         pageHandler: null,
-                        values: new { code = "ReplaceCodeValue" },
+                        values: new { culture = culture, code = "ReplaceCodeValue" },
                         protocol: Request.Scheme);
 
                     Input.CallBackUrl = callbackUrl;
@@ -61,7 +61,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        return RedirectToPage($"./ForgotPasswordConfirmation/{culture}");
+                        return Redirect($"../ForgotPasswordConfirmation/{culture}");
                     }
                     else
                     {

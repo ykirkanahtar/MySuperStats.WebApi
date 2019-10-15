@@ -34,7 +34,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
         [BindProperty]
         public ResetPasswordRequest Input { get; set; }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string culture, string code = null)
         {
             if (code == null)
             {

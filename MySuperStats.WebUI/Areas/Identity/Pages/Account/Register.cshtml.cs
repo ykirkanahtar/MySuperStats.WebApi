@@ -51,9 +51,9 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                 try
                 {
                     var callbackUrl = Url.Page(
-                        $"/Account/ConfirmEmail/{culture}",
+                        $"/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId = "ReplaceUserIdValue", code = "ReplaceCodeValue" },
+                        values: new { culture = culture, userId = "ReplaceUserIdValue", code = "ReplaceCodeValue" },
                         protocol: Request.Scheme);
 
                     Input.CallBackUrl = callbackUrl;

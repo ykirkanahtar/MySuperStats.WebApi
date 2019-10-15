@@ -22,6 +22,7 @@ using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Data.Repositories;
 using MySuperStats.WebApi.Models;
+using MySuperStats.WebApi.Utils;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -49,10 +50,22 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                var emailTitle = "ConfirmYourEmailTitle";
-                var emailBody = "ConfirmYourEmailBody";
+                var result = await _userManager.RegisterAsync(user, password, roles, GetUserId());
 
-                var result = await _userManager.RegisterWithConfirmationEmailAsync(user, password, roles, url, emailTitle, emailBody, requestScheme, GetUserId(), callBackUrl);
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var codeBytes = Encoding.UTF8.GetBytes(code);
+                var codeEncoded = WebEncoders.Base64UrlEncode(codeBytes);
+
+                callBackUrl = callBackUrl.Replace("ReplaceUserIdValue", user.Id.ToString()).Replace("ReplaceCodeValue", codeEncoded);
+
+                var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("PleaseConfirmYourRegistration")}";
+                var emailBody = $"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourAccount")} - {callBackUrl}";
+                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+
+                await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
+
+                //var result = await _userManager.RegisterWithConfirmationEmailAsync(user, password, roles, url, emailTitle, emailBody, requestScheme, GetUserId(), callBackUrl);
                 return result;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
@@ -99,7 +112,7 @@ namespace MySuperStats.WebApi.Business
 
                 await _emailSender.SendEmailAsync(
                     _appSettings.SenderEmailAddress, newEmail
-                    , AppConstants.UpdateEmailAddressEmailTitle, $"{AppConstants.UpdateEmailAddressEmailText} {callbackUrl}");
+                    , AppConstants.UpdateEmailAddressEmailTitle, $"{AppConstants.UpdateEmailAddressEmailText} {callbackUrl}", true);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
@@ -190,7 +203,26 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
-                await _userManager.ForgotPasswordAsync(request.EmailAddress, _localizer.GetValue("Renew Password"), _localizer.GetValue("For renew your password, please click on the link"), url, requestScheme, callBackUrl);
+                var user = await _userManager.GetByEmailAsync(request.EmailAddress);
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    throw new ArgumentException($"{_localizer.GetValue("PleaseConfirmYourRegistration")}"); //Please confirm your registration.
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var codeBytes = Encoding.UTF8.GetBytes(code);
+                var codeEncoded = WebEncoders.Base64UrlEncode(codeBytes);
+
+                callBackUrl = callBackUrl.Replace("ReplaceCodeValue", codeEncoded);
+
+                var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("Renew Password")}";
+                var emailBody = $@"{_localizer.GetValue("For renew your password, please click on the link")} 
+                                <br>
+                                <br> 
+                                <a href='{callBackUrl}'>{callBackUrl}</a>";
+                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+
+                await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
 
                 return true;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
@@ -202,7 +234,7 @@ namespace MySuperStats.WebApi.Business
             {
                 return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword
                 , $"MySuperStats - {_localizer.GetValue("Your password has been changed")}"
-                , $"{_localizer.GetValue("Your password has been changed email text")}");
+                , $"{_localizer.GetValue("Your password has been changed email text")}", true);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
@@ -217,5 +249,15 @@ namespace MySuperStats.WebApi.Business
                 return role;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
+
+
+        private async Task ConfirmationEmailSenderAsync(string receiverEmailAddress, string title, string text)
+        {
+            var receiverList = new List<string>();
+            receiverList.Add(receiverEmailAddress);
+
+            await _emailSender.SendEmailAsync(
+                 _appSettings.SenderEmailAddress, receiverList, title, text, true);
+        }        
     }
 }

@@ -258,10 +258,10 @@
     <value>An unknown failure has occurred.</value>
   </data>      
   <data name="Authority" xml:space="preserve">
-    <value>Yetki</value>
+    <value>Authority</value>
   </data>      
   <data name="ClickTheLinkForConfirmationYourAccount" xml:space="preserve">
-    <value>Hesabınızı onaylamak için bağlantıya tıklayınız.</value>
+    <value>Click the link for confirmation of your account</value>
   </data>  
   <data name="ClientApplication" xml:space="preserve">
     <value>Client application</value>
@@ -327,7 +327,7 @@
     <value>Firstname - lastname</value>
   </data>    
   <data name="For renew your password, please click on the link" xml:space="preserve">
-    <value>Parolanızı yenilemek için lütfen bağlantıya tıklayınız</value>
+    <value>For renew your password, please click on the link</value>
   </data>   
   <data name="Forgot password" xml:space="preserve">
     <value>Forgot password</value>
@@ -411,7 +411,7 @@
     <value>Password and confirmation password do not match.</value>
   </data>
   <data name="Please check your e-mail" xml:space="preserve">
-    <value>Lütfen e-postanızı kontrol ediniz</value>
+    <value>Please check your e-mail</value>
   </data>   
   <data name="Please check your e-mail for completing registration" xml:space="preserve">
     <value>Please check your e-mail for completing registration</value>
@@ -444,7 +444,7 @@
     <value>Remember me</value>
   </data>      
   <data name="Renew Password" xml:space="preserve">
-    <value>Parola yenileme</value>
+    <value>Renew Password</value>
   </data>  
   <data name="Reset Password" xml:space="preserve">
     <value>Reset password</value>
@@ -558,7 +558,7 @@
     <value>Basketball</value>
   </data>  
   <data name="BasketballStat" xml:space="preserve">
-    <value>Basketbol stats</value>
+    <value>Basketball stats</value>
   </data>
   <data name="BirthDate" xml:space="preserve">
     <value>Birthdate</value>
@@ -648,7 +648,7 @@
     <value>Loose</value>
   </data>      
   <data name="LooseBall" xml:space="preserve">
-    <value>Top kaybı</value>
+    <value>Loose ball</value>
   </data>    
   <data name="Match" xml:space="preserve">
     <value>Match</value>
