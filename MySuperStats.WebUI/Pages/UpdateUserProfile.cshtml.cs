@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using CS.Common.WebApi.Connector;
@@ -26,7 +27,6 @@ namespace MySuperStats.WebUI.Pages
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
         private readonly ILocalizationService _localizer;
-
         private readonly IMapper _mapper;
 
 

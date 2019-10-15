@@ -119,7 +119,7 @@ $(document).ready(function() {
               },
               error: function(XMLHttpRequest, textStatus, error){
                 $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
-                $("#errorMessage").text(GetLocalizedValue(pageUrl, "An error has occured"));
+                $("#errorMessage").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured"));
               },
               complete: function(){
                 $(".overlay").hide();

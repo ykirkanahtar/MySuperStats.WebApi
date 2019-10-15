@@ -419,6 +419,9 @@
   <data name="PleaseClickTheLinkForConfirmationYourAccount" xml:space="preserve">
     <value>Please click the link for confirmation of your account</value>
   </data>  
+  <data name="PleaseClickTheLinkForConfirmationYourNewEmail" xml:space="preserve">
+    <value>Please click the link for confirmation your new e-mail adress</value>
+  </data>    
   <data name="Please click here to login" xml:space="preserve">
     <value>Please click here to login</value>
   </data>    
@@ -473,12 +476,18 @@
   <data name="Thank you for confirming e-mail" xml:space="preserve">
     <value>Thank you for confirming e-mail</value>
   </data>    
+  <data name="The confirmation code for your new e-mail address" xml:space="preserve">
+    <value>The confirmation code for your new e-mail address</value>
+  </data>     
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>The password created by system</value>
   </data>  
   <data name="This account has been locked out, please try again later" xml:space="preserve">
     <value>This account has been locked out, please try again later</value>
   </data>  
+  <data name="This e-mail address is in use" xml:space="preserve">
+    <value>This e-mail address is in use</value>
+  </data>     
   <data name="Token" xml:space="preserve">
     <value>Token</value>
   </data>
@@ -773,6 +782,9 @@
   <data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>  
+  <data name="Team1AndTeam2" xml:space="preserve">
+    <value>Team1 and Team2</value>
+  </data>     
   <data name="TeamName" xml:space="preserve">
     <value>Team name</value>
   </data>   

@@ -50,6 +50,7 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
+                user.UserName = user.Email;
                 var result = await _userManager.RegisterAsync(user, password, roles, GetUserId());
 
 
@@ -99,6 +100,9 @@ namespace MySuperStats.WebApi.Business
                 if (user.Email == newEmail)
                     throw new ArgumentException(_localizer.GetValue("Your new e-mail address must be different from your registered e-mail address"));
 
+                var emailUser = await _userManager.FindByEmailAsync(newEmail);
+                if(emailUser != null) throw new ArgumentException("This e-mail address is in use");
+
                 var token = await _userManager.GenerateTokenForChangeEmailAsync(user, newEmail);
 
                 var codeBytes = Encoding.UTF8.GetBytes(token);
@@ -110,9 +114,13 @@ namespace MySuperStats.WebApi.Business
                      values: new { userId = user.Id, email = newEmail, code = codeEncoded },
                      protocol: requestScheme);
 
+                var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("The confirmation code for your new e-mail address")}";
+                var emailBody = $"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourNewEmail")} - {callbackUrl}";
+                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+
                 await _emailSender.SendEmailAsync(
                     _appSettings.SenderEmailAddress, newEmail
-                    , AppConstants.UpdateEmailAddressEmailTitle, $"{AppConstants.UpdateEmailAddressEmailText} {callbackUrl}", true);
+                    , emailTitle, htmlBody, true);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 

@@ -14,12 +14,6 @@ namespace MySuperStats.Contracts.Requests
         public string Email { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.Required)]
-        [StringLength(FieldLengths.USER_USERNAME_MAX, MinimumLength = FieldLengths.USER_USERNAME_MIN
-        , ErrorMessage = ErrorMessages.StringLength)]
-        [Display(Name = nameof(Username))]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = ErrorMessages.Required)]
         [StringLength(IdentityFieldLengths.PASSWORD_MAX, MinimumLength = IdentityFieldLengths.PASSWORD_MIN
         , ErrorMessage = ErrorMessages.StringLength)]
         [DataType(DataType.Password)]
@@ -44,6 +38,7 @@ namespace MySuperStats.Contracts.Requests
         [Display(Name = nameof(LastName))]
         public string LastName { get; set; }
 
+        [Required(ErrorMessage = ErrorMessages.Required)]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = nameof(BirthDate))]

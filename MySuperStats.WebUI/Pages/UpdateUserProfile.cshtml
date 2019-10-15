@@ -19,11 +19,16 @@ $('.input-group.date').datepicker({
     orientation: "bottom auto"
 });
 
+  var urlArray = window.location.href.split('/');
+  var culture = urlArray[urlArray.length - 2];
+
+  var pageUrl = "/" + culture + "/UpdateUserProfile";
+
 $( "#btnUpdateEmailRequest" ).click(function(evt) {
     evt.preventDefault();
     $.ajax({
         type: "POST",
-        url: "/UpdateUserProfile/?handler=UpdateEmail",
+        url: pageUrl + "/?handler=UpdateEmail",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN",
                 $('input:hidden[name="__RequestVerificationToken"]').val());
@@ -44,7 +49,7 @@ $( "#btnUpdateEmailRequest" ).click(function(evt) {
         },
         error: function(XMLHttpRequest, textStatus, error){
           $("#errorDivForEmailUpdate").show();
-          $("#errorMessageForEmailUpdate").text(GetLocalizedValue(pageUrl, "An error has occured"));
+          $("#errorMessageForEmailUpdate").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured"));
         },
         complete: function(){
           $(".overlay").hide();

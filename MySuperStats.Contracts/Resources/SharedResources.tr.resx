@@ -424,10 +424,13 @@
   </data>        
   <data name="Please click here to login" xml:space="preserve">
     <value>Giriş sayfası için tıklayınız</value>
-  </data>    
+  </data>      
   <data name="PleaseClickTheLinkForConfirmationYourAccount" xml:space="preserve">
     <value>Hesabınızın onaylanması için lütfen bağlantıya tıklayınız</value>
   </data>       
+  <data name="PleaseClickTheLinkForConfirmationYourNewEmail" xml:space="preserve">
+    <value>Yeni e-posta adresinizin onaylanması için lütfen bağlantıya tıklayınız</value>
+  </data>      
   <data name="PleaseConfirmYourRegistration" xml:space="preserve">
     <value>Lütfen kaydınızı onaylayınız</value>
   </data>  
@@ -479,12 +482,18 @@
   <data name="Thank you for confirming e-mail" xml:space="preserve">
     <value>E-posta adresinizi doğruladığınız için teşekkürler</value>
   </data>  
+  <data name="The confirmation code for your new e-mail address" xml:space="preserve">
+    <value>Yeni e-posta adresiniz için doğrulama kodu</value>
+  </data>   
   <data name="ThePasswordCreatedBySystem" xml:space="preserve">
     <value>Sistem tarafından üretilen parola</value>
   </data>      
   <data name="This account has been locked out, please try again later" xml:space="preserve">
     <value>Bu hesap kilitlendi, lütfen daha sonra tekrar deneyiniz</value>
   </data>  
+  <data name="This e-mail address is in use" xml:space="preserve">
+    <value>Bu e-posta adresi kullanımdadır</value>
+  </data>    
   <data name="Token" xml:space="preserve">
     <value>token</value>
   </data>
@@ -779,6 +788,9 @@
   <data name="Team" xml:space="preserve">
     <value>Takım</value>
   </data>  
+  <data name="Team1AndTeam2" xml:space="preserve">
+    <value>Takım1 ve Takım 2</value>
+  </data>   
   <data name="TeamName" xml:space="preserve">
     <value>Takım adı</value>
   </data>   

@@ -95,7 +95,7 @@ $(document).ready(function() {
     columns:[ //Define Table Columns
       {title:"playerid", field:"playerid", visible:false},
       {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
-      {title:GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
+      {title: GetLocalizedValue(pageUrl, "AddToTeam"), field:"haschecked", formatter:"tickCross",onClick:tickToggle},
     ],      
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
       //alert("Row " + row.getData().id + " Clicked!!!!");
