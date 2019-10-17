@@ -52,6 +52,7 @@ namespace MySuperStats.WebApi.Business
                 user.UserName = user.Email;
                 var createUserId = 1;
                 var result = await _userManager.RegisterAsync(user, password, roles, createUserId);
+                if (result.Succeeded == false) return result;
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var codeBytes = Encoding.UTF8.GetBytes(code);
@@ -95,7 +96,7 @@ namespace MySuperStats.WebApi.Business
 
                 return result;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
-        }        
+        }
 
         public Task<IdentityResult> DeleteAsync(int id)
         {
@@ -206,7 +207,7 @@ namespace MySuperStats.WebApi.Business
                 var user = await _userManager.FindByIdAsync(userId.ToString());
 
                 var emailIsConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-                if(emailIsConfirmed)
+                if (emailIsConfirmed)
                 {
                     throw new ArgumentException(_localizer.GetValue("Your e-mail adress has already been approved"));
                 }

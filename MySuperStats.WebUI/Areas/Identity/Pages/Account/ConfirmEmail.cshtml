@@ -20,5 +20,10 @@
             <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
            <!-- @(localizer.GetValue("Thank you for confirming e-mail")) <a asp-page="./Login" asp-route-culture="@culture">@(localizer.GetValue("Please click here to login"))</a>.-->
         </p>
+        <div class="row">
+            <div class="col-xs-8">      
+                <a asp-page="./Login" asp-route-culture="@culture">@(localizer.GetValue("Login"))</a><br>
+            </div>  
+        </div>
     </div> 
 </div>
