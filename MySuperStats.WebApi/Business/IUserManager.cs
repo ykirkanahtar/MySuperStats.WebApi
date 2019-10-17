@@ -12,7 +12,8 @@ namespace MySuperStats.WebApi.Business
     public interface IUserManager
     {
         Task<IdentityResult> CreateAsync(User user, string password, IUrlHelper url, string requestScheme, string callBackUrl, List<string> roles);
-        Task<IdentityResult> UpdateAsync(int id, User user);
+        Task<IdentityResult> UpdateAsync(User user);
+        Task<IdentityResult> ClearTempFielsAsync(User user);
         Task<IdentityResult> DeleteAsync(int id);
         Task<User> GetByIdAsync(int id);
         Task<Player> GetPlayerByIdAsync(int id);

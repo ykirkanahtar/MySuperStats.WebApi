@@ -16,7 +16,9 @@
     </div>
     <div class="register-box-body">
         <p>
-            @(localizer.GetValue("Thank you for confirming e-mail")) <a asp-page="./Login" asp-route-culture="@culture">@(localizer.GetValue("Please click here to login"))</a>.
+            @TempData["SuccessMessage"]
+            <span style="color:red;">@(Html.ValidationMessage("ModelErrors"))</span>
+           <!-- @(localizer.GetValue("Thank you for confirming e-mail")) <a asp-page="./Login" asp-route-culture="@culture">@(localizer.GetValue("Please click here to login"))</a>.-->
         </p>
-    </div>
+    </div> 
 </div>

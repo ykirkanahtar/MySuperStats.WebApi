@@ -70,13 +70,13 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
+                    ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("AnErrorHasOccured"));
                     return Page();
                 }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
+                ModelState.AddModelError(ex.Message, _localizer.GetValue("AnErrorHasOccured"));
                 return Page();
             }
         }

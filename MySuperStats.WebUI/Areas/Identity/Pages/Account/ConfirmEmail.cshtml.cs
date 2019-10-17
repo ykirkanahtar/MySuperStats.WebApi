@@ -38,16 +38,20 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
 
             try
             {
-                var apiResponse = await _webApiConnector.GetAsync($"{_appSettings.WebApiUrl}{ApiUrls.ConfirmEmail}/userId/{Convert.ToInt32(userId)}/code/{code}/culture/{culture}", culture);
+                var apiUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.ConfirmEmail, userId, code)}";
+                var apiResponse = await _webApiConnector.GetAsync(apiUrl, culture);
                 if (apiResponse.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new InvalidOperationException(_localizer.GetValue(String.Format("Error confirming email for user with ID {0}", userId)));
+                    ViewData.ModelState.AddModelError("ModelErrors", _localizer.GetValue(apiResponse.Message));
+                    //throw new InvalidOperationException(_localizer.GetValue(String.Format("Error confirming email for user with ID {0}", userId)));
                 }
-
+                else
+                    TempData["SuccessMessage"] = _localizer.GetValue("Thank you for confirming e-mail");
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException(ex.Message);
+                ViewData.ModelState.AddModelError("ModelErrors", ex.Message);
+                //throw new InvalidOperationException(ex.Message);
             }
 
             return Page();

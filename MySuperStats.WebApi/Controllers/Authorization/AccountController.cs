@@ -60,12 +60,9 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                 var user = Mapper.Map<User>(request);
                 var roles = new List<string>();
 
-                var createPlayerRequest = new CreatePlayerRequest
-                {
-                    BirthDate = request.BirthDate,
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                };
+                user.TempFirstName = request.FirstName;
+                user.TempLastName = request.LastName;
+                user.TempBirthDate = request.BirthDate;
 
                 var result = await _userManager.CreateAsync(user, request.Password, Url, Request.Scheme, request.CallBackUrl, roles);
 
@@ -77,8 +74,6 @@ namespace MySuperStats.WebApi.Controllers.Authorization
                     }
                     throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
                 }
-
-                var playerResult = await _playerManager.CreateAsync(createPlayerRequest, user.Id);
 
                 return user;
             });
@@ -129,18 +124,35 @@ namespace MySuperStats.WebApi.Controllers.Authorization
         [Route("ConfirmEmail/userId/{userId:int}/code/{code}")]
         public async Task<IActionResult> ConfirmEmailAsync(int userId, string code)
         {
-            var result = await _userManager.ConfirmEmailAsync(userId, code);
-            if (!result.Succeeded)
+            var userResponse = await CommonOperationAsync<User>(async () =>
             {
-                foreach (var error in result.Errors)
+                var result = await _userManager.ConfirmEmailAsync(userId, code);
+                if (!result.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    throw new ArgumentException($"{LocalizationService.GetValue("Email confirmation error")}: {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
                 }
 
-                throw new ArgumentException($"{LocalizationService.GetValue("Email confirmation error")}: {ModelState.ModelStateToString(LocalizationService)}"); //Error confirming email for user with ID '{userId}':
-            }
+                var user = await _userManager.GetByIdAsync(userId);
 
-            return Ok(LocalizationService.GetValue(LocalizationService.GetValue("Email is approved")));
+                var createPlayerRequest = new CreatePlayerRequest
+                {
+                    BirthDate = (DateTime)user.TempBirthDate,
+                    FirstName = user.TempFirstName,
+                    LastName = user.TempLastName,
+                };
+
+                var playerResult = await _playerManager.CreateAsync(createPlayerRequest, user.Id);
+
+                await _userManager.ClearTempFielsAsync(user);
+                return user;
+            });
+
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(LocalizationService.GetValue("Email is approved")));
         }
 
         [AllowAnonymous]

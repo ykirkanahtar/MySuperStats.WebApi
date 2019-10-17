@@ -44,7 +44,8 @@ namespace MySuperStats.WebApi.Migrations
                     CreateUserId = table.Column<int>(nullable: false),
                     UpdateUserId = table.Column<int>(nullable: true),
                     DeleteUserId = table.Column<int>(nullable: true),
-                    GroupName = table.Column<string>(maxLength: 100, nullable: false)
+                    GroupName = table.Column<string>(maxLength: 100, nullable: false),
+                    MatchGroupType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,9 +109,6 @@ namespace MySuperStats.WebApi.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(maxLength: 100, nullable: true),
-                    LastName = table.Column<string>(maxLength: 100, nullable: true),
-                    BirthDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     CreateDateTime = table.Column<DateTime>(nullable: false),
                     UpdateDateTime = table.Column<DateTime>(nullable: true),
@@ -119,7 +117,10 @@ namespace MySuperStats.WebApi.Migrations
                     UpdateUserId = table.Column<int>(nullable: true),
                     DeleteUserId = table.Column<int>(nullable: true),
                     LastTokenDate = table.Column<DateTime>(nullable: false),
-                    LastLogOutDate = table.Column<DateTime>(nullable: false)
+                    LastLogOutDate = table.Column<DateTime>(nullable: false),
+                    TempFirstName = table.Column<string>(nullable: true),
+                    TempLastName = table.Column<string>(nullable: true),
+                    TempBirthDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -406,12 +407,12 @@ namespace MySuperStats.WebApi.Migrations
                     TeamId = table.Column<int>(nullable: false),
                     PlayerId = table.Column<int>(nullable: false),
                     Goal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    OwnGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    PenaltyScore = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    MissedPenalty = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    Assist = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    SaveGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    ConcedeGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                    OwnGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    PenaltyScore = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    MissedPenalty = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    Assist = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    SaveGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    ConcedeGoal = table.Column<decimal>(type: "decimal(10,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -450,7 +451,7 @@ namespace MySuperStats.WebApi.Migrations
                     UpdateUserId = table.Column<int>(nullable: true),
                     DeleteUserId = table.Column<int>(nullable: true),
                     MatchGroupId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
                     RoleId = table.Column<int>(nullable: false),
                     PlayerId = table.Column<int>(nullable: false)
                 },
@@ -490,19 +491,19 @@ namespace MySuperStats.WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "MatchGroups",
-                columns: new[] { "Id", "CreateDateTime", "CreateUserId", "DeleteDateTime", "DeleteUserId", "GroupName", "Status", "UpdateDateTime", "UpdateUserId" },
-                values: new object[] { 1, new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Provus Basketbol", 1, null, null });
+                columns: new[] { "Id", "CreateDateTime", "CreateUserId", "DeleteDateTime", "DeleteUserId", "GroupName", "MatchGroupType", "Status", "UpdateDateTime", "UpdateUserId" },
+                values: new object[] { 1, new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Provus Basketbol", 2, 1, null, null });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "Status" },
                 values: new object[,]
                 {
-                    { 1, "1ba72279-c88f-455d-b698-5fba6d321e33", "Admin", "ADMIN", 1 },
-                    { 2, "25694035-1475-41f7-a524-6e6d342c5990", "GroupAdmin", "GROUPADMIN", 1 },
-                    { 3, "50afaa96-3b33-4647-85ee-f9a534739b43", "Editor", "EDITOR", 1 },
-                    { 4, "f1de6559-7ad2-44ef-890f-d754962c84fa", "Player", "PLAYER", 1 },
-                    { 5, "6f6543f6-889d-45e6-a758-275aeba9fc0e", "Guest", "GUEST", 1 }
+                    { 1, "1422193d-0873-4bab-b6c6-f6e69017e6bb", "Admin", "ADMIN", 1 },
+                    { 2, "fc2a1b8f-88cc-463f-957e-3ddf474b0f05", "GroupAdmin", "GROUPADMIN", 1 },
+                    { 3, "967073f8-8fd2-40de-a0e0-fac293cf2e6c", "Editor", "EDITOR", 1 },
+                    { 4, "cecfdfbe-4009-45fa-afda-f03c6b4247db", "Player", "PLAYER", 1 },
+                    { 5, "7a9f8b85-4e4f-4e9c-ab0f-cc0e8effcfd6", "Guest", "GUEST", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -516,24 +517,24 @@ namespace MySuperStats.WebApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "CreateDateTime", "CreateUserId", "DeleteDateTime", "DeleteUserId", "Email", "EmailConfirmed", "FirstName", "LastLogOutDate", "LastName", "LastTokenDate", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UpdateDateTime", "UpdateUserId", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreateDateTime", "CreateUserId", "DeleteDateTime", "DeleteUserId", "Email", "EmailConfirmed", "LastLogOutDate", "LastTokenDate", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TempBirthDate", "TempFirstName", "TempLastName", "TwoFactorEnabled", "UpdateDateTime", "UpdateUserId", "UserName" },
                 values: new object[,]
                 {
-                    { 13, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUSE.MRE@GMAIL.COM", "YUNUSE.MRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yunuse.mre@gmail.com" },
-                    { 12, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunus.emre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUS.EMRE@GMAIL.COM", "YUNUS.EMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yunus.emre@gmail.com" },
-                    { 11, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunu.semre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNU.SEMRE@GMAIL.COM", "YUNU.SEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yunu.semre@gmail.com" },
-                    { 10, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun...usemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN...USEMRE@GMAIL.COM", "YUN...USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yun...usemre@gmail.com" },
-                    { 9, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun..usemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN..USEMRE@GMAIL.COM", "YUN..USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yun..usemre@gmail.com" },
-                    { 8, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun.usemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN.USEMRE@GMAIL.COM", "YUN.USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yun.usemre@gmail.com" },
-                    { 3, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y..unusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y..UNUSEMRE@GMAIL.COM", "Y..UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "y..unusemre@gmail.com" },
-                    { 6, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu..nusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU..NUSEMRE@GMAIL.COM", "YU..NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yu..nusemre@gmail.com" },
-                    { 5, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu.nusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU.NUSEMRE@GMAIL.COM", "YU.NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yu.nusemre@gmail.com" },
-                    { 4, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y...unusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y...UNUSEMRE@GMAIL.COM", "Y...UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "y...unusemre@gmail.com" },
-                    { 14, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.u.nusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.U.NUSEMRE@GMAIL.COM", "Y.U.NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "y.u.nusemre@gmail.com" },
-                    { 2, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.unusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.UNUSEMRE@GMAIL.COM", "Y.UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "y.unusemre@gmail.com" },
-                    { 1, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUSEMRE@GMAIL.COM", "YUNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yunusemre@gmail.com" },
-                    { 7, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu...nusemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU...NUSEMRE@GMAIL.COM", "YU...NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "yu...nusemre@gmail.com" },
-                    { 15, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.u.n.usemre@gmail.com", true, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.U.N.USEMRE@GMAIL.COM", "Y.U.N.USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, false, null, null, "y.u.n.usemre@gmail.com" }
+                    { 13, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUSE.MRE@GMAIL.COM", "YUNUSE.MRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yunuse.mre@gmail.com" },
+                    { 12, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunus.emre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUS.EMRE@GMAIL.COM", "YUNUS.EMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yunus.emre@gmail.com" },
+                    { 11, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunu.semre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNU.SEMRE@GMAIL.COM", "YUNU.SEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yunu.semre@gmail.com" },
+                    { 10, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun...usemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN...USEMRE@GMAIL.COM", "YUN...USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yun...usemre@gmail.com" },
+                    { 9, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun..usemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN..USEMRE@GMAIL.COM", "YUN..USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yun..usemre@gmail.com" },
+                    { 8, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yun.usemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUN.USEMRE@GMAIL.COM", "YUN.USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yun.usemre@gmail.com" },
+                    { 3, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y..unusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y..UNUSEMRE@GMAIL.COM", "Y..UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "y..unusemre@gmail.com" },
+                    { 6, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu..nusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU..NUSEMRE@GMAIL.COM", "YU..NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yu..nusemre@gmail.com" },
+                    { 5, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu.nusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU.NUSEMRE@GMAIL.COM", "YU.NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yu.nusemre@gmail.com" },
+                    { 4, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y...unusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y...UNUSEMRE@GMAIL.COM", "Y...UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "y...unusemre@gmail.com" },
+                    { 14, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.u.nusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.U.NUSEMRE@GMAIL.COM", "Y.U.NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "y.u.nusemre@gmail.com" },
+                    { 2, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.unusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.UNUSEMRE@GMAIL.COM", "Y.UNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "y.unusemre@gmail.com" },
+                    { 1, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yunusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YUNUSEMRE@GMAIL.COM", "YUNUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yunusemre@gmail.com" },
+                    { 7, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "yu...nusemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "YU...NUSEMRE@GMAIL.COM", "YU...NUSEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "yu...nusemre@gmail.com" },
+                    { 15, 0, "ca40583b-394d-48a0-879e-c11a21da1aeb", new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "y.u.n.usemre@gmail.com", true, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, null, "Y.U.N.USEMRE@GMAIL.COM", "Y.U.N.USEMRE@GMAIL.COM", "AQAAAAEAACcQAAAAEF8ox4odFYBEgV+2mBcGv8jw4KXJKnjayRE9pJ91NG8Yp+9uSVMx6QU7TP2M9MOCGw==", null, false, "ABQONVFKVTNPYSRLSGOFKH5KNSVIANUW", 1, null, null, null, false, null, null, "y.u.n.usemre@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -541,7 +542,7 @@ namespace MySuperStats.WebApi.Migrations
                 columns: new[] { "Id", "AwayTeamId", "AwayTeamScore", "CreateDateTime", "CreateUserId", "DeleteDateTime", "DeleteUserId", "DurationInMinutes", "HomeTeamId", "HomeTeamScore", "MatchDate", "MatchGroupId", "Order", "Status", "UpdateDateTime", "UpdateUserId", "VideoLink" },
                 values: new object[,]
                 {
-                    { 11, 2, 25.00m, new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 30, 1, 16.00m, new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=uVldmTIKMjo" },
+                    { 12, 2, 4.00m, new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 30, 1, 9.00m, new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, 1, null, null, "https://www.youtube.com/watch?v=XaKCOZ5sKUE" },
                     { 1, 2, 43.00m, new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 60, 1, 38.00m, new DateTime(2018, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=kE99vlYOB2Q" },
                     { 2, 2, 36.00m, new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 60, 1, 32.00m, new DateTime(2018, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=wWCI6UwSglc" },
                     { 3, 2, 35.00m, new DateTime(2018, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 60, 1, 42.00m, new DateTime(2018, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=egESDCEFAYI" },
@@ -552,7 +553,7 @@ namespace MySuperStats.WebApi.Migrations
                     { 8, 2, 37.00m, new DateTime(2018, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 60, 1, 38.00m, new DateTime(2018, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=EVJvdvCDuMs" },
                     { 9, 2, 25.00m, new DateTime(2018, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 45, 1, 23.00m, new DateTime(2018, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=Ueo_InIYTBk" },
                     { 10, 2, 44.00m, new DateTime(2018, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 60, 1, 39.00m, new DateTime(2018, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=lplrXOBu3fs" },
-                    { 12, 2, 4.00m, new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 30, 1, 9.00m, new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 2, 1, null, null, "https://www.youtube.com/watch?v=XaKCOZ5sKUE" }
+                    { 11, 2, 25.00m, new DateTime(2018, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, 30, 1, 16.00m, new DateTime(2018, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 1, 1, null, null, "https://www.youtube.com/watch?v=uVldmTIKMjo" }
                 });
 
             migrationBuilder.InsertData(
@@ -563,17 +564,17 @@ namespace MySuperStats.WebApi.Migrations
                     { 1, new DateTime(1982, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Yunus Emre", "Kırkanahtar", 1, null, null, 1 },
                     { 15, new DateTime(1987, 10, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Caner", "Pazar", 1, null, null, 15 },
                     { 3, new DateTime(1975, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Arbak", "Demirdağ", 1, null, null, 3 },
-                    { 13, new DateTime(1989, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Altuğ", "Demirsel", 1, null, null, 13 },
-                    { 12, new DateTime(1992, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Gökay", "Patar", 1, null, null, 12 },
-                    { 11, new DateTime(1987, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Fırat", "Timur", 1, null, null, 11 },
-                    { 2, new DateTime(1975, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ali", "Yunuslar", 1, null, null, 2 },
+                    { 4, new DateTime(1970, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Fahri", "Söylemezgiller", 1, null, null, 4 },
+                    { 5, new DateTime(1982, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Mahmut", "Balci", 1, null, null, 5 },
+                    { 6, new DateTime(1971, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "İlker", "Oyman", 1, null, null, 6 },
+                    { 7, new DateTime(1984, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Gürcan", "Ateş", 1, null, null, 7 },
+                    { 8, new DateTime(1988, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ceyhan", "Gönen", 1, null, null, 8 },
                     { 9, new DateTime(1970, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ahmet", "Okçular", 1, null, null, 9 },
                     { 10, new DateTime(1973, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Mehmet", "Aygün", 1, null, null, 10 },
-                    { 7, new DateTime(1984, 10, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Gürcan", "Ateş", 1, null, null, 7 },
-                    { 6, new DateTime(1971, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "İlker", "Oyman", 1, null, null, 6 },
-                    { 5, new DateTime(1982, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Mahmut", "Balci", 1, null, null, 5 },
-                    { 4, new DateTime(1970, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Fahri", "Söylemezgiller", 1, null, null, 4 },
-                    { 8, new DateTime(1988, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ceyhan", "Gönen", 1, null, null, 8 },
+                    { 11, new DateTime(1987, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Fırat", "Timur", 1, null, null, 11 },
+                    { 12, new DateTime(1992, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Gökay", "Patar", 1, null, null, 12 },
+                    { 13, new DateTime(1989, 9, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Altuğ", "Demirsel", 1, null, null, 13 },
+                    { 2, new DateTime(1975, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ali", "Yunuslar", 1, null, null, 2 },
                     { 14, new DateTime(2000, 7, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2019, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, null, "Ömer", "Sefer", 1, null, null, 14 }
                 });
 
@@ -582,12 +583,11 @@ namespace MySuperStats.WebApi.Migrations
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[,]
                 {
-                    { 33, "CreateBasketballStat", "true", 3 },
-                    { 36, "UpdateMatch", "true", 3 },
-                    { 35, "CreateMatch", "true", 3 },
-                    { 34, "CreateFootballStat", "true", 3 },
-                    { 32, "DeleteMatchGroupUser", "true", 2 },
-                    { 30, "UpdateMatch", "true", 2 },
+                    { 32, "CreateFootballStat", "true", 3 },
+                    { 34, "UpdateMatch", "true", 3 },
+                    { 33, "CreateMatch", "true", 3 },
+                    { 31, "CreateBasketballStat", "true", 3 },
+                    { 29, "CreateMatchGroupUser", "true", 2 },
                     { 2, "CreateBasketballStat", "true", 1 },
                     { 3, "UpdateBasketballStat", "true", 1 },
                     { 4, "DeleteBasketballStat", "true", 1 },
@@ -601,8 +601,9 @@ namespace MySuperStats.WebApi.Migrations
                     { 12, "UpdateMatchGroup", "true", 1 },
                     { 13, "DeleteMatchGroup", "true", 1 },
                     { 14, "SelectMatchGroup", "true", 1 },
-                    { 31, "CreateMatchGroupUser", "true", 2 },
-                    { 15, "CreateMatchGroupTeam", "true", 1 },
+                    { 30, "DeleteMatchGroupUser", "true", 2 },
+                    { 1, "OnlySystemAdmin", "true", 1 },
+                    { 16, "DeleteMatchGroupTeam", "true", 1 },
                     { 17, "CreateTeam", "true", 1 },
                     { 18, "DeleteTeam", "true", 1 },
                     { 19, "CreateMatchGroupUser", "true", 1 },
@@ -611,13 +612,11 @@ namespace MySuperStats.WebApi.Migrations
                     { 22, "RemoveUserFromRole", "true", 1 },
                     { 23, "UpdateUser", "true", 1 },
                     { 24, "UpdateEmail", "true", 1 },
-                    { 25, "CreateGuestPlayer", "true", 1 },
-                    { 26, "UpdateGuestPlayer", "true", 1 },
-                    { 27, "CreateBasketballStat", "true", 2 },
-                    { 28, "CreateFootballStat", "true", 2 },
-                    { 29, "CreateMatch", "true", 2 },
-                    { 16, "DeleteMatchGroupTeam", "true", 1 },
-                    { 1, "OnlySystemAdmin", "true", 1 }
+                    { 25, "CreateBasketballStat", "true", 2 },
+                    { 26, "CreateFootballStat", "true", 2 },
+                    { 27, "CreateMatch", "true", 2 },
+                    { 28, "UpdateMatch", "true", 2 },
+                    { 15, "CreateMatchGroupTeam", "true", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -903,9 +902,9 @@ namespace MySuperStats.WebApi.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchGroupUsers_MatchGroupId_UserId_RoleId",
+                name: "IX_MatchGroupUsers_MatchGroupId_PlayerId_RoleId",
                 table: "MatchGroupUsers",
-                columns: new[] { "MatchGroupId", "UserId", "RoleId" },
+                columns: new[] { "MatchGroupId", "PlayerId", "RoleId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

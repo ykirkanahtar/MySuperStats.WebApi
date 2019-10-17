@@ -65,17 +65,17 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                     {
                         var userResponse = JsonConvert.DeserializeObject<UserResponse>(apiResponse.Result.ToString());
 
-                        return LocalRedirect("/Identity/Account/RegisterConfirmation/{culture}"); ;
+                        return LocalRedirect($"/Identity/Account/RegisterConfirmation/{culture}"); ;
                     }
                     else
                     {
-                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
+                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue(apiResponse.Message));
                         return Page();
                     }
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
+                    ModelState.AddModelError(ex.Message, _localizer.GetValue("AnErrorHasOccured"));
                     return Page();
                 }
             }

@@ -39,7 +39,8 @@ namespace MySuperStats.WebApi.Business
                     result.UserId = (int)userId;
                 }
 
-                _uow.Players.Add(result, GetLoggedInUserId());
+                var createUserId = userId == null ? GetLoggedInUserId() : (int)result.UserId;
+                _uow.Players.Add(result, createUserId);
 
                 await _uow.SaveChangesAsync();
 

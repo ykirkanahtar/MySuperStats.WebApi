@@ -10,8 +10,8 @@ using MySuperStats.WebApi.Data;
 namespace MySuperStats.WebApi.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191011044552_AddMatchGroupTypeFieldToMatchGroupTable")]
-    partial class AddMatchGroupTypeFieldToMatchGroupTable
+    [Migration("20191016201138_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -2273,10 +2273,10 @@ namespace MySuperStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Assist")
+                    b.Property<decimal?>("Assist")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("ConcedeGoal")
+                    b.Property<decimal?>("ConcedeGoal")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("CreateDateTime");
@@ -2292,18 +2292,18 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int>("MatchId");
 
-                    b.Property<decimal>("MissedPenalty")
+                    b.Property<decimal?>("MissedPenalty")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("OwnGoal")
+                    b.Property<decimal?>("OwnGoal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<decimal>("PenaltyScore")
+                    b.Property<decimal?>("PenaltyScore")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("PlayerId");
 
-                    b.Property<decimal>("SaveGoal")
+                    b.Property<decimal?>("SaveGoal")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Status");
@@ -3111,7 +3111,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ce62d35d-8cef-46c5-b29c-53569f64c2b5",
+                            ConcurrencyStamp = "1422193d-0873-4bab-b6c6-f6e69017e6bb",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -3119,7 +3119,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ec7bd56f-df19-4d19-a12a-c579771d6b26",
+                            ConcurrencyStamp = "fc2a1b8f-88cc-463f-957e-3ddf474b0f05",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -3127,7 +3127,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "7bf0ba3d-f345-425a-b95a-2ec1ae1a4361",
+                            ConcurrencyStamp = "967073f8-8fd2-40de-a0e0-fac293cf2e6c",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -3135,7 +3135,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "11127e40-e982-42f5-a8f7-cf8ffbd6c56d",
+                            ConcurrencyStamp = "cecfdfbe-4009-45fa-afda-f03c6b4247db",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -3143,7 +3143,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "0fef55a0-7367-4ebb-a7db-dfdc763580e2",
+                            ConcurrencyStamp = "7a9f8b85-4e4f-4e9c-ab0f-cc0e8effcfd6",
                             Name = "Guest",
                             NormalizedName = "GUEST",
                             Status = 1
@@ -3260,6 +3260,12 @@ namespace MySuperStats.WebApi.Migrations
                         .HasMaxLength(1000);
 
                     b.Property<int>("Status");
+
+                    b.Property<DateTime?>("TempBirthDate");
+
+                    b.Property<string>("TempFirstName");
+
+                    b.Property<string>("TempLastName");
 
                     b.Property<bool>("TwoFactorEnabled");
 

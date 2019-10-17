@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.ApplicationSettings;
-using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Data.Repositories;
 using MySuperStats.WebApi.Models;
@@ -51,8 +50,8 @@ namespace MySuperStats.WebApi.Business
             return CommonOperationAsync(async () =>
             {
                 user.UserName = user.Email;
-                var result = await _userManager.RegisterAsync(user, password, roles, GetUserId());
-
+                var createUserId = 1;
+                var result = await _userManager.RegisterAsync(user, password, roles, createUserId);
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var codeBytes = Encoding.UTF8.GetBytes(code);
@@ -61,7 +60,10 @@ namespace MySuperStats.WebApi.Business
                 callBackUrl = callBackUrl.Replace("ReplaceUserIdValue", user.Id.ToString()).Replace("ReplaceCodeValue", codeEncoded);
 
                 var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("PleaseConfirmYourRegistration")}";
-                var emailBody = $"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourAccount")} - {callBackUrl}";
+                var emailBody = $@"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourAccount")} 
+                                    <br> 
+                                    <a href='{callBackUrl}'>{callBackUrl}</a>";
+
                 var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
 
                 await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
@@ -71,7 +73,7 @@ namespace MySuperStats.WebApi.Business
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
 
-        public Task<IdentityResult> UpdateAsync(int id, User user)
+        public Task<IdentityResult> UpdateAsync(User user)
         {
             return CommonOperationAsync(async () =>
             {
@@ -80,6 +82,20 @@ namespace MySuperStats.WebApi.Business
                 return result;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
+
+        public Task<IdentityResult> ClearTempFielsAsync(User user)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                user.TempBirthDate = null;
+                user.TempFirstName = null;
+                user.TempLastName = null;
+
+                var result = await _userManager.UpdateAsync(user, user.Id);
+
+                return result;
+            }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
+        }        
 
         public Task<IdentityResult> DeleteAsync(int id)
         {
@@ -101,7 +117,7 @@ namespace MySuperStats.WebApi.Business
                     throw new ArgumentException(_localizer.GetValue("Your new e-mail address must be different from your registered e-mail address"));
 
                 var emailUser = await _userManager.FindByEmailAsync(newEmail);
-                if(emailUser != null) throw new ArgumentException("This e-mail address is in use");
+                if (emailUser != null) throw new ArgumentException("This e-mail address is in use");
 
                 var token = await _userManager.GenerateTokenForChangeEmailAsync(user, newEmail);
 
@@ -187,6 +203,14 @@ namespace MySuperStats.WebApi.Business
                     throw new ArgumentException(_localizer.GetValue("Invalid link")); //Invalid link
                 }
 
+                var user = await _userManager.FindByIdAsync(userId.ToString());
+
+                var emailIsConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+                if(emailIsConfirmed)
+                {
+                    throw new ArgumentException(_localizer.GetValue("Your e-mail adress has already been approved"));
+                }
+
                 return await _userManager.ConfirmEmailAsync(userId, code);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
@@ -246,7 +270,7 @@ namespace MySuperStats.WebApi.Business
 
                 return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword
                 , emailTitle
-                , htmlBody 
+                , htmlBody
                 , true);
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }
@@ -271,6 +295,6 @@ namespace MySuperStats.WebApi.Business
 
             await _emailSender.SendEmailAsync(
                  _appSettings.SenderEmailAddress, receiverList, title, text, true);
-        }        
+        }
     }
 }

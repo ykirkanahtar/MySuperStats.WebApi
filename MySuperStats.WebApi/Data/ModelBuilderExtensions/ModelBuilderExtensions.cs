@@ -533,7 +533,7 @@ namespace MySuperStats.WebApi.Data.ModelBuilderExtensions
                     {
                         Id = (int)roleEnum,
                         Name = roleEnum.ToString(),
-                        NormalizedName = roleEnum.ToString().ToUpper(),
+                        NormalizedName = roleEnum.ToString().ToUpper().Replace('İ', 'I'),
                         Status = Status.Active
                     }
                 );

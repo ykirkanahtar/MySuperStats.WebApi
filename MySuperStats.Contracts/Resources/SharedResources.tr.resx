@@ -500,6 +500,9 @@
   <data name="User" xml:space="preserve">
     <value>kullanıcı</value>
   </data>
+  <data name="UserIdNullError" xml:space="preserve">
+    <value>Kullanıcı hatası</value>
+  </data>  
   <data name="UserLoginLog" xml:space="preserve">
     <value>kullanıcı giriş logları</value>
   </data>
@@ -527,6 +530,9 @@
   <data name="Your account is approved" xml:space="preserve">
     <value>Hesabınız onaylanmıştır</value>
   </data>    
+  <data name="Your e-mail adress has already been approved" xml:space="preserve">
+    <value>Bu e-posta adresi daha önceden onaylanmıştır</value>
+  </data>      
   <data name="You have successfully logged out of the application" xml:space="preserve">
     <value>Oturumunuz başarıyla kapatılmıştır</value>
   </data>      
@@ -842,6 +848,9 @@
   <data name="You are not authorized to change this role" xml:space="preserve">
     <value>Bu rolü değiştiremeye yetkiniz yok</value>
   </data>    
+  <data name="You are not a member of an match group yet" xml:space="preserve">
+    <value>Henüz bir karşılaşma grubu üyesi değilsiniz</value>
+  </data>      
   <data name="You can change the user role by clicking the corresponding role on the table" xml:space="preserve">
     <value>Kullanıcı rolünü tablo üzerinde ilgili role tıklayarak değiştirebilirsiniz</value>
   </data>      

@@ -494,6 +494,9 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="UserIdNullError" xml:space="preserve">
+    <value>User error</value>
+  </data>    
   <data name="UserLoginLog" xml:space="preserve">
     <value>User login log</value>
   </data>
@@ -521,6 +524,9 @@
   <data name="Your account is approved" xml:space="preserve">
     <value>Your account is approved</value>
   </data>    
+  <data name="Your e-mail adress has already been approved" xml:space="preserve">
+    <value>Your e-mail adress has already been approved</value>
+  </data>     
   <data name="You have successfully logged out of the application" xml:space="preserve">
     <value>You have successfully logged out of the application</value>
   </data>        
@@ -836,6 +842,9 @@
   <data name="You are not authorized to change this role" xml:space="preserve">
     <value>You are not authorized to change this role</value>
   </data>    
+  <data name="You are not a member of an match group yet" xml:space="preserve">
+    <value>You are not a member of an match group yet</value>
+  </data>     
   <data name="You can change the user role by clicking the corresponding role on the table" xml:space="preserve">
     <value>You can change the user role by clicking the corresponding role on the table</value>
   </data>      
