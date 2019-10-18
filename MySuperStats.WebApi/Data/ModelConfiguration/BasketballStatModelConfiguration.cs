@@ -28,32 +28,25 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.MissingOnePoint)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.MissingTwoPoint)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.Rebound)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.StealBall)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.LooseBall)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.Assist)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder.Property(p => p.Interrupt)
-                .HasColumnType("decimal(10,2)")
-                .IsRequired();
+                .HasColumnType("decimal(10,2)");
 
             builder
                 .HasOne(r => r.Match)

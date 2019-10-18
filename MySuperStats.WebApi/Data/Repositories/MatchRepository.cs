@@ -18,9 +18,10 @@ namespace MySuperStats.WebApi.Data.Repositories
         {
         }
 
-        public async Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order)
+        public async Task<Match> GetByMatchDateAndOrderAsync(int matchGroupId, DateTime matchDate, int order)
         {
             var predicate = PredicateBuilder.New<Match>();
+            predicate = predicate.And(p => p.MatchGroupId == matchGroupId);
             predicate = predicate.And(p => p.MatchDate == matchDate.Date);
             predicate = predicate.And(p => p.Order == order);
 

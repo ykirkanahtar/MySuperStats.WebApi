@@ -9,6 +9,21 @@
     var culture = System.Globalization.CultureInfo.CurrentCulture.Name;
 }
 <script>
+
+function getLoggedUserId(pageUrl){
+  $.ajaxSetup({
+    async: false
+    });
+  var id = 0;
+  $.getJSON(pageUrl + "?handler=LoggedUserId")
+      .done(function (data) {
+        id = data;
+    });
+  return id;
+}
+
+
+
 $(document).ready(function() {
 
   var culture = getCultureFromURL();
@@ -17,18 +32,7 @@ $(document).ready(function() {
 
   var pageUrl = "/" + culture + "/PlayerPermissions/" + g_id;
 
-  $.ajax({
-        url: pageUrl + "?handler=LoggedUserId",
-        dataType: "json", 
-        type: "GET",
-        async: false,
-        success: function (data) {
-            loggedUserId = data;
-        },
-        error: function (x, y, z) {
-            alert(x.responseText +"  " +x.status);
-        }
-    });
+  loggedUserId = getLoggedUserId(pageUrl);
 
   if(loggedUserId == 0){
     $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
@@ -62,7 +66,6 @@ $(document).ready(function() {
     pagination : "local",
     ajaxLoader: true,
     paginationSize: 15,
-    locale: true,
     langs: getTabulatorLocalization(), 
     columns:[ //Define Table Columns
       {title:"userid", field:"userid", visible:false},

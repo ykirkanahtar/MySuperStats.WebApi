@@ -772,6 +772,15 @@
   </data>      
   <data name="Score" xml:space="preserve">
     <value>Score</value>
+  </data> 
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>          
+  <data name="Select basketball stats" xml:space="preserve">
+    <value>Select basketball stats</value>
+  </data>     
+  <data name="Select football stats" xml:space="preserve">
+    <value>Select football stats</value>
   </data>      
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
@@ -782,6 +791,9 @@
   <data name="Stats" xml:space="preserve">
     <value>Stats</value>
   </data> 
+  <data name="StatType" xml:space="preserve">
+    <value>Stat Type</value>
+  </data>   
   <data name="StealBall" xml:space="preserve">
     <value>Steal ball</value>
   </data>      

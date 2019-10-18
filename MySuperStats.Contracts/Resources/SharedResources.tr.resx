@@ -779,6 +779,15 @@
   <data name="Score" xml:space="preserve">
     <value>Sonuç</value>
   </data>     
+  <data name="Select" xml:space="preserve">
+    <value>Seçim</value>
+  </data>   
+  <data name="Select basketball stats" xml:space="preserve">
+    <value>İstatistikleri seçiniz</value>
+  </data>       
+  <data name="Select football stats" xml:space="preserve">
+    <value>İstatistikleri seçiniz</value>
+  </data>     
   <data name="Settings" xml:space="preserve">
     <value>Ayarlar</value>
   </data>    
@@ -788,6 +797,9 @@
   <data name="Stats" xml:space="preserve">
     <value>İstatistikler</value>
   </data> 
+  <data name="StatType" xml:space="preserve">
+    <value>İstatistik tipi</value>
+  </data>   
   <data name="StealBall" xml:space="preserve">
     <value>Top çalma</value>
   </data>      

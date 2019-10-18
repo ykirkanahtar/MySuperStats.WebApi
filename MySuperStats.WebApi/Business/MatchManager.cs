@@ -97,7 +97,7 @@ namespace MySuperStats.WebApi.Business
             (await _uow.MatchGroups.GetByIdAsync(request.MatchGroupId)).CheckRecordIsExist(nameof(MatchGroup));
 
             var matchDateAndOrderUniqueResult =
-                await _uow.Matches.GetByMatchDateAndOrderAsync(request.MatchDate, request.Order);
+                await _uow.Matches.GetByMatchDateAndOrderAsync(request.MatchGroupId, request.MatchDate, request.Order);
 
             if (update)
                 matchDateAndOrderUniqueResult.CheckUniqueValueForUpdate((int)id, AppConstants.MatchDateAndOrder);

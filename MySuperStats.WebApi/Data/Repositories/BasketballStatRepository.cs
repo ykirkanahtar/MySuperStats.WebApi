@@ -40,7 +40,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             return await (from p in GetAll()
                           where p.MatchId == matchId
                                 && p.TeamId == teamId
-                          select p.OnePoint + p.TwoPoint ?? 0 * 2).FirstOrDefaultAsync();
+                          select p.OnePoint + (p.TwoPoint == null ? 0 : (decimal)p.TwoPoint * 2)).SumAsync();
         }
 
         public async Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId)
@@ -186,7 +186,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                       where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.TwoPoint != null && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -211,7 +211,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                       where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.TwoPoint != null && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -236,7 +236,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                       where players.Contains(p.Player)
                             && p.Match.MatchDate >= ReleaseDates.TwoPointReleasedate
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.TwoPoint != null && a.Match.MatchDate >= ReleaseDates.TwoPointReleasedate select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -260,7 +260,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Rebound != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -284,7 +284,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Rebound != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -308,7 +308,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.StealBall != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -332,7 +332,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.StealBall != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -356,7 +356,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.LooseBall != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -380,7 +380,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.LooseBall != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -404,7 +404,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Assist != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -428,7 +428,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Assist != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -452,7 +452,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Interrupt != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,
@@ -476,7 +476,7 @@ namespace MySuperStats.WebApi.Data.Repositories
                     ((from p in stats
                       where players.Contains(p.Player)
                       group p by p.PlayerId into g
-                      let matchCount = (from a in stats where a.PlayerId == g.Key select a.MatchId).Distinct().Count()
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && a.Interrupt != null select a.MatchId).Distinct().Count()
                       select new
                       {
                           PlayerId = g.Key,

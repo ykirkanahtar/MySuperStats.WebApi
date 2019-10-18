@@ -8,7 +8,7 @@ namespace MySuperStats.WebApi.Data.Repositories
 {
     public interface IMatchRepository : IRepository<Match, int>
     {
-        Task<Match> GetByMatchDateAndOrderAsync(DateTime matchDate, int order);
+        Task<Match> GetByMatchDateAndOrderAsync(int matchGroupId, DateTime matchDate, int order);
         Task<IList<Match>> GetAllByMatchGroupIdAsync(int matchGroupId);
         Task<IList<Match>> GetMatchForMainScreen(int matchGroupId);
         Task<Match> GetMatchDetailBasketballStats(int matchId);

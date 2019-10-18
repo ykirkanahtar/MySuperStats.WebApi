@@ -25,8 +25,8 @@
         {
             return new BasketballStatResponseForUIGrid
             {
-                OnePoint =  decimal.Truncate(OnePoint + MissingOnePoint ?? 0) > 0 ? $"{decimal.Truncate(OnePoint)} / {decimal.Truncate(OnePoint + MissingOnePoint ?? 0)}" : "0 / 0",
-                TwoPoint = TwoPoint == null ? string.Empty : decimal.Truncate(TwoPoint + MissingTwoPoint ?? 0) > 0 ? $"{decimal.Truncate((decimal)TwoPoint)} / {decimal.Truncate(TwoPoint + MissingTwoPoint ?? 0)}" : "0 / 0",
+                OnePoint = MissingOnePoint != null ? decimal.Truncate(OnePoint + MissingOnePoint ?? 0) > 0 ? $"{decimal.Truncate(OnePoint)} / {decimal.Truncate(OnePoint + MissingOnePoint ?? 0)}" : "0 / 0" : decimal.Truncate(OnePoint).ToString(),
+                TwoPoint = TwoPoint == null ? string.Empty : MissingTwoPoint != null ? decimal.Truncate(TwoPoint + MissingTwoPoint ?? 0) > 0 ? $"{decimal.Truncate((decimal)TwoPoint)} / {decimal.Truncate(TwoPoint + MissingTwoPoint ?? 0)}" : "0 / 0" : decimal.Truncate((decimal)TwoPoint).ToString(),
                 TotalPoint = decimal.Truncate(OnePoint + (TwoPoint ?? 0) * 2).ToString(),
                 Rebound = Rebound == null ? string.Empty : decimal.Truncate((decimal)Rebound).ToString(),
                 StealBall = StealBall == null ? string.Empty : decimal.Truncate((decimal)StealBall).ToString(),
