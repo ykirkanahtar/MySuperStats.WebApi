@@ -32,6 +32,7 @@ namespace MySuperStats.WebUI.Constants
         public const string CreateGuestPlayer = "Player/createguestplayer";
         public const string UpdatePlayer = "Player/{0}/update";
         public const string UpdateEmailRequest = "user/{0}/update/email/request";
+        public const string MatchGroupIdMatchDateAndOrderAreUnique = "Match/MatchDateAndOrderAreUnique";
 
     }
 }

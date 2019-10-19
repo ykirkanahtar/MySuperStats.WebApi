@@ -104,19 +104,56 @@ $(document).ready(function() {
     var orderValidation = $('#txtOrder').valid();
     var durationValidation = $('#txtDurationInMinutes').valid();
     var videoLinkValidation = $('#txtVideoLink').valid();
-    if(orderValidation && durationValidation && videoLinkValidation){
-        $('#divCreateTeams').show();
-        $("#txtMatchDate").prop('disabled', true);
-        $("#txtOrder").prop('disabled', true);
-        $("#txtDurationInMinutes").prop('disabled', true);
-        $("#txtVideoLink").prop('disabled', true);
-        $("#btnEntryStats").prop('disabled', true);
-    }
-
-    getTeamPlayers(pageUrl, culture, firstTeam, "basketball", "first-team-players");
-    getTeamPlayers(pageUrl, culture, secondTeam, "basketball", "second-team-players");    
+    var order = $("#txtOrder").val();
+    var matchDateString = $('#txtMatchDate').val();
     
+    let model = {
+          "MatchDateString": matchDateString,
+          "Order": order,
+          "MatchGroupId": g_id
+    };
+
+      $.ajax({
+          type: "POST",
+          url: pageUrl + "?handler=CheckMatchIsUnique",
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader("XSRF-TOKEN",
+                  $('input:hidden[name="__RequestVerificationToken"]').val());
+                  $(".overlay").show();
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify(model),     
+          success: function(response, textStatus, xhr){
+            if (response == true){
+              if(orderValidation && durationValidation && videoLinkValidation){
+                  $('#divCreateTeams').show();
+                  $("#txtMatchDate").prop('disabled', true);
+                  $("#txtOrder").prop('disabled', true);
+                  $("#txtDurationInMinutes").prop('disabled', true);
+                  $("#txtVideoLink").prop('disabled', true);
+                  $("#btnEntryStats").prop('disabled', true);
+              }
+
+              getTeamPlayers(pageUrl, culture, firstTeam, "basketball", "first-team-players");
+              getTeamPlayers(pageUrl, culture, secondTeam, "basketball", "second-team-players");
+            }
+            else{
+              $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
+              $("#errorMessage").text(GetLocalizedValue(pageUrl, "MatchDate and order must be unique")); 
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, error){
+            $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
+            $("#errorMessage").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured"));
+          },
+          complete: function(){
+            $(".overlay").hide();
+          }
+      });
+
     e.preventDefault();
+
   }); 
 
   var firstTeamStatsTable;

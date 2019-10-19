@@ -3,6 +3,7 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Models;
 using CustomFramework.WebApiUtils.Business;
 using System.Collections.Generic;
+using System;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -13,6 +14,6 @@ namespace MySuperStats.WebApi.Business
         Task<IList<Match>> GetMatchForMainScreen(int matchGroupId);
         Task<Match> GetMatchDetailBasketballStats(int matchId);
         Task<Match> GetMatchDetailFootballStats(int matchId);
-
+        Task<bool> MatchDateAndOrderAreUnique(int matchGroupId, DateTime matchDate, int order);
     }
 }

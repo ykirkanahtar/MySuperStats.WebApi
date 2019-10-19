@@ -686,6 +686,9 @@
   <data name="MatchDateAndOrder" xml:space="preserve">
     <value>Karşılaşma Tarihi ve karşılaşma sırası</value>
   </data>     
+  <data name="MatchDate and order must be unique" xml:space="preserve">
+    <value>Bu tarih ve sıra değeri ile başka bir kayıt bulunuyor</value>
+  </data>      
   <data name="MatchDetail" xml:space="preserve">
     <value>Karşılaşma Detayı</value>
   </data>    

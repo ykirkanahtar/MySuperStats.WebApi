@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -34,6 +33,8 @@ namespace MySuperStats.WebUI.Pages
 
         [BindProperty]
         public CreateMatchRequestWithMultiFootballStats Model { get; set; }
+
+        public UniqueCheckerForCreateMatch UniqueChecker { get; set; }
 
         public class GridForTeamSelect
         {
@@ -74,13 +75,13 @@ namespace MySuperStats.WebUI.Pages
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
-                if(matchGroupResponse.MatchGroupType != MatchGroupType.Football)
+                if (matchGroupResponse.MatchGroupType != MatchGroupType.Football)
                 {
                     throw new ArgumentException(_localizer.GetValue("This group is just for football stats"));
                 }
             }
             else
-                throw new Exception(response.Message);            
+                throw new Exception(response.Message);
         }
 
         public JsonResult OnGetLocalizedValue(string value)
@@ -108,6 +109,54 @@ namespace MySuperStats.WebUI.Pages
                     });
                 }
                 return new JsonResult(gridData);
+            }
+            else
+                throw new Exception(response.Message);
+        }
+
+        public async Task<IActionResult> OnPostCheckMatchIsUniqueAsync(int id, string culture)
+        {
+            try
+            {
+                var retValue = false;
+                {
+                    var stream = new MemoryStream();
+                    Request.Body.CopyTo(stream);
+                    stream.Position = 0;
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string requestBody = reader.ReadToEnd();
+                        if (requestBody.Length > 0)
+                        {
+                            var request = JsonConvert.DeserializeObject<UniqueCheckerForCreateMatch>(requestBody);
+                            if (request != null)
+                            {
+                                request.MatchDate = Convert.ToDateTime(request.MatchDateString);
+                                return await OnGetMatchGroupIdMatchDateAndOrderAreUniqueAsync(id, culture, request);
+                            }
+                        }
+                    }
+                }
+                return new JsonResult(retValue);
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(ex.Message);
+            }
+        }
+
+        public async Task<JsonResult> OnGetMatchGroupIdMatchDateAndOrderAreUniqueAsync(int id, string culture, UniqueCheckerForCreateMatch uniqueChecker)
+        {
+            var jsonContent = JsonConvert.SerializeObject(uniqueChecker);
+
+            var postUrl = $"{_appSettings.WebApiUrl}{ApiUrls.MatchGroupIdMatchDateAndOrderAreUnique}";
+
+            var response = await _webApiConnector.PostAsync(postUrl, jsonContent, culture, SessionUtil.GetToken(_session));
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var result = (bool)response.Result;
+                return new JsonResult(result);
             }
             else
                 throw new Exception(response.Message);

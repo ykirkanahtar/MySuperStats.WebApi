@@ -680,6 +680,9 @@
   <data name="MatchDateAndOrder" xml:space="preserve">
     <value>Match date and order</value>
   </data>       
+  <data name="MatchDate and order must be unique" xml:space="preserve">
+    <value>MatchDate and order must be unique</value>
+  </data>    
   <data name="MatchDetail" xml:space="preserve">
     <value>Match detail</value>
   </data>    

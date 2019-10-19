@@ -135,7 +135,22 @@ namespace MySuperStats.WebApi.Controllers
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                     Mapper.Map<Match, MatchResponse>(result)));
             });
-        }        
+        }
+
+        [Route("MatchDateAndOrderAreUnique")]
+        [HttpPost]
+        public Task<IActionResult> MatchDateAndOrderAreUniqueAsync([FromBody] UniqueCheckerForCreateMatch request)
+        {
+            return CommonOperationAsync<IActionResult>(async () =>
+            {
+                if (!ModelState.IsValid)
+                    throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
+                var result = await Manager.MatchDateAndOrderAreUnique(request.MatchGroupId, request.MatchDate, request.Order);
+
+                return Ok(new ApiResponse(LocalizationService, Logger).Ok(result));
+            });
+        }
 
     }
 }

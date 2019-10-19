@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 namespace MySuperStats.WebApi.Business
 {
@@ -90,7 +91,19 @@ namespace MySuperStats.WebApi.Business
         public Task<Match> GetMatchDetailFootballStats(int matchId)
         {
             return CommonOperationAsync(async () => await _uow.Matches.GetMatchDetailFootballStats(matchId), new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() }, BusinessUtilMethod.CheckNothing, GetType().Name);
-        }        
+        }
+
+        public Task<bool> MatchDateAndOrderAreUnique(int matchGroupId, DateTime matchDate, int order)
+        {
+            return CommonOperationAsync(async () =>
+            {
+                var matchDateAndOrderUniqueResult =
+                    await _uow.Matches.GetByMatchDateAndOrderAsync(matchGroupId, matchDate, order);
+
+                 return matchDateAndOrderUniqueResult == null;
+            }, new BusinessBaseRequest() { MethodBase = MethodBase.GetCurrentMethod() });
+
+        }
 
         private async Task CheckValuesAsync(MatchRequest request, bool update = false, int? id = null)
         {
@@ -105,7 +118,7 @@ namespace MySuperStats.WebApi.Business
                 matchDateAndOrderUniqueResult.CheckUniqueValue(AppConstants.MatchDateAndOrder);
 
             if (request.HomeTeamId == request.AwayTeamId)
-                request.CheckDuplicatationForUniqueValue(AppConstants.Team1AndTeam2);                
+                request.CheckDuplicatationForUniqueValue(AppConstants.Team1AndTeam2);
         }
     }
 }
