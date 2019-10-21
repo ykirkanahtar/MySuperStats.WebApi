@@ -46,6 +46,9 @@ namespace MySuperStats.WebApi.Controllers
             };
             await _permissionChecker.HasPermissionAsync(User, request.MatchGroupId, attributes);
 
+            if (!ModelState.IsValid)
+                throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
+
             var result = await CommonOperationAsync<Player>(async () =>
             {
                 return await _playerManager.CreateAsync(request);
@@ -105,7 +108,7 @@ namespace MySuperStats.WebApi.Controllers
         {
             await _playerManager.DeleteAsync(id);
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(true));
-        }        
+        }
 
         [Route("get/{id}")]
         [HttpGet]
@@ -115,8 +118,8 @@ namespace MySuperStats.WebApi.Controllers
             {
                 return await _playerManager.GetByIdAsync(id);
             });
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Player, PlayerResponse>(result)));
-        }      
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<Player, PlayerResponse>(result)));
+        }
 
         [Route("getuser/{id}")]
         [HttpGet]
@@ -126,8 +129,8 @@ namespace MySuperStats.WebApi.Controllers
             {
                 return await _playerManager.GetUserByIdAsync(id);
             });
-                return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
-        }          
+            return Ok(new ApiResponse(LocalizationService, Logger).Ok(Mapper.Map<User, UserResponse>(result)));
+        }
 
         [Route("getall/matchgroupid/{matchGroupId:int}")]
         [HttpGet]
@@ -140,7 +143,7 @@ namespace MySuperStats.WebApi.Controllers
 
             return Ok(new ApiResponse(LocalizationService, Logger).Ok(
                 Mapper.Map<IList<Player>, IList<PlayerResponse>>(result), result.Count));
-        }        
+        }
 
         [Route("getwithbasketballstats/id/{id:int}/matchGroupId/{matchGroupId:int}")]
         [HttpGet]
@@ -152,7 +155,7 @@ namespace MySuperStats.WebApi.Controllers
                 var userDetailResponse = Mapper.Map<UserDetailWithBasketballStat, UserDetailWithBasketballStatResponse>(result);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
             });
-        }      
+        }
 
         [Route("getwithfootballstats/id/{id:int}/matchGroupId/{matchGroupId:int}")]
         [HttpGet]
@@ -164,6 +167,6 @@ namespace MySuperStats.WebApi.Controllers
                 var userDetailResponse = Mapper.Map<UserDetailWithFootballStat, UserDetailWithFootballStatResponse>(result);
                 return Ok(new ApiResponse(LocalizationService, Logger).Ok(userDetailResponse));
             });
-        }           
+        }
     }
 }

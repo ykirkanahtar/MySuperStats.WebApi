@@ -35,6 +35,7 @@
               <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
               <div class="input-group date">
                 <input type="text" class="form-control" asp-for="PlayerRequest.BirthDate" placeholder="@(localizer.GetValue("Enter the birth date"))">
+                <span asp-validation-for="PlayerRequest.BirthDate" class="text-danger"></span>                        
                 <span class="input-group-addon">
                   <i class="glyphicon glyphicon-th"></i>
                 </span>
