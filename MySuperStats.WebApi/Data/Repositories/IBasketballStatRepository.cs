@@ -31,6 +31,8 @@ namespace MySuperStats.WebApi.Data.Repositories
         List<StatisticDetail> GetAssistPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
         List<StatisticDetail> GetInterruptStat(IList<Player> players, IList<BasketballStat> stats);
         List<StatisticDetail> GetInterruptPerMatchStat(IList<Player> players, IList<BasketballStat> stats);
+        List<StatisticDetail> GetLaneStat(IList<Player> players, IList<BasketballStat> stats);
+        List<StatisticDetail> GetLanePerMatchStat(IList<Player> players, IList<BasketballStat> stats);
         List<StatisticDetail> GetWinsStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
         List<StatisticDetail> GetWinRatioStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);
         List<StatisticDetail> GetLoosesStat(IList<Player> players, List<MatchResultByPlayer> matchResultByPlayers);

@@ -127,6 +127,7 @@ $(document).ready(function() {
                         <th>@(localizer.GetValue("Assist"))</th>
                         <th>@(localizer.GetValue("LooseBall"))</th>
                         <th>@(localizer.GetValue("Interrupt"))</th>
+                        <th>@(localizer.GetValue("Lane"))</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -138,6 +139,7 @@ $(document).ready(function() {
                               <td>@(totalStatForUI.Assist)</td>
                               <td>@(totalStatForUI.LooseBall)</td>
                               <td>@(totalStatForUI.Interrupt)</td>
+                              <td>@(totalStatForUI.Lane)</td>
                           </tr>
                     </tbody>
                   </table>
@@ -164,6 +166,7 @@ $(document).ready(function() {
                         <th>@(localizer.GetValue("Assist"))</th>
                         <th>@(localizer.GetValue("LooseBall"))</th>
                         <th>@(localizer.GetValue("Interrupt"))</th>
+                        <th>@(localizer.GetValue("Lane"))</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -175,6 +178,7 @@ $(document).ready(function() {
                               <td>@(perMatchStatForUI.Assist)</td>
                               <td>@(perMatchStatForUI.LooseBall)</td>
                               <td>@(perMatchStatForUI.Interrupt)</td>
+                              <td>@(perMatchStatForUI.Lane)</td>
                           </tr>
                     </tbody>
                   </table>
@@ -295,7 +299,9 @@ $(document).ready(function() {
                       <th>@(localizer.GetValue("StealBall"))</th>
                       <th>@(localizer.GetValue("Assist"))</th>
                       <th>@(localizer.GetValue("LooseBall"))</th>
-                      <th>@(localizer.GetValue("Interrupt"))</th>                  
+                      <th>@(localizer.GetValue("Interrupt"))</th>   
+                      <th>@(localizer.GetValue("LaneWithPoint"))</th>                  
+                      <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
                     </tr>
                     </thead>
                     <tbody>
@@ -314,7 +320,9 @@ $(document).ready(function() {
                               <td>@(statForUI.StealBall)</td>
                               <td>@(statForUI.Assist)</td>
                               <td>@(statForUI.LooseBall)</td>
-                              <td>@(statForUI.Interrupt)</td>   
+                              <td>@(statForUI.Interrupt)</td>  
+                              <td>@(statForUI.Lane)</td>   
+                              <td>@(statForUI.LaneWithoutPoint)</td>   
                           </tr>
                         }
                     </tbody>
@@ -331,6 +339,8 @@ $(document).ready(function() {
                       <th>@(localizer.GetValue("Assist"))</th>
                       <th>@(localizer.GetValue("LooseBall"))</th>
                       <th>@(localizer.GetValue("Interrupt"))</th> 
+                      <th>@(localizer.GetValue("LaneWithPoint"))</th>                  
+                      <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
                     </tr>
                     </tfoot>
                   </table>

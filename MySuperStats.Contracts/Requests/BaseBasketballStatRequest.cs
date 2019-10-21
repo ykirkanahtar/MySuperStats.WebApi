@@ -43,6 +43,13 @@ namespace MySuperStats.Contracts.Requests
         [Display(Name = nameof(Interrupt))]        
         public int? Interrupt { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = ErrorMessages.RangeWithMinValue)]
+        [Display(Name = nameof(Lane))]        
+        public int? Lane { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = ErrorMessages.RangeWithMinValue)]
+        [Display(Name = nameof(LaneWithoutPoint))]        
+        public int? LaneWithoutPoint { get; set; }
         public List<string> CheckNegativeValue()
         {
             var negativeValues = new List<string>();
@@ -72,6 +79,12 @@ namespace MySuperStats.Contracts.Requests
 
             if (Interrupt != null)
                 if (Interrupt < 0) negativeValues.Add(nameof(Interrupt));
+
+            if (Lane != null)
+                if (Lane < 0) negativeValues.Add(nameof(Lane));
+
+            if (LaneWithoutPoint != null)
+                if (LaneWithoutPoint < 0) negativeValues.Add(nameof(LaneWithoutPoint));                
 
             return negativeValues;
         }

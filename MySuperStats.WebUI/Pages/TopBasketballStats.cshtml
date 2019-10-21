@@ -394,6 +394,46 @@
 <div class="row-fluid">
     <div class="col-md-3">
         <div class="table-responsive">
+            <label>@(localizer.GetValue("Lane"))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.Lanes)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(Math.Round(stat.Value))</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <label>@(localizer.GetValue("Lane")) (@(localizer.GetValue("PerMatch")))</label>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+                <tbody>
+                    @foreach (var stat in Model.StatisticTable.LanePerMatch)
+                    {
+                        <tr>
+                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stat.UserId">@(stat.FirstNameLastName)</a></td>
+                            <td>@(stat.Value)</td>
+                            <td>@(stat.GameCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-3">
+        <div class="table-responsive">
             <label>@(localizer.GetValue("Win"))</label>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <tbody>

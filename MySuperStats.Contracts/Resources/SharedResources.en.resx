@@ -659,6 +659,15 @@
   <data name="Interrupt" xml:space="preserve">
     <value>Interrupt</value>
   </data>   
+  <data name="Lane" xml:space="preserve">
+    <value>Lane</value>
+  </data>   
+  <data name="LaneWithPoint" xml:space="preserve">
+    <value>Lane (point to opponent)</value>
+  </data>     
+  <data name="LaneWithoutPoint" xml:space="preserve">
+    <value>Lane (no point to opponent)</value>
+  </data>   
   <data name="Loose" xml:space="preserve">
     <value>Loose</value>
   </data>      

@@ -48,6 +48,12 @@ namespace MySuperStats.WebApi.Data.ModelConfiguration
             builder.Property(p => p.Interrupt)
                 .HasColumnType("decimal(10,2)");
 
+            builder.Property(p => p.Lane)
+                .HasColumnType("decimal(10,2)");
+
+            builder.Property(p => p.LaneWithoutPoint)
+                .HasColumnType("decimal(10,2)");
+
             builder
                 .HasOne(r => r.Match)
                 .WithMany(c => c.BasketballStats)

@@ -37,10 +37,17 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         public async Task<decimal> GetTeamScoreByMatchIdAndTeamId(int matchId, int teamId)
         {
-            return await (from p in GetAll()
-                          where p.MatchId == matchId
-                                && p.TeamId == teamId
-                          select p.OnePoint + (p.TwoPoint == null ? 0 : (decimal)p.TwoPoint * 2)).SumAsync();
+            var teamPoint = await (from p in GetAll()
+                                   where p.MatchId == matchId
+                                         && p.TeamId == teamId
+                                   select p.OnePoint + (p.TwoPoint == null ? 0 : (decimal)p.TwoPoint * 2)).SumAsync();
+
+            var lanePoint = await (from p in GetAll()
+                                   where p.MatchId == matchId
+                                           && p.TeamId != teamId
+                                   select p.Lane == null ? 0 : (decimal)p.Lane).SumAsync();
+
+            return teamPoint + lanePoint;
         }
 
         public async Task<IList<BasketballStat>> GetAllByMatchIdAsync(int matchId)
@@ -481,6 +488,54 @@ namespace MySuperStats.WebApi.Data.Repositories
                       {
                           PlayerId = g.Key,
                           Value = matchCount > 0 ? (g.Sum(s => s.Interrupt)) / matchCount : 0,
+                          MatchCount = matchCount
+                      }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
+                        .Take(Take))
+                    join pl in players on a.PlayerId equals pl.Id
+                    select new StatisticDetail
+                    {
+                        UserId = pl.Id,
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
+                        Value = Math.Round((decimal)a.Value, 2),
+                        GameCount = a.MatchCount
+                    }).ToList();
+        }
+
+        public List<StatisticDetail> GetLaneStat(IList<Player> players, IList<BasketballStat> stats)
+        {
+            return (from a in
+                    ((from p in stats
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && (a.Lane != null || a.LaneWithoutPoint != null) select a.MatchId).Distinct().Count()
+                      select new
+                      {
+                          PlayerId = g.Key,
+                          Value = g.Sum(s => s.Lane ?? 0) + g.Sum(s => s.LaneWithoutPoint ?? 0),
+                          MatchCount = matchCount
+                      }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
+                        .Take(Take))
+                    join pl in players on a.PlayerId equals pl.Id
+                    select new StatisticDetail
+                    {
+                        UserId = pl.Id,
+                        FirstNameLastName = $"{pl.FirstName} {pl.LastName}",
+                        Value = Math.Round((decimal)a.Value, 2),
+                        GameCount = a.MatchCount
+                    }).ToList();
+        }
+
+        public List<StatisticDetail> GetLanePerMatchStat(IList<Player> players, IList<BasketballStat> stats)
+        {
+            return (from a in
+                    ((from p in stats
+                      where players.Contains(p.Player)
+                      group p by p.PlayerId into g
+                      let matchCount = (from a in stats where a.PlayerId == g.Key && (a.Lane != null || a.LaneWithoutPoint != null) select a.MatchId).Distinct().Count()
+                      select new
+                      {
+                          PlayerId = g.Key,
+                          Value = matchCount > 0 ? (g.Sum(s => s.Lane ?? 0) + g.Sum(s => s.LaneWithoutPoint ?? 0)) / matchCount : 0,
                           MatchCount = matchCount
                       }).OrderByDescending(r => r.Value).ThenBy(p => p.MatchCount)
                         .Take(Take))

@@ -74,6 +74,7 @@ namespace MySuperStats.WebApi.Data.Repositories
             var looseBallMatchCount = (from p in basketballStats where p.LooseBall != null select p.MatchId).Distinct().Count();
             var reboundMatchCount = (from p in basketballStats where p.Rebound != null select p.MatchId).Distinct().Count();
             var stealBallMatchCount = (from p in basketballStats where p.StealBall != null select p.MatchId).Distinct().Count();
+            var laneMatchCount = (from p in basketballStats where (p.Lane != null || p.LaneWithoutPoint != null) select p.MatchId).Distinct().Count();
 
             var totalStats = new BasketballStat
             {
@@ -86,6 +87,9 @@ namespace MySuperStats.WebApi.Data.Repositories
                 Rebound = basketballStats.Where(x => x.Rebound != null).Sum(x => x.Rebound),
                 StealBall = basketballStats.Where(x => x.StealBall != null).Sum(x => x.StealBall),
                 TwoPoint = basketballStats.Where(x => x.TwoPoint != null).Sum(x => x.TwoPoint),
+                Lane = (basketballStats.Where(x => x.Lane != null).Sum(x => x.Lane)
+                        +
+                        (basketballStats.Where(x => x.LaneWithoutPoint != null).Sum(x => x.LaneWithoutPoint)))
             };
 
             var onePointRatio = totalStats.OnePoint + (totalStats.MissingOnePoint ?? 0) > 0 ? Math.Round(totalStats.OnePoint / (totalStats.OnePoint + totalStats.MissingOnePoint ?? 0) * 100, 2) : 0;
@@ -94,16 +98,16 @@ namespace MySuperStats.WebApi.Data.Repositories
 
             var perMatchStats = new BasketballStat
             {
-                Assist = assistMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.Assist != null).Sum(x => x.Assist) ?? 0 / assistMatchCount, 2) : 0,
-                Interrupt = interruptMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.Interrupt != null).Sum(x => x.Interrupt) ?? 0 / interruptMatchCount, 2) : 0,
-                LooseBall = looseBallMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.LooseBall != null).Sum(x => x.LooseBall) ?? 0 / looseBallMatchCount, 2) : 0,
-                MissingOnePoint = missingOnePointMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.MissingOnePoint != null).Sum(x => x.MissingOnePoint) ?? 0 / missingOnePointMatchCount, 2) : 0,
-
-                MissingTwoPoint = twoPointMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.MissingTwoPoint != null).Sum(x => x.MissingTwoPoint) ?? 0 / twoPointMatchCount, 2) : 0,
-                OnePoint = matchCount > 0 ? Math.Round(basketballStats.Sum(x => x.OnePoint) / matchCount, 2) : 0,
-                Rebound = reboundMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.Rebound != null).Sum(x => x.Rebound) ?? 0 / reboundMatchCount, 2) : 0,
-                StealBall = stealBallMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.StealBall != null).Sum(x => x.StealBall) ?? 0 / stealBallMatchCount, 2) : 0,
-                TwoPoint = twoPointMatchCount > 0 ? Math.Round(basketballStats.Where(x => x.TwoPoint != null).Sum(x => x.TwoPoint) ?? 0 / twoPointMatchCount, 2) : 0
+                Assist = assistMatchCount > 0 ? Math.Round(totalStats.Assist ?? 0 / assistMatchCount, 2) : 0,
+                Interrupt = interruptMatchCount > 0 ? Math.Round(totalStats.Interrupt ?? 0 / interruptMatchCount, 2) : 0,
+                LooseBall = looseBallMatchCount > 0 ? Math.Round(totalStats.LooseBall ?? 0 / looseBallMatchCount, 2) : 0,
+                MissingOnePoint = missingOnePointMatchCount > 0 ? Math.Round(totalStats.MissingOnePoint ?? 0 / missingOnePointMatchCount, 2) : 0,
+                MissingTwoPoint = twoPointMatchCount > 0 ? Math.Round(totalStats.MissingTwoPoint ?? 0 / twoPointMatchCount, 2) : 0,
+                OnePoint = matchCount > 0 ? Math.Round(totalStats.OnePoint / matchCount, 2) : 0,
+                Rebound = reboundMatchCount > 0 ? Math.Round(totalStats.Rebound ?? 0 / reboundMatchCount, 2) : 0,
+                StealBall = stealBallMatchCount > 0 ? Math.Round(totalStats.StealBall ?? 0 / stealBallMatchCount, 2) : 0,
+                TwoPoint = twoPointMatchCount > 0 ? Math.Round(totalStats.TwoPoint ?? 0 / twoPointMatchCount, 2) : 0,
+                Lane = laneMatchCount > 0 ? Math.Round(totalStats.Lane ?? 0 / laneMatchCount, 2) : 0
             };
 
             var basketballStatsResponse = _mapper.Map<ICollection<BasketballStatResponse>>(basketballStats);
@@ -140,18 +144,18 @@ namespace MySuperStats.WebApi.Data.Repositories
                         .FirstOrDefaultAsync();
 
             var footballStats = await (from m in DbContext.Set<Match>()
-                                         join fs in DbContext.Set<FootballStat>() on m.Id equals fs.MatchId
-                                         join mg in DbContext.Set<MatchGroup>() on m.MatchGroupId equals mg.Id
-                                         join p in DbContext.Set<Player>() on fs.PlayerId equals p.Id
-                                         join mu in DbContext.Set<MatchGroupUser>() on mg.Id equals mu.MatchGroupId
-                                         where m.MatchGroupId == matchGroupId
-                                            && fs.PlayerId == playerId
-                                            && mu.PlayerId == p.Id
-                                            && m.Status == Status.Active
-                                            && fs.Status == Status.Active
-                                            && mg.Status == Status.Active
-                                            && p.Status == Status.Active
-                                         select fs
+                                       join fs in DbContext.Set<FootballStat>() on m.Id equals fs.MatchId
+                                       join mg in DbContext.Set<MatchGroup>() on m.MatchGroupId equals mg.Id
+                                       join p in DbContext.Set<Player>() on fs.PlayerId equals p.Id
+                                       join mu in DbContext.Set<MatchGroupUser>() on mg.Id equals mu.MatchGroupId
+                                       where m.MatchGroupId == matchGroupId
+                                          && fs.PlayerId == playerId
+                                          && mu.PlayerId == p.Id
+                                          && m.Status == Status.Active
+                                          && fs.Status == Status.Active
+                                          && mg.Status == Status.Active
+                                          && p.Status == Status.Active
+                                       select fs
                                         )
                                         .Include(p => p.Match)
                                         .Include(p => p.Team)

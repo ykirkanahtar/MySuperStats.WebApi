@@ -10,5 +10,8 @@ namespace MySuperStats.Contracts.Responses
         public string LooseBall { get; set; }
         public string Assist { get; set; }
         public string Interrupt { get; set; }
+        public string Lane { get; set; }
+        public string LaneWithoutPoint { get; set; }
+
     }
 }

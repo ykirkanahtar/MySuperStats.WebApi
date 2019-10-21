@@ -169,6 +169,10 @@ namespace MySuperStats.WebApi.Business
                 basketballStatisticTable.AssistPerMatch = _uow.BasketballStats.GetAssistPerMatchStat(players, stats);
                 basketballStatisticTable.Interrupts = _uow.BasketballStats.GetInterruptStat(players, stats);
                 basketballStatisticTable.InterruptPerMatch = _uow.BasketballStats.GetInterruptPerMatchStat(players, stats);
+                basketballStatisticTable.Lanes = _uow.BasketballStats.GetLaneStat(players, stats);
+                basketballStatisticTable.LanePerMatch = _uow.BasketballStats.GetLanePerMatchStat(players, stats);
+
+
 
                 var allPlayersMatchForms = await GetPlayersMatchFormsAsync(matchGroupId, players);
 

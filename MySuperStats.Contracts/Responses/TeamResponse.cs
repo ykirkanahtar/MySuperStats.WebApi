@@ -52,7 +52,7 @@ namespace MySuperStats.Contracts.Responses
             return FootballStats.Count > 0
                 ? (Convert.ToDecimal(teamTotalAge) / Convert.ToDecimal(FootballStats.Count)).RoundValue()
                 : 0;
-        }        
+        }
 
         public BasketballStatResponse GetTeamTotalForBasketball()
         {
@@ -67,6 +67,8 @@ namespace MySuperStats.Contracts.Responses
                 Rebound = BasketballStats.Sum(x => x.Rebound),
                 StealBall = BasketballStats.Sum(x => x.StealBall),
                 TwoPoint = BasketballStats.Sum(x => x.TwoPoint),
+                Lane = BasketballStats.Sum(x => x.Lane),
+                LaneWithoutPoint = BasketballStats.Sum(x => x.LaneWithoutPoint)
             };
         }
 
@@ -82,6 +84,6 @@ namespace MySuperStats.Contracts.Responses
                 SaveGoal = FootballStats.Sum(x => x.SaveGoal),
                 ConcedeGoal = FootballStats.Sum(x => x.ConcedeGoal),
             };
-        }        
+        }
     }
 }

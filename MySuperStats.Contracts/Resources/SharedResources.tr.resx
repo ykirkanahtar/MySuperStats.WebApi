@@ -665,6 +665,15 @@
   <data name="Interrupt" xml:space="preserve">
     <value>Top kesme</value>
   </data>   
+  <data name="Lane" xml:space="preserve">
+    <value>Ampul</value>
+  </data>  
+  <data name="LaneWithPoint" xml:space="preserve">
+    <value>Ampul (Rakibe + sayı)</value>
+  </data>    
+  <data name="LaneWithoutPoint" xml:space="preserve">
+    <value>Ampul (Rakibe sayı yok)</value>
+  </data>   
   <data name="Loose" xml:space="preserve">
     <value>Kaybetme</value>
   </data>      

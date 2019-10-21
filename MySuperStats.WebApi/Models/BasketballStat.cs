@@ -18,6 +18,8 @@ namespace MySuperStats.WebApi.Models
         public decimal? LooseBall { get; set; }
         public decimal? Assist { get; set; }
         public decimal? Interrupt { get; set; }
+        public decimal? Lane { get; set; }
+        public decimal? LaneWithoutPoint { get; set; }
 
         public virtual Match Match { get; set; }
         public virtual Team Team { get; set; }

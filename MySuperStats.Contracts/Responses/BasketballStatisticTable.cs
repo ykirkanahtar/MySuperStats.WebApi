@@ -37,6 +37,9 @@ namespace MySuperStats.Contracts.Responses
 
             Looses = new List<StatisticDetail>();
             LooseRatio = new List<StatisticDetail>();
+
+            Lanes = new List<StatisticDetail>();
+            LanePerMatch = new List<StatisticDetail>();
         }
 
         public List<StatisticDetail> Points { get; set; }
@@ -70,5 +73,9 @@ namespace MySuperStats.Contracts.Responses
 
         public List<StatisticDetail> Looses { get; set; }
         public List<StatisticDetail> LooseRatio { get; set; }
+
+        public List<StatisticDetail> Lanes { get; set; }
+        public List<StatisticDetail> LanePerMatch { get; set; }
+
     }
 }

@@ -190,7 +190,7 @@ function userFootballStats(playerid, name, teamid, goal, owngoal, penaltyscore, 
     this.concedegoal = concedegoal;
 }
 
-function userBasketballStats(playerid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt){
+function userBasketballStats(playerid, name, teamid, onepoint, twopoint, missingonepoint, missingtwopoint,rebound, stealball, looseball, assist, interrupt, lane, lanewithoutpoint){
     this.playerid = playerid;
     this.name = name;
     this.teamId = teamid;
@@ -203,15 +203,17 @@ function userBasketballStats(playerid, name, teamid, onepoint, twopoint, missing
     this.looseball = looseball;
     this.assist = assist;
     this.interrupt = interrupt;
+    this.lane = lane;
+    this.lanewithoutpoint = lanewithoutpoint;
 }
 
 function addToBasketballArray(array, playerid, name){
-    var u = new userBasketballStats(playerid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    var u = new userBasketballStats(playerid, name,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     array.push(u);
   }
 
-  function addToBasketballStats(array, playerid, teamId, onepoint, twopoint, missingonepoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt){
-    var u = new userBasketballStats(playerid, name,teamId, onepoint, twopoint, missingtwopoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt);
+  function addToBasketballStats(array, playerid, teamId, onepoint, twopoint, missingonepoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt, lane, lanewithoutpoint){
+    var u = new userBasketballStats(playerid, name,teamId, onepoint, twopoint, missingtwopoint, missingtwopoint, rebound, stealball, looseball, assist, interrupt, lane, lanewithoutpoint);
     array.push(u);
   }  
 

@@ -39,7 +39,16 @@ $(document).ready(function() {
   var firstTeamStats = [];
   var secondTeamStats = [];
 
-  function getTeamStatsTable(tableName, data, statsSelectionData){
+  var team1TotalLaneWithPoint = 0;
+  var team2TotalLaneWithPoint = 0;
+
+  var team1TotalOnePoint = 0;
+  var team2TotalOnePoint = 0;
+
+  var team1TotalTwoPoint = 0;
+  var team2TotalTwoPoint = 0;
+
+  function getTeamStatsTable(tableName, data, statsSelectionData, isTeam1, opponentTeamTableName){
       var tabulatorName = "#" + tableName + "Stats";
 
       var columnData = [
@@ -56,6 +65,9 @@ $(document).ready(function() {
       var looseBallVisibility = statsSelectionData[5].haschecked;
       var assistVisibility = statsSelectionData[6].haschecked;
       var interruptVisibility = statsSelectionData[7].haschecked;
+      var laneVisibility = statsSelectionData[8].haschecked;
+      var laneWithoutPointVisibility = statsSelectionData[9].haschecked;
+
 
       columnData.push({title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", visible: twoPointVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
       columnData.push({title: GetLocalizedValue(pageUrl, "MissingOnePoint"), field:"missingonepoint", visible:missingOnePointVisibility,  editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
@@ -65,6 +77,8 @@ $(document).ready(function() {
       columnData.push({title: GetLocalizedValue(pageUrl, "LooseBall"), field:"looseball", visible: looseBallVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
       columnData.push({title: GetLocalizedValue(pageUrl, "Assist"), field:"assist", visible: assistVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
       columnData.push({title: GetLocalizedValue(pageUrl, "Interrupt"), field:"interrupt", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithPoint"), field:"lane", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithoutPoint"), field:"lanewithoutpoint", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
 
       var table = new Tabulator(tabulatorName, {
           height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
@@ -79,7 +93,25 @@ $(document).ready(function() {
               var results = table.getCalcResults();
               var onePointTotal = results.bottom.onepoint;
               var twoPointTotal = results.bottom.twopoint;
-              $("#" + tableName + "Score").text(onePointTotal + (twoPointTotal*2));
+              var lanePointTotal = results.bottom.lane;
+
+              if(isTeam1 == true){
+                team1TotalOnePoint = onePointTotal;
+                team1TotalTwoPoint = twoPointTotal;
+                team1TotalLaneWithPoint = lanePointTotal;
+                
+                $("#" + tableName + "Score").text(onePointTotal + (twoPointTotal * 2) + team2TotalLaneWithPoint);
+                $("#" + opponentTeamTableName + "Score").text(team2TotalOnePoint + (team2TotalTwoPoint * 2) + team1TotalLaneWithPoint);
+              }
+              else{
+                team2TotalOnePoint = onePointTotal;
+                team2TotalTwoPoint = twoPointTotal;
+                team2TotalLaneWithPoint = lanePointTotal;
+ 
+                $("#" + tableName + "Score").text(onePointTotal + (twoPointTotal * 2) + team1TotalLaneWithPoint);
+                $("#" + opponentTeamTableName + "Score").text(team1TotalOnePoint + (team1TotalTwoPoint * 2) + team2TotalLaneWithPoint);
+              }
+
           },      
         });    
       table.setLocale(culture);
@@ -178,6 +210,8 @@ $(document).ready(function() {
         {id: 6, name: GetLocalizedValue(pageUrl, "LooseBall"), haschecked: true},
         {id: 7, name: GetLocalizedValue(pageUrl, "Assist"), haschecked: true},
         {id: 8, name: GetLocalizedValue(pageUrl, "Interrupt"), haschecked: true},
+        {id: 9, name: GetLocalizedValue(pageUrl, "LaneWithPoint"), haschecked: true},
+        {id: 10, name: GetLocalizedValue(pageUrl, "LaneWithoutPoint"), haschecked: true},
     ];
 
     statsSelectionTable = getStatsType(pageUrl, data);
@@ -189,8 +223,8 @@ $(document).ready(function() {
 
   $("#btnSelectStats").click( function(e)
   {
-    firstTeamStatsTable = getTeamStatsTable("firstTeam", firstTeam, statsSelectionTable.getData());
-    secondTeamStatsTable = getTeamStatsTable("secondTeam", secondTeam, statsSelectionTable.getData());
+    firstTeamStatsTable = getTeamStatsTable("firstTeam", firstTeam, statsSelectionTable.getData(), true, "secondTeam");
+    secondTeamStatsTable = getTeamStatsTable("secondTeam", secondTeam, statsSelectionTable.getData(), false, "firstTeam");
 
     $("#divSelectStats").hide();
     $("#divTeamStats").show();
@@ -225,7 +259,10 @@ $(document).ready(function() {
       var stealBallVisibility = statsSelectionData[4].haschecked;
       var looseBallVisibility = statsSelectionData[5].haschecked;
       var assistVisibility = statsSelectionData[6].haschecked;
-      var interruptVisibility = statsSelectionData[7].haschecked;      
+      var interruptVisibility = statsSelectionData[7].haschecked;    
+      var laneVisibility = statsSelectionData[8].haschecked;      
+      var laneWithoutPointVisibility = statsSelectionData[9].haschecked;      
+
 
       for (i = 0; i < firstTeamGridDatas.length; i++){
         addToBasketballStats(
@@ -241,6 +278,8 @@ $(document).ready(function() {
         , (looseBallVisibility) ?  firstTeamGridDatas[i].looseball : null
         , (assistVisibility) ?  firstTeamGridDatas[i].assist : null
         , (interruptVisibility) ?  firstTeamGridDatas[i].interrupt : null
+        , (laneVisibility) ?  firstTeamGridDatas[i].lane : null
+        , (laneWithoutPointVisibility) ?  firstTeamGridDatas[i].lanewithoutpoint : null
         );
       }      
 
@@ -258,6 +297,8 @@ $(document).ready(function() {
         , (looseBallVisibility) ?  secondTeamGridDatas[i].looseball : null
         , (assistVisibility) ?  secondTeamGridDatas[i].assist : null
         , (interruptVisibility) ?  secondTeamGridDatas[i].interrupt : null
+        , (laneVisibility) ?  secondTeamGridDatas[i].lane : null
+        , (laneWithoutPointVisibility) ?  secondTeamGridDatas[i].lanewithoutpoint : null
         );
       }        
 

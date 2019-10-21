@@ -16,6 +16,9 @@
         public decimal? LooseBall { get; set; }
         public decimal? Assist { get; set; }
         public decimal? Interrupt { get; set; }
+        public decimal? Lane { get; set; }
+        public decimal? LaneWithoutPoint { get; set; }
+
 
         public virtual BaseMatchResponse Match { get; set; }
         public virtual BaseTeamResponse Team { get; set; }
@@ -33,6 +36,8 @@
                 LooseBall = LooseBall == null ? string.Empty : decimal.Truncate((decimal)LooseBall).ToString(),
                 Assist = Assist == null ? string.Empty : decimal.Truncate((decimal)Assist).ToString(),
                 Interrupt = Interrupt == null ? string.Empty : decimal.Truncate((decimal)Interrupt).ToString(),
+                Lane = Lane == null ? string.Empty : decimal.Truncate((decimal)Lane).ToString(),
+                LaneWithoutPoint = LaneWithoutPoint == null ? string.Empty : decimal.Truncate((decimal)LaneWithoutPoint).ToString(),
             };
         }
     }

@@ -18,7 +18,8 @@
           <div class="col-xs-12">
               <label>@(localizer.GetValue("Date")):</label> @(Model.Match.MatchDate.ToString("dd-MM-yyyy"))<br />
               <label>@(localizer.GetValue("Order")):</label> @(Model.Match.Order)<br />
-              <label>@(localizer.GetValue("VideoLink")): </label><a href="@Model.Match.VideoLink" target="_blank">@(Model.Match.VideoLink)</a>
+              <label>@(localizer.GetValue("VideoLink")): </label><a href="@Model.Match.VideoLink" target="_blank">@(Model.Match.VideoLink)</a><br/>
+              <label>@(localizer.GetValue("Score")):</label> <b>@((int)Model.Match.HomeTeamScore) - @((int)Model.Match.AwayTeamScore)</b><br />
           </div>
       </div>
 
@@ -52,6 +53,8 @@
                       <th>@(localizer.GetValue("Assist"))</th>
                       <th>@(localizer.GetValue("LooseBall"))</th>
                       <th>@(localizer.GetValue("Interrupt"))</th>
+                      <th>@(localizer.GetValue("LaneWithPoint"))</th>                  
+                      <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
                     </tr>
                     </thead>
                     <tbody>
@@ -68,6 +71,8 @@
                                 <td>@(statsForUI.Assist)</td>
                                 <td>@(statsForUI.LooseBall)</td>
                                 <td>@(statsForUI.Interrupt)</td>
+                                <td>@(statsForUI.Lane)</td>
+                                <td>@(statsForUI.LaneWithoutPoint)</td>
                             </tr>
                         }
                         @{
@@ -82,6 +87,8 @@
                                 <td><b>@(totalStatsForUI.Assist)</b></td>
                                 <td><b>@(totalStatsForUI.LooseBall)</b></td>
                                 <td><b>@(totalStatsForUI.Interrupt)</b></td>
+                                <td><b>@(totalStatsForUI.Lane)</b></td>
+                                <td><b>@(totalStatsForUI.LaneWithoutPoint)</b></td>
                         </tr>
                         }
                     </tbody>
