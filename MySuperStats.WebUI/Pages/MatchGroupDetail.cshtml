@@ -11,13 +11,16 @@
 
 <script>
   $(function () {
-    $('#basketball_players').DataTable({
+    $('#players').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : true
+      'autoWidth'   : true,
+      "language": {
+           "url": dataTableLocalization()
+      }      
     })
   })
 </script>
@@ -70,7 +73,7 @@
         <form method="post">
           <div class="box-body">
             <div class="form-group">
-              <table id="basketball_players" class="table table-bordered table-striped">
+              <table id="players" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>@(localizer.GetValue("FirstNameLastName"))</th>
@@ -80,7 +83,7 @@
                    @foreach (var player in Model.Players)
                     {
                         <tr>
-                            <td><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.LastName}")</a></td>
+                            <td><a asp-page="PlayerDetail" asp-route-matchGroupId="@ViewContext.RouteData.Values["id"]" asp-route-culture="@culture" asp-route-id="@player.Id">@($"{player.FirstName} {player.LastName}")</a></td>
                         </tr>
                     }
                 </tbody>

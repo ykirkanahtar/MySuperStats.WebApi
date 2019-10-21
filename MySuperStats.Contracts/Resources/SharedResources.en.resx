@@ -344,6 +344,9 @@
   <data name="Incorrect password." xml:space="preserve">
     <value>Incorrect password.</value>
   </data>  
+  <data name="Invalid date of birth." xml:space="preserve">
+    <value>Invalid date of birth</value>
+  </data>     
   <data name="Invalid link" xml:space="preserve">
     <value>Hatalı bağlantı</value>
   </data>     

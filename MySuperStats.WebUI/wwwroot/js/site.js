@@ -226,3 +226,10 @@ function addToFootballArray(array, playerid, name){
     var u = new userFootballStats(playerid, name, 0, 0, 0, 0, 0, 0, 0, 0);
     array.push(u);
 }
+
+function dataTableLocalization(){    
+    var culture = getCultureFromURL();
+    if(culture == "tr"){
+        return "/" + "js/dataTable.Turkish.json";
+    }
+}

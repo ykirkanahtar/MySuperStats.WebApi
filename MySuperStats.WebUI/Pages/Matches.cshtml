@@ -10,13 +10,16 @@
 }
 <script>
   $(function () {
-    $('#basketball_mainpage').DataTable({
+    $('#mainpage').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
       'ordering'    : false,
       'info'        : true,
-      'autoWidth'   : true
+      'autoWidth'   : true,
+      "language": {
+           "url": dataTableLocalization()
+      }      
     })
   })
 </script>
@@ -31,7 +34,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="basketball_mainpage" class="table table-bordered table-striped">
+              <table id="mainpage" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>@(localizer.GetValue("Date"))</th>
