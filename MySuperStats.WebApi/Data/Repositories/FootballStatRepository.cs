@@ -35,10 +35,17 @@ namespace MySuperStats.WebApi.Data.Repositories
 
         public async Task<decimal> GetTeamScoreByMatchIdAndTeamId(int matchId, int teamId)
         {
-            return await (from p in GetAll()
+            var goals = await (from p in GetAll()
                           where p.MatchId == matchId
                                 && p.TeamId == teamId
                           select p.Goal).FirstOrDefaultAsync();
+
+            var ownGoals = await (from p in GetAll()
+                                   where p.MatchId == matchId
+                                           && p.TeamId != teamId
+                                   select p.OwnGoal == null ? 0 : (decimal)p.OwnGoal).SumAsync();
+
+            return goals + ownGoals;                          
         }
 
         public async Task<IList<FootballStat>> GetAllByMatchIdAsync(int matchId)

@@ -39,7 +39,13 @@ $(document).ready(function() {
   var firstTeamStats = [];
   var secondTeamStats = [];
 
-  function getTeamStatsTable(tableName, data, statsSelectionData){
+  var team1TotalGoal = 0;
+  var team2TotalGoal = 0;
+
+  var team1TotalOwnGoal = 0;
+  var team2TotalOwnGoal = 0;  
+
+  function getTeamStatsTable(tableName, data, statsSelectionData, isTeam1, opponentTeamTableName){
       var tabulatorName = "#" + tableName + "Stats";
 
       var columnData = [
@@ -74,7 +80,23 @@ $(document).ready(function() {
           cellEdited: function(cell) {              
               var results = table.getCalcResults();
               var goalTotal = results.bottom.goal;
+              var ownGoalTotal = results.bottom.owngoal;
               $("#" + tableName + "Score").text(goalTotal);
+
+              if(isTeam1 == true){
+                team1TotalGoal = goalTotal;
+                team1TotalOwnGoal = ownGoalTotal;
+                
+                $("#" + tableName + "Score").text(goalTotal + team2TotalOwnGoal);
+                $("#" + opponentTeamTableName + "Score").text(team2TotalGoal + team1TotalOwnGoal);
+              }
+              else{
+                team2TotalGoal = goalTotal;
+                team2TotalOwnGoal = ownGoalTotal;
+ 
+                $("#" + tableName + "Score").text(goalTotal + team1TotalOwnGoal);
+                $("#" + opponentTeamTableName + "Score").text(team1TotalGoal + team2TotalOwnGoal);
+              }              
           },        
         });    
       table.setLocale(culture);
@@ -183,8 +205,8 @@ $(document).ready(function() {
 
   $("#btnSelectStats").click( function(e)
   {
-    firstTeamStatsTable = getTeamStatsTable("firstTeam", firstTeam, statsSelectionTable.getData());
-    secondTeamStatsTable = getTeamStatsTable("secondTeam", secondTeam, statsSelectionTable.getData());
+    firstTeamStatsTable = getTeamStatsTable("firstTeam", firstTeam, statsSelectionTable.getData(), true, "secondTeam");
+    secondTeamStatsTable = getTeamStatsTable("secondTeam", secondTeam, statsSelectionTable.getData(), false, "firstTeam");
 
     $("#divSelectStats").hide();
     $("#divTeamStats").show();
