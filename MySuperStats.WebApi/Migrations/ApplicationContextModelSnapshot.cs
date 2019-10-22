@@ -3108,7 +3108,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f9e2bd8b-4f67-4d10-a9d1-0a22adc84076",
+                            ConcurrencyStamp = "90c5b841-7296-4ed6-94a8-1cdb11d03f09",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -3116,7 +3116,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "828a1819-950b-49d9-bdca-fffe99978de9",
+                            ConcurrencyStamp = "4889c8f0-5dc4-46b7-891e-977537faca8b",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -3124,7 +3124,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "de042cff-c71b-45ae-a32f-dd8e1a84f95c",
+                            ConcurrencyStamp = "565edc07-f039-4660-9d40-af32be979bc0",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -3132,7 +3132,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "a461e7da-05a8-48be-88e8-7809a985c50d",
+                            ConcurrencyStamp = "f21795ff-6911-47b7-b155-03c12102f98c",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -3140,7 +3140,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "ea628494-1c31-4811-89ab-bd5219474eaa",
+                            ConcurrencyStamp = "7546ba56-a12d-4b20-bdae-77c120951cbd",
                             Name = "Guest",
                             NormalizedName = "GUEST",
                             Status = 1

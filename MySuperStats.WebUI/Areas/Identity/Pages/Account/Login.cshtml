@@ -22,12 +22,12 @@
       <div asp-validation-summary="All" class="text-danger"></div>
 
       <div class="form-group has-feedback">
-        <input asp-for="Input.Login.UserName" class="form-control" placeholder="@(localizer.GetValue("Enter your e-mail address"))" value="yunusemre@gmail.com">
+        <input asp-for="Input.Login.UserName" class="form-control" placeholder="@(localizer.GetValue("Enter your e-mail address"))">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         <span asp-validation-for="Input.Login.UserName" class="text-danger"></span>
       </div>
       <div class="form-group has-feedback">
-        <input asp-for="Input.Login.Password" class="form-control" placeholder="@(localizer.GetValue("Enter your password"))" value="Test.1234">
+        <input asp-for="Input.Login.Password" class="form-control" placeholder="@(localizer.GetValue("Enter your password"))">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         <span asp-validation-for="Input.Login.Password" class="text-danger"></span> 
       </div>

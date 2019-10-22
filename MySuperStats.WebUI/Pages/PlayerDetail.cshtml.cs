@@ -1,12 +1,14 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CS.Common.WebApi.Connector;
 using CustomFramework.WebApiUtils.Contracts;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
@@ -32,6 +34,12 @@ namespace MySuperStats.WebUI.Pages
         public MatchGroupResponse MatchGroup { get; set; }
 
         public PlayerResponse Player { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = ErrorMessages.Required)]
+        [EmailAddress(ErrorMessage = ErrorMessages.EmailAddressNotValid)]
+        [Display(Name = "Email")]        
+        public string InvitationEmailAddress { get; set; }
 
         public PlayerDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
         {

@@ -668,6 +668,9 @@
   <data name="Interrupt" xml:space="preserve">
     <value>Top kesme</value>
   </data>   
+  <data name="Invite this user" xml:space="preserve">
+    <value>Bu kullanıcıyı davet et</value>
+  </data>     
   <data name="Lane" xml:space="preserve">
     <value>Ampul</value>
   </data>  

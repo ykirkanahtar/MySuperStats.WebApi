@@ -14,14 +14,18 @@
     <!-- Main content -->
     <section class="content">
 
-      <div class="row">
-          <div class="col-xs-12">
-              <label>@(localizer.GetValue("Date")):</label> @(Model.Match.MatchDate.ToString("dd-MM-yyyy"))<br />
-              <label>@(localizer.GetValue("Order")):</label> @(Model.Match.Order)<br />
-              <label>@(localizer.GetValue("VideoLink")): </label><a href="@Model.Match.VideoLink" target="_blank">@(Model.Match.VideoLink)</a><br/>
-              <label>@(localizer.GetValue("Score")):</label> <b>@((int)Model.Match.HomeTeamScore) - @((int)Model.Match.AwayTeamScore)</b><br />
-          </div>
-      </div>
+    <div class="box-body">
+      <div class="form-group">      
+        <div class="row-fluid" >
+            <div class="col-xs-12"  style="background-color:white">
+                <label>@(localizer.GetValue("Date")):</label> @(Model.Match.MatchDate.ToString("dd-MM-yyyy"))<br />
+                <label>@(localizer.GetValue("Order")):</label> @(Model.Match.Order)<br />
+                <label>@(localizer.GetValue("VideoLink")): </label><a href="@Model.Match.VideoLink" target="_blank">@(Model.Match.VideoLink)</a><br/>
+                <label>@(localizer.GetValue("Score")):</label> <b>@((int)Model.Match.HomeTeamScore) - @((int)Model.Match.AwayTeamScore)</b>
+            </div>
+        </div>
+      </div>     
+    </div>
 
       @{
           var teams = new List<TeamResponse>();
@@ -33,74 +37,76 @@
       {
         @foreach(var team in teams)
         {
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <!-- /.box-header -->
-                <div class="box-body">
-                  <label>@(localizer.GetValue("TeamName")): </label>@(team.TeamName)<br />
-                  <label>@(localizer.GetValue("AverageOfTheAges")): </label>@(team.GetAgeRatioForBasketball())<br />
-                  <label>@(localizer.GetValue("CountOfThePlayers")): </label>@(team.BasketballStats.Count)                
-                  <table id="match_detail" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>@(localizer.GetValue("Player"))</th>
-                      <th>@(localizer.GetValue("OnePoint"))</th>
-                      <th>@(localizer.GetValue("TwoPoint"))</th>
-                      <th>@(localizer.GetValue("TotalPoint"))</th>
-                      <th>@(localizer.GetValue("Rebound"))</th>
-                      <th>@(localizer.GetValue("StealBall"))</th>
-                      <th>@(localizer.GetValue("Assist"))</th>
-                      <th>@(localizer.GetValue("LooseBall"))</th>
-                      <th>@(localizer.GetValue("Interrupt"))</th>
-                      <th>@(localizer.GetValue("LaneWithPoint"))</th>                  
-                      <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var stats in team.BasketballStats)
-                        {
-                            var statsForUI = stats.GetStatsForUI();
-                            <tr>
-                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stats.Player.Id">@(stats.Player.FirstName) @(stats.Player.LastName)</a></td>
-                                <td>@(statsForUI.OnePoint)</td>
-                                <td>@(statsForUI.TwoPoint)</td>
-                                <td>@(statsForUI.TotalPoint)</td>
-                                <td>@(statsForUI.Rebound)</td>
-                                <td>@(statsForUI.StealBall)</td>
-                                <td>@(statsForUI.Assist)</td>
-                                <td>@(statsForUI.LooseBall)</td>
-                                <td>@(statsForUI.Interrupt)</td>
-                                <td>@(statsForUI.Lane)</td>
-                                <td>@(statsForUI.LaneWithoutPoint)</td>
-                            </tr>
-                        }
-                        @{
-                          var totalStatsForUI = team.GetTeamTotalForBasketball().GetStatsForUI();
-                        <tr>
-                            <td><b>@(localizer.GetValue("Total"))</b></td>
-                                <td><b>@(totalStatsForUI.OnePoint)</b></td>
-                                <td><b>@(totalStatsForUI.TwoPoint)</b></td>
-                                <td><b>@(totalStatsForUI.TotalPoint)</b></td>
-                                <td><b>@(totalStatsForUI.Rebound)</b></td>
-                                <td><b>@(totalStatsForUI.StealBall)</b></td>
-                                <td><b>@(totalStatsForUI.Assist)</b></td>
-                                <td><b>@(totalStatsForUI.LooseBall)</b></td>
-                                <td><b>@(totalStatsForUI.Interrupt)</b></td>
-                                <td><b>@(totalStatsForUI.Lane)</b></td>
-                                <td><b>@(totalStatsForUI.LaneWithoutPoint)</b></td>
-                        </tr>
-                        }
-                    </tbody>
-                  </table>
+          <div class="box-body">             
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="box">
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <label>@(localizer.GetValue("TeamName")): </label>@(team.TeamName)<br />
+                    <label>@(localizer.GetValue("AverageOfTheAges")): </label>@(team.GetAgeRatioForBasketball())<br />
+                    <label>@(localizer.GetValue("CountOfThePlayers")): </label>@(team.BasketballStats.Count)                
+                    <table id="match_detail" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>@(localizer.GetValue("Player"))</th>
+                        <th>@(localizer.GetValue("OnePoint"))</th>
+                        <th>@(localizer.GetValue("TwoPoint"))</th>
+                        <th>@(localizer.GetValue("TotalPoint"))</th>
+                        <th>@(localizer.GetValue("Rebound"))</th>
+                        <th>@(localizer.GetValue("StealBall"))</th>
+                        <th>@(localizer.GetValue("Assist"))</th>
+                        <th>@(localizer.GetValue("LooseBall"))</th>
+                        <th>@(localizer.GetValue("Interrupt"))</th>
+                        <th>@(localizer.GetValue("LaneWithPoint"))</th>                  
+                        <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
+                      </tr>
+                      </thead>
+                      <tbody>
+                          @foreach (var stats in team.BasketballStats)
+                          {
+                              var statsForUI = stats.GetStatsForUI();
+                              <tr>
+                                  <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stats.Player.Id">@(stats.Player.FirstName) @(stats.Player.LastName)</a></td>
+                                  <td>@(statsForUI.OnePoint)</td>
+                                  <td>@(statsForUI.TwoPoint)</td>
+                                  <td>@(statsForUI.TotalPoint)</td>
+                                  <td>@(statsForUI.Rebound)</td>
+                                  <td>@(statsForUI.StealBall)</td>
+                                  <td>@(statsForUI.Assist)</td>
+                                  <td>@(statsForUI.LooseBall)</td>
+                                  <td>@(statsForUI.Interrupt)</td>
+                                  <td>@(statsForUI.Lane)</td>
+                                  <td>@(statsForUI.LaneWithoutPoint)</td>
+                              </tr>
+                          }
+                          @{
+                            var totalStatsForUI = team.GetTeamTotalForBasketball().GetStatsForUI();
+                          <tr>
+                              <td><b>@(localizer.GetValue("Total"))</b></td>
+                                  <td><b>@(totalStatsForUI.OnePoint)</b></td>
+                                  <td><b>@(totalStatsForUI.TwoPoint)</b></td>
+                                  <td><b>@(totalStatsForUI.TotalPoint)</b></td>
+                                  <td><b>@(totalStatsForUI.Rebound)</b></td>
+                                  <td><b>@(totalStatsForUI.StealBall)</b></td>
+                                  <td><b>@(totalStatsForUI.Assist)</b></td>
+                                  <td><b>@(totalStatsForUI.LooseBall)</b></td>
+                                  <td><b>@(totalStatsForUI.Interrupt)</b></td>
+                                  <td><b>@(totalStatsForUI.Lane)</b></td>
+                                  <td><b>@(totalStatsForUI.LaneWithoutPoint)</b></td>
+                          </tr>
+                          }
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.box-body -->
                 </div>
-                <!-- /.box-body -->
+                <!-- /.box -->
               </div>
-              <!-- /.box -->
+              <!-- /.col -->
             </div>
-            <!-- /.col -->
+            <!-- /.row -->
           </div>
-          <!-- /.row -->
         }
       }
 
@@ -108,65 +114,67 @@
       {
         @foreach(var team in teams)
         {
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <!-- /.box-header -->
-                <div class="box-body">
-                  <label>@(localizer.GetValue("TeamName")): </label>@(team.TeamName)<br />
-                  <label>@(localizer.GetValue("AverageOfTheAges")): </label>@(team.GetAgeRatioForFootball())<br />
-                  <label>@(localizer.GetValue("CountOfThePlayers")): </label>@(team.FootballStats.Count)                
-                  <table id="match_detail" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                      <th>@(localizer.GetValue("Player"))</th>
-                      <th>@(localizer.GetValue("Goal"))</th>
-                      <th>@(localizer.GetValue("OwnGoal"))</th>
-                      <th>@(localizer.GetValue("PenaltyScore"))</th>
-                      <th>@(localizer.GetValue("MissedPenalty"))</th>
-                      <th>@(localizer.GetValue("Assist"))</th>
-                      <th>@(localizer.GetValue("SaveGoal"))</th>
-                      <th>@(localizer.GetValue("ConcedeGoal"))</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var stats in team.FootballStats)
-                        {
-                            var statsForUI = stats.GetStatsForUI();
-                            <tr>
-                                <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stats.Player.Id">@(stats.Player.FirstName) @(stats.Player.LastName)</a></td>
-                                <td>@(statsForUI.Goal)</td>
-                                <td>@(statsForUI.OwnGoal)</td>
-                                <td>@(statsForUI.PenaltyScore)</td>
-                                <td>@(statsForUI.MissedPenalty)</td>
-                                <td>@(statsForUI.Assist)</td>
-                                <td>@(statsForUI.SaveGoal)</td>
-                                <td>@(statsForUI.ConcedeGoal)</td>
-                            </tr>
-                        }
-                        @{
-                          var totalStatsForUI = team.GetTeamTotalForFootball().GetStatsForUI();
-                        <tr>
-                            <td><b>@(localizer.GetValue("Total"))</b></td>
-                                <td><b>@(totalStatsForUI.Goal)</b></td>
-                                <td><b>@(totalStatsForUI.OwnGoal)</b></td>
-                                <td><b>@(totalStatsForUI.PenaltyScore)</b></td>
-                                <td><b>@(totalStatsForUI.MissedPenalty)</b></td>
-                                <td><b>@(totalStatsForUI.Assist)</b></td>
-                                <td><b>@(totalStatsForUI.SaveGoal)</b></td>
-                                <td><b>@(totalStatsForUI.ConcedeGoal)</b></td>
-                        </tr>
-                        }
-                    </tbody>
-                  </table>
+          <div class="box-body">             
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="box">
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <label>@(localizer.GetValue("TeamName")): </label>@(team.TeamName)<br />
+                    <label>@(localizer.GetValue("AverageOfTheAges")): </label>@(team.GetAgeRatioForFootball())<br />
+                    <label>@(localizer.GetValue("CountOfThePlayers")): </label>@(team.FootballStats.Count)                
+                    <table id="match_detail" class="table table-bordered table-striped">
+                      <thead>
+                      <tr>
+                        <th>@(localizer.GetValue("Player"))</th>
+                        <th>@(localizer.GetValue("Goal"))</th>
+                        <th>@(localizer.GetValue("OwnGoal"))</th>
+                        <th>@(localizer.GetValue("PenaltyScore"))</th>
+                        <th>@(localizer.GetValue("MissedPenalty"))</th>
+                        <th>@(localizer.GetValue("Assist"))</th>
+                        <th>@(localizer.GetValue("SaveGoal"))</th>
+                        <th>@(localizer.GetValue("ConcedeGoal"))</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          @foreach (var stats in team.FootballStats)
+                          {
+                              var statsForUI = stats.GetStatsForUI();
+                              <tr>
+                                  <td class="text-left"><a asp-page="PlayerDetail" asp-route-culture="@culture" asp-route-id="@stats.Player.Id">@(stats.Player.FirstName) @(stats.Player.LastName)</a></td>
+                                  <td>@(statsForUI.Goal)</td>
+                                  <td>@(statsForUI.OwnGoal)</td>
+                                  <td>@(statsForUI.PenaltyScore)</td>
+                                  <td>@(statsForUI.MissedPenalty)</td>
+                                  <td>@(statsForUI.Assist)</td>
+                                  <td>@(statsForUI.SaveGoal)</td>
+                                  <td>@(statsForUI.ConcedeGoal)</td>
+                              </tr>
+                          }
+                          @{
+                            var totalStatsForUI = team.GetTeamTotalForFootball().GetStatsForUI();
+                          <tr>
+                              <td><b>@(localizer.GetValue("Total"))</b></td>
+                                  <td><b>@(totalStatsForUI.Goal)</b></td>
+                                  <td><b>@(totalStatsForUI.OwnGoal)</b></td>
+                                  <td><b>@(totalStatsForUI.PenaltyScore)</b></td>
+                                  <td><b>@(totalStatsForUI.MissedPenalty)</b></td>
+                                  <td><b>@(totalStatsForUI.Assist)</b></td>
+                                  <td><b>@(totalStatsForUI.SaveGoal)</b></td>
+                                  <td><b>@(totalStatsForUI.ConcedeGoal)</b></td>
+                          </tr>
+                          }
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.box-body -->
                 </div>
-                <!-- /.box-body -->
+                <!-- /.box -->
               </div>
-              <!-- /.box -->
+              <!-- /.col -->
             </div>
-            <!-- /.col -->
+            <!-- /.row -->
           </div>
-          <!-- /.row -->
         }
       }
 

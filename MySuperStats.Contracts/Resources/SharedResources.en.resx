@@ -662,6 +662,9 @@
   <data name="Interrupt" xml:space="preserve">
     <value>Interrupt</value>
   </data>   
+  <data name="Invite this user" xml:space="preserve">
+    <value>Invite this user</value>
+  </data>   
   <data name="Lane" xml:space="preserve">
     <value>Lane</value>
   </data>   

@@ -1,9 +1,23 @@
 ﻿@page "PlayerId/{id:int}/MatchGroupId/{matchGroupId:int}"
 @using CustomFramework.WebApiUtils.Contracts.Resources
+@using MySuperStats.WebUI.Utils
 @using MySuperStats.Contracts.Enums
+@using Microsoft.AspNetCore.Http
+@using CS.Common.WebApi.Connector
+@using MySuperStats.WebUI.ApplicationSettings
+@using CustomFramework.WebApiUtils.Contracts
+@using MySuperStats.WebUI.Constants
+@using System.Net
+@using Newtonsoft.Json
+@using MySuperStats.Contracts.Responses
+@using System.Globalization;
+
 
 @model MySuperStats.WebUI.Pages.PlayerDetailModel
 
+@inject IWebApiConnector<ApiResponse> webApiConnector
+@inject ISession session
+@inject AppSettings appSettings
 @inject ILocalizationService localizer
 
 @{
@@ -30,6 +44,8 @@
     <!-- Main content -->
     <section class="content">
 
+  <div class="box-body">
+    <div class="form-group">
       <div class="row-fluid">
           <div class="col-md-12">
               <h2>@ViewData["Title"]</h2>
@@ -38,11 +54,55 @@
               <br />
           </div>
       </div>
+    </div>
+
+    <div class="box-footer">
+
+        @if(Model.Player.UserId == null)
+        {
+          var loggedUser = SessionUtil.GetLoggedUser(session);
+          var matchGroupId = ViewContext.RouteData.Values["matchGroupId"];
+          var permissionArray = $"permissions={PermissionEnum.CreateMatchGroupUser}";
+          var permissionGetUrl = $"{appSettings.WebApiUrl}{String.Format(ApiUrls.GetPermissions, loggedUser.Id, matchGroupId, permissionArray)}";
+          var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(session)).Result;
+          if(permissionResponse.StatusCode != HttpStatusCode.OK)
+          {
+            throw new Exception(permissionResponse.Message);
+          }
+          var permissions = JsonConvert.DeserializeObject<PermissionCheckerResponse>(permissionResponse.Result.ToString());
+
+          if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateMatchGroupUser.ToString()) == true) 
+          { 
+            <div class="row-fluid">
+              <div class="col-md-2">          
+                <input type="text" class="form-control" id="txtEmail" asp-for="InvitationEmailAddress" placeholder="@(localizer.GetValue("Enter the e-mail address"))">
+                <span asp-validation-for="InvitationEmailAddress" class="text-danger"></span>                        
+              </div>
+              <div class="col-md-2">      
+                  <input type="submit" id="btnInviteUser" class="btn btn-primary" value="@(localizer.GetValue("Invite this user"))"/>     
+              </div>              
+            </div>
+          }
+        }
+    </div>  
+
+    <div class="container">
+      <div id="successDivForEmailUpdate" class="alert alert-success" style="display:none">
+        <strong>@(localizer.GetValue("Successful"))!</strong> <span id="successMessageForEmailUpdate">@(localizer.GetValue("SuccessMessageForEmailUpdate"))</span>
+      </div>     
+      <div id="errorDivForEmailUpdate" class="alert alert-danger" style="display:none">
+        <strong>@(localizer.GetValue("Error"))!</strong> <span id="errorMessageForEmailUpdate">@(localizer.GetValue("AnErrorHasOccured"))</span>
+      </div>
+    </div>
+
+</div>          
 
   @if(Model.MatchGroup.MatchGroupType == MatchGroupType.Basketball)
   {
     var totalStatForUI = Model.PlayerBasketballStats.TotalStats.GetStatsForUI();
     var perMatchStatForUI = Model.PlayerBasketballStats.PerMatchStats.GetStatsForUI();
+      
+    <div class="box-body">      
       <div class="row">
         <div class="col-xs-6">
           <div class="box">
@@ -124,7 +184,9 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+    </div>
 
+    <div class="box-body">  
       <div class="row">
         <div class="col-xs-4">
           <div class="box">
@@ -211,7 +273,9 @@
         <!-- /.col -->        
       </div>
       <!-- /.row -->
+    </div>
 
+    <div class="box-body">  
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
@@ -286,11 +350,14 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+    </div>
     }
   @if(Model.MatchGroup.MatchGroupType == MatchGroupType.Football)
   {
     var totalStatForUI = Model.PlayerFootballStats.TotalStats.GetStatsForUI();
     var perMatchStatForUI = Model.PlayerFootballStats.PerMatchStats.GetStatsForUI();  
+     
+    <div class="box-body">       
       <div class="row">
         <div class="col-xs-6">
           <div class="box">
@@ -368,7 +435,9 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+    </div>
 
+    <div class="box-body">  
       <div class="row">
         <div class="col-xs-4">
           <div class="box">
@@ -428,7 +497,9 @@
         <!-- /.col -->        
       </div>
       <!-- /.row -->
+    </div>
 
+    <div class="box-body">  
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
@@ -497,6 +568,7 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+    </div>      
     }
 
     </section>
