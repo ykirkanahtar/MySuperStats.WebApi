@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-MySuperStats.WebUI-076631A1-33DB-4084-B262-28D952081B1A</UserSecretsId>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <!-- <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel> -->
+    <!-- https://stackoverflow.com/questions/55762322/net-core-aspnetcorehostingmodel-what-does-it-mean -->
   </PropertyGroup>
 
 
