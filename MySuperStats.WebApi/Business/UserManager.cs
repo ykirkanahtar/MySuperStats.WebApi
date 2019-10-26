@@ -69,7 +69,6 @@ namespace MySuperStats.WebApi.Business
 
                 await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
 
-                //var result = await _userManager.RegisterWithConfirmationEmailAsync(user, password, roles, url, emailTitle, emailBody, requestScheme, GetUserId(), callBackUrl);
                 return result;
             }, new BusinessBaseRequest { MethodBase = MethodBase.GetCurrentMethod() });
         }

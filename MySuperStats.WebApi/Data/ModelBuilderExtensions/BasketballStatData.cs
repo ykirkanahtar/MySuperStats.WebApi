@@ -1,5 +1,5 @@
 using System;
-using CustomFramework.Data.Enums;
+using CustomFramework.Data.Contracts;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;
 

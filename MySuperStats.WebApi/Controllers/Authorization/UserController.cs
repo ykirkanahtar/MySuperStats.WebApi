@@ -65,7 +65,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             {
                 var user = await _userManager.GetByIdAsync(id);
                 if (user == null)
-                    throw new KeyNotFoundException(IdentityStringMessages.User);
+                    throw new KeyNotFoundException(nameof(User));
 
                 await _userManager.GenerateTokenForChangeEmailAsync(user, request.NewEmail, Url, Request.Scheme);
                 return true;

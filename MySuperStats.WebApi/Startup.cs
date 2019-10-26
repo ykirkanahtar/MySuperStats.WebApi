@@ -8,7 +8,6 @@ using CustomFramework.Data.Extensions;
 using CustomFramework.WebApiUtils.Extensions;
 using CustomFramework.WebApiUtils.Identity.Data;
 using CustomFramework.WebApiUtils.Identity.Extensions;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +15,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -71,7 +69,7 @@ namespace MySuperStats.WebApi
             {
                 AppName = AppSettings.AppName,
                 EmailConfirmationViaUrl = true,
-                SenderEmailAddress = "info@mysuperstats.com",
+                SenderEmailAddress = AppSettings.SenderEmailAddress,
                 Token = AppSettings.Token,
                 EmailConfig = AppSettings.EmailConfig,
                 GeneratedPasswordLength = 0
@@ -152,8 +150,7 @@ namespace MySuperStats.WebApi
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Culture = CultureInfo.CurrentUICulture;
-                })
-                .AddFluentValidation();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CustomFramework.Data.Enums;
+using CustomFramework.Data.Contracts;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {

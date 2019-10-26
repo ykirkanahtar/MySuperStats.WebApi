@@ -4,7 +4,7 @@ using CustomFramework.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;
 using System.Linq;
-using CustomFramework.Data.Enums;
+using CustomFramework.Data.Contracts;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {

@@ -92,7 +92,7 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             var result = await _signInManager.PasswordSignInAsync(login.UserName, login.Password, false, true);
             if (!result.Succeeded)
             {
-                throw new AuthenticationException(IdentityStringMessages.AuthenticationError);
+                throw new AuthenticationException("AuthenticationError");
             }
 
             var user = await _userManager.GetByUserNameAsync(login.UserName);

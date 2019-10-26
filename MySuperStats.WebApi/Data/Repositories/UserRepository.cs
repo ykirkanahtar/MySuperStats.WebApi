@@ -2,9 +2,9 @@
 using MySuperStats.WebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using CustomFramework.Data.Enums;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using CustomFramework.Data.Contracts;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
