@@ -51,17 +51,15 @@ namespace MySuperStats.WebUI.Pages
                 throw new UnauthorizedAccessException(_localizer.GetValue("UnauthorizedAccessError"));
             }
 
-            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetMatchGroupById, id)}";
-            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var matchGroupResponse = JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
-                MatchGroupRequest.GroupName = matchGroupResponse.GroupName;
-            }
+            var matchGroupResponse = await OnGetById(id, culture);
+            MatchGroupRequest.GroupName = matchGroupResponse.GroupName;
         }
 
         public async Task<IActionResult> OnPostChangeGroupNameAsync(int id, string culture)
         {
+            var matchGroupResponse = await OnGetById(id, culture);
+            MatchGroupRequest.MatchGroupType = matchGroupResponse.MatchGroupType;
+
             var jsonContent = JsonConvert.SerializeObject(MatchGroupRequest);
             var putUrl = $"{_appSettings.WebApiUrl}MatchGroup/{id}/update";
             var response = await _webApiConnector.PutAsync(putUrl, jsonContent, culture, SessionUtil.GetToken(_session));
@@ -71,6 +69,18 @@ namespace MySuperStats.WebUI.Pages
                 ViewData.ModelState.AddModelError("ModelErrors", response.Message);
 
             return Page();
+        }
+
+        private async Task<MatchGroupResponse> OnGetById(int id, string culture)
+        {
+            var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetMatchGroupById, id)}";
+            var response = await _webApiConnector.GetAsync(getUrl, culture, SessionUtil.GetToken(_session));
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<MatchGroupResponse>(response.Result.ToString());
+            }
+            else
+                throw new Exception(response.Message);
         }
     }
 }
