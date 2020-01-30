@@ -1,4 +1,4 @@
-using CustomFramework.Data.ModelConfiguration;
+using CustomFramework.BaseWebApi.Data.ModelConfiguration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MySuperStats.WebApi.Models;

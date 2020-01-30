@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-using CustomFramework.Data.Contracts;
+using CustomFramework.BaseWebApi.Contracts;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {
@@ -32,6 +32,14 @@ namespace MySuperStats.WebApi.Data.Repositories
                           select p.Player)
                         .FirstOrDefaultAsync();
         }        
+
+        public async Task<Player> GetPlayerByEmailAsync(string email)
+        {
+            return await (from p in _dbContext.Set<User>()
+                          where p.Status == Status.Active && p.Email == email
+                          select p.Player)
+                        .FirstOrDefaultAsync();
+        }         
 
         public async Task<IList<User>> GetAllAsync()
         {

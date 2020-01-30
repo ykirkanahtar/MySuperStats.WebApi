@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 
 namespace MySuperStats.Contracts.Requests
 {
@@ -15,8 +15,9 @@ namespace MySuperStats.Contracts.Requests
         public string ClientApplicationPassword { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.Required)]
-        [Display(Name = nameof(UserName))]
-        public string UserName { get; set; }
+        [EmailAddress(ErrorMessage = ErrorMessages.EmailAddressNotValid)]        
+        [Display(Name = nameof(Email))]
+        public string Email { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.Required)]
         [DataType(DataType.Password)]

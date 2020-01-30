@@ -2,44 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>ff18cda1-a162-4b3e-b513-66817a076b70</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\NewFolder\**" />
-    <Content Remove="Controllers\NewFolder\**" />
-    <EmbeddedResource Remove="Controllers\NewFolder\**" />
-    <None Remove="Controllers\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20180517070421_CentOsDemo.cs" />
-    <Compile Remove="Migrations\20180517070421_CentOsDemo.Designer.cs" />
-    <Compile Remove="Migrations\20181203131417_DatabaseRe-Design20181203.cs" />
-    <Compile Remove="Migrations\20181203131417_DatabaseRe-Design20181203.Designer.cs" />
-    <Compile Remove="Migrations\20181203134804_Deneme.cs" />
-    <Compile Remove="Migrations\20181203134804_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203144010_Deneme.cs" />
-    <Compile Remove="Migrations\20181203144010_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203144111_Deneme.cs" />
-    <Compile Remove="Migrations\20181203144111_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203144344_Deneme.cs" />
-    <Compile Remove="Migrations\20181203144344_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203145728_Deneme.cs" />
-    <Compile Remove="Migrations\20181203145728_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203145913_Deneme.cs" />
-    <Compile Remove="Migrations\20181203145913_Deneme.Designer.cs" />
-    <Compile Remove="Migrations\20181203151617_Deneme.cs" />
-    <Compile Remove="Migrations\20181203151617_Deneme.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Properties\PublishProfiles\provusbasket-webapi - Web Deploy.pubxml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
@@ -47,12 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0-preview1-final" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MySuperStats.Contracts\MySuperStats.Contracts.csproj" />
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Identity\CustomFramework.WebApiUtils.Identity.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.BaseWebApi\CustomFramework.BaseWebApi.csproj" />
   </ItemGroup>
 
 </Project>

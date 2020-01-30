@@ -1,5 +1,6 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
+@using CustomFramework.BaseWebApi.Resources
+
 @model MySuperStats.WebUI.Pages.AddUserToMatchGroupModel
 @inject ILocalizationService localizer
 
@@ -13,23 +14,33 @@
   <div class="row">
     <div class="col-md-6">
       <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">@(localizer.GetValue("AddUserToMatchGroup"))</h3>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">@(localizer.GetValue("AddUserToMatchGroup"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
-          <div class="box-body">
+          <div class="card-body">
+
             <div class="form-group">
-              <label for="txtGroupName">@(localizer.GetValue("Enter your e-mail address")):</label>
-              <input type="text" class="form-control" id="txtEmail" asp-for="EmailAddress" placeholder="@(localizer.GetValue("Enter your e-mail address"))">
+              <label>@(localizer.GetValue("Enter your e-mail address"))</label>              
+              <div class="input-group-prepend">
+              <input asp-for="EmailAddress" class="form-control" type="email" placeholder="@(localizer.GetValue("Enter your e-mail address"))">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-envelope"></span>
+                    </div>
+                  </div>
+              </div>  
               <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
+            </div> 
+            <!-- /.form group -->            
+
           </div>
           <!-- /.box-body -->
 
-          <div class="box-footer">
+          <div class="card-footer">
             <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddUser"))"/>
           </div>
         </form>

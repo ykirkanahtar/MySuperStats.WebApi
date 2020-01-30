@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 using MySuperStats.Contracts.Utils;
 
 namespace MySuperStats.Contracts.Requests

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using MySuperStats.WebApi.Data.ModelConfiguration;
 using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Utils;
 using Microsoft.EntityFrameworkCore;
-using CustomFramework.WebApiUtils.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using MySuperStats.WebApi.Data.ModelBuilderExtensions;
+using CustomFramework.BaseWebApi.Identity.Data;
+using CustomFramework.BaseWebApi.Data.Utils;
 
 namespace MySuperStats.WebApi.Data
 {

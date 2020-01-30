@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Localization;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Resources;
 
 namespace MySuperStats.Contracts.Resources
 {

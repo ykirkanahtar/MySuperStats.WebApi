@@ -755,6 +755,9 @@
   <data name="PlayerPermissions" xml:space="preserve">
     <value>Player Permissions</value>
   </data>     
+  <data name="Please select match group type" xml:space="preserve">
+    <value>Please select match group type</value>
+  </data>    
   <data name="Please select players from both teams" xml:space="preserve">
     <value>Please select players from both teams</value>
   </data>   

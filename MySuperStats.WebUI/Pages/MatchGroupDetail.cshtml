@@ -1,6 +1,5 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @model MySuperStats.WebUI.Pages.MatchGroupDetailModel
 @inject ILocalizationService localizer
 
@@ -11,9 +10,8 @@
 
 <script>
   $(function () {
-    $('#players').DataTable({
+    $('#players').dataTable({
       'paging'      : true,
-      'lengthChange': false,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
@@ -27,53 +25,43 @@
 
 <!-- Main content -->
 <section class="content">
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-6">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form method="post">
-          <div class="box-body">
-            <div class="form-group">
-              <label>@(localizer.GetValue("GroupName"))</label>
-              <p class="text-muted">
-                @(Model.MatchGroupResponse.GroupName)
+
+      <div class="row">     
+        <!-- left column -->
+        <div class="col-md-6">      
+          <div class="card">
+            <div class="card-body">             
+              <p class="mb-1">
+                  <label>@(localizer.GetValue("GroupName"))</label>:
               </p>
+              <p class="mb-3">
+              @(Model.MatchGroupResponse.GroupName)
+              </p>
+              <p class="mb-1">
+                  <label>@(localizer.GetValue("MatchGroupType"))</label>:
+              </p>
+              <p class="mb-3">
+                  @(localizer.GetValue(Model.MatchGroupResponse.MatchGroupType.ToString()))
+              </p>   
+
+              <form method="post">
+                @if(Model.HasPermissionForChangeGroupName)
+                {
+                  <p class="mb-1">
+                    <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
+                  </p>
+                }
+              </form>          
             </div>
-            <div class="form-group">
-              <label>@(localizer.GetValue("MatchGroupType"))</label>
-              <p class="text-muted">
-                @(localizer.GetValue(Model.MatchGroupResponse.MatchGroupType.ToString()))
-              </p>
-            </div>            
-          </div>
-          <!-- /.box-body -->
+          </div>   
+          <!-- card -->
+        </div>
+        <!-- col -->
 
-          @if(Model.HasPermissionForChangeGroupName)
-          {
-          <div class="box-footer">
-            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
-          </div>
-          }
-        </form>
-      </div>
-      <!-- /.box -->
-
-    </div>
-    <!--/.col (left) -->
-
-    <!-- right column -->
-    <div class="col-md-6">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form method="post">
-          <div class="box-body">
-            <div class="form-group">
-              <table id="players" class="table table-bordered table-striped">
+        <div class="col-md-6">      
+          <div class="card">
+            <div class="card-body">     
+              <table id="players" class="table table-bordered">
                 <thead>
                 <tr>
                   <th>@(localizer.GetValue("FirstNameLastName"))</th>
@@ -87,29 +75,25 @@
                         </tr>
                     }
                 </tbody>
-                <tfoot>
-                <tr>
-                  <th>@(localizer.GetValue("FirstNameLastName"))</th>
-                </tr>
-                </tfoot>
-              </table>
+
+              </table>    
             </div>
-          </div>
-          <!-- /.box-body -->
-          @if(Model.HasPermissionForAddUser)
-          {
-              <div class="box-footer">
-                <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddUser"))"/>
-                <input type="submit" id="btnAddGuestToMatchGroup" asp-page-handler="AddGuestToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddGuest"))"/>
-              </div>
-          }
-        </form>
+
+            @if(Model.HasPermissionForAddUser)
+            {
+                <div class="card-footer">
+                  <form method="post">
+                    <input type="submit" id="btnAddUserToMatchGroup" asp-page-handler="AddUserToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddUser"))"/>
+                    <input type="submit" id="btnAddGuestToMatchGroup" asp-page-handler="AddGuestToMatchGroup"  class="btn btn-primary" value="@(localizer.GetValue("AddGuest"))"/>
+                  </form>
+                </div>
+            }              
+
+          </div>   
+          <!-- card -->
+        </div>
+        <!-- col -->                 
       </div>
-      <!-- /.box -->
-    </div>
-    <!--/.col (right) -->
-  </div>
-  <!-- /.row -->
 
 </section>
 <!-- /.content -->

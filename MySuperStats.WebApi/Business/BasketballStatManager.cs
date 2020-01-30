@@ -4,15 +4,15 @@ using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
-using CustomFramework.WebApiUtils.Business;
-using CustomFramework.WebApiUtils.Enums;
-using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.Contracts.Utils;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Utils.Business;
+using CustomFramework.BaseWebApi.Utils.Enums;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Utils.Utils;
 
 namespace MySuperStats.WebApi.Business
 {

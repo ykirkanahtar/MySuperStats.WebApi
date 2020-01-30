@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CustomFramework.WebApiUtils.Controllers;
 using System;
 using MySuperStats.Contracts.Enums;
+using CustomFramework.BaseWebApi.Utils.Controllers;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Utils.Contracts;
 
 namespace MySuperStats.WebApi.Controllers
 {

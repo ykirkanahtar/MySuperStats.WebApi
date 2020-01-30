@@ -1,4 +1,4 @@
-using CustomFramework.WebApiUtils.Identity.Contracts.Requests;
+using CustomFramework.BaseWebApi.Contracts.Requests;
 
 namespace MySuperStats.Contracts.Requests
 {

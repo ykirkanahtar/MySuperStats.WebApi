@@ -1,5 +1,5 @@
 ﻿using MySuperStats.WebApi.Data.Repositories;
-using CustomFramework.WebApiUtils.Identity.Data;
+using CustomFramework.BaseWebApi.Identity.Data;
 
 namespace MySuperStats.WebApi.Data
 {

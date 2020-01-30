@@ -1,28 +1,26 @@
 ﻿using AutoMapper;
 using MySuperStats.WebApi.ApplicationSettings;
-using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CS.Common.EmailProvider;
 using MySuperStats.WebApi.Models;
-using CustomFramework.WebApiUtils.Controllers;
-using CustomFramework.WebApiUtils.Contracts;
 using System.Collections.Generic;
 using MySuperStats.Contracts.Responses;
 using System.Threading.Tasks;
-using CustomFramework.Authorization.Attributes;
 using MySuperStats.WebApi.Enums;
-using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Utils.Exceptions;
 using System;
-using CustomFramework.WebApiUtils.Identity.Constants;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Business;
 using MySuperStats.Contracts.Enums;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using MySuperStats.WebApi.Constants;
 using Microsoft.AspNetCore.Authorization;
+using CustomFramework.BaseWebApi.Utils.Controllers;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Authorization.Attributes;
+using CustomFramework.BaseWebApi.Authorization.Enums;
+using CustomFramework.BaseWebApi.Utils.Contracts;
+using CustomFramework.EmailProvider;
+using CustomFramework.BaseWebApi.Utils.Utils.Exceptions;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {

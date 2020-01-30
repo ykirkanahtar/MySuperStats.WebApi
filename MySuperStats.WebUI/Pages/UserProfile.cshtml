@@ -1,6 +1,5 @@
 ﻿@page
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @model MySuperStats.WebUI.Pages.UserProfileModel
 @inject ILocalizationService localizer
 
@@ -11,56 +10,52 @@
 
 <!-- Main content -->
 <section class="content">
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">@(localizer.GetValue("UserInfo"))</h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form method="post">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
-              <p class="text-muted">
-                @(Model.UserInfo.Player.FirstName)
-              </p>              
-            </div>
-            <div class="form-group">
-              <label for="txtLastName">@(localizer.GetValue("LastName"))</label>
-              <p class="text-muted">
-                @(Model.UserInfo.Player.LastName)
-              </p> 
-            </div>
-            <div class="form-group">
-              <label for="txtEmailAddress">@(localizer.GetValue("EmailAddress"))</label>
-              <p class="text-muted">
-                @(Model.UserInfo.Email)
-              </p> 
-            </div>            
-            <div class="form-group">
-              <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
-              <div class="input-group date">
-                <p class="text-muted">
-                  @(Model.UserInfo.Player.BirthDate.ToShortDateString())
-                </p> 
-              </div>              
-            </div>            
-          </div>
-          <!-- /.box-body -->
 
-          <div class="box-footer">
-            <input type="submit" id="btnUpdateProfile" asp-page-handler="UpdateUserProfile"  class="btn btn-primary" value="@(localizer.GetValue("UpdateUserInfo"))"/>            
-          </div>
-        </form>
+  <div class="card">
+    <form method="post">
+      <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <label>@(localizer.GetValue("FirstName"))</label> 
+            </div>
+            <div class="col-md-2">
+                @(Model.UserInfo.Player.FirstName)
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-2">
+                <label>@(localizer.GetValue("LastName"))</label> 
+            </div>
+            <div class="col-md-2">
+                @(Model.UserInfo.Player.LastName)
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-md-2">
+                <label>@(localizer.GetValue("EmailAddress"))</label> 
+            </div>
+            <div class="col-md-2">
+                @(Model.UserInfo.Email)
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-md-2">
+                <label>@(localizer.GetValue("BirthDate"))</label> 
+            </div>
+            <div class="col-md-2">
+                @(Model.UserInfo.Player.BirthDate.ToShortDateString())
+            </div>
+        </div>
       </div>
-      <!-- /.box -->
-    </div>
-    <!--/.col (left) -->
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-md-1">
+              <input type="submit" id="btnUpdateProfile" asp-page-handler="UpdateUserProfile"  class="btn btn-primary" value="@(localizer.GetValue("UpdateUserInfo"))"/>            
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
-  <!-- /.row -->
 
 </section>
 <!-- /.content -->

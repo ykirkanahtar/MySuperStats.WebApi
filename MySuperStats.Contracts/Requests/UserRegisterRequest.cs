@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Identity.Contracts.Utils;
+using CustomFramework.BaseWebApi.Contracts.Constants;
+using CustomFramework.BaseWebApi.Contracts.Utils;
 using MySuperStats.Contracts.Attributes;
 using MySuperStats.Contracts.Utils;
 
@@ -15,7 +15,7 @@ namespace MySuperStats.Contracts.Requests
         public string Email { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.Required)]
-        [StringLength(IdentityFieldLengths.PASSWORD_MAX, MinimumLength = IdentityFieldLengths.PASSWORD_MIN
+        [StringLength(15, MinimumLength = IdentityFieldLengths.PASSWORD_MIN
         , ErrorMessage = ErrorMessages.StringLength)]
         [DataType(DataType.Password)]
         [Display(Name = nameof(Password))]

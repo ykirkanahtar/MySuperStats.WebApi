@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CustomFramework.WebApiUtils.Business;
+using CustomFramework.BaseWebApi.Utils.Business;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.WebApi.Models;
 

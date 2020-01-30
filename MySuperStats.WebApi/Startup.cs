@@ -2,12 +2,6 @@
 using System.Globalization;
 using System.IO;
 using AutoMapper;
-using CS.Common.EmailProvider;
-using CustomFramework.Authorization.Utils;
-using CustomFramework.Data.Extensions;
-using CustomFramework.WebApiUtils.Extensions;
-using CustomFramework.WebApiUtils.Identity.Data;
-using CustomFramework.WebApiUtils.Identity.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,9 +19,15 @@ using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Data.Repositories;
 using MySuperStats.WebApi.Models;
 using Newtonsoft.Json;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Data.Extensions;
 using MySuperStats.Contracts.Resources;
-using CustomFramework.Data.Enums;
+using CustomFramework.BaseWebApi.Utils.Extensions;
+using CustomFramework.BaseWebApi.Data.Enums;
+using CustomFramework.BaseWebApi.Identity.Extensions;
+using CustomFramework.BaseWebApi.Authorization.Utils;
+using CustomFramework.EmailProvider;
+using CustomFramework.BaseWebApi.Identity.Data;
+using CustomFramework.BaseWebApi.Resources;
 
 namespace MySuperStats.WebApi
 {
@@ -42,13 +42,7 @@ namespace MySuperStats.WebApi
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddUserSecrets<Startup>();
-
-            if (env.IsDevelopment())
-            {
-                builder.AddUserSecrets<Startup>();
-            }
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -81,7 +75,7 @@ namespace MySuperStats.WebApi
 
             });
 
-            services.AddSwaggerDocumentation();
+            services.AddSwaggerDocumentation(AppSettings.AppName, 1);
 
             services.AddWebApiUtilServices();
 
@@ -177,13 +171,14 @@ namespace MySuperStats.WebApi
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-            app.UseSwaggerDocumentation();
+            app.UseSwaggerDocumentation(AppSettings.AppName, 1);
 
             app.UseErrorWrappingMiddleware();
 
             app.UseMvc();
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); //Bu satır UseMvc'in üstüne yazılırsa localhost için SSL hatası veriyor
+
         }
 
     }

@@ -1,8 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Http;
 using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
@@ -15,11 +14,11 @@ namespace MySuperStats.WebUI.Utils
 
     public class PermissionChecker : IPermissionChecker
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
-        public PermissionChecker(IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, ISession session)
+        public PermissionChecker(IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings, ISession session)
         {
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;

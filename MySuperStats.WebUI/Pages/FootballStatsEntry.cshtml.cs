@@ -5,9 +5,8 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,7 +22,7 @@ namespace MySuperStats.WebUI.Pages
 {
     public class FootballStatsEntryModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
         private readonly IMapper _mapper;
@@ -53,7 +52,7 @@ namespace MySuperStats.WebUI.Pages
             public List<FootballStatRequestForMultiEntry> SecondTeamStats { get; set; }
         }
 
-        public FootballStatsEntryModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, ILocalizationService localizer)
+        public FootballStatsEntryModel(ISession session, IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings, IMapper mapper, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;

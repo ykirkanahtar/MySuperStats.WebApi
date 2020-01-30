@@ -26,14 +26,14 @@
             @($"{requestCulture.NativeName}")
             <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" style="padding: 10px;">
             @foreach (var culture in supportedCultures)
             {
                 if (culture.Value.ToLower() != requestCulture.Name.ToLower())
                 {
                     routeData["culture"] = culture.Value;
                     <li>
-                        <a asp-all-route-data="@routeData"
+                        <a asp-all-route-data="@routeData" class="text-center"
                            asp-route-returnUrl="@(Context.Request.Query["returnUrl"])">
                             @culture.Text
                         </a>

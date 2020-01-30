@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CustomFramework.Data.Models;
+using CustomFramework.BaseWebApi.Data.Models;
 using MySuperStats.Contracts.Enums;
 
 namespace MySuperStats.WebApi.Models

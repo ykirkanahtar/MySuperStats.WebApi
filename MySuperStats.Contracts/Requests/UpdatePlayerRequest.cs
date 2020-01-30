@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 using MySuperStats.Contracts.Attributes;
 using MySuperStats.Contracts.Utils;
 
@@ -20,6 +20,7 @@ namespace MySuperStats.Contracts.Requests
         [Display(Name = nameof(LastName))]
         public string LastName { get; set; }
 
+        [Required(ErrorMessage = ErrorMessages.Required)]
         [MinBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]
         [MaxBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]
         [DataType(DataType.Date)]

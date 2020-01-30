@@ -4,10 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.Utils\CustomFramework.Utils.csproj" />
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Identity.Contracts\CustomFramework.WebApiUtils.Identity.Contracts.csproj" />
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Contracts\CustomFramework.WebApiUtils.Contracts.csproj" />
+    <ProjectReference Include="..\..\CustomFramework\CustomFramework.BaseWebApi.Contracts\CustomFramework.BaseWebApi.Contracts.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

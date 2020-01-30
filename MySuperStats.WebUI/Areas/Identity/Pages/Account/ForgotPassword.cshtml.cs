@@ -2,9 +2,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,10 +20,10 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
     {
         private readonly ILogger<ForgotPasswordModel> _logger;
         private readonly AppSettings _appSettings;
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly ILocalizationService _localizer;
 
-        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
+        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger, AppSettings appSettings, IWebApiConnector<WebApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _logger = logger;
             _appSettings = appSettings;
@@ -65,7 +64,7 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("AnErrorHasOccured"));
+                        ModelState.AddModelError("ModelErrors", apiResponse.Message);
                         return Page();
                     }
                 }

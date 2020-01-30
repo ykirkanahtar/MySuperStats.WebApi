@@ -1,5 +1,4 @@
-﻿using System;
-using CustomFramework.WebApiUtils.Identity.Contracts.Responses;
+﻿using CustomFramework.BaseWebApi.Contracts.Responses;
 
 namespace MySuperStats.Contracts.Responses
 {

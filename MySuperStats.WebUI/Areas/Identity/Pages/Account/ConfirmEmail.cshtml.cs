@@ -1,9 +1,8 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,10 +17,10 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
     {
         private readonly ILogger<ConfirmEmailModel> _logger;
         private readonly AppSettings _appSettings;
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly ILocalizationService _localizer;
 
-        public ConfirmEmailModel(ILogger<ConfirmEmailModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
+        public ConfirmEmailModel(ILogger<ConfirmEmailModel> logger, AppSettings appSettings, IWebApiConnector<WebApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _logger = logger;
             _appSettings = appSettings;

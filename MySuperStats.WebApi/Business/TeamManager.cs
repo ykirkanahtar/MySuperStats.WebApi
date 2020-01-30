@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using MySuperStats.Contracts.Requests;
-using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Contracts;
-using CustomFramework.WebApiUtils.Business;
-using CustomFramework.WebApiUtils.Enums;
-using CustomFramework.WebApiUtils.Utils;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using System.Threading.Tasks;
-using CustomFramework.WebApiUtils.Contracts;
 using System.Collections.Generic;
+using CustomFramework.BaseWebApi.Utils.Business;
+using CustomFramework.BaseWebApi.Utils.Enums;
+using CustomFramework.BaseWebApi.Utils.Utils;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 
 namespace MySuperStats.WebApi.Business
 {

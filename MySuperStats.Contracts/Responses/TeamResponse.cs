@@ -1,4 +1,4 @@
-﻿using CustomFramework.Utils;
+﻿using MySuperStats.Contracts.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

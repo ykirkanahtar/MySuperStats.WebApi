@@ -1,7 +1,6 @@
 ﻿@page "{culture}"
 @model LogoutModel
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @inject ILocalizationService localizer
 @{
     ViewData["Title"] = localizer.GetValue("Logout");

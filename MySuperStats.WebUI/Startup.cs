@@ -2,9 +2,8 @@ using System;
 using System.Globalization;
 using System.Reflection;
 using AutoMapper;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +38,7 @@ namespace MySuperStats.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IWebApiConnector<ApiResponse>, WebApiConnector<ApiResponse>>();
+            services.AddTransient<IWebApiConnector<WebApiResponse>, WebApiConnector<WebApiResponse>>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

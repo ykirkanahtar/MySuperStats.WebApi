@@ -22,9 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MySuperStats.Contracts\MySuperStats.Contracts.csproj" />
-    <ProjectReference Include="..\..\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector\CS.Common.WebApi.Connector.csproj" />
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils\CustomFramework.WebApiUtils.csproj" />
-    <ProjectReference Include="..\..\CustomFramework\CustomFramework.WebApiUtils.Contracts\CustomFramework.WebApiUtils.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

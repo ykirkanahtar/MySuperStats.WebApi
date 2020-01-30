@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 
 namespace MySuperStats.Contracts.Requests
 {

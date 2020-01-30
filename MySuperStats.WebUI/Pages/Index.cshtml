@@ -1,5 +1,6 @@
 ﻿@page
-@using CustomFramework.WebApiUtils.Contracts.Resources
+@using CustomFramework.BaseWebApi.Resources
+
 @model MySuperStats.WebUI.Pages.IndexModel
 
 @inject ILocalizationService localizer
@@ -10,12 +11,11 @@
 }
 <script>
   $(function () {
-    $('#players_matches').DataTable({
+    $('#players_matches').dataTable({
       'paging'      : true,
-      'lengthChange': false,
       'searching'   : false,
-      'ordering'    : false,
-      'info'        : true,
+      'ordering'    : true,
+      'info'        : false,
       'autoWidth'   : true,
       "language": {
            "url": dataTableLocalization()
@@ -57,51 +57,53 @@ $(document).ready(function() {
   });
 });
 </script>
-
     <!-- Main content -->
     <section class="content">
 
-    <div class="row">
-        <div class="col-md-8">
-            <h2>@(ViewData["Title"])</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <label>@(localizer.GetValue("FirstNameLastName"))</label> 
-        </div>
-        <div class="col-md-2">
-            @(Model.Player.FirstName) @(Model.Player.LastName)
-        </div>
-    </div>    
-    <div class="row">
-        <div class="col-md-1">
-            <label>@(localizer.GetValue("BirthDate"))</label> 
-        </div>
-        <div class="col-md-2">
-            @(Model.Player.BirthDate.ToString("dd-MM-yyyy"))
-        </div>
-    </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+              <div class="col-md-1">
+                  <label>@(localizer.GetValue("FirstNameLastName"))</label> 
+              </div>
+              <div class="col-md-2">
+                  @(Model.Player.FirstName) @(Model.Player.LastName)
+              </div>
+          </div>    
+          <div class="row">
+              <div class="col-md-1">
+                  <label>@(localizer.GetValue("BirthDate"))</label> 
+              </div>
+              <div class="col-md-2">
+                  @(Model.Player.BirthDate.ToString("dd-MM-yyyy"))
+              </div>
+          </div>
 
-@if (Model.MatchGroups.Count > 0)
-{
-    <div class="row">
-      <div class="col-md-1">
-          <label>@(localizer.GetValue("MatchGroup"))</label>
-      </div>
-      <div class="col-md-2">
-          <select id="slcMatchGroup" Name="slcMatchGroup" asp-items="Model.MatchGroups" asp-for="MatchGroupId"
-          class="form-control select2">
-          </select>     
-      </div>
-    </div>
-}
 
-  <div class="row">
-    <div class="col-md-12">
-      <span style="color:red;">@(TempData["ErrorMessage"])</span>
-    <div>
-  </div>
+          @if (Model.MatchGroups.Count > 0)
+          {
+              <div class="row">
+                <div class="col-md-1">
+                    <label>@(localizer.GetValue("MatchGroup"))</label>
+                </div>
+                <div class="col-md-2">
+                    <select id="slcMatchGroup" Name="slcMatchGroup" asp-items="Model.MatchGroups" asp-for="MatchGroupId"
+                    class="form-control select2">
+                    </select>     
+                </div>
+              </div>
+          }
+
+          <div class="row">
+            <div class="col-md-12">
+              <span style="color:red;">@(TempData["ErrorMessage"])</span>
+            <div>
+          </div>
+
+          </div>
+      </div>
+
+
 
 @if (Model.MatchGroup != null)
 {
@@ -113,14 +115,14 @@ $(document).ready(function() {
       var perMatchStatForUI = Model.PlayerBasketballStats.PerMatchStats.GetStatsForUI();  
 
           <div class="row">
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("Total")) @(localizer.GetValue("Stats"))</h3>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("Total")) @(localizer.GetValue("Stats"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="total_stats" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="total_stats" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("OnePoint"))</th>
@@ -152,14 +154,14 @@ $(document).ready(function() {
               <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("PerMatchStats"))</h3>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("PerMatchStats"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="per_match_stats" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="per_match_stats" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("OnePoint"))</th>
@@ -192,17 +194,18 @@ $(document).ready(function() {
             </div>
             <!-- /.col -->
           </div>
+
           <!-- /.row -->
 
           <div class="row">
-            <div class="col-xs-4">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("AverageStats"))</h3>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("AverageStats"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="avg_stats" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="avg_stats" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("OnePoint")) %</th>
@@ -222,14 +225,14 @@ $(document).ready(function() {
               <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-xs-4">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("WinLooseTable"))</h3>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("WinLooseTable"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="win_loose_table" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="win_loose_table" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Sonuçlar</th>
@@ -247,14 +250,14 @@ $(document).ready(function() {
               <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-xs-4">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("WinLooseRate"))</h3>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("WinLooseRate"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="win_loose_ratio_table" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="win_loose_ratio_table" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("Win"))</th>
@@ -282,14 +285,14 @@ $(document).ready(function() {
           <!-- /.row -->
 
           <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("PlayedMatches"))</h3>
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("PlayedMatches"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="players_matches" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="players_matches" class="table table-bordered">
                     <thead>
                     <tr>
                       <th>@(localizer.GetValue("Date"))</th>
@@ -365,14 +368,14 @@ $(document).ready(function() {
       var perMatchStatForUI = Model.PlayerFootballStats.PerMatchStats.GetStatsForUI();  
 
           <div class="row">
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("Total")) @(localizer.GetValue("Stats"))</h3>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("Total")) @(localizer.GetValue("Stats"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="total_stats" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="total_stats" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("Goal"))</th>
@@ -402,14 +405,14 @@ $(document).ready(function() {
               <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-xs-6">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("PerMatchStats"))</h3>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("PerMatchStats"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="per_match_stats" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="per_match_stats" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("Goal"))</th>
@@ -443,14 +446,14 @@ $(document).ready(function() {
           <!-- /.row -->
 
           <div class="row">
-            <div class="col-xs-4">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("WinLooseTable"))</h3>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("WinLooseTable"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="win_loose_table" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="win_loose_table" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Sonuçlar</th>
@@ -468,14 +471,14 @@ $(document).ready(function() {
               <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-xs-4">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("WinLooseRate"))</h3>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("WinLooseRate"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="win_loose_ratio_table" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="win_loose_ratio_table" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>@(localizer.GetValue("Win"))</th>
@@ -503,14 +506,14 @@ $(document).ready(function() {
           <!-- /.row -->
 
           <div class="row">
-            <div class="col-xs-12">
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">@(localizer.GetValue("PlayedMatches"))</h3>
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">@(localizer.GetValue("PlayedMatches"))</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
-                  <table id="players_matches" class="table table-bordered table-striped">
+                <div class="card-body">
+                  <table id="players_matches" class="table table-bordered">
                     <thead>
                     <tr>
                       <th>@(localizer.GetValue("Date"))</th>

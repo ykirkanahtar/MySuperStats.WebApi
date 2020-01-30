@@ -1,10 +1,9 @@
 using System.Diagnostics;
-using CustomFramework.WebApiUtils.Contracts.Resources;
-using CustomFramework.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
+using CustomFramework.BaseWebApi.Resources;
 
 namespace MySuperStats.WebUI.Pages
 {
@@ -35,11 +34,8 @@ namespace MySuperStats.WebUI.Pages
             RequestId = Activity.Current?.Id ?? _httpContextAccessor.HttpContext.TraceIdentifier;
 
             var lastExceptionObj = _session.Get("LastException");
-            var lastException = (Exception)lastExceptionObj.ByteArrayToObject();
-            ExceptionMessage = _localizer.GetValue(lastException.Message);
-            
-            //var exceptionHandlerPathFeature = _httpContextAccessor.HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            //ExceptionMessage = _localizer.GetValue(exceptionHandlerPathFeature.Error.Message);
+            //var lastException = (Exception)lastExceptionObj.ByteArrayToObject();
+            //ExceptionMessage = _localizer.GetValue(lastException.Message);
         }
     }
 }

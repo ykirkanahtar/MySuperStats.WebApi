@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using MySuperStats.WebApi.ApplicationSettings;
-using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CustomFramework.WebApiUtils.Identity.Controllers;
-using CustomFramework.WebApiUtils.Identity.Business;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using System.Threading.Tasks;
-using CustomFramework.Authorization.Attributes;
 using MySuperStats.WebApi.Enums;
-using CustomFramework.Authorization.Enums;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using CustomFramework.BaseWebApi.Identity.Controllers;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Authorization.Attributes;
+using CustomFramework.BaseWebApi.Authorization.Enums;
+using CustomFramework.BaseWebApi.Identity.Business;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {

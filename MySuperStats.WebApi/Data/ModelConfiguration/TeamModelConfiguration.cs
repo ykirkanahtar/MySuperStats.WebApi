@@ -1,6 +1,6 @@
 ﻿using MySuperStats.WebApi.Models;
-using CustomFramework.Data.ModelConfiguration;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CustomFramework.BaseWebApi.Data.ModelConfiguration;
 
 namespace MySuperStats.WebApi.Data.ModelConfiguration
 {

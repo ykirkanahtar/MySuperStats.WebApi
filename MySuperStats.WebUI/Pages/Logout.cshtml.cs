@@ -1,8 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,11 +13,11 @@ namespace MySuperStats.WebUI.Pages
 {
     public class LogoutModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
-        public LogoutModel(IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, ISession session)
+        public LogoutModel(IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings, ISession session)
         {
             _webApiConnector = webApiConnector;
             _appSettings = appSettings;

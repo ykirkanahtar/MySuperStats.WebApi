@@ -1,5 +1,6 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
+@using CustomFramework.BaseWebApi.Resources
+
 @model MySuperStats.WebUI.Pages.AddGuestToMatchGroupModel
 @inject ILocalizationService localizer
 
@@ -13,38 +14,58 @@
   <div class="row">
     <!-- left column -->
     <div class="col-md-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">@(localizer.GetValue("AddGuestToMatchGroup"))</h3>
-        </div>
+      <div class="card">
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
-          <div class="box-body">
+          <div class="card-body">
+
             <div class="form-group">
-              <label for="txtFirstName">@(localizer.GetValue("FirstName"))</label>
-              <input type="text" class="form-control" id="txtFirstName" asp-for="PlayerRequest.FirstName" placeholder="@(localizer.GetValue("Enter the firstname"))">
-              <span asp-validation-for="PlayerRequest.FirstName" class="text-danger"></span>                        
+              <label>@(localizer.GetValue("Enter the firstname"))</label>              
+              <div class="input-group-prepend">
+                  <input asp-for="PlayerRequest.FirstName" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the firstname"))">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-edit"></span>
+                    </div>
+                  </div>
+              </div>  
+                <span asp-validation-for="PlayerRequest.FirstName" class="text-danger"></span>                        
+            </div> 
+            <!-- /.form group --> 
+
+            <div class="form-group">
+              <label>@(localizer.GetValue("Enter the lastname"))</label>              
+              <div class="input-group-prepend">
+                  <input asp-for="PlayerRequest.LastName" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the lastname"))">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-edit"></span>
+                    </div>
+                  </div>
+              </div>  
+                <span asp-validation-for="PlayerRequest.LastName" class="text-danger"></span>                        
+            </div> 
+            <!-- /.form group -->          
+
+            <!-- Date dd/mm/yyyy -->
+            <div class="form-group">
+              <label>@(localizer.GetValue("Enter the birth date"))</label>              
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                <input type="text" asp-for="PlayerRequest.BirthDate" placeholder="@(localizer.GetValue("BirthDate"))" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+              </div>
+              <!-- /.input group -->
+              <span asp-validation-for="PlayerRequest.BirthDate" class="text-danger"></span>                        
             </div>
-            <div class="form-group">
-              <label for="txtLastName">@(localizer.GetValue("LastName"))</label>
-              <input type="text" class="form-control" id="txtLastName" asp-for="PlayerRequest.LastName" placeholder="@(localizer.GetValue("Enter the lastname"))">
-              <span asp-validation-for="PlayerRequest.LastName" class="text-danger"></span>                        
-            </div>
-            <div class="form-group">
-              <label for="txtBirthDate">@(localizer.GetValue("BirthDate"))</label>
-              <div class="input-group date">
-                <input type="text" class="form-control" asp-for="PlayerRequest.BirthDate" placeholder="@(localizer.GetValue("Enter the birth date"))">
-                <span asp-validation-for="PlayerRequest.BirthDate" class="text-danger"></span>                        
-                <span class="input-group-addon">
-                  <i class="glyphicon glyphicon-th"></i>
-                </span>
-              </div>              
-            </div>            
+            <!-- /.form group -->          
+
           </div>
           <!-- /.box-body -->
 
-          <div class="box-footer">
+          <div class="card-footer">
             <input type="submit" id="btnAddGuest" class="btn btn-primary" asp-page-handler="AddGuest"
             value="@(localizer.GetValue("AddGuest"))"/>
           </div>

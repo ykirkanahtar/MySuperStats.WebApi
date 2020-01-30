@@ -1,5 +1,4 @@
 using System;
-using CustomFramework.Utils;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -40,7 +39,7 @@ namespace MySuperStats.WebUI.Middlewares
             }
             else
             {
-                session.Set("LastException", ex.ObjectToByteArray());
+                //session.Set("LastException", ex.ObjectToByteArray());
                 var redirectUrl = $"{connectionTypeString}://{context.Request.Host}/{cultureInfo}/Error";
                 context.Response.Redirect($"{redirectUrl}");
             }

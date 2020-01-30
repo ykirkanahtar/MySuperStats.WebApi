@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,7 +18,7 @@ namespace MySuperStats.WebUI.Pages
 {
     public class MatchGroupDetailModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         private readonly ISession _session;
         private readonly IPermissionChecker _permissionChecker;
@@ -32,7 +31,7 @@ namespace MySuperStats.WebUI.Pages
         [BindProperty]
         public bool HasPermissionForAddUser { get; set; }
 
-        public MatchGroupDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
+        public MatchGroupDetailModel(ISession session, IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker)
         {
             _session = session;
             _webApiConnector = webApiConnector;

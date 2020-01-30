@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CustomFramework.Data;
-using CustomFramework.WebApiUtils.Identity.Data.Repositories;
+using CustomFramework.BaseWebApi.Data;
+using CustomFramework.BaseWebApi.Identity.Data.Repositories;
 using MySuperStats.WebApi.Data.Repositories;
 
 namespace MySuperStats.WebApi.Data

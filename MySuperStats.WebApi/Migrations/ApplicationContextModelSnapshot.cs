@@ -15,11 +15,12 @@ namespace MySuperStats.WebApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("dbo")
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CustomFramework.WebApiUtils.Identity.Models.ClientApplication", b =>
+            modelBuilder.Entity("CustomFramework.BaseWebApi.Identity.Models.ClientApplication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,7 +28,7 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<string>("ClientApplicationCode")
                         .IsRequired()
-                        .HasMaxLength(6);
+                        .HasMaxLength(10);
 
                     b.Property<string>("ClientApplicationName")
                         .IsRequired()
@@ -37,9 +38,13 @@ namespace MySuperStats.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -50,6 +55,8 @@ namespace MySuperStats.WebApi.Migrations
                         .HasMaxLength(100);
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -430,9 +437,13 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<decimal?>("Assist")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -475,6 +486,8 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<decimal?>("TwoPoint")
                         .HasColumnType("decimal(10,2)");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2276,9 +2289,13 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<decimal?>("ConcedeGoal")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2306,6 +2323,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int>("Status");
 
                     b.Property<int>("TeamId");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2337,9 +2356,13 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<decimal>("AwayTeamScore")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2359,6 +2382,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int>("Order");
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2584,9 +2609,13 @@ namespace MySuperStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2599,6 +2628,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int>("MatchGroupType");
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2632,9 +2663,13 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<int>("TeamId");
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2644,6 +2679,8 @@ namespace MySuperStats.WebApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2666,9 +2703,13 @@ namespace MySuperStats.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2681,6 +2722,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<int>("RoleId");
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -2881,9 +2924,13 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -2894,6 +2941,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<int>("Status");
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -3108,7 +3157,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "90c5b841-7296-4ed6-94a8-1cdb11d03f09",
+                            ConcurrencyStamp = "d7d42803-d034-4648-90d5-1d67e0e17404",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -3116,7 +3165,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "4889c8f0-5dc4-46b7-891e-977537faca8b",
+                            ConcurrencyStamp = "8ea23785-74c0-426e-ac1a-0d35e19bc3d9",
                             Name = "GroupAdmin",
                             NormalizedName = "GROUPADMIN",
                             Status = 1
@@ -3124,7 +3173,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "565edc07-f039-4660-9d40-af32be979bc0",
+                            ConcurrencyStamp = "5b40018d-014a-4907-9a8f-634d08d151f8",
                             Name = "Editor",
                             NormalizedName = "EDITOR",
                             Status = 1
@@ -3132,7 +3181,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "f21795ff-6911-47b7-b155-03c12102f98c",
+                            ConcurrencyStamp = "761b8794-ecba-47cb-b842-38a4e2d3de15",
                             Name = "Player",
                             NormalizedName = "PLAYER",
                             Status = 1
@@ -3140,7 +3189,7 @@ namespace MySuperStats.WebApi.Migrations
                         new
                         {
                             Id = 5,
-                            ConcurrencyStamp = "7546ba56-a12d-4b20-bdae-77c120951cbd",
+                            ConcurrencyStamp = "6991f069-c76f-4972-84e3-011641779fd4",
                             Name = "Guest",
                             NormalizedName = "GUEST",
                             Status = 1
@@ -3157,9 +3206,13 @@ namespace MySuperStats.WebApi.Migrations
                         .IsRequired()
                         .HasMaxLength(25);
 
+                    b.Property<int?>("CreateClientApplicationId");
+
                     b.Property<DateTime>("CreateDateTime");
 
                     b.Property<int>("CreateUserId");
+
+                    b.Property<int?>("DeleteClientApplicationId");
 
                     b.Property<DateTime?>("DeleteDateTime");
 
@@ -3170,6 +3223,8 @@ namespace MySuperStats.WebApi.Migrations
                     b.Property<string>("TeamName")
                         .IsRequired()
                         .HasMaxLength(25);
+
+                    b.Property<int?>("UpdateClientApplicationId");
 
                     b.Property<DateTime?>("UpdateDateTime");
 
@@ -3233,7 +3288,7 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.Property<DateTime>("LastLogOutDate");
 
-                    b.Property<DateTime>("LastTokenDate");
+                    b.Property<DateTime>("LastSuccessfullLogin");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -3296,7 +3351,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yunusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUNUSEMRE@GMAIL.COM",
                             NormalizedUserName = "YUNUSEMRE@GMAIL.COM",
@@ -3317,7 +3372,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "y.unusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "Y.UNUSEMRE@GMAIL.COM",
                             NormalizedUserName = "Y.UNUSEMRE@GMAIL.COM",
@@ -3338,7 +3393,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "y..unusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "Y..UNUSEMRE@GMAIL.COM",
                             NormalizedUserName = "Y..UNUSEMRE@GMAIL.COM",
@@ -3359,7 +3414,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "y...unusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "Y...UNUSEMRE@GMAIL.COM",
                             NormalizedUserName = "Y...UNUSEMRE@GMAIL.COM",
@@ -3380,7 +3435,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yu.nusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YU.NUSEMRE@GMAIL.COM",
                             NormalizedUserName = "YU.NUSEMRE@GMAIL.COM",
@@ -3401,7 +3456,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yu..nusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YU..NUSEMRE@GMAIL.COM",
                             NormalizedUserName = "YU..NUSEMRE@GMAIL.COM",
@@ -3422,7 +3477,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yu...nusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YU...NUSEMRE@GMAIL.COM",
                             NormalizedUserName = "YU...NUSEMRE@GMAIL.COM",
@@ -3443,7 +3498,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yun.usemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUN.USEMRE@GMAIL.COM",
                             NormalizedUserName = "YUN.USEMRE@GMAIL.COM",
@@ -3464,7 +3519,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yun..usemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUN..USEMRE@GMAIL.COM",
                             NormalizedUserName = "YUN..USEMRE@GMAIL.COM",
@@ -3485,7 +3540,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yun...usemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUN...USEMRE@GMAIL.COM",
                             NormalizedUserName = "YUN...USEMRE@GMAIL.COM",
@@ -3506,7 +3561,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yunu.semre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUNU.SEMRE@GMAIL.COM",
                             NormalizedUserName = "YUNU.SEMRE@GMAIL.COM",
@@ -3527,7 +3582,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yunus.emre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUNUS.EMRE@GMAIL.COM",
                             NormalizedUserName = "YUNUS.EMRE@GMAIL.COM",
@@ -3548,7 +3603,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "yunusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "YUNUSE.MRE@GMAIL.COM",
                             NormalizedUserName = "YUNUSE.MRE@GMAIL.COM",
@@ -3569,7 +3624,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "y.u.nusemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "Y.U.NUSEMRE@GMAIL.COM",
                             NormalizedUserName = "Y.U.NUSEMRE@GMAIL.COM",
@@ -3590,7 +3645,7 @@ namespace MySuperStats.WebApi.Migrations
                             Email = "y.u.n.usemre@gmail.com",
                             EmailConfirmed = true,
                             LastLogOutDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastTokenDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastSuccessfullLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LockoutEnabled = true,
                             NormalizedEmail = "Y.U.N.USEMRE@GMAIL.COM",
                             NormalizedUserName = "Y.U.N.USEMRE@GMAIL.COM",
@@ -3734,14 +3789,16 @@ namespace MySuperStats.WebApi.Migrations
 
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithMany("MatchGroupUsers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("MySuperStats.WebApi.Models.Player", b =>
                 {
                     b.HasOne("MySuperStats.WebApi.Models.User", "User")
                         .WithOne("Player")
-                        .HasForeignKey("MySuperStats.WebApi.Models.Player", "UserId");
+                        .HasForeignKey("MySuperStats.WebApi.Models.Player", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

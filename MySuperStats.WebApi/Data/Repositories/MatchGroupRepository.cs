@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CustomFramework.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;
 using System.Linq;
-using CustomFramework.Data.Contracts;
+using CustomFramework.BaseWebApi.Data.Repositories;
+using CustomFramework.BaseWebApi.Contracts;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {

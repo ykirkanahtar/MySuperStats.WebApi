@@ -1,6 +1,5 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @using MySuperStats.WebUI.Pages
 @model MySuperStats.WebUI.Pages.ChangeMatchGroupNameModel
 @inject ILocalizationService localizer
@@ -16,28 +15,34 @@
     <!-- left column -->
     <div class="col-md-6">
       <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">@(localizer.GetValue("ChangeGroupName"))</h3>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">@(localizer.GetValue("ChangeGroupName"))</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form method="post">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="txtGroupName">@(localizer.GetValue("GroupName"))</label>
-              <input type="text" class="form-control" id="txtGroupName" asp-for="MatchGroupRequest.GroupName" placeholder="@(localizer.GetValue("Select the name of the match group"))">
-              <span asp-validation-for="MatchGroupRequest.GroupName" class="text-danger"></span>
-            </div>
-          </div>
-          <!-- /.box-body -->
+          <div class="card-body">
 
-          <div class="box-footer">
-            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
+            <div class="form-group">
+              <label>@(localizer.GetValue("Enter the name of the match group"))</label>              
+              <div class="input-group-prepend">
+              <input asp-for="MatchGroupRequest.GroupName" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the name of the match group"))">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-edit"></span>
+                    </div>
+                  </div>
+              </div>  
+              <span asp-validation-for="MatchGroupRequest.GroupName" class="text-danger"></span>
+            </div> 
+            <!-- /.form group --> 
+                    
           </div>
+          <div class="card-footer">
+            <input type="submit" id="btnChangeGroupName" asp-page-handler="ChangeGroupName"  class="btn btn-primary" value="@(localizer.GetValue("ChangeGroupName"))"/>
+          </div>          
         </form>
-      </div>
-      <!-- /.box -->
 
     </div>
     <!--/.col (left) -->

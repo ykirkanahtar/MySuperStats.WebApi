@@ -600,13 +600,16 @@
     <value>Oyuncu sayısı</value>
   </data>    
   <data name="CreateNewMatchGroup" xml:space="preserve">
-    <value>Yeni Karşılaşma Grubu Oluştur</value>
+    <value>Yeni Karşılaşma Grubu</value>
   </data>      
   <data name="CreateTeams" xml:space="preserve">
     <value>Takımları oluştur</value>
   </data>   
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
+  </data>   
+  <data name="Dear" xml:space="preserve">
+    <value>Sayın</value>
   </data>   
   <data name="Details" xml:space="preserve">
     <value>Detaylar</value>
@@ -761,9 +764,12 @@
   <data name="PlayerPermissions" xml:space="preserve">
     <value>Oyuncu Yetkileri</value>
   </data>     
+  <data name="Please select match group type" xml:space="preserve">
+    <value>Lütfen karşılaşma grubu tipini seçiniz</value>
+  </data>   
   <data name="Please select players from both teams" xml:space="preserve">
     <value>Lütfen her iki takımdan da oyuncu seçiniz</value>
-  </data>   
+  </data>     
   <data name="Players" xml:space="preserve">
     <value>Oyuncular</value>
   </data>      

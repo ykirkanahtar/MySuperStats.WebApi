@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CustomFramework.Data.Contracts;
-using CustomFramework.WebApiUtils.Identity.Models;
+using CustomFramework.BaseWebApi.Contracts;
+using CustomFramework.BaseWebApi.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.Contracts.Enums;

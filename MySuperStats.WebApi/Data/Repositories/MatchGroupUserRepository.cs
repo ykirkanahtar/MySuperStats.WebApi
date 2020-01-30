@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CustomFramework.Data.Repositories;
+using CustomFramework.BaseWebApi.Data.Repositories;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using MySuperStats.WebApi.Models;

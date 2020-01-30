@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CustomFramework.Authorization.Attributes;
+using CustomFramework.BaseWebApi.Authorization.Attributes;
 using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
-using MySuperStats.WebApi.Enums;
 
 namespace MySuperStats.WebApi.Business
 {

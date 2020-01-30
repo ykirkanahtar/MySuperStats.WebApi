@@ -1,8 +1,8 @@
 ﻿using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Repositories;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using CustomFramework.BaseWebApi.Data.Repositories;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {

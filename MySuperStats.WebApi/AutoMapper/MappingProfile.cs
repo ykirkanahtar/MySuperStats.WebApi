@@ -1,7 +1,7 @@
-﻿using MySuperStats.Contracts.Requests;
+﻿using CustomFramework.BaseWebApi.Identity.AutoMapper;
+using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Models;
-using CustomFramework.WebApiUtils.Identity.AutoMapper;
 
 namespace MySuperStats.WebApi.AutoMapper
 {

@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
-using CustomFramework.WebApiUtils.Identity.Contracts.Responses;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Contracts.Responses;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +24,11 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
     {
         private readonly ILogger<LoginModel> _logger;
         private readonly AppSettings _appSettings;
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly ISession _session;
         private readonly ILocalizationService _localizer;
 
-        public LoginModel(ISession session, ILogger<LoginModel> logger, AppSettings appSettings, IWebApiConnector<ApiResponse> webApiConnector, ILocalizationService localizer)
+        public LoginModel(ISession session, ILogger<LoginModel> logger, AppSettings appSettings, IWebApiConnector<WebApiResponse> webApiConnector, ILocalizationService localizer)
         {
             _session = session;
             _logger = logger;
@@ -68,55 +66,53 @@ namespace MySuperStats.WebUI.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content($"~/{culture}/Index/");
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
+                return Page();
+            }
+            try
+            {
+                var jsonContent = JsonConvert.SerializeObject(Input.Login);
+
+                var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Login}", jsonContent, culture);
+
+                if (apiResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    var jsonContent = JsonConvert.SerializeObject(Input.Login);
+                    var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(apiResponse.Result.ToString());
 
-                    var apiResponse = await _webApiConnector.PostAsync($"{_appSettings.WebApiUrl}{ApiUrls.Login}", jsonContent, culture);
+                    _session.SetString("UserToken", tokenResponse.Token);
+                    _session.SetString("TokenExpireDate", tokenResponse.ExpireUtcDateTime.ToLongDateString());
+                    _session.SetInt32("UserId", tokenResponse.UserId);
 
-                    if (apiResponse.StatusCode == HttpStatusCode.OK)
+                    var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserById, tokenResponse.UserId)}";
+                    var response = await _webApiConnector.GetAsync(getUrl, culture, tokenResponse.Token);
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(apiResponse.Result.ToString());
-
-                        _session.SetString("UserToken", tokenResponse.Token);
-                        _session.SetString("TokenExpireDate",tokenResponse.ExpireUtcDateTime.ToLongDateString());
-                        _session.SetInt32("UserId", tokenResponse.UserId);
-
-                        var getUrl = $"{_appSettings.WebApiUrl}{String.Format(ApiUrls.GetUserById, tokenResponse.UserId)}";
-                        var response = await _webApiConnector.GetAsync(getUrl, culture, tokenResponse.Token);
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            _session.SetString("User", response.Result.ToString());
-                        }
-                        else
-                            throw new Exception(response.Message);
-
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);
+                        _session.SetString("User", response.Result.ToString());
                     }
-
-                    // if (result.IsLockedOut)
-                    // {
-                    //     _logger.LogWarning(AppConstants.UserAccountLockedOut);
-                    //     return RedirectToPage("./Lockout");
-                    // }
                     else
-                    {
-                        ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
-                        return Page();
-                    }
+                        throw new Exception(response.Message);
+
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
                 }
-                catch (Exception ex)
+
+                // if (result.IsLockedOut)
+                // {
+                //     _logger.LogWarning(AppConstants.UserAccountLockedOut);
+                //     return RedirectToPage("./Lockout");
+                // }
+                else
                 {
-                    ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
+                    ModelState.AddModelError(apiResponse.Message, _localizer.GetValue("Invalid login attempt"));
                     return Page();
                 }
             }
-
-            // If we got this far, something failed, redisplay form
-            return Page();
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.Message, _localizer.GetValue("Invalid login attempt"));
+                return Page();
+            }
         }
     }
 }

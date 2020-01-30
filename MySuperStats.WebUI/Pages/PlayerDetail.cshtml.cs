@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,7 +21,7 @@ namespace MySuperStats.WebUI.Pages
 {
     public class PlayerDetailModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
 
@@ -41,7 +41,7 @@ namespace MySuperStats.WebUI.Pages
         [Display(Name = "Email")]        
         public string InvitationEmailAddress { get; set; }
 
-        public PlayerDetailModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public PlayerDetailModel(ISession session, IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;

@@ -1,7 +1,6 @@
 ﻿@page
 @using MySuperStats.Contracts.Enums
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @model MySuperStats.WebUI.Pages.NewMatchGroupModel
 @inject ILocalizationService localizer
 
@@ -11,44 +10,52 @@
 }
 
 <!-- Main content -->
+
 <section class="content">
   <div class="row">
-    <!-- left column -->
     <div class="col-md-6">
       <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">@(localizer.GetValue("CreateNewMatchGroup"))</h3>
-        </div>
-        <!-- /.box-header -->
+      <div class="card">
         <!-- form start -->
         <form method="post">
-          <div class="box-body">
+          <div class="card-body">
+
             <div class="form-group">
-              <label for="txtGroupName">@(localizer.GetValue("GroupName"))</label>
-              <input type="text" asp-for="MatchGroup.GroupName" class="form-control" id="txtGroupName" placeholder="@(localizer.GetValue("Enter the name of the group"))">
+              <label>@(localizer.GetValue("Enter the name of the group"))</label>              
+              <div class="input-group-prepend">
+              <input asp-for="MatchGroup.GroupName" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the name of the group"))">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-edit"></span>
+                    </div>
+                  </div>
+              </div>  
               <span asp-validation-for="MatchGroup.GroupName" class="text-danger"></span>                        
-            </div>
-            <div class="form-group">          
-              <label for="txtGroupName">@(localizer.GetValue("MatchGroupType"))</label>
-              <select asp-for="MatchGroup.MatchGroupType" class="form-control" asp-items="Html.GetEnumSelectList<MatchGroupType>()">
-                <option selected="selected" value="">@(localizer.GetValue("Please select"))</option>
-              </select>
+            </div> 
+            <!-- /.form group -->            
+
+            <div class="form-group">
+              <label>@(localizer.GetValue("Please select match group type"))</label>              
+              <div class="input-group-prepend">
+                <select asp-for="MatchGroup.MatchGroupType" class="form-control" asp-items="Html.GetEnumSelectList<MatchGroupType>()">
+                  <option selected="selected" value="">@(localizer.GetValue("Please select"))</option>
+                </select>                 
+              </div>  
               <span asp-validation-for="MatchGroup.MatchGroupType" class="text-danger"></span> 
-            </div>
+            </div> 
+            <!-- /.form group -->            
+
+
           </div>
           <!-- /.box-body -->
 
-          <div class="box-footer">
+          <div class="card-footer">
             <input type="submit" id="btnCreateMatchGroup" asp-page-handler="CreateMatchGroupName" class="btn btn-primary" value="@(localizer.GetValue("Save"))"/>
           </div>
         </form>
       </div>
       <!-- /.box -->
-
     </div>
-    <!--/.col (left) -->
-
   </div>
   <!-- /.row -->
   <div class="row">
@@ -57,4 +64,3 @@
     <div>
   </div>  
 </section>
-<!-- /.content -->

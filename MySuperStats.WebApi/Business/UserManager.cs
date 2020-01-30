@@ -5,13 +5,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CS.Common.EmailProvider;
-using CustomFramework.WebApiUtils.Business;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
-using CustomFramework.WebApiUtils.Enums;
-using CustomFramework.WebApiUtils.Identity.Business;
-using CustomFramework.WebApiUtils.Utils;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Identity.Business;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Utils.Business;
+using CustomFramework.BaseWebApi.Utils.Enums;
+using CustomFramework.BaseWebApi.Utils.Utils;
+using CustomFramework.EmailProvider;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -61,11 +61,10 @@ namespace MySuperStats.WebApi.Business
                 callBackUrl = callBackUrl.Replace("ReplaceUserIdValue", user.Id.ToString()).Replace("ReplaceCodeValue", codeEncoded);
 
                 var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("PleaseConfirmYourRegistration")}";
-                var emailBody = $@"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourAccount")} 
-                                    <br> 
-                                    <a href='{callBackUrl}'>{callBackUrl}</a>";
+                var subTitle = $"{_localizer.GetValue("Dear")} {user.TempFirstName} {user.TempLastName}";
+                var emailBody = $@"<a href='{callBackUrl}'>{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourAccount")}</a>";
 
-                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+                var htmlBody = EmailHtmlCreator.GetEmailBody(subTitle, emailTitle, emailBody, _appSettings.AppName);
 
                 await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
 
@@ -119,6 +118,8 @@ namespace MySuperStats.WebApi.Business
                 var emailUser = await _userManager.FindByEmailAsync(newEmail);
                 if (emailUser != null) throw new ArgumentException("This e-mail address is in use");
 
+                var player = await _userRepository.GetPlayerByEmailAsync(user.Email);
+
                 var token = await _userManager.GenerateTokenForChangeEmailAsync(user, newEmail);
 
                 var codeBytes = Encoding.UTF8.GetBytes(token);
@@ -131,8 +132,10 @@ namespace MySuperStats.WebApi.Business
                      protocol: requestScheme);
 
                 var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("The confirmation code for your new e-mail address")}";
-                var emailBody = $"{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourNewEmail")} - {callbackUrl}";
-                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+                var subTitle = $"{_localizer.GetValue("Dear")} {player.FirstName} {player.LastName}";
+                var emailBody = $@"<a href='{callbackUrl}'>{_localizer.GetValue("PleaseClickTheLinkForConfirmationYourNewEmail")}</a>";
+
+                var htmlBody = EmailHtmlCreator.GetEmailBody(subTitle, emailTitle, emailBody, _appSettings.AppName);
 
                 await _emailSender.SendEmailAsync(
                     _appSettings.SenderEmailAddress, newEmail
@@ -241,6 +244,8 @@ namespace MySuperStats.WebApi.Business
                     throw new ArgumentException($"{_localizer.GetValue("PleaseConfirmYourRegistration")}"); //Please confirm your registration.
                 }
 
+                var player = await _userRepository.GetPlayerByEmailAsync(request.EmailAddress);
+
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var codeBytes = Encoding.UTF8.GetBytes(code);
                 var codeEncoded = WebEncoders.Base64UrlEncode(codeBytes);
@@ -248,11 +253,9 @@ namespace MySuperStats.WebApi.Business
                 callBackUrl = callBackUrl.Replace("ReplaceCodeValue", codeEncoded);
 
                 var emailTitle = $"{_appSettings.AppName} {_localizer.GetValue("Renew Password")}";
-                var emailBody = $@"{_localizer.GetValue("For renew your password, please click on the link")} 
-                                <br>
-                                <br> 
-                                <a href='{callBackUrl}'>{callBackUrl}</a>";
-                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+                var subTitle = $"{_localizer.GetValue("Dear")} {player.FirstName} {player.LastName}";
+                var emailBody = $@"<a href='{callBackUrl}'>{_localizer.GetValue("For renew your password, please click on the link")}</a>";
+                var htmlBody = EmailHtmlCreator.GetEmailBody(subTitle, emailTitle, emailBody, _appSettings.AppName);
 
                 await ConfirmationEmailSenderAsync(user.Email, emailTitle, htmlBody);
 
@@ -264,9 +267,13 @@ namespace MySuperStats.WebApi.Business
         {
             return CommonOperationAsync(async () =>
             {
+                var player = await _userRepository.GetPlayerByEmailAsync(request.Email);
+
                 var emailTitle = $"{_appSettings.AppName} - {_localizer.GetValue("Your password has been changed")}";
+                var subTitle = $"{_localizer.GetValue("Dear")} {player.FirstName} {player.LastName}";
                 var emailBody = $"{_localizer.GetValue("Your password has been changed email text")}";
-                var htmlBody = EmailHtmlCreator.GetEmailBody(emailTitle, emailBody);
+
+                var htmlBody = EmailHtmlCreator.GetEmailBody(subTitle, emailTitle, emailBody, _appSettings.AppName);
 
                 return await _userManager.ResetPasswordAsync(request.Email, request.Code, request.Password, request.ConfirmPassword
                 , emailTitle

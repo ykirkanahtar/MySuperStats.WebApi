@@ -1,4 +1,4 @@
-﻿using CustomFramework.Data.Models;
+﻿using CustomFramework.BaseWebApi.Data.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

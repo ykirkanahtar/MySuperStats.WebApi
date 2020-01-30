@@ -1,6 +1,5 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @model MySuperStats.WebUI.Pages.BasketballStatsEntryModel
 @inject ILocalizationService localizer
 
@@ -10,12 +9,6 @@
 }
 <script>
 $(document).ready(function() {
-
-  $('.input-group.date').datepicker({
-      todayBtn: "linked",
-      language: "tr",
-      orientation: "bottom auto"
-  });
 
   var culture = getCultureFromURL();
 
@@ -54,7 +47,7 @@ $(document).ready(function() {
       var columnData = [
         {title:"playerid", field:"playerid", visible:false},
         {title: GetLocalizedValue(pageUrl, "FirstNameLastName"), field:"name"},
-      {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
+      {title: GetLocalizedValue(pageUrl, "OnePoint"), field:"onepoint", editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]},
       ];
 
       var twoPointVisibility = statsSelectionData[0].haschecked;
@@ -69,16 +62,16 @@ $(document).ready(function() {
       var laneWithoutPointVisibility = statsSelectionData[9].haschecked;
 
 
-      columnData.push({title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", visible: twoPointVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "MissingOnePoint"), field:"missingonepoint", visible:missingOnePointVisibility,  editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "MissingTwoPoint"), field:"missingtwopoint", visible:missingTwoPointVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "Rebound"), field:"rebound", visible:reboundVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "StealBall"), field:"stealball", visible:stealBallVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "LooseBall"), field:"looseball", visible: looseBallVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "Assist"), field:"assist", visible: assistVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "Interrupt"), field:"interrupt", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithPoint"), field:"lane", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
-      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithoutPoint"), field:"lanewithoutpoint", visible: interruptVisibility, editor:"input", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "TwoPoint"), field:"twopoint", visible: twoPointVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "MissingOnePoint"), field:"missingonepoint", visible:missingOnePointVisibility,  editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "MissingTwoPoint"), field:"missingtwopoint", visible:missingTwoPointVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "Rebound"), field:"rebound", visible:reboundVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "StealBall"), field:"stealball", visible:stealBallVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "LooseBall"), field:"looseball", visible: looseBallVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "Assist"), field:"assist", visible: assistVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "Interrupt"), field:"interrupt", visible: interruptVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithPoint"), field:"lane", visible: interruptVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
+      columnData.push({title: GetLocalizedValue(pageUrl, "LaneWithoutPoint"), field:"lanewithoutpoint", visible: interruptVisibility, editor:"number", bottomCalc:"sum", validator:["min:0", "max:100", "integer"]});
 
       var table = new Tabulator(tabulatorName, {
           height:250, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
@@ -88,7 +81,7 @@ $(document).ready(function() {
           ajaxLoader: true,
           paginationSize: 6,
           langs: getTabulatorLocalization(), 
-          columns: columnData,    
+          columns: columnData,            
           cellEdited: function(cell) {              
               var results = table.getCalcResults();
               var onePointTotal = results.bottom.onepoint;
@@ -114,9 +107,10 @@ $(document).ready(function() {
 
           },      
         });    
-      table.setLocale(culture);
-      table.setData(data);
       
+      table.setData(data);
+      table.setLocale(culture);
+
       return table;
   }
 
@@ -359,7 +353,7 @@ $(document).ready(function() {
 <!-- Main content -->
 <style>
     .row {
-        display: table;
+        @* display: table; *@
         width: 100%;
     }
 
@@ -372,55 +366,71 @@ $(document).ready(function() {
 <section class="content">
  
   <form method="post">
-    <div class="row">
-      <!-- left column -->
-      <div class="col-md-12">
+        <div class="card">
         <!-- general form elements -->
-        <div class="box box-primary">
-          <div class="box-header with-border">
-            <h3 class="box-title">@(localizer.GetValue("MatchInfo"))</h3>
-          </div>
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("MatchInfo"))</h3>
+          </div>       
 
           <!-- /.box-header -->
-            <div class="box-body">
-                <div class="row">                  
+            <div class="card-body">
+                <div class="row">     
+
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="txtMatchDate">@(localizer.GetValue("Date"))</label>
-                      <div class="input-group date">
-                        <input id="txtMatchDate" type="text" class="form-control" asp-for="Model.MatchRequest.MatchDate" placeholder="@localizer.GetValue("Enter the date of the match")">
-                        <span class="input-group-addon">
-                          <i class="glyphicon glyphicon-th"></i>
-                        </span>
-                      </div>              
-                      <span asp-validation-for="Model.MatchRequest.MatchDate" class="text-danger"></span>
-                    </div>
+
+                        <label>@(localizer.GetValue("MatchDate"))</label> 
+                        <div class="input-group mb-2">
+                            <input id="txtMatchDate" type="text" asp-for="Model.MatchRequest.MatchDate" placeholder="@(localizer.GetValue("Enter the date of the match"))" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                <span class="far fa-calendar-alt"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                           <span asp-validation-for="Model.MatchRequest.MatchDate" class="text-danger"></span>                        
+                        </div>                                          
+ 
                   </div>
+
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="txtOrder">@(localizer.GetValue("Order"))</label>
-                      <input id="txtOrder" asp-for="Model.MatchRequest.Order" class="form-control" placeholder="@localizer.GetValue("Enter the order of the match")">
-                      <span asp-validation-for="Model.MatchRequest.Order" class="text-danger"></span>                        
-                    </div>
-                  </div>
+
+                        <label>@(localizer.GetValue("Order"))</label> 
+                        <div class="input-group mb-2">
+                          <input id="txtOrder" asp-for="Model.MatchRequest.Order" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the order of the match"))">
+                        </div>
+                        <div class="input-group mb-2">
+                           <span asp-validation-for="Model.MatchRequest.Order" class="text-danger"></span>                        
+                        </div>                                          
+ 
+                  </div>        
+
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="txtDurationInMinutes">@(localizer.GetValue("DurationOfTheMatch"))</label>
-                      <input id="txtDurationInMinutes" asp-for="Model.MatchRequest.DurationInMinutes" class="form-control" placeholder="@localizer.GetValue("Enter the duration of the match")">
-                      <span asp-validation-for="Model.MatchRequest.DurationInMinutes" class="text-danger"></span>                        
-                    </div>
-                  </div>                      
+
+                        <label>@(localizer.GetValue("DurationOfTheMatch"))</label> 
+                        <div class="input-group mb-2">
+                          <input id="txtDurationInMinutes" asp-for="Model.MatchRequest.DurationInMinutes" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the duration of the match"))">
+                        </div>
+                        <div class="input-group mb-2">
+                           <span asp-validation-for="Model.MatchRequest.DurationInMinutes" class="text-danger"></span>
+                        </div>                                          
+ 
+                  </div>   
+
                   <div class="col-md-2">
-                    <div class="form-group">
-                      <label for="txtVideoLink">@(localizer.GetValue("VideoLink"))</label>
-                      <input id="txtVideoLink" asp-for="Model.MatchRequest.VideoLink" type="text" class="form-control" placeholder="@localizer.GetValue("Enter the url of the video")">
-                      <span asp-validation-for="Model.MatchRequest.VideoLink" class="text-danger"></span>                        
-                    </div>   
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group" style="padding-top:20px">
+
+                        <label>@(localizer.GetValue("VideoLink"))</label> 
+                        <div class="input-group mb-2">
+                            <input id="txtVideoLink" asp-for="Model.MatchRequest.VideoLink" class="form-control" type="text" placeholder="@(localizer.GetValue("Enter the url of the video"))">
+                        </div>
+                        <div class="input-group mb-2">
+                            <span asp-validation-for="Model.MatchRequest.VideoLink" class="text-danger"></span>
+                        </div>                                          
+ 
+                  </div>                                              
+
+                  <div class="col-md-4" style="padding-top: 30px;">
                         <input type="submit" id="btnEntryStats" class="btn btn-primary" value="@localizer.GetValue("Select the teams")"/>                   
-                    </div>   
                   </div>                  
                 </div>    
                 <!-- row -->
@@ -428,11 +438,8 @@ $(document).ready(function() {
             <!-- /.box-body -->
 
         </div>
-        <!-- /.box -->
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
+        <!-- /.card -->
+
 
     <div class="container">
       <div id="successDiv" class="alert alert-success" style="display:none">
@@ -454,10 +461,10 @@ $(document).ready(function() {
             <div class="box box-primary">
               <!-- /.box-header -->
                 <div class="box-body">
-                  <div class="form-group">
+                  
                     <label>@(localizer.GetValue("Select players of the first team"))</label>
                     <div id="first-team-players"> </div>
-                  </div>
+                  
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -472,10 +479,10 @@ $(document).ready(function() {
             <div class="box box-primary">
               <!-- /.box-header -->
                 <div class="box-body">
-                  <div class="form-group">
+                  
                     <label>@(localizer.GetValue("Select players of the second team"))</label>
                       <div id="second-team-players"> </div>
-                  </div>
+                  
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -504,10 +511,10 @@ $(document).ready(function() {
             <div class="box box-primary">
               <!-- /.box-header -->
                 <div class="box-body">
-                  <div class="form-group">
+                  
                     <label>@(localizer.GetValue("Select basketball stats"))</label>
                     <div id="selectStats"> </div>
-                  </div>
+                  
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -538,10 +545,10 @@ $(document).ready(function() {
               <div class="box box-primary">
                 <!-- /.box-header -->
                   <div class="box-body">
-                    <div class="form-group">
+                    
                       <label>@(localizer.GetValue("FirstTeam")):</label><span id="firstTeamScore"></span>
                       <div id="firstTeamStats"> </div>
-                    </div>
+                    
                   </div>
                   <!-- /.box-body -->
               </div>
@@ -557,10 +564,10 @@ $(document).ready(function() {
               <div class="box box-primary">
                 <!-- /.box-header -->
                   <div class="box-body">
-                    <div class="form-group">
+                    
                       <label>@(localizer.GetValue("SecondTeam")):</label><span id="secondTeamScore"></span>                  
                       <div id="secondTeamStats"> </div>
-                    </div>
+                    
                   </div>
                   <!-- /.box-body -->
               </div>

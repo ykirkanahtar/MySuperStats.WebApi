@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.Constants;
 using MySuperStats.Contracts.Attributes;
 using MySuperStats.Contracts.Utils;
 
@@ -22,9 +22,11 @@ namespace MySuperStats.Contracts.Requests
         [Display(Name = nameof(LastName))]
         public string LastName { get; set; }
 
-        [MinBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]
-        [MaxBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]
+        [Required(ErrorMessage = ErrorMessages.Required)]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [MinBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]
+        [MaxBirthDate(ErrorMessage = ErrorMessages.InvalidDateOfBirth)]        
         [Display(Name = nameof(BirthDate))]
         public DateTime BirthDate { get; set; }
     }

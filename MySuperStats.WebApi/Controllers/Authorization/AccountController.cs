@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
-using CustomFramework.WebApiUtils.Constants;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Identity.Business;
-using CustomFramework.WebApiUtils.Identity.Constants;
-using CustomFramework.WebApiUtils.Identity.Controllers;
-using CustomFramework.WebApiUtils.Contracts.Resources;
-using CustomFramework.WebApiUtils.Utils.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +13,13 @@ using MySuperStats.WebApi.ApplicationSettings;
 using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Utils.Contracts;
+using CustomFramework.BaseWebApi.Identity.Controllers;
+using CustomFramework.BaseWebApi.Identity.Business;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Utils.Utils.Exceptions;
+using CustomFramework.BaseWebApi.Utils.Constants;
 
 namespace MySuperStats.WebApi.Controllers.Authorization
 {
@@ -89,13 +89,13 @@ namespace MySuperStats.WebApi.Controllers.Authorization
             if (!ModelState.IsValid)
                 throw new ArgumentException(ModelState.ModelStateToString(LocalizationService));
 
-            var result = await _signInManager.PasswordSignInAsync(login.UserName, login.Password, false, true);
+            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, false, true);
             if (!result.Succeeded)
             {
                 throw new AuthenticationException("AuthenticationError");
             }
 
-            var user = await _userManager.GetByUserNameAsync(login.UserName);
+            var user = await _userManager.GetByEmailAddressAsync(login.Email);
             if (user == null)
                 throw new Exception(DefaultResponseMessages.AnErrorHasOccured);
 

@@ -3,16 +3,16 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using MySuperStats.Contracts.Utils;
-using CustomFramework.WebApiUtils.Business;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Enums;
-using CustomFramework.WebApiUtils.Utils;
+using CustomFramework.BaseWebApi.Utils.Utils;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Constants;
 using MySuperStats.WebApi.Data;
 using MySuperStats.WebApi.Models;
+using CustomFramework.BaseWebApi.Utils.Business;
+using CustomFramework.BaseWebApi.Utils.Enums;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 
 namespace MySuperStats.WebApi.Business
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CustomFramework.Data.Repositories;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -11,7 +10,8 @@ using MySuperStats.Contracts.Enums;
 using MySuperStats.Contracts.Responses;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Utils;
-using CustomFramework.Data.Contracts;
+using CustomFramework.BaseWebApi.Contracts;
+using CustomFramework.BaseWebApi.Data.Repositories;
 
 namespace MySuperStats.WebApi.Data.Repositories
 {

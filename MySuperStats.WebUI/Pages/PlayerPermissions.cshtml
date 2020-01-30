@@ -1,6 +1,5 @@
 ﻿@page "{id:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
-
+@using CustomFramework.BaseWebApi.Resources
 @model MySuperStats.WebUI.Pages.PlayerPermissionsModel
 @inject ILocalizationService localizer
 
@@ -92,26 +91,30 @@ $(document).ready(function() {
         }        
     },
     cellEdited: function(cell) {
+
         var roleid = cell.getData().roleid;
         var role = cell.getData().role;
         var userid = cell.getData().userid;
 
-          $.ajax({
-              type: "POST",
-              url: pageUrl + "?handler=FromGrid",
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader("XSRF-TOKEN",
-                      $('input:hidden[name="__RequestVerificationToken"]').val());
-                      $(".overlay").show();
-              },
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              data: JSON.stringify({  
+        var url = pageUrl + "/?handler=FromGrid";
+        var jsonData = JSON.stringify({  
                   userid: userid,
                   roleid: 0,
                   role: role
-              }),     
-              success: function(response, textStatus, xhr){
+              });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                    $(".overlay").show();
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: jsonData,         
+            success: function(response, textStatus, xhr){
                 if (response == "OK"){
                   $("#successDiv").hide().slideDown().delay(500).fadeOut();
                 }
@@ -119,15 +122,15 @@ $(document).ready(function() {
                   $("#errorDiv").hide().slideDown().delay(2000).fadeOut();
                   $("#errorMessage").text(response);                  
                 }
-              },
-              error: function(XMLHttpRequest, textStatus, error){
+            },
+            error: function(XMLHttpRequest, textStatus, error){
                 $("#errorDiv").hide().slideDown().delay(1000).fadeOut();
                 $("#errorMessage").text(GetLocalizedValue(pageUrl, "AnErrorHasOccured"));
-              },
-              complete: function(){
-                $(".overlay").hide();
-              }
-          });
+            },
+            complete: function(){
+              $(".overlay").hide();
+            }
+        });
      },        
     rowClick:function(e, row){ //trigger an alert message when the row is clicked
       //alert("Row " + row.getData().id + " Clicked!!!!");
@@ -142,23 +145,6 @@ $(document).ready(function() {
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("You can change the user role by clicking the corresponding role on the table"))...</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div id="user-role-table"></div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
 
     <div class="container">
       <div id="successDiv" class="alert alert-success" style="display:none">
@@ -171,6 +157,24 @@ $(document).ready(function() {
         <strong>@(localizer.GetValue("Error"))!</strong> <span id="errorMessage">@(localizer.GetValue("AnErrorHasOccured"))</span>
       </div>
     </div>
-
+    <form  method="post">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">@(localizer.GetValue("You can change the user role by clicking the corresponding role on the table"))...</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="card-body">
+              <div id="user-role-table"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </form>
     </section>
     <!-- /.content -->

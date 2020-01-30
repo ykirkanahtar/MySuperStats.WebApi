@@ -1,11 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using CustomFramework.Authorization.Attributes;
-using CustomFramework.Authorization.Enums;
-using CustomFramework.WebApiUtils.Identity.Controllers;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySuperStats.Contracts.Requests;
@@ -15,7 +10,12 @@ using MySuperStats.WebApi.Business;
 using MySuperStats.WebApi.Models;
 using MySuperStats.Contracts.Enums;
 using System;
-using CustomFramework.WebApiUtils.Utils.Exceptions;
+using CustomFramework.BaseWebApi.Identity.Controllers;
+using CustomFramework.BaseWebApi.Resources;
+using CustomFramework.BaseWebApi.Authorization.Attributes;
+using CustomFramework.BaseWebApi.Authorization.Enums;
+using CustomFramework.BaseWebApi.Utils.Utils.Exceptions;
+using CustomFramework.BaseWebApi.Utils.Contracts;
 
 namespace MySuperStats.WebApi.Controllers
 {

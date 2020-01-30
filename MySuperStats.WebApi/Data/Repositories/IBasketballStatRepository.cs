@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using MySuperStats.WebApi.Models;
-using CustomFramework.Data.Repositories;
+using CustomFramework.BaseWebApi.Data.Repositories;
 using System.Threading.Tasks;
 using MySuperStats.Contracts.Responses;
 

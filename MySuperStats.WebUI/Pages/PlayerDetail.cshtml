@@ -1,11 +1,9 @@
 ﻿@page "PlayerId/{id:int}/MatchGroupId/{matchGroupId:int}"
-@using CustomFramework.WebApiUtils.Contracts.Resources
-@using MySuperStats.WebUI.Utils
+@using CustomFramework.BaseWebApi.Resources@using MySuperStats.WebUI.Utils
 @using MySuperStats.Contracts.Enums
 @using Microsoft.AspNetCore.Http
-@using CS.Common.WebApi.Connector
 @using MySuperStats.WebUI.ApplicationSettings
-@using CustomFramework.WebApiUtils.Contracts
+@using CustomFramework.BaseWebApi.Contracts.ApiContracts
 @using MySuperStats.WebUI.Constants
 @using System.Net
 @using Newtonsoft.Json
@@ -15,7 +13,7 @@
 
 @model MySuperStats.WebUI.Pages.PlayerDetailModel
 
-@inject IWebApiConnector<ApiResponse> webApiConnector
+@inject IWebApiConnector<WebApiResponse> webApiConnector
 @inject ISession session
 @inject AppSettings appSettings
 @inject ILocalizationService localizer
@@ -29,9 +27,9 @@
   $(function () {
     $('#players_matches').DataTable({
       'paging'      : true,
-      'lengthChange': false,
+      'lengthChange': true,
       'searching'   : false,
-      'ordering'    : false,
+      'ordering'    : true,
       'info'        : true,
       'autoWidth'   : true,
       "language": {
@@ -42,49 +40,47 @@
 </script>
 
     <!-- Main content -->
-    <section class="content">
+<section class="content">
 
-  <div class="box-body">
-    <div class="form-group">
-      <div class="row-fluid">
-          <div class="col-md-12">
-              <h2>@ViewData["Title"]</h2>
-              <label>@(localizer.GetValue("BirthDate")) : </label> @(Model.Player.BirthDate.ToString("dd-MM-yyyy"))
-              <br />
-              <br />
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+          <div class="col-md-2">
+              <label>@(localizer.GetValue("BirthDate"))</label>: @(Model.Player.BirthDate.ToString("dd-MM-yyyy"))
           </div>
-      </div>
+      </div>   
     </div>
+ 
+    @if(Model.Player.UserId == null)
+    {
+      <div class="card-footer">
+        
+      var loggedUser = SessionUtil.GetLoggedUser(session);
+      var matchGroupId = ViewContext.RouteData.Values["matchGroupId"];
+      var permissionArray = $"permissions={PermissionEnum.CreateMatchGroupUser}";
+      var permissionGetUrl = $"{appSettings.WebApiUrl}{String.Format(ApiUrls.GetPermissions, loggedUser.Id, matchGroupId, permissionArray)}";
+      var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(session)).Result;
+      if(permissionResponse.StatusCode != HttpStatusCode.OK)
+      {
+        throw new Exception(permissionResponse.Message);
+      }
+      var permissions = JsonConvert.DeserializeObject<PermissionCheckerResponse>(permissionResponse.Result.ToString());
 
-    <div class="box-footer">
+      if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateMatchGroupUser.ToString()) == true) 
+      { 
+        <div class="row-fluid">
+          <div class="col-md-2">          
+            <input type="text" class="form-control" id="txtEmail" asp-for="InvitationEmailAddress" placeholder="@(localizer.GetValue("Enter the e-mail address"))">
+            <span asp-validation-for="InvitationEmailAddress" class="text-danger"></span>                        
+          </div>
+          <div class="col-md-2">      
+              <input type="submit" id="btnInviteUser" class="btn btn-primary" value="@(localizer.GetValue("Invite this user"))"/>     
+          </div>              
+        </div>
+      }
+      </div>  
+    }
 
-        @if(Model.Player.UserId == null)
-        {
-          var loggedUser = SessionUtil.GetLoggedUser(session);
-          var matchGroupId = ViewContext.RouteData.Values["matchGroupId"];
-          var permissionArray = $"permissions={PermissionEnum.CreateMatchGroupUser}";
-          var permissionGetUrl = $"{appSettings.WebApiUrl}{String.Format(ApiUrls.GetPermissions, loggedUser.Id, matchGroupId, permissionArray)}";
-          var permissionResponse = webApiConnector.GetAsync(permissionGetUrl, culture, SessionUtil.GetToken(session)).Result;
-          if(permissionResponse.StatusCode != HttpStatusCode.OK)
-          {
-            throw new Exception(permissionResponse.Message);
-          }
-          var permissions = JsonConvert.DeserializeObject<PermissionCheckerResponse>(permissionResponse.Result.ToString());
-
-          if(Functions.GetPermissionValue(permissions.PermissionDetails, PermissionEnum.CreateMatchGroupUser.ToString()) == true) 
-          { 
-            <div class="row-fluid">
-              <div class="col-md-2">          
-                <input type="text" class="form-control" id="txtEmail" asp-for="InvitationEmailAddress" placeholder="@(localizer.GetValue("Enter the e-mail address"))">
-                <span asp-validation-for="InvitationEmailAddress" class="text-danger"></span>                        
-              </div>
-              <div class="col-md-2">      
-                  <input type="submit" id="btnInviteUser" class="btn btn-primary" value="@(localizer.GetValue("Invite this user"))"/>     
-              </div>              
-            </div>
-          }
-        }
-    </div>  
 
     <div class="container">
       <div id="successDivForEmailUpdate" class="alert alert-success" style="display:none">
@@ -102,473 +98,468 @@
     var totalStatForUI = Model.PlayerBasketballStats.TotalStats.GetStatsForUI();
     var perMatchStatForUI = Model.PlayerBasketballStats.PerMatchStats.GetStatsForUI();
       
-    <div class="box-body">      
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Toplam İstatistikler</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="total_stats" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("OnePoint"))</th>
-                    <th>@(localizer.GetValue("TwoPoint"))</th>
-                    <th>@(localizer.GetValue("Rebound"))</th>
-                    <th>@(localizer.GetValue("StealBall"))</th>
-                    <th>@(localizer.GetValue("Assist"))</th>
-                    <th>@(localizer.GetValue("LooseBall"))</th>
-                    <th>@(localizer.GetValue("Interrupt"))</th>
-                    <th>@(localizer.GetValue("Lane"))</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(totalStatForUI.OnePoint)</td>
-                          <td>@(totalStatForUI.TwoPoint)</td>
-                          <td>@(totalStatForUI.Rebound)</td>
-                          <td>@(totalStatForUI.StealBall)</td>
-                          <td>@(totalStatForUI.Assist)</td>
-                          <td>@(totalStatForUI.LooseBall)</td>
-                          <td>@(totalStatForUI.Interrupt)</td>
-                          <td>@(totalStatForUI.Lane)</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
+   
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Toplam İstatistikler</h3>
           </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("PerMatchStats"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="per_match_stats" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("OnePoint"))</th>
-                    <th>@(localizer.GetValue("TwoPoint"))</th>
-                    <th>@(localizer.GetValue("Rebound"))</th>
-                    <th>@(localizer.GetValue("StealBall"))</th>
-                    <th>@(localizer.GetValue("Assist"))</th>
-                    <th>@(localizer.GetValue("LooseBall"))</th>
-                    <th>@(localizer.GetValue("Interrupt"))</th>
-                    <th>@(localizer.GetValue("Lane"))</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(perMatchStatForUI.OnePoint)</td>
-                          <td>@(perMatchStatForUI.TwoPoint)</td>
-                          <td>@(perMatchStatForUI.Rebound)</td>
-                          <td>@(perMatchStatForUI.StealBall)</td>
-                          <td>@(perMatchStatForUI.Assist)</td>
-                          <td>@(perMatchStatForUI.LooseBall)</td>
-                          <td>@(perMatchStatForUI.Interrupt)</td>
-                          <td>@(perMatchStatForUI.Lane)</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </div>
-
-    <div class="box-body">  
-      <div class="row">
-        <div class="col-xs-4">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("AverageStats"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="avg_stats" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("OnePoint")) %</th>
-                    <th>@(localizer.GetValue("TwoPoint")) %</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(Model.PlayerBasketballStats.RatioTable.OnePointRatio)</td>
-                          <td>@(Model.PlayerBasketballStats.RatioTable.TwoPointRatio)</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("WinLooseTable"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="win_loose_table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>Sonuçlar</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(Utils.Functions.GetFirstCharOfEnumValues(Model.PlayerBasketballStats.MatchForms))</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("WinLooseRate"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="win_loose_ratio_table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("Win"))</th>
-                    <th>@(localizer.GetValue("Loose"))</th>
-                    <th>@(localizer.GetValue("Win")) %</th>
-                    <th>@(localizer.GetValue("Loose")) %</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                            <td>@(Math.Round(Model.PlayerBasketballStats.WinLooseTable.Win))</td>
-                            <td>@(Math.Round(Model.PlayerBasketballStats.WinLooseTable.Loose))</td>
-                            <td>% @(Math.Round(Model.PlayerBasketballStats.WinLooseTable.WinRatio))</td>
-                            <td>% @(Math.Round(Model.PlayerBasketballStats.WinLooseTable.LooseRatio))</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->        
-      </div>
-      <!-- /.row -->
-    </div>
-
-    <div class="box-body">  
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("PlayedMatches"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="players_matches" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>@(localizer.GetValue("Date"))</th>
-                  <th>@(localizer.GetValue("Order"))</th>
-                  <th>@(localizer.GetValue("Team"))</th>
-                  <th>@(localizer.GetValue("Score"))</th>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="total_stats" class="table table-bordered table-striped">
+              <thead>
+              <tr>
                   <th>@(localizer.GetValue("OnePoint"))</th>
                   <th>@(localizer.GetValue("TwoPoint"))</th>
                   <th>@(localizer.GetValue("Rebound"))</th>
                   <th>@(localizer.GetValue("StealBall"))</th>
                   <th>@(localizer.GetValue("Assist"))</th>
                   <th>@(localizer.GetValue("LooseBall"))</th>
-                  <th>@(localizer.GetValue("Interrupt"))</th>                  
-                  <th>@(localizer.GetValue("LaneWithPoint"))</th> 
-                  <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
-                </tr>
-                </thead>
-                <tbody>
-                   @foreach (var stat in Model.BasketballStats)
-                    {
-                      var match = stat.Match;
-                      var statForUI = stat.GetStatsForUI();                      
-                      <tr>
-                          <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
-                          <td>@(match.Order)</td>
-                          <td>@(stat.Team.TeamName)</td>
-                          <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
-                          <td>@(statForUI.OnePoint)</td>
-                          <td>@(statForUI.TwoPoint)</td>
-                          <td>@(statForUI.Rebound)</td>
-                          <td>@(statForUI.StealBall)</td>
-                          <td>@(statForUI.Assist)</td>
-                          <td>@(statForUI.LooseBall)</td>
-                          <td>@(statForUI.Interrupt)</td>
-                          <td>@(statForUI.Lane)</td>   
-                          <td>@(statForUI.LaneWithoutPoint)</td>   
-                      </tr>
-                    }
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>@(localizer.GetValue("Date"))</th>
-                  <th>@(localizer.GetValue("Order"))</th>
-                  <th>@(localizer.GetValue("Team"))</th>
-                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("Interrupt"))</th>
+                  <th>@(localizer.GetValue("Lane"))</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(totalStatForUI.OnePoint)</td>
+                        <td>@(totalStatForUI.TwoPoint)</td>
+                        <td>@(totalStatForUI.Rebound)</td>
+                        <td>@(totalStatForUI.StealBall)</td>
+                        <td>@(totalStatForUI.Assist)</td>
+                        <td>@(totalStatForUI.LooseBall)</td>
+                        <td>@(totalStatForUI.Interrupt)</td>
+                        <td>@(totalStatForUI.Lane)</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("PerMatchStats"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="per_match_stats" class="table table-bordered table-striped">
+              <thead>
+              <tr>
                   <th>@(localizer.GetValue("OnePoint"))</th>
                   <th>@(localizer.GetValue("TwoPoint"))</th>
                   <th>@(localizer.GetValue("Rebound"))</th>
                   <th>@(localizer.GetValue("StealBall"))</th>
                   <th>@(localizer.GetValue("Assist"))</th>
                   <th>@(localizer.GetValue("LooseBall"))</th>
-                  <th>@(localizer.GetValue("Interrupt"))</th> 
-                  <th>@(localizer.GetValue("LaneWithPoint"))</th> 
-                  <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+                  <th>@(localizer.GetValue("Interrupt"))</th>
+                  <th>@(localizer.GetValue("Lane"))</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(perMatchStatForUI.OnePoint)</td>
+                        <td>@(perMatchStatForUI.TwoPoint)</td>
+                        <td>@(perMatchStatForUI.Rebound)</td>
+                        <td>@(perMatchStatForUI.StealBall)</td>
+                        <td>@(perMatchStatForUI.Assist)</td>
+                        <td>@(perMatchStatForUI.LooseBall)</td>
+                        <td>@(perMatchStatForUI.Interrupt)</td>
+                        <td>@(perMatchStatForUI.Lane)</td>
+                    </tr>
+              </tbody>
+            </table>
           </div>
-          <!-- /.box -->
+          <!-- /.box-body -->
         </div>
-        <!-- /.col -->
+        <!-- /.box -->
       </div>
-      <!-- /.row -->
+      <!-- /.col -->
     </div>
+    <!-- /.row -->
+
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("AverageStats"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="avg_stats" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>@(localizer.GetValue("OnePoint")) %</th>
+                  <th>@(localizer.GetValue("TwoPoint")) %</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(Model.PlayerBasketballStats.RatioTable.OnePointRatio)</td>
+                        <td>@(Model.PlayerBasketballStats.RatioTable.TwoPointRatio)</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("WinLooseTable"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="win_loose_table" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>Sonuçlar</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(Utils.Functions.GetFirstCharOfEnumValues(Model.PlayerBasketballStats.MatchForms))</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("WinLooseRate"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="win_loose_ratio_table" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>@(localizer.GetValue("Win"))</th>
+                  <th>@(localizer.GetValue("Loose"))</th>
+                  <th>@(localizer.GetValue("Win")) %</th>
+                  <th>@(localizer.GetValue("Loose")) %</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                          <td>@(Math.Round(Model.PlayerBasketballStats.WinLooseTable.Win))</td>
+                          <td>@(Math.Round(Model.PlayerBasketballStats.WinLooseTable.Loose))</td>
+                          <td>% @(Math.Round(Model.PlayerBasketballStats.WinLooseTable.WinRatio))</td>
+                          <td>% @(Math.Round(Model.PlayerBasketballStats.WinLooseTable.LooseRatio))</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->        
+    </div>
+    <!-- /.row -->
+
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("PlayedMatches"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="players_matches" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>@(localizer.GetValue("Date"))</th>
+                <th>@(localizer.GetValue("Order"))</th>
+                <th>@(localizer.GetValue("Team"))</th>
+                <th>@(localizer.GetValue("Score"))</th>
+                <th>@(localizer.GetValue("OnePoint"))</th>
+                <th>@(localizer.GetValue("TwoPoint"))</th>
+                <th>@(localizer.GetValue("Rebound"))</th>
+                <th>@(localizer.GetValue("StealBall"))</th>
+                <th>@(localizer.GetValue("Assist"))</th>
+                <th>@(localizer.GetValue("LooseBall"))</th>
+                <th>@(localizer.GetValue("Interrupt"))</th>                  
+                <th>@(localizer.GetValue("LaneWithPoint"))</th> 
+                <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
+              </tr>
+              </thead>
+              <tbody>
+                  @foreach (var stat in Model.BasketballStats)
+                  {
+                    var match = stat.Match;
+                    var statForUI = stat.GetStatsForUI();                      
+                    <tr>
+                        <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
+                        <td>@(match.Order)</td>
+                        <td>@(stat.Team.TeamName)</td>
+                        <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
+                        <td>@(statForUI.OnePoint)</td>
+                        <td>@(statForUI.TwoPoint)</td>
+                        <td>@(statForUI.Rebound)</td>
+                        <td>@(statForUI.StealBall)</td>
+                        <td>@(statForUI.Assist)</td>
+                        <td>@(statForUI.LooseBall)</td>
+                        <td>@(statForUI.Interrupt)</td>
+                        <td>@(statForUI.Lane)</td>   
+                        <td>@(statForUI.LaneWithoutPoint)</td>   
+                    </tr>
+                  }
+              </tbody>
+              <tfoot>
+              <tr>
+                <th>@(localizer.GetValue("Date"))</th>
+                <th>@(localizer.GetValue("Order"))</th>
+                <th>@(localizer.GetValue("Team"))</th>
+                <th>@(localizer.GetValue("Score"))</th>
+                <th>@(localizer.GetValue("OnePoint"))</th>
+                <th>@(localizer.GetValue("TwoPoint"))</th>
+                <th>@(localizer.GetValue("Rebound"))</th>
+                <th>@(localizer.GetValue("StealBall"))</th>
+                <th>@(localizer.GetValue("Assist"))</th>
+                <th>@(localizer.GetValue("LooseBall"))</th>
+                <th>@(localizer.GetValue("Interrupt"))</th> 
+                <th>@(localizer.GetValue("LaneWithPoint"))</th> 
+                <th>@(localizer.GetValue("LaneWithoutPoint"))</th>                  
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
     }
   @if(Model.MatchGroup.MatchGroupType == MatchGroupType.Football)
   {
     var totalStatForUI = Model.PlayerFootballStats.TotalStats.GetStatsForUI();
     var perMatchStatForUI = Model.PlayerFootballStats.PerMatchStats.GetStatsForUI();  
-     
-    <div class="box-body">       
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Toplam İstatistikler</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="total_stats" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("Goal"))</th>
-                    <th>@(localizer.GetValue("OwnGoal"))</th>
-                    <th>@(localizer.GetValue("PenaltyScore"))</th>
-                    <th>@(localizer.GetValue("MissedPenalty"))</th>
-                    <th>@(localizer.GetValue("Assist"))</th>
-                    <th>@(localizer.GetValue("SaveGoal"))</th>
-                    <th>@(localizer.GetValue("ConcedeGoal"))</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(totalStatForUI.Goal)</td>
-                          <td>@(totalStatForUI.OwnGoal)</td>
-                          <td>@(totalStatForUI.PenaltyScore)</td>
-                          <td>@(totalStatForUI.MissedPenalty)</td>
-                          <td>@(totalStatForUI.Assist)</td>
-                          <td>@(totalStatForUI.SaveGoal)</td>
-                          <td>@(totalStatForUI.ConcedeGoal)</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
+          
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Toplam İstatistikler</h3>
           </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-6">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("PerMatchStats"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="per_match_stats" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("Goal"))</th>
-                    <th>@(localizer.GetValue("OwnGoal"))</th>
-                    <th>@(localizer.GetValue("PenaltyScore"))</th>
-                    <th>@(localizer.GetValue("MissedPenalty"))</th>
-                    <th>@(localizer.GetValue("Assist"))</th>
-                    <th>@(localizer.GetValue("SaveGoal"))</th>
-                    <th>@(localizer.GetValue("ConcedeGoal"))</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(perMatchStatForUI.Goal)</td>
-                          <td>@(perMatchStatForUI.OwnGoal)</td>
-                          <td>@(perMatchStatForUI.PenaltyScore)</td>
-                          <td>@(perMatchStatForUI.MissedPenalty)</td>
-                          <td>@(perMatchStatForUI.Assist)</td>
-                          <td>@(perMatchStatForUI.SaveGoal)</td>
-                          <td>@(perMatchStatForUI.ConcedeGoal)</td>                        
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </div>
-
-    <div class="box-body">  
-      <div class="row">
-        <div class="col-xs-4">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("WinLooseTable"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="win_loose_table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>Sonuçlar</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                          <td>@(Utils.Functions.GetFirstCharOfEnumValues(Model.PlayerFootballStats.MatchForms))</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("WinLooseRate"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="win_loose_ratio_table" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>@(localizer.GetValue("Win"))</th>
-                    <th>@(localizer.GetValue("Loose"))</th>
-                    <th>@(localizer.GetValue("Win")) %</th>
-                    <th>@(localizer.GetValue("Loose")) %</th>
-                </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                            <td>@(Math.Round(Model.PlayerFootballStats.WinLooseTable.Win))</td>
-                            <td>@(Math.Round(Model.PlayerFootballStats.WinLooseTable.Loose))</td>
-                            <td>% @(Math.Round(Model.PlayerFootballStats.WinLooseTable.WinRatio))</td>
-                            <td>% @(Math.Round(Model.PlayerFootballStats.WinLooseTable.LooseRatio))</td>
-                      </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->        
-      </div>
-      <!-- /.row -->
-    </div>
-
-    <div class="box-body">  
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">@(localizer.GetValue("PlayedMatches"))</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="players_matches" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>@(localizer.GetValue("Date"))</th>
-                  <th>@(localizer.GetValue("Order"))</th>
-                  <th>@(localizer.GetValue("Team"))</th>
-                  <th>@(localizer.GetValue("Score"))</th>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="total_stats" class="table table-bordered table-striped">
+              <thead>
+              <tr>
                   <th>@(localizer.GetValue("Goal"))</th>
                   <th>@(localizer.GetValue("OwnGoal"))</th>
                   <th>@(localizer.GetValue("PenaltyScore"))</th>
                   <th>@(localizer.GetValue("MissedPenalty"))</th>
                   <th>@(localizer.GetValue("Assist"))</th>
                   <th>@(localizer.GetValue("SaveGoal"))</th>
-                  <th>@(localizer.GetValue("ConcedeGoal"))</th>                  
-                </tr>
-                </thead>
-                <tbody>
-                   @foreach (var stat in Model.FootballStats)
-                    {
-                      var match = stat.Match;
-                      var statForUI = stat.GetStatsForUI();                      
-                      <tr>
-                          <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
-                          <td>@(match.Order)</td>
-                          <td>@(stat.Team.TeamName)</td>
-                          <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
-                          <td>@(statForUI.Goal)</td>
-                          <td>@(statForUI.OwnGoal)</td>
-                          <td>@(statForUI.PenaltyScore)</td>
-                          <td>@(statForUI.MissedPenalty)</td>
-                          <td>@(statForUI.Assist)</td>
-                          <td>@(statForUI.SaveGoal)</td>
-                          <td>@(statForUI.ConcedeGoal)</td>   
-                      </tr>
-                    }
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>@(localizer.GetValue("Date"))</th>
-                  <th>@(localizer.GetValue("Order"))</th>
-                  <th>@(localizer.GetValue("Team"))</th>
-                  <th>@(localizer.GetValue("Score"))</th>
+                  <th>@(localizer.GetValue("ConcedeGoal"))</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(totalStatForUI.Goal)</td>
+                        <td>@(totalStatForUI.OwnGoal)</td>
+                        <td>@(totalStatForUI.PenaltyScore)</td>
+                        <td>@(totalStatForUI.MissedPenalty)</td>
+                        <td>@(totalStatForUI.Assist)</td>
+                        <td>@(totalStatForUI.SaveGoal)</td>
+                        <td>@(totalStatForUI.ConcedeGoal)</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("PerMatchStats"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="per_match_stats" class="table table-bordered table-striped">
+              <thead>
+              <tr>
                   <th>@(localizer.GetValue("Goal"))</th>
                   <th>@(localizer.GetValue("OwnGoal"))</th>
                   <th>@(localizer.GetValue("PenaltyScore"))</th>
                   <th>@(localizer.GetValue("MissedPenalty"))</th>
                   <th>@(localizer.GetValue("Assist"))</th>
                   <th>@(localizer.GetValue("SaveGoal"))</th>
-                  <th>@(localizer.GetValue("ConcedeGoal"))</th>  
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+                  <th>@(localizer.GetValue("ConcedeGoal"))</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(perMatchStatForUI.Goal)</td>
+                        <td>@(perMatchStatForUI.OwnGoal)</td>
+                        <td>@(perMatchStatForUI.PenaltyScore)</td>
+                        <td>@(perMatchStatForUI.MissedPenalty)</td>
+                        <td>@(perMatchStatForUI.Assist)</td>
+                        <td>@(perMatchStatForUI.SaveGoal)</td>
+                        <td>@(perMatchStatForUI.ConcedeGoal)</td>                        
+                    </tr>
+              </tbody>
+            </table>
           </div>
-          <!-- /.box -->
+          <!-- /.box-body -->
         </div>
-        <!-- /.col -->
+        <!-- /.box -->
       </div>
-      <!-- /.row -->
-    </div>      
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("WinLooseTable"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="win_loose_table" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>Sonuçlar</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                        <td>@(Utils.Functions.GetFirstCharOfEnumValues(Model.PlayerFootballStats.MatchForms))</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("WinLooseRate"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="win_loose_ratio_table" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                  <th>@(localizer.GetValue("Win"))</th>
+                  <th>@(localizer.GetValue("Loose"))</th>
+                  <th>@(localizer.GetValue("Win")) %</th>
+                  <th>@(localizer.GetValue("Loose")) %</th>
+              </tr>
+              </thead>
+              <tbody>
+                    <tr>
+                          <td>@(Math.Round(Model.PlayerFootballStats.WinLooseTable.Win))</td>
+                          <td>@(Math.Round(Model.PlayerFootballStats.WinLooseTable.Loose))</td>
+                          <td>% @(Math.Round(Model.PlayerFootballStats.WinLooseTable.WinRatio))</td>
+                          <td>% @(Math.Round(Model.PlayerFootballStats.WinLooseTable.LooseRatio))</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->        
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">@(localizer.GetValue("PlayedMatches"))</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="card-body">
+            <table id="players_matches" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>@(localizer.GetValue("Date"))</th>
+                <th>@(localizer.GetValue("Order"))</th>
+                <th>@(localizer.GetValue("Team"))</th>
+                <th>@(localizer.GetValue("Score"))</th>
+                <th>@(localizer.GetValue("Goal"))</th>
+                <th>@(localizer.GetValue("OwnGoal"))</th>
+                <th>@(localizer.GetValue("PenaltyScore"))</th>
+                <th>@(localizer.GetValue("MissedPenalty"))</th>
+                <th>@(localizer.GetValue("Assist"))</th>
+                <th>@(localizer.GetValue("SaveGoal"))</th>
+                <th>@(localizer.GetValue("ConcedeGoal"))</th>                  
+              </tr>
+              </thead>
+              <tbody>
+                  @foreach (var stat in Model.FootballStats)
+                  {
+                    var match = stat.Match;
+                    var statForUI = stat.GetStatsForUI();                      
+                    <tr>
+                        <td><a asp-page="MatchDetail" asp-route-culture="@culture" asp-route-id="@match.Id">@(match.MatchDate.ToString("dd-MM-yyyy"))</a></td>
+                        <td>@(match.Order)</td>
+                        <td>@(stat.Team.TeamName)</td>
+                        <td>@(Math.Round(match.HomeTeamScore)) - @(Math.Round(match.AwayTeamScore))</td>
+                        <td>@(statForUI.Goal)</td>
+                        <td>@(statForUI.OwnGoal)</td>
+                        <td>@(statForUI.PenaltyScore)</td>
+                        <td>@(statForUI.MissedPenalty)</td>
+                        <td>@(statForUI.Assist)</td>
+                        <td>@(statForUI.SaveGoal)</td>
+                        <td>@(statForUI.ConcedeGoal)</td>   
+                    </tr>
+                  }
+              </tbody>
+              <tfoot>
+              <tr>
+                <th>@(localizer.GetValue("Date"))</th>
+                <th>@(localizer.GetValue("Order"))</th>
+                <th>@(localizer.GetValue("Team"))</th>
+                <th>@(localizer.GetValue("Score"))</th>
+                <th>@(localizer.GetValue("Goal"))</th>
+                <th>@(localizer.GetValue("OwnGoal"))</th>
+                <th>@(localizer.GetValue("PenaltyScore"))</th>
+                <th>@(localizer.GetValue("MissedPenalty"))</th>
+                <th>@(localizer.GetValue("Assist"))</th>
+                <th>@(localizer.GetValue("SaveGoal"))</th>
+                <th>@(localizer.GetValue("ConcedeGoal"))</th>  
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->   
+
     }
 
     </section>

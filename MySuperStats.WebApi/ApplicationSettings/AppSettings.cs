@@ -1,5 +1,6 @@
-﻿using CS.Common.EmailProvider;
-using CustomFramework.Authorization.Utils;
+﻿
+using CustomFramework.BaseWebApi.Authorization.Utils;
+using CustomFramework.EmailProvider;
 
 namespace MySuperStats.WebApi.ApplicationSettings
 {

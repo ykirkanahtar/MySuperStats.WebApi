@@ -2,9 +2,8 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
-using CustomFramework.WebApiUtils.Contracts.Resources;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
+using CustomFramework.BaseWebApi.Resources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,7 +19,7 @@ namespace MySuperStats.WebUI.Pages
 {
     public class ChangeMatchGroupNameModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         private readonly ISession _session;
         private readonly IPermissionChecker _permissionChecker;
@@ -30,7 +29,7 @@ namespace MySuperStats.WebUI.Pages
         [BindProperty]
         public MatchGroupRequest MatchGroupRequest { get; set; }
 
-        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker, ILocalizationService localizer)
+        public ChangeMatchGroupNameModel(ISession session, IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings, IPermissionChecker permissionChecker, ILocalizationService localizer)
         {
             _session = session;
             _webApiConnector = webApiConnector;

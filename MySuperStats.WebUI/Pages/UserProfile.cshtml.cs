@@ -2,8 +2,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using CS.Common.WebApi.Connector;
-using CustomFramework.WebApiUtils.Contracts;
+using CustomFramework.BaseWebApi.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,13 +16,13 @@ namespace MySuperStats.WebUI.Pages
 {
     public class UserProfileModel : PageModel
     {
-        private readonly IWebApiConnector<ApiResponse> _webApiConnector;
+        private readonly IWebApiConnector<WebApiResponse> _webApiConnector;
         private readonly AppSettings _appSettings;
         public readonly ISession _session;
         public UserResponse UserInfo { get; set; }
 
 
-        public UserProfileModel(ISession session, IWebApiConnector<ApiResponse> webApiConnector, AppSettings appSettings)
+        public UserProfileModel(ISession session, IWebApiConnector<WebApiResponse> webApiConnector, AppSettings appSettings)
         {
             _session = session;
             _webApiConnector = webApiConnector;

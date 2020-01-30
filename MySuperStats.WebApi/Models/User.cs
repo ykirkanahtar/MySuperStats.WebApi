@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using CustomFramework.WebApiUtils.Identity.Models;
+using CustomFramework.BaseWebApi.Identity.Models;
 
 namespace MySuperStats.WebApi.Models
 {
